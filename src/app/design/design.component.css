@@ -1,0 +1,65 @@
+/* debugging. delete these when we go live */
+
+/*[class*="col-sm"] {
+  background-color: rgba(255, 0, 0, 0.3);
+}*/
+
+.design-header {
+  background-color: #fff;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  padding: 10px 0;
+}
+
+.design-header p {
+  margin-bottom: 0;
+}
+
+.design-header .project-name {
+  border-right: 2px solid #cdcdcd;
+}
+
+.design-ui {
+  margin-top: 15px;
+  background-color: #fff;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  height: 703px;
+  padding: 15px;
+}
+
+.full-height{
+  height: 100%;
+}
+
+.design-ui .design-control {
+  border: 2px solid #cdcdcd;
+}
+
+.edit-link {
+  font-size: 12px;
+}
+
+.design-ui .grid-wrapper {
+  border-right: 2px solid #cdcdcd;
+  height: 100%;
+}
+
+#save-btn, #load-btn, #download-btn {
+  color: #666;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+#save-btn:hover, #load-btn:hover, #download-btn:hover {
+  color: #ff9933;
+  text-decoration: none;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.tile.selected, .circle.selected {
+  border: 2px solid #ff9933;
+}

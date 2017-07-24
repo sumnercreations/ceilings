@@ -1,0 +1,19 @@
+.toggle-button-form-wrapper {
+  margin-top: 20px;
+}
+
+label {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+button.back-to-landing {
+  margin-top: 25px;
+}
+
+button.start-designing {
+  margin-top: 50px;
+}
