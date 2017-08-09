@@ -84,22 +84,44 @@ body {
   font-family: 'Graphik Web';
 }
 
+input.square {
+  border-radius: 0;
+}
+
+.add-border-right {
+  box-shadow: inset -2px 0 0 0 #E7E7E7;
+}
+
+.add-border-right.selected {
+  box-shadow: none;
+}
+
+.add-margin-left {
+  margin-left: 20px;
+}
+
+
+/* Bootstrap overrides */
 /*updates to the buttons just for ceilings*/
 .button {
   font-weight: 500;
   padding: 6px 24px;
 }
 
+.button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .breadcrumb {
   background-color: #fff;
   color: #666;
+  margin-bottom: 0;
 }
 
 .breadcrumb > .active, .breadcrumb>li+li:before {
   color: #666;
 }
-
-
 
 /* more appropriate link colors */
 a {
@@ -109,7 +131,6 @@ a {
 
 a:hover {
   color: #ff8000;
-  /*text-shadow: 0 0 1px #ff8000;*/
 }
 
 a:hover, a:visited {
@@ -117,7 +138,92 @@ a:hover, a:visited {
   text-decoration: underline;
 }
 
+.number-input {
+  text-align: right;
+}
+
 /* overriding some of the angular material rules */
-.mat-radio-button, .mat-button-toggle {
+/*.mat-radio-button, .mat-button-toggle {
   font-family: 'Graphik Web';
+}
+
+.mat-radio-label-content {
+  font-weight: 300;
+}
+
+.mat-radio-inner-circle {
+  background-color: #ff9933;
+}
+
+.mat-radio-outer-circle {
+  border-width: 1px;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #000;
+}*/
+
+/* 5 equal columns in 12 column grid */
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+  position: relative;
+  min-height: 1px;
+  padding-right: 2px;
+  padding-left: 2px;
+}
+
+.col-xs-5ths {
+  width: 20%;
+  float: left;
+}
+
+@media (min-width: 768px) {
+  .col-sm-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-5ths {
+    width: 20%;
+    float: left;
+  }
+}
+/* end 5 equal columns in 12 column grid*/
+
+/* Media */
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .container {
+    width: 992px;
+  }
+}
+
+/* Medium Large (iPad 1024 and up) */
+@media (min-width: 1024px) {
+  .container {
+    width: 1024px;
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    width: 1200px;
+  }
 }

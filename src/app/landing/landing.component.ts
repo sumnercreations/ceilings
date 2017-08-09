@@ -29,11 +29,15 @@ export class LandingComponent implements OnInit {
         break;
 
       case "tiles":
-        this.router.navigate(['/tiles/options/']);
+        this.router.navigate(['/tiles/']);
         break;
 
       case "baffles":
-        this.router.navigate(['/baffles/options/']);
+        this.router.navigate(['/baffles/']);
+        break;
+
+      case "clouds":
+        this.router.navigate(['/clouds/']);
         break;
 
       default:

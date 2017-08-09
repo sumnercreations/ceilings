@@ -3,11 +3,21 @@
 /*[class*="col-sm"] {
   background-color: rgba(255, 0, 0, 0.3);
 }*/
+.separator {
+  background-color: #fff;
+  border-bottom: 2px solid #cdcdcd;
+  margin: 0 15px;
+}
+
+span.sm {
+  font-size: 10px;
+}
 
 .design-header {
   background-color: #fff;
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  padding: 10px 0;
+  /*box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);*/
+  padding: 10px 15px;
+  /*border-bottom: 2px solid #cdcdcd;*/
 }
 
 .design-header p {
@@ -19,28 +29,49 @@
 }
 
 .design-ui {
-  margin-top: 15px;
+  /*margin-top: 15px;*/
   background-color: #fff;
-  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  /*box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);*/
   height: 703px;
   padding: 15px;
+}
+
+.grid-wrapper {
+  border-right: 2px solid #cdcdcd;
+  height: 100%;
+}
+
+/* Custom Cursors for the tools */
+.grid {
+  cursor: pointer;
+}
+
+.remove-cursor {
+  cursor: url(''), no-drop;
+}
+
+.rotate-cursor {
+  cursor: url(''), copy;
+}
+
+.light-cursor {
+  cursor: url(''), copy;
+}
+
+.vent-cursor {
+  cursor: url(''), copy;
+}
+
+.sprinkler-cursor {
+  cursor: url(''), copy;
 }
 
 .full-height{
   height: 100%;
 }
 
-.design-ui .design-control {
-  border: 2px solid #cdcdcd;
-}
-
 .edit-link {
   font-size: 12px;
-}
-
-.design-ui .grid-wrapper {
-  border-right: 2px solid #cdcdcd;
-  height: 100%;
 }
 
 #save-btn, #load-btn, #download-btn {
@@ -54,12 +85,61 @@
   text-decoration: none;
 }
 
-.circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+/* Tiles */
+.tiles {
+  margin-bottom: 10px;
 }
 
-.tile.selected, .circle.selected {
+.tile-container {
+  padding: 5px;
+}
+
+.tile {
+  border: 2px solid #e7e7e7;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Materials */
+.materials {
+  margin-bottom: 10px;
+}
+
+.material {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.materials .circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+}
+
+/* Actions */
+.actions {
+  padding: 2px;
+}
+
+/* Tools */
+.tools-header {
+  padding: 2px;
+}
+
+.tool-container {
+  padding: 0;
+  font-size: 12px;
+}
+
+.tool {
+  border: 2px solid #e7e7e7;
+  border-right: 2px solid white;
+  cursor: pointer;
+  padding: 15px;
+  width: 52px;
+}
+
+/* Keep below other borders so it will override the default border */
+.selected {
   border: 2px solid #ff9933;
 }

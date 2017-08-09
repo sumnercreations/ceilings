@@ -3,11 +3,11 @@
 }
 
 label {
+  color: #676767;
   display: inline-block;
   max-width: 100%;
   margin-bottom: 5px;
-  font-weight: 500;
-  text-transform: uppercase;
+  font-weight: 400;
 }
 
 button.back-to-landing {
@@ -16,4 +16,45 @@ button.back-to-landing {
 
 button.start-designing {
   margin-top: 50px;
+}
+
+.options-load {
+  margin-top: 10px;
+}
+
+ul.tiles, ul.materials {
+  display: inline;
+}
+
+ul.tiles li {
+  width: 35px;
+  height: 35px;
+  padding: 2px;
+  border: 2px solid #E7E7E7;
+}
+
+ul.materials {
+  margin-left: 5px;
+}
+
+ul.materials li {
+  padding: 0;
+}
+
+ul.materials li img {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+}
+
+.tool-container {
+  padding: 0;
+  font-size: 12px;
+}
+
+.tool {
+  border: 2px solid #E7E7E7;
+  border-right: none;
+  padding: 15px;
+  width: 55px;
 }

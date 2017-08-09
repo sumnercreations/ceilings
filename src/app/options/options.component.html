@@ -1,72 +1,109 @@
-<div class="container bg-white">
-  <div class="row">
-    <div class="col-xs-12 col-sm-4 col-sm-offset-1">
-      <h2>{{title}}</h2>
+<div class="row">
+  <div class="col-xs-12 col-sm-4 col-sm-offset-1">
+    <div class="intro">
+      <h2>{{title | capitalize}}</h2>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <img src="https://www.dummyimage.com/400x400" alt="Samples of tile styles" class="img-responsive">
+      consequat.</p>
     </div>
-    <div class="col-xs-12 col-sm-6 col-sm-offset-1">
-      <form>
-        <div id="grid-dimensions">
-          <h2>Grid Dimensions</h2>
-          <p>A 15/16 grid system is required for this product.</p>
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="width">Width</label>
-                <input (change)="updateGridMeasurement($event.target.value, $event.target.name, units.value)" [(ngModel)]="width" type="text" class="form-control" placeholder="Width" name="width" id="width" autofocus>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="length">Length</label>
-                <input (change)="updateGridMeasurement($event.target.value, $event.target.name, units.value)" [(ngModel)]="length" type="text" class="form-control" placeholder="Length" name="length" id="length">
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="toggle-button-form-wrapper">
-                <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{selectedUnits}}">
-                  <md-button-toggle value="inches">
-                    IN
-                  </md-button-toggle>
-                  <md-button-toggle value="centimeters">
-                    CM
-                  </md-button-toggle>
-                </md-button-toggle-group>
-              </div>
-            </div>
+    <div class="step-one">
+      <h3>Step 01</h3>
+      <p>Select a Tile style and color.</p>
+      <ul class="list-inline tiles">
+        <li><img src="/assets/images/tiles/tile_01.png" alt="Tile 01" class="img-responsive"></li>
+        <li><img src="/assets/images/tiles/tile_02.png" alt="Tile 02" class="img-responsive"></li>
+        <li><img src="/assets/images/tiles/tile_03.png" alt="Tile 03" class="img-responsive"></li>
+        <li><img src="/assets/images/tiles/tile_04.png" alt="Tile 04" class="img-responsive"></li>
+      </ul>
+      <ul class="list-inline materials">
+        <li><img src="/assets/images/materials/milky-white.png" alt="Milky White" class="img-responsive"></li>
+        <li><img src="/assets/images/materials/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
+        <li><img src="/assets/images/materials/charcoal.png" alt="Charcoal" class="img-responsive"></li>
+        <li><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
+        <li><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
+        <li><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
+      </ul>
+    </div>
+    <div class="step-two">
+      <h3>Step 02</h3>
+      <p>Place your tiles in the design grid and use any of the tools provided to make adjustments to your design.</p>
+      <ul class="list-inline tools">
+        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2">
+          <div class="tool" [class.add-border-right]="isLast || i === 1">
+            <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
           </div>
-          <div class="example-selected-value">Selected units: {{units.value}}</div>
-        </div>
-        <div id="grid-size" [class.hide]="type=='tiles'">
-          <hr>
-          <h2>Grid Size</h2>
-          <p>Please specify the size of your grid.</p>
-          <md-radio-group class="grid-size" [(ngModel)]="size" name="grid-size">
-            <div class="row">
-              <div class="col-sm-4">
-                <md-radio-button class="radio-button" [value]="24">
-                  24 X 24
-                  <img src="https://www.dummyimage.com/50" alt="">
-                </md-radio-button>
-              </div>
-              <div class="col-sm-4">
-                <md-radio-button class="radio-button" [value]="48">
-                  24 X 48
-                  <img src="https://www.dummyimage.com/100x50" alt="">
-                </md-radio-button>
-              </div>
-            </div>
-          </md-radio-group>
-          <div class="example-selected-value">Selected size: {{size}}</div>
-        </div>
-        <button class="button button-orange start-designing" (click)="goToDesign()">start designing</button>
-      </form>
+          <p class="text-center">{{tool | capitalize}}</p>
+        </li>
+      </ul>
     </div>
+    <div class="back">
+      <a id="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-5 col-sm-offset-1">
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Design Name</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="form-group">
+          <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+        </div>
+      </div>
+      <div class="col-sm-3 options-load">
+        <a id="load-btn" title="load a design"><span class="icomoon-folder-plus"></span> Load</a>
+      </div>
+    </div>
+    <div id="grid-dimensions">
+      <h3>Project Dimensions</h3>
+      <p>A 15/16 grid system is required for this product.</p>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="width">Width</label>
+            <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Width" name="width" id="width">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="length">Length</label>
+            <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Length" name="length" id="length">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="toggle-button-form-wrapper">
+            <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+              <md-button-toggle value="inches">IN</md-button-toggle>
+              <md-button-toggle value="centimeters">CM</md-button-toggle>
+            </md-button-toggle-group>
+          </div>
+        </div>
+      </div>
+      <div class="example-selected-value">Selected units: {{units.value}}</div>
+    </div>
+    <div id="grid-size" [class.hide]="feature.feature_type=='tiles'">
+      <hr>
+      <h3>Tile Size</h3>
+      <p>Please specify the size of your grid.</p>
+      <md-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
+        <div class="row">
+          <div class="col-sm-4">
+            <md-radio-button class="radio-button" [value]="24">
+              24 X 24
+            </md-radio-button>
+          </div>
+          <div class="col-sm-4">
+            <md-radio-button class="radio-button" [value]="48">
+              24 X 48
+            </md-radio-button>
+          </div>
+        </div>
+      </md-radio-group>
+      <div class="example-selected-value">Selected size: {{size}}</div>
+    </div>
+    <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="validateOptions()">start designing</button>
   </div>
 </div>

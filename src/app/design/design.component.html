@@ -1,121 +1,87 @@
-<div class="container-fluid">
-  <!-- <design-header></design-header> -->
-  <div class="row design-header">
+<!-- <design-header></design-header> -->
+<div class="design-header">
+  <div class="row">
     <div class="col-sm-4">
-      <p class="md project-name">Project Name <a id="edit-project-name" class="edit-link" title="Edit Project Name">Edit</a></p>
+      <p class="md project-name">{{feature.design_name | capitalize}} <a id="edit-project-name" class="edit-link" title="Edit Project Name" (click)="editOptions()">Edit</a></p>
     </div>
     <div class="col-sm-8">
       <div class="row">
-        <div class="col-sm-6">
-          <p class="md">Est. Total: $99,999.99 USD<sup>*</sup></p>
+        <div class="col-sm-9">
+          <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
         </div>
-        <div class="col-sm-6">
-          <button class="button button-orange design-quote pull-right">Design Quote</button>
+        <div class="col-sm-3">
+          <button class="button button-orange design-quote pull-right">Request Quote</button>
         </div>
       </div>
     </div>
   </div>
-  <div class="design-ui">
-    <div class="row full-height">
-      <div class="col-sm-8 full-height">
-        <div class="grid-wrapper">
-          <!-- <grid-header></grid-header> -->
-          <div class="row">
-            <div class="col-sm-6">
-              <p>999999 W x 99999 H | 24 x 24 Tile <a id="edit-grid" class="edit-link" title="Edit Grid Size">Edit</a></p>
-            </div>
-            <div class="col-sm-3">
-              <p>
-                <a id="save-btn" title="save design"><span class="icomoon-folder-plus"></span> Save</a> |
-                <a id="load-btn" title="load saved designs"><span class="icomoon-export"></span> Load</a>
-              </p>
-            </div>
-            <div class="col-sm-3">
-              <p><a id="download-btn" title="download image of design"><span class="icomoon-download"></span> Download Image</a></p>
-            </div>
+</div>
+<div class="bg-white">
+  <div class="separator"></div>
+</div>
+<div class="design-ui">
+  <div class="row full-height">
+    <div class="col-sm-9 full-height">
+      <div class="grid-wrapper">
+        <!-- <grid-header></grid-header> -->
+        <div class="row">
+          <div class="col-sm-6">
+            <p>{{feature.width}} W x {{feature.length}} L | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
-          <div class="row">
-            <div class="col-sm-12">
-              <!-- <grid></grid> -->
-              <div class="grid" id="grid">the grid shall appear here!</div>
-            </div>
+          <div class="col-sm-3">
+            <p>
+              <a id="save-btn" title="save design"><span class="icomoon-folder-plus"></span> Save</a> |
+              <a id="load-btn" title="load saved designs">Load</a>
+            </p>
+          </div>
+          <div class="col-sm-3">
+            <p><a id="download-btn" title="download image of design"><span class="icomoon-download"></span> Download Image</a></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <!-- <grid></grid> -->
+            <div class="grid" id="grid" [ngClass]="selectedTool != '' ? selectedTool + '-cursor' : ''">We need a {{boxesW}} by {{boxesL}} grid for this ceiling.</div>
           </div>
         </div>
       </div>
-      <div class="col-sm-4 full-height">
-        <!-- <tools></tools> -->
+    </div>
+    <div class="col-sm-3 full-height">
+      <!-- <tools></tools> -->
+      <div class="row tiles">
         <p class="md">Design</p>
-        <div class="row tiles">
-          <div class="col-sm-3 tile tooltip-host" mdTooltip="Tile One" [mdTooltipPosition]="position" (click)="updateSelectedTile('one')" [class.selected]="selectedTile=='one'">
-            <img src="/assets/images/tiles/one.jpg" alt="Tile One" class="img-responsive">
+        <div *ngFor="let tile of feature.tilesArray" mdTooltip="{{tile | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)" class="col-sm-3 tile-container tooltip-host">
+          <div class="tile" [class.selected]="feature.selectedTile==tile">
+            <img src="/assets/images/tiles/{{tile}}.png" alt="{{tile | capitalize}}" class="img-responsive">
           </div>
-          <div class="col-sm-3 tile tooltip-host" mdTooltip="Tile Two" [mdTooltipPosition]="position" (click)="updateSelectedTile('two')" [class.selected]="selectedTile=='two'">
-            <img src="/assets/images/tiles/two.jpg" alt="Tile Two" class="img-responsive">
-          </div>
-          <div class="col-sm-3 tile tooltip-host" mdTooltip="Tile Three" [mdTooltipPosition]="position" (click)="updateSelectedTile('three')" [class.selected]="selectedTile=='three'">
-            <img src="/assets/images/tiles/three.jpg" alt="Tile Three" class="img-responsive">
-          </div>
-          <div class="col-sm-3 tile tooltip-host" mdTooltip="Tile Four" [mdTooltipPosition]="position" (click)="updateSelectedTile('four')" [class.selected]="selectedTile=='four'">
-            <img src="/assets/images/tiles/four.jpg" alt="Tile Four" class="img-responsive">
-          </div>
-        </div>
-        <div class="row colors">
-          <div *ngFor="let color of colors" mdTooltip="{{color}}" [mdTooltipPosition]="position" (click)="updateSelectedColor(color)" class="col-sm-2 color tooltip-host">
-            <div class="circle" [class.selected]="selectedColor==color">{{color}}</div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <button class="button button-gray return-ceilings">Apply All</button>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-sm-12">
-            <p class="md">Modify</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-7">
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="design-control">
-                  Light
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="design-control">
-                  Sprinkler
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="design-control">
-                  Air Vent
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-5">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="design-control">
-                  Rotate
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="design-control">
-                  Remove
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12">
-            <p class="xs"><sup>*</sup>Taxes, Shipping and Handling not included.</p>
-          </div>
+          <p class="text-center">{{tile | capitalize}}</p>
         </div>
       </div>
+      <div class="row materials">
+        <div *ngFor="let material of feature.materialsArray" mdTooltip="{{material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
+          <img src="/assets/images/materials/{{material}}.png" alt="{{material | capitalize}}" class="circle img-responsive" [class.selected]="feature.selectedMaterial==material">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 actions">
+          <button class="button button-gray return-ceilings">Apply All</button>
+          <button class="button button-gray return-ceilings">Clear All</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-sm-12 tools-header">
+          <p class="md">Modify</p>
+        </div>
+      </div>
+      <ul class="row tools list-inline">
+        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2">
+          <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
+            <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+          </div>
+          <p class="text-center">{{tool | capitalize}}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
-import 'rxjs/add/operator/switchMap';
-
+import { Router } from '@angular/router';
+import { MdDialogRef } from '@angular/material';
+// import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+// import 'rxjs/add/operator/switchMap';
 import { DebugService } from './../_services/debug.service';
+import { Feature } from '../feature';
 
 @Component({
   selector: 'app-options',
@@ -11,85 +12,58 @@ import { DebugService } from './../_services/debug.service';
   styleUrls: ['./options.component.css']
 })
 export class OptionsComponent implements OnInit {
-  public width: number;
-  public length: number;
-  public selectedUnits: string = 'inches';
-  public size = 24;
   public title = 'Ceilings Design Tool';
-  public type: string;
 
   // debugging
   public params: any;
 
   constructor(
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
     private router: Router,
-    private debug: DebugService
+    private debug: DebugService,
+    public feature: Feature,
+    public dialogRef: MdDialogRef<OptionsComponent>
   ) { }
 
   ngOnInit() {
     this.debug.log('options-component', 'init');
 
-    this.params = this.route.params.subscribe(params => {
-      this.type = params['type'];
-    });
-
-    this.debug.log('options-component', this.type);
-    this.title =  this.ucFirst(this.type) + ' Design Tool';
+    this.debug.log('options-component', this.feature.feature_type);
+    this.title =  this.feature.feature_type + ' Design Tool';
   }
 
   public goToLanding() {
-    this.router.navigate(['/']);
-  }
-
-  public goToDesign() {
-    this.router.navigate([this.type + '/design']);
-    // this.router.navigate(['/design', this.type]);
-  }
-
-  public updateGridMeasurement(measurement: number, name: string, units: string) {
-    this.debug.log('options-component', 'measurement: ' + measurement);
-    this.debug.log('options-component', 'name: ' + name);
-    this.debug.log('options-component', 'units: ' + units);
-    if ( units == 'centimeters' && this.selectedUnits != units ) {
-      // we need to convert cm to inches.
-      this.debug.log('options-component', 'converting cm to in');
-      measurement = this.convertCMtoIN(measurement);
-    }
-
-    if (name == 'width') {
-      this.debug.log('options-component', 'setting width to: ' + measurement);
-      this.width = measurement;
-    }else if (name == 'length') {
-      this.debug.log('options-component', 'setting length to: ' + measurement);
-      this.length = measurement
-    }else{
-      // display a snackbar error message
-    }
-
-    this.selectedUnits = units;
+    this.dialogRef.close('cancel');
+    this.dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/']);
+    });
   }
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
-    if ( units == 'centimeters' && this.selectedUnits != units ) {
+    if ( units == 'centimeters' && this.feature.units != units ) {
       // convert measurements to inches
-      this.length = this.convertCMtoIN(this.length);
-      this.width = this.convertCMtoIN(this.width);
+      this.feature.length = this.convertCMtoIN(this.feature.length);
+      this.feature.width = this.convertCMtoIN(this.feature.width);
     }
     // update the units.
-    this.selectedUnits = units;
+    this.feature.units = units;
+  }
+
+  private validateOptions() {
+    // name, width, and length are required
+    if((this.feature.width == 0 || typeof this.feature.width == 'undefined') || (this.feature.length == 0 || typeof this.feature.length == 'undefined') || (typeof this.feature.design_name == 'undefined')) {
+      return true;
+    }else{
+      return false;
+    }
   }
 
   private convertCMtoIN(cm: number) {
     // 1 cm = 0.393701 in
     var inches: number = 0.393701;
-    this.debug.log('options-component', cm + ' is equal to ' + inches + ' inches.');
+    this.debug.log('options-component', cm + ' cm is equal to ' + inches + ' inches.');
     return cm * inches;
-  }
-
-  private ucFirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
 }
