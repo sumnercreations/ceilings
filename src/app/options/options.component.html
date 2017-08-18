@@ -11,10 +11,10 @@
       <h3>Step 01</h3>
       <p>Select a Tile style and color.</p>
       <ul class="list-inline tiles">
-        <li><img src="/assets/images/tiles/tile_01.png" alt="Tile 01" class="img-responsive"></li>
-        <li><img src="/assets/images/tiles/tile_02.png" alt="Tile 02" class="img-responsive"></li>
-        <li><img src="/assets/images/tiles/tile_03.png" alt="Tile 03" class="img-responsive"></li>
-        <li><img src="/assets/images/tiles/tile_04.png" alt="Tile 04" class="img-responsive"></li>
+        <li><img src="/assets/images/tiles/01.png" alt="Tile 01" class="img-responsive"></li>
+        <li><img src="/assets/images/tiles/02.png" alt="Tile 02" class="img-responsive"></li>
+        <li><img src="/assets/images/tiles/03.png" alt="Tile 03" class="img-responsive"></li>
+        <li><img src="/assets/images/tiles/00.png" alt="Tile 00" class="img-responsive"></li>
       </ul>
       <ul class="list-inline materials">
         <li><img src="/assets/images/materials/milky-white.png" alt="Milky White" class="img-responsive"></li>
@@ -84,11 +84,11 @@
       </div>
       <div class="example-selected-value">Selected units: {{units.value}}</div>
     </div>
-    <div id="grid-size" [class.hide]="feature.feature_type=='tiles'">
+    <div id="grid-size" [class.hide]="feature.feature_type=='tetria'">
       <hr>
       <h3>Tile Size</h3>
       <p>Please specify the size of your grid.</p>
-      <md-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
+      <md-radio-group class="grid-size" [(ngModel)]="feature.size" name="grid-size">
         <div class="row">
           <div class="col-sm-4">
             <md-radio-button class="radio-button" [value]="24">

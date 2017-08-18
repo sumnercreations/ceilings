@@ -11,9 +11,9 @@ const appRoutes: Routes = [
   // { path: ':type/options', component: OptionsComponent },
   { path: ':type/design', component: DesignComponent },
   { path: ':type/design/:id', component: DesignComponent },
-  { path: 'baffles', redirectTo: 'baffles/design', pathMatch: 'full'},
-  { path: 'tiles', redirectTo: 'tiles/design', pathMatch: 'full' },
-  { path: 'clouds', redirectTo: 'clouds/design', pathMatch: 'full' },
+  { path: 'clario', redirectTo: 'clario/design', pathMatch: 'full'},
+  { path: 'tetria', redirectTo: 'tetria/design', pathMatch: 'full' },
+  { path: 'velo', redirectTo: 'velo/design', pathMatch: 'full' },
   { path: 'landing', redirectTo: '', pathMatch: 'full'},
 	{ path: '**', component: PageNotFoundComponent }
 ];

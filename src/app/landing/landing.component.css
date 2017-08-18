@@ -26,14 +26,20 @@
   background-position: 50%;
 }
 
-#tiles {
+#tetria {
   background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(https://images.3-form.com/seeyond/features/wall_to_ceiling.png);
   background-size: cover;
   background-position: 50%;
 }
 
-#baffles {
+#clario {
   background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(https://images.3-form.com/seeyond/features/wall.png);
+  background-size: cover;
+  background-position: 50%;
+}
+
+#velo {
+  background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(https://images.3-form.com/seeyond/features/linear_partition.png);
   background-size: cover;
   background-position: 50%;
 }

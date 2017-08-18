@@ -25,19 +25,19 @@ export class LandingComponent implements OnInit {
     this.debug.log('landing-component', where);
     switch (where) {
       case "seeyond":
-        window.location.href = 'https://seeyond.3-form.com/';
+        window.location.href = 'https://seeyond.3-form.com/feature/ceiling';
         break;
 
-      case "tiles":
-        this.router.navigate(['/tiles/']);
+      case "tetria":
+        this.router.navigate(['/tetria/']);
         break;
 
-      case "baffles":
-        this.router.navigate(['/baffles/']);
+      case "clario":
+        this.router.navigate(['/clario/']);
         break;
 
-      case "clouds":
-        this.router.navigate(['/clouds/']);
+      case "velo":
+        this.router.navigate(['/velo/']);
         break;
 
       default:

@@ -39,31 +39,7 @@ span.sm {
 .grid-wrapper {
   border-right: 2px solid #cdcdcd;
   height: 100%;
-}
-
-/* Custom Cursors for the tools */
-.grid {
-  cursor: pointer;
-}
-
-.remove-cursor {
-  cursor: url(''), no-drop;
-}
-
-.rotate-cursor {
-  cursor: url(''), copy;
-}
-
-.light-cursor {
-  cursor: url(''), copy;
-}
-
-.vent-cursor {
-  cursor: url(''), copy;
-}
-
-.sprinkler-cursor {
-  cursor: url(''), copy;
+  overflow: scroll;
 }
 
 .full-height{
@@ -74,13 +50,13 @@ span.sm {
   font-size: 12px;
 }
 
-#save-btn, #load-btn, #download-btn {
+#save-btn, #load-btn, #download-btn, #toggle-grid-labels {
   color: #666;
   cursor: pointer;
   transition: all .2s ease;
 }
 
-#save-btn:hover, #load-btn:hover, #download-btn:hover {
+#save-btn:hover, #load-btn:hover, #download-btn:hover, #toggle-grid-labels:hover {
   color: #ff9933;
   text-decoration: none;
 }
@@ -133,7 +109,7 @@ span.sm {
 
 .tool {
   border: 2px solid #e7e7e7;
-  border-right: 2px solid white;
+  border-right: none;
   cursor: pointer;
   padding: 15px;
   width: 52px;

@@ -23,6 +23,7 @@ import {Routing} from './app.routes';
 // classes
 import { Feature } from './feature';
 import { User } from './_models/user';
+import { GridSection } from './_models/grid-section';
 
 // components
 import { AppComponent } from './app.component';
@@ -31,7 +32,7 @@ import { DesignComponent } from './design/design.component';
 import { OptionsComponent } from './options/options.component';
 import { LandingComponent } from './landing/landing.component';
 import { AlertComponent } from './alert/alert.component';
-import { GridDialogComponent } from './grid-dialog/grid-dialog.component';
+import { GridComponent } from './grid/grid.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -46,8 +47,8 @@ import { CapitalizePipe } from './_pipes/capitalize.pipe';
     OptionsComponent,
     LandingComponent,
     AlertComponent,
-    GridDialogComponent,
-    CapitalizePipe
+    CapitalizePipe,
+    GridComponent
   ],
   imports: [
     BrowserModule,
@@ -65,14 +66,14 @@ import { CapitalizePipe } from './_pipes/capitalize.pipe';
   providers: [
     Feature,
     User,
+    GridSection,
     DebugService,
     AlertService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     AlertComponent,
-    OptionsComponent,
-    GridDialogComponent
+    OptionsComponent
   ],
 })
 export class AppModule { }

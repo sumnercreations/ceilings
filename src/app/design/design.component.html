@@ -35,13 +35,15 @@
             </p>
           </div>
           <div class="col-sm-3">
-            <p><a id="download-btn" title="download image of design"><span class="icomoon-download"></span> Download Image</a></p>
+            <p>
+              <a id="download-btn" title="download image of design" class="button button-gray toggle-3d-view-button">3D</a>
+              <a id="toggle-grid-labels" title="toggle the grid labels" class="toggle-labels-button button button-gray" (click)="feature.toggleGuide()">Guide</a>
+            </p>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <!-- <grid></grid> -->
-            <div class="grid" id="grid" [ngClass]="selectedTool != '' ? selectedTool + '-cursor' : ''">We need a {{boxesW}} by {{boxesL}} grid for this ceiling.</div>
+            <app-grid></app-grid>
           </div>
         </div>
       </div>
@@ -64,8 +66,8 @@
       </div>
       <div class="row">
         <div class="col-sm-12 actions">
-          <button class="button button-gray return-ceilings">Apply All</button>
-          <button class="button button-gray return-ceilings">Clear All</button>
+          <button class="button button-gray return-ceilings" (click)="feature.applyAll()">Apply All</button>
+          <button class="button button-gray return-ceilings" (click)="feature.clearAll()">Clear All</button>
         </div>
       </div>
       <hr>

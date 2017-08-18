@@ -11,7 +11,7 @@ export class DebugService {
     });
   }
 
-  log(identifier: string, message: string) {
+  log(identifier: string, message: any) {
     this.debug('ceilings:' + identifier)(message);
   }
 

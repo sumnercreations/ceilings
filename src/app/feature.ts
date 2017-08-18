@@ -3,7 +3,9 @@ import { DebugService } from './_services/debug.service';
 
 @Injectable()
 export class Feature {
-  onFeatureUpdated = new EventEmitter();
+  onBuildGrid = new EventEmitter();
+  onApplyAll = new EventEmitter();
+  onToggleGuide = new EventEmitter();
   private static _instance: Feature = new Feature();
   private debug: any;
 
@@ -25,15 +27,15 @@ export class Feature {
   public archived: boolean = false; // boolean
 
   // attributes for the tool
-  public selectedTile: string = "tile_01";
+  public selectedTile: string = "01";
   public selectedMaterial: string = "milky-white";
   public selectedTool: string;
 
   public tilesArray = [
-    'tile_01',
-    'tile_02',
-    'tile_03',
-    'tile_04'
+    '01',
+    '02',
+    '03',
+    '00'
   ];
   public materialsArray = [
     'milky-white',
@@ -74,6 +76,7 @@ export class Feature {
     'vent',
     'sprinkler'
   ];
+  public gridData = [];
 
   constructor() {
     if (Feature._instance) {
@@ -116,5 +119,23 @@ export class Feature {
     }else{
       this.selectedTool = tool;
     }
+  }
+
+  buildGrid() {
+    // emit an event to build a new grid
+    this.onBuildGrid.emit();
+  }
+
+  clearAll() {
+    this.gridData = [];
+    this.buildGrid();
+  }
+
+  applyAll() {
+    this.onApplyAll.emit();
+  }
+
+  toggleGuide() {
+    this.onToggleGuide.emit();
   }
 }

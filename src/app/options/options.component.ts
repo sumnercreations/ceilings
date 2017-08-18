@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdDialogRef } from '@angular/material';
-// import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-// import 'rxjs/add/operator/switchMap';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 
@@ -18,7 +16,6 @@ export class OptionsComponent implements OnInit {
   public params: any;
 
   constructor(
-    // private route: ActivatedRoute,
     private router: Router,
     private debug: DebugService,
     public feature: Feature,
