@@ -63,7 +63,7 @@
       </div>
       <div class="row materials">
         <div *ngFor="let material of feature.materialsArray" mdTooltip="{{material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
-          <img src="/assets/images/materials/{{material}}.png" alt="{{material | capitalize}}" class="circle img-responsive" [class.selected]="feature.selectedMaterial==material">
+          <img src="/assets/images/materials/{{material}}.png" alt="{{material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material">
         </div>
       </div>
       <div class="row">

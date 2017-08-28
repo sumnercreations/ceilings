@@ -12,23 +12,24 @@ export class Feature {
   // attributes saved in DB
   public id: number;
   public uid: number;
+  public feature_type: string = "tetria";
   public design_name: string;
   public project_name: string;
   public specifier: string;
   public width: number = 0;
   public length: number = 0;
-  public feature_type: string = "tetria";
   public units: string = "inches";
+  public material: string = "milky-white";
   public tile_size: number = 24;
   public tiles: number = 0;
   public estimated_amount: number = 0.00;
+  public services_amount: number = 0.00;
   public xml: any = {};
   public quoted: boolean = false; // boolean
   public archived: boolean = false; // boolean
 
   // attributes for the tool
   public selectedTile: string = "01";
-  public selectedMaterial: string = "milky-white";
   public selectedTool: string;
 
   public tilesArray = [
@@ -37,6 +38,7 @@ export class Feature {
     '03',
     '00'
   ];
+
   public materialsArray = [
     'milky-white',
     'heather-gray',
@@ -69,6 +71,7 @@ export class Feature {
     'camel',
     'orange'
   ];
+
   public toolsArray = [
     'rotate',
     'remove',
@@ -76,6 +79,7 @@ export class Feature {
     'vent',
     'sprinkler'
   ];
+
   public gridData = [];
 
   constructor() {
@@ -101,7 +105,7 @@ export class Feature {
   }
 
   updateSelectedMaterial(material: string) {
-    this.selectedMaterial = material;
+    this.material = material;
 
     // if a tool is selected then remove it
     if(this.selectedTool != '') {
