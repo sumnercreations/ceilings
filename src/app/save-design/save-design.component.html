@@ -1,0 +1,35 @@
+<!-- not logged in -->
+<div class="center-div" [hidden]="user.isLoggedIn()">
+  <md-progress-spinner color="primary" mode="indeterminate"></md-progress-spinner>
+</div>
+
+<!-- logged in but not their design -->
+<div *ngIf="feature.uid && user.uid && feature.uid != user.uid">
+  <p>You can't save a design that is not yours.</p>
+</div>
+<!-- logged in -->
+<div *ngIf="(feature.uid && feature.uid === user.uid) || (user.uid && !feature.id)">
+  <h2 md-dialog-title class="text-center">Save Your Design</h2>
+  <div md-dialog-content>
+    <form (ngSubmit)="saveFeature()" #saveForm="ngForm">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <md-input-container class="full-width">
+            <input type="text" placeholder="Design Name" name="design_name" id="design-name"
+            mdInput
+            required
+            [(ngModel)]="feature.design_name">
+          </md-input-container>
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="button button-gray" [hidden]="saving || !newDesign" type="submit">Save</button>
+        <button class="button button-gray" [hidden]="newDesign || feature.quoted" type="submit">Overwrite</button>
+        <button class="button button-gray" [hidden]="newDesign" (click)="newButtonClick()">Save New</button>
+        <div class="center-div" [hidden]="!saving">
+          <md-progress-spinner color="primary" mode="indeterminate"></md-progress-spinner>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -17,7 +17,7 @@ export class Feature {
   public specifier: string;
   public width: number = 0;
   public length: number = 0;
-  public feature_type: string = "tiles";
+  public feature_type: string = "tetria";
   public units: string = "inches";
   public tile_size: number = 24;
   public tiles: number = 0;

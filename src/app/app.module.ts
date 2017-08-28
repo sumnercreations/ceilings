@@ -15,6 +15,8 @@ import {
   MdTooltipModule,
   MdSnackBarModule,
   MdDialogModule,
+  MdInputModule,
+  MdProgressSpinnerModule
 } from '@angular/material';
 
 // routing
@@ -33,11 +35,18 @@ import { OptionsComponent } from './options/options.component';
 import { LandingComponent } from './landing/landing.component';
 import { AlertComponent } from './alert/alert.component';
 import { GridComponent } from './grid/grid.component';
+import { LoadDesignComponent } from './load-design/load-design.component';
+import { SaveDesignComponent } from './save-design/save-design.component';
+import { LoginComponent } from './login/login.component';
 
 // services
 import { DebugService } from './_services/debug.service';
 import { AlertService } from './_services/alert.service';
+import { ApiService } from './_services/api.service';
+
+// pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
+import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +57,11 @@ import { CapitalizePipe } from './_pipes/capitalize.pipe';
     LandingComponent,
     AlertComponent,
     CapitalizePipe,
-    GridComponent
+    GridComponent,
+    LoadDesignComponent,
+    SaveDesignComponent,
+    LoginComponent,
+    ConfirmDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +74,8 @@ import { CapitalizePipe } from './_pipes/capitalize.pipe';
     MdTooltipModule,
     MdSnackBarModule,
     MdDialogModule,
+    MdInputModule,
+    MdProgressSpinnerModule,
     Ng2BreadcrumbModule.forRoot()
   ],
   providers: [
@@ -68,12 +83,16 @@ import { CapitalizePipe } from './_pipes/capitalize.pipe';
     User,
     GridSection,
     DebugService,
-    AlertService
+    AlertService,
+    ApiService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     AlertComponent,
-    OptionsComponent
+    OptionsComponent,
+    LoadDesignComponent,
+    SaveDesignComponent,
+    LoginComponent
   ],
 })
 export class AppModule { }

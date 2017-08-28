@@ -1,0 +1,25 @@
+<!-- not logged in -->
+<div *ngIf="!user.isLoggedIn()" class="text-center">
+  <p>this should never show up</p>
+</div>
+
+<div *ngIf="user.uid">
+  <h2 class="text-center" md-dialog-title>My Ceiling Designs</h2>
+  <div md-dialog-content>
+    <p *ngIf="!designs.length">Looks like you don have any saved designs.</p>
+    <table *ngIf="designs.length" class="table table-striped">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Delete</th>
+      </tr>
+      <tr *ngFor="let design of designs">
+        <td (click)="load(design.id)" class="link">{{design.id}}</td>
+        <td (click)="load(design.id)" class="link">{{design.design_name}}</td>
+        <td>
+          <i class="material-icons link" (click)="delete(seeyond.id, $event.target.parentNode.parentNode)">delete</i>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

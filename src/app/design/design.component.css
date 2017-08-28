@@ -3,6 +3,15 @@
 /*[class*="col-sm"] {
   background-color: rgba(255, 0, 0, 0.3);
 }*/
+
+.logo {
+  padding: 0px 15px;
+}
+
+.logo img {
+  width: 100px;
+}
+
 .separator {
   background-color: #fff;
   border-bottom: 2px solid #cdcdcd;
@@ -32,8 +41,9 @@ span.sm {
   /*margin-top: 15px;*/
   background-color: #fff;
   /*box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);*/
-  height: 703px;
-  padding: 15px;
+  // height: 703px;
+  height: 570px;
+  padding: 5px 15px;
 }
 
 .grid-wrapper {
@@ -42,23 +52,16 @@ span.sm {
   overflow: scroll;
 }
 
+.grid-header {
+  padding-top: 2px;
+}
+
 .full-height{
   height: 100%;
 }
 
 .edit-link {
   font-size: 12px;
-}
-
-#save-btn, #load-btn, #download-btn, #toggle-grid-labels {
-  color: #666;
-  cursor: pointer;
-  transition: all .2s ease;
-}
-
-#save-btn:hover, #load-btn:hover, #download-btn:hover, #toggle-grid-labels:hover {
-  color: #ff9933;
-  text-decoration: none;
 }
 
 /* Tiles */

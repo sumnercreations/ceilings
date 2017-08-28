@@ -24,14 +24,16 @@
     <div class="col-sm-9 full-height">
       <div class="grid-wrapper">
         <!-- <grid-header></grid-header> -->
-        <div class="row">
+        <div class="row grid-header">
           <div class="col-sm-6">
-            <p>{{feature.width}} W x {{feature.length}} L | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            <p>{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
           <div class="col-sm-3">
             <p>
-              <a id="save-btn" title="save design"><span class="icomoon-folder-plus"></span> Save</a> |
-              <a id="load-btn" title="load saved designs">Load</a>
+              <a id="save-btn" title="save design" (click)="saveDesign()"><span class="icomoon-folder orange"></span>
+                <span *ngIf="user.isLoggedIn()">Save</span>
+                <span *ngIf="!user.isLoggedIn()">Login to save</span>
+                </a> | <a id="load-btn" title="load saved designs" (click)="loadDesign()">Load</a>
             </p>
           </div>
           <div class="col-sm-3">
@@ -84,6 +86,13 @@
           <p class="text-center">{{tool | capitalize}}</p>
         </li>
       </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-2">
+    <div class="logo">
+      <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
     </div>
   </div>
 </div>
