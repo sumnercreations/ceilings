@@ -50,7 +50,8 @@ namespace :deploy do
     end
 
     on roles(:staging) do
-      execute "cd #{release_path} && ng build --env=staging --aot"
+      execute "cd #{release_path} && ng build --env=staging"
+      # execute "cd #{release_path} && ng build --env=staging --aot"
     end
   end
 
