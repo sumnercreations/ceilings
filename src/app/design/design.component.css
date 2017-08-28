@@ -1,0 +1,124 @@
+/* debugging. delete these when we go live */
+
+/*[class*="col-sm"] {
+  background-color: rgba(255, 0, 0, 0.3);
+}*/
+
+.logo {
+  padding: 0px 15px;
+}
+
+.logo img {
+  width: 100px;
+}
+
+.separator {
+  background-color: #fff;
+  border-bottom: 2px solid #cdcdcd;
+  margin: 0 15px;
+}
+
+span.sm {
+  font-size: 10px;
+}
+
+.design-header {
+  background-color: #fff;
+  /*box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);*/
+  padding: 10px 15px;
+  /*border-bottom: 2px solid #cdcdcd;*/
+}
+
+.design-header p {
+  margin-bottom: 0;
+}
+
+.design-header .project-name {
+  border-right: 2px solid #cdcdcd;
+}
+
+.design-ui {
+  /*margin-top: 15px;*/
+  background-color: #fff;
+  /*box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);*/
+  // height: 703px;
+  height: 570px;
+  padding: 5px 15px;
+}
+
+.grid-wrapper {
+  border-right: 2px solid #cdcdcd;
+  height: 100%;
+  overflow: scroll;
+}
+
+.grid-header {
+  padding-top: 2px;
+}
+
+.full-height{
+  height: 100%;
+}
+
+.edit-link {
+  font-size: 12px;
+}
+
+/* Tiles */
+.tiles {
+  margin-bottom: 10px;
+}
+
+.tile-container {
+  padding: 5px;
+}
+
+.tile {
+  border: 2px solid #e7e7e7;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Materials */
+.materials {
+  margin-bottom: 10px;
+}
+
+.material {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.materials .circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+}
+
+/* Actions */
+.actions {
+  padding: 2px;
+}
+
+/* Tools */
+.tools-header {
+  padding: 2px;
+}
+
+.tool-container {
+  padding: 0;
+  font-size: 12px;
+}
+
+.tool {
+  border: 2px solid #e7e7e7;
+  border-right: none;
+  cursor: pointer;
+  padding: 15px;
+  width: 52px;
+}
+
+/* Keep below other borders so it will override the default border */
+.selected {
+  border: 2px solid #ff9933;
+}
