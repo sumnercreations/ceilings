@@ -53,9 +53,9 @@ export class GridComponent implements OnInit {
           this.feature.gridData[r][c] = new GridSection(
             r,
             c,
-            'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.selectedMaterial + '.png)',
+            'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
             0,
-            this.feature.selectedMaterial,
+            this.feature.material,
             this.feature.selectedTile
           );
         }else{
@@ -81,7 +81,7 @@ export class GridComponent implements OnInit {
       this.debug.log('grid-component', 'updating tile: ' + row + ' | ' + column);
       this.debug.log('grid-component', 'tool: ' + this.feature.selectedTool);
       this.debug.log('grid-component', 'tile: ' + this.feature.selectedTile);
-      this.debug.log('grid-component', 'material: ' + this.feature.selectedMaterial);
+      this.debug.log('grid-component', 'material: ' + this.feature.material);
 
       switch (this.feature.selectedTool) {
         case "rotate":
@@ -95,7 +95,7 @@ export class GridComponent implements OnInit {
           break;
 
         case "light":
-          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.selectedMaterial + ".png)");
+          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.material + ".png)");
           break;
 
         case "vent":
@@ -103,12 +103,12 @@ export class GridComponent implements OnInit {
           break;
 
         case "sprinkler":
-          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/sprinkler.png), url('/assets/images/tiles/00/" + this.feature.selectedMaterial + ".png')");
+          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/sprinkler.png), url('/assets/images/tiles/00/" + this.feature.material + ".png')");
           break;
 
         // when no tool is selected
         default:
-          this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.selectedMaterial + '.png)');
+          this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
       }

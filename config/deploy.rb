@@ -2,7 +2,7 @@
 lock "3.9.0"
 
 set :application, "ceilings.3-form.com"
-set :repo_url, "git@example.com:me/my_repo.git"
+set :repo_url, "git@github.com:3-form/ceilings.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
