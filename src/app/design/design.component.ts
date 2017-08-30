@@ -35,7 +35,20 @@ export class DesignComponent implements OnInit {
   ngOnInit() {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
-      this.feature.feature_type = params['type'];
+      if(params['id']) {
+        this.debug.log('design-component', 'id is set so we are loading a design');
+        this.api.loadDesign(params['id']).subscribe(design => {
+          this.debug.log('design-component', 'loaded design ID: ' + params['id']);
+          this.debug.log('design-component', design);
+          this.feature.setDesign(design);
+          this.debug.log('design-component', this.feature);
+        });
+      }else{
+        setTimeout(() => {
+          this.feature.feature_type = params['type'];
+          this.editOptions();
+        }, 500);
+      }
     });
 
     // subscribe to the saved event to close the save dialog
@@ -46,6 +59,7 @@ export class DesignComponent implements OnInit {
     // subscribe to the loaded event to close the load dialog
     this.api.onLoaded.subscribe(success => {
       this.loadDesignDialogRef? this.loadDesignDialogRef.close() : null;
+      this.optionsDialogRef? this.optionsDialogRef.close() : null;
     });
 
     // subscribe to the loggedIn event and set the user attributes
@@ -60,12 +74,12 @@ export class DesignComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-    this.debug.log('design-component', 'afterViewInit');
-    if(this.feature.width == 0 || this.feature.length == 0) {
-      this.editOptions();
-    }
-  }
+  // ngAfterViewInit() {
+  //   this.debug.log('design-component', 'afterViewInit');
+  //   if(this.feature.width == 0 || this.feature.length == 0) {
+  //     // this.editOptions();
+  //   }
+  // }
 
   public editOptions() {
     // load a dialog to edit the options
@@ -78,7 +92,7 @@ export class DesignComponent implements OnInit {
     });
   }
 
-  public loadDesign() {
+  public loadDesigns() {
     // If the user is not logged in then present the login dialog
     let loadDialog: MdDialog;
     this.api.getMyDesigns().subscribe(designs => {

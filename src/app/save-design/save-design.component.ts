@@ -41,9 +41,9 @@ export class SaveDesignComponent implements OnInit {
         // set the feature to what was returned from the API.
         this.feature = feature.ceiling;
         // navigate if the current path isn't already right
-        var url = this.router.createUrlTree(['/design', this.feature.id]).toString();
+        var url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
         if(url != this.router.url) {
-          this.router.navigate(['/design', this.feature.id]);
+          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
         }
       });
     }
@@ -58,7 +58,7 @@ export class SaveDesignComponent implements OnInit {
       // set the feature to what was returned from the API.
       this.feature = feature.ceiling;
       // redirect to the new design
-      this.router.navigate(['/design', this.feature.id]);
+      this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
     });
   }
 

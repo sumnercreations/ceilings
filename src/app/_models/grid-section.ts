@@ -10,19 +10,19 @@ export class GridSection {
   column: number;
 
   constructor(
-    row: number,
-    column: number,
-    backgroundImage: string = '',
-    rotation: number = 0,
-    material: string = '',
-    tile: string = '',
+    _row: number,
+    _column: number,
+    _backgroundImage: string = '',
+    _rotation: number = 0,
+    _material: string = '',
+    _tile: string = '',
   ) {
-    this.setBackgroundImage(backgroundImage);
-    this.setRotation(rotation);
-    this.setMaterial(material);
-    this.setTile(tile);
-    this.setRow(row);
-    this.setColumn(column);
+    this.setBackgroundImage(_backgroundImage);
+    this.setRotation(_rotation);
+    this.setMaterial(_material);
+    this.setTile(_tile);
+    this.setRow(_row);
+    this.setColumn(_column);
   }
 
   //               __  __

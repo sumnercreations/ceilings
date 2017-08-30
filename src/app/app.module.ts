@@ -93,6 +93,6 @@ import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.componen
     LoadDesignComponent,
     SaveDesignComponent,
     LoginComponent
-  ],
+  ]
 })
 export class AppModule { }
