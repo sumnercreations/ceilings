@@ -36,12 +36,8 @@ export class DesignComponent implements OnInit {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
       if(params['id']) {
-        this.debug.log('design-component', 'id is set so we are loading a design');
         this.api.loadDesign(params['id']).subscribe(design => {
-          this.debug.log('design-component', 'loaded design ID: ' + params['id']);
-          this.debug.log('design-component', design);
           this.feature.setDesign(design);
-          this.debug.log('design-component', this.feature);
         });
       }else{
         setTimeout(() => {
@@ -87,7 +83,6 @@ export class DesignComponent implements OnInit {
     config.disableClose = true;
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
     this.optionsDialogRef.afterClosed().subscribe(result => {
-      this.debug.log('design-component', 'result is: ' + result);
       this.feature.buildGrid();
     });
   }
