@@ -46,10 +46,12 @@ namespace :deploy do
   desc "build the app"
   task :ng_build do
     on roles(:production) do
+      print "building in production environment"
       execute "cd #{release_path} && ng build --env=prod"
     end
 
     on roles(:staging) do
+      print "building in production environment"
       execute "cd #{release_path} && ng build --env=staging"
     end
   end
