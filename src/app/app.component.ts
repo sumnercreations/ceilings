@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './_models/user';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,11 @@ import { User } from './_models/user';
 export class AppComponent implements OnInit {
   constructor(
     public user: User
-  ){}
+  ){
+    window['environment'] = ()=> {
+      return environment;
+    }
+  }
 
   ngOnInit() {
     // Check for a logged in user.

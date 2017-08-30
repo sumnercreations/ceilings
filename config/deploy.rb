@@ -44,12 +44,12 @@ namespace :deploy do
   task :ng_build do
     on roles(:production) do
       print "building in production environment"
-      execute "cd #{release_path} && ng build --env=prod"
+      execute "cd #{release_path} && ng build --env=prod --no-progress"
     end
 
     on roles(:staging) do
       print "building in staging environment"
-      execute "cd #{release_path} && ng build --env=staging"
+      execute "cd #{release_path} && ng build --env=staging --no-progress"
     end
   end
 
@@ -63,7 +63,7 @@ namespace :deploy do
   desc "display angular version"
   task :ng_version do
     on roles(:web) do
-      execute "ng -v"
+      execute "cd #{release_path} && ng -v"
     end
   end
 
