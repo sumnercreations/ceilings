@@ -63,7 +63,21 @@ export class ApiService {
     this.debug.log('api', 'saving design');
     let patchData = {
       "uid": this.user.uid,
-      "design_name": this.feature.design_name
+      "feature_type": this.feature.feature_type,
+      "design_name": this.feature.design_name,
+      "project_name": this.feature.project_name,
+      "specifier": this.feature.specifier,
+      "width": this.feature.width,
+      "length": this.feature.length,
+      "units": this.feature.units,
+      "material": this.feature.material,
+      "tile_size": this.feature.tile_size,
+      "tiles": this.feature.tiles,
+      "estimated_amount": this.feature.estimated_amount,
+      "services_amount": this.feature.services_amount,
+      "xml": this.feature.xml,
+      "quoted": this.feature.quoted,
+      "archived": this.feature.archived
     }
 
     return this.http.post(this.apiUrl, patchData)

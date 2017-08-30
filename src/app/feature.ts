@@ -90,6 +90,28 @@ export class Feature {
     Feature._instance = this;
   }
 
+  setDesign(design: any) {
+    this.id = design.id;
+    this.uid = design.uid;
+    this.feature_type = design.feature_type;
+    this.design_name = design.design_name;
+    this.project_name = design.project_name;
+    this.specifier = design.specifier;
+    this.width = design.width;
+    this.length = design.length;
+    this.units = design.units;
+    this.material = design.material;
+    this.tile_size = design.tile_size;
+    this.tiles = design.tiles;
+    this.estimated_amount = design.estimated_amount;
+    this.services_amount = design.services_amount;
+    this.xml = design.xml;
+    this.quoted = design.quoted;
+    this.archived = design.archived;
+
+    this.buildGrid();
+  }
+
   updateEstimatedAmount() {
     this.debug.log('feature', 'updating estimated amount');
     return this.estimated_amount;
