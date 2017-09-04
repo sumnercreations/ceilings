@@ -22,7 +22,6 @@ export class GridComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.debug.log('grid-component', 'ngOnInit');
     // subscribe to the buildGrid event
     this.feature.onBuildGrid.subscribe( result => {
       this.debug.log('grid-component', 'building the grid');
@@ -43,23 +42,52 @@ export class GridComponent implements OnInit {
   }
 
   updateGrid(applyAll: boolean = false) {
+    this.debug.log('grid-component', typeof this.feature.gridData);
     this.rows = new Array(Math.ceil(this.feature.length / 12 / 2));
     this.columns = new Array(Math.ceil(this.feature.width / 12 / 2));
 
-    for(var r: number = 0; r < this.rows.length; r++) {
-      this.feature.gridData[r] = [];
-      for(var c: number = 0; c < this.columns.length; c++) {
-        if(applyAll) {
-          this.feature.gridData[r][c] = new GridSection(
-            r,
-            c,
-            'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
-            0,
-            this.feature.material,
-            this.feature.selectedTile
-          );
-        }else{
-          this.feature.gridData[r][c] = new GridSection(r, c);
+    if(typeof this.feature.gridData == 'undefined') {
+      this.feature.gridData = [];
+      this.debug.log('grid-component', 'gridData is undefined');
+      for(var r: number = 0; r < this.rows.length; r++) {
+        this.feature.gridData[r] = [];
+        for(var c: number = 0; c < this.columns.length; c++) {
+          if(applyAll) {
+            this.feature.gridData[r][c] = new GridSection(
+              r,
+              c,
+              'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
+              0,
+              this.feature.material,
+              this.feature.selectedTile
+            );
+          }else{
+            this.feature.gridData[r][c] = new GridSection(r, c);
+          }
+        }
+      }
+    }else{
+      for(var r: number = 0; r < this.feature.gridData.length; r++) {
+        for(var c: number = 0; c < this.feature.gridData[r].length; c++) {
+          if(applyAll) {
+            this.feature.gridData[r][c] = new GridSection(
+              r,
+              c,
+              'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
+              0,
+              this.feature.material,
+              this.feature.selectedTile
+            );
+          }else{
+            this.feature.gridData[r][c] = new GridSection(
+              r,
+              c,
+              this.feature.gridData[r][c]['backgroundImage'],
+              this.feature.gridData[r][c]['rotation'],
+              this.feature.gridData[r][c]['material'],
+              this.feature.gridData[r][c]['tile'],
+            );
+          }
         }
       }
     }

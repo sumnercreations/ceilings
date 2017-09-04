@@ -7,6 +7,7 @@ import { OptionsComponent } from '../options/options.component';
 import { LoadDesignComponent } from '../load-design/load-design.component';
 import { SaveDesignComponent } from '../save-design/save-design.component';
 import { LoginComponent } from '../login/login.component';
+import { VisualizationComponent } from '../visualization/visualization.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
 
@@ -20,6 +21,7 @@ export class DesignComponent implements OnInit {
   loadDesignDialogRef: MdDialogRef<any>;
   saveDesignDialogRef: MdDialogRef<any>;
   loginDialogRef: MdDialogRef<any>;
+  view3dDialog: MdDialogRef<any>;
   position = 'above';
 
   constructor(
@@ -37,7 +39,17 @@ export class DesignComponent implements OnInit {
     this.route.params.subscribe(params => {
       if(params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
-          this.feature.setDesign(design);
+          if(design == null) {
+            // design not found redirect to the design url
+            this.router.navigate([params['type'], 'design']);
+          }else{
+            // design was found so load it.
+            if(design.feature_type === params['type']) {
+              this.feature.setDesign(design);
+            }else{
+              this.router.navigate([design.feature_type, 'design', design.id]);
+            }
+          }
         });
       }else{
         setTimeout(() => {
@@ -68,14 +80,13 @@ export class DesignComponent implements OnInit {
 
       this.loginDialogRef.close();
     });
-  }
 
-  // ngAfterViewInit() {
-  //   this.debug.log('design-component', 'afterViewInit');
-  //   if(this.feature.width == 0 || this.feature.length == 0) {
-  //     // this.editOptions();
-  //   }
-  // }
+    // subscribe to the onView3d event and build the dialog
+    this.feature.onView3d.subscribe( result => {
+      this.debug.log('design-component', 'view 3d event');
+      this.view3d();
+    });
+  }
 
   public editOptions() {
     // load a dialog to edit the options
@@ -124,6 +135,12 @@ export class DesignComponent implements OnInit {
   public logout() {
     this.api.logout();
     this.user = new User;
+  }
+
+  public view3d() {
+    this.debug.log('design-component', 'displaying 3d dialog');
+    // display the dialog where the 3d visualization will be rendered
+    this.view3dDialog = this.dialog.open(VisualizationComponent, new MdDialogConfig);
   }
 
 }
