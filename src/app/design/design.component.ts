@@ -81,6 +81,7 @@ export class DesignComponent implements OnInit {
     // load a dialog to edit the options
     var config = new MdDialogConfig();
     config.disableClose = true;
+    config.height = "600px";
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
     this.optionsDialogRef.afterClosed().subscribe(result => {
       this.feature.buildGrid();

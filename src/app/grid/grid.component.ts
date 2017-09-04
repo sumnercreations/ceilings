@@ -109,6 +109,8 @@ export class GridComponent implements OnInit {
         // when no tool is selected
         default:
           this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+          this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+          this.feature.gridData[row][column].setMaterial(this.feature.material);
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
       }

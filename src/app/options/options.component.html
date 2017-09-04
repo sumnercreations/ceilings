@@ -2,32 +2,44 @@
   <div class="col-xs-12 col-sm-4 col-sm-offset-1">
     <div class="intro">
       <h2>{{title | capitalize}}</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat.</p>
     </div>
-    <div class="step-one">
-      <h3>Step 01</h3>
-      <p>Select a Tile style and color.</p>
-      <ul class="list-inline tiles">
-        <li><img src="/assets/images/tiles/01.png" alt="Tile 01" class="img-responsive"></li>
-        <li><img src="/assets/images/tiles/02.png" alt="Tile 02" class="img-responsive"></li>
-        <li><img src="/assets/images/tiles/03.png" alt="Tile 03" class="img-responsive"></li>
-        <li><img src="/assets/images/tiles/00.png" alt="Tile 00" class="img-responsive"></li>
-      </ul>
-      <ul class="list-inline materials">
-        <li><img src="/assets/images/materials/milky-white.png" alt="Milky White" class="img-responsive"></li>
-        <li><img src="/assets/images/materials/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
-        <li><img src="/assets/images/materials/charcoal.png" alt="Charcoal" class="img-responsive"></li>
-        <li><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
-        <li><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
-        <li><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
+    <div class="grid-guides">
+      <h3>Grid and Guides</h3>
+      <p>Project dimensions are shown by a blue guide.</p>
+      <img src="" alt="Grid with Blue Guides" class="pull-left">
+      <p class="note">Tiles extending past the blue guide must be flat tiles to allow cutting.</p>
+    </div>
+    <div id="design">
+      <h3>Design</h3>
+      <p>Choose your tile | baffle and color.</p>
+      <div id="tiles">
+        <ul class="list-inline">
+          <li class="tile"><img src="/assets/images/tiles/01.png" alt="Tile 01" class="img-responsive"></li>
+          <li class="tile"><img src="/assets/images/tiles/02.png" alt="Tile 02" class="img-responsive"></li>
+          <li class="tile"><img src="/assets/images/tiles/03.png" alt="Tile 03" class="img-responsive"></li>
+          <li class="tile"><img src="/assets/images/tiles/00.png" alt="Tile 00" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/milky-white.png" alt="Milky White" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/charcoal.png" alt="Charcoal" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/black.png" alt="Black" class="img-responsive"></li>
+        </ul>
+      </div>
+    </div>
+    <div id="modify">
+      <h3>Modify</h3>
+      <ul class="list-inline tools">
+        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2">
+          <div class="tool" [class.add-border-right]="isLast || i === 1">
+            <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+          </div>
+          <p class="text-center">{{tool | capitalize}}</p>
+        </li>
       </ul>
     </div>
-    <div class="step-two">
-      <h3>Step 02</h3>
-      <p>Place your tiles in the design grid and use any of the tools provided to make adjustments to your design.</p>
+    <div id="fixtures">
+      <h3>Fixtures</h3>
       <ul class="list-inline tools">
         <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2">
           <div class="tool" [class.add-border-right]="isLast || i === 1">
@@ -57,6 +69,7 @@
         <a id="load-btn" title="load a design"><span class="icomoon-folder orange"></span> Load</a>
       </div>
     </div>
+    <hr>
     <div id="grid-dimensions">
       <h3>Project Dimensions</h3>
       <p>A 15/16 grid system is required for this product.</p>

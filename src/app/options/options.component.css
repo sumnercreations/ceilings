@@ -22,26 +22,19 @@ button.start-designing {
   margin-top: 10px;
 }
 
-ul.tiles, ul.materials {
-  display: inline;
-}
-
-ul.tiles li {
-  width: 35px;
-  height: 35px;
+li.tile {
+  width: 34px;
+  height: 34px;
   padding: 2px;
   border: 2px solid #E7E7E7;
 }
 
-ul.materials {
-  margin-left: 5px;
+li.material {
+  padding: 2px;
+  margin-bottom: 4px;
 }
 
-ul.materials li {
-  padding: 0;
-}
-
-ul.materials li img {
+li.material img {
   width: 22px;
   height: 22px;
   border-radius: 11px;
