@@ -42,7 +42,6 @@ export class GridComponent implements OnInit {
   }
 
   updateGrid(applyAll: boolean = false) {
-    this.debug.log('grid-component', typeof this.feature.gridData);
     this.rows = new Array(Math.ceil(this.feature.length / 12 / 2));
     this.columns = new Array(Math.ceil(this.feature.width / 12 / 2));
     // new design
@@ -58,30 +57,32 @@ export class GridComponent implements OnInit {
     }else{
       // Loaded design or design with gridData already set.
       for(var r: number = 0; r < this.rows.length; r++) {
+        if(typeof this.feature.gridData[r] == 'undefined') {
+          // create new row
+          this.feature.gridData[r] = [];
+        }
         for(var c: number = 0; c < this.columns.length; c++) {
           if(applyAll) {
             // de-select any tools just in case
             this.feature.selectedTool = '';
             this.setFlag(r, c);
-            this.updateTile(r, c);
+            // this.updateTile(r, c);
             this.removeFlag(r, c);
-            // this.feature.gridData[r][c] = new GridSection(
-            //   r,
-            //   c,
-            //   'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
-            //   0,
-            //   this.feature.material,
-            //   this.feature.selectedTile
-            // );
           }else{
-            this.feature.gridData[r][c] = new GridSection(
-              r,
-              c,
-              this.feature.gridData[r][c]['backgroundImage'],
-              this.feature.gridData[r][c]['rotation'],
-              this.feature.gridData[r][c]['material'],
-              this.feature.gridData[r][c]['tile'],
-            );
+            if(typeof this.feature.gridData[r][c] ==  'undefined') {
+              // create a new record for the column
+              this.debug.log('grid-component', 'the row does not exist. create a new one.');
+              this.feature.gridData[r][c] = new GridSection(r, c);
+            }else{
+              this.feature.gridData[r][c] = new GridSection(
+                r,
+                c,
+                this.feature.gridData[r][c]['backgroundImage'],
+                this.feature.gridData[r][c]['rotation'],
+                this.feature.gridData[r][c]['material'],
+                this.feature.gridData[r][c]['tile'],
+              );
+            }
           }
         }
       }

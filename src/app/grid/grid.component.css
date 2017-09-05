@@ -26,6 +26,10 @@
   cursor: url('/assets/icons/tools/cursors/sprinkler.png'), copy;
 }
 
+.grid-label {
+  user-select: none;
+}
+
 .grid-section {
   width: 48px;
   height: 48px;
