@@ -45,39 +45,34 @@ export class GridComponent implements OnInit {
     this.debug.log('grid-component', typeof this.feature.gridData);
     this.rows = new Array(Math.ceil(this.feature.length / 12 / 2));
     this.columns = new Array(Math.ceil(this.feature.width / 12 / 2));
-
+    // new design
     if(typeof this.feature.gridData == 'undefined') {
       this.feature.gridData = [];
       this.debug.log('grid-component', 'gridData is undefined');
       for(var r: number = 0; r < this.rows.length; r++) {
         this.feature.gridData[r] = [];
         for(var c: number = 0; c < this.columns.length; c++) {
-          if(applyAll) {
-            this.feature.gridData[r][c] = new GridSection(
-              r,
-              c,
-              'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
-              0,
-              this.feature.material,
-              this.feature.selectedTile
-            );
-          }else{
-            this.feature.gridData[r][c] = new GridSection(r, c);
-          }
+          this.feature.gridData[r][c] = new GridSection(r, c);
         }
       }
     }else{
-      for(var r: number = 0; r < this.feature.gridData.length; r++) {
-        for(var c: number = 0; c < this.feature.gridData[r].length; c++) {
+      // Loaded design or design with gridData already set.
+      for(var r: number = 0; r < this.rows.length; r++) {
+        for(var c: number = 0; c < this.columns.length; c++) {
           if(applyAll) {
-            this.feature.gridData[r][c] = new GridSection(
-              r,
-              c,
-              'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
-              0,
-              this.feature.material,
-              this.feature.selectedTile
-            );
+            // de-select any tools just in case
+            this.feature.selectedTool = '';
+            this.setFlag(r, c);
+            this.updateTile(r, c);
+            this.removeFlag(r, c);
+            // this.feature.gridData[r][c] = new GridSection(
+            //   r,
+            //   c,
+            //   'url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)',
+            //   0,
+            //   this.feature.material,
+            //   this.feature.selectedTile
+            // );
           }else{
             this.feature.gridData[r][c] = new GridSection(
               r,
@@ -136,10 +131,16 @@ export class GridComponent implements OnInit {
 
         // when no tool is selected
         default:
-          this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-          this.feature.gridData[row][column].setTile(this.feature.selectedTile);
-          this.feature.gridData[row][column].setMaterial(this.feature.material);
-          this.debug.log('grid-component', this.feature.gridData[row][column]);
+          this.debug.log('grid-component', this.feature.getRows());
+
+          if( (this.feature.length % 4 != 0 && ( row == 0 || row == this.feature.getRows() - 1 )) || (this.feature.width % 4 != 0 && ( column == 0 || column == this.feature.getColumns() - 1 )) ) {
+            this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/00/' + this.feature.material + '.png)');
+          }else{
+            this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+            this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+            this.feature.gridData[row][column].setMaterial(this.feature.material);
+            this.debug.log('grid-component', this.feature.gridData[row][column]);
+          }
           break;
       }
     }
