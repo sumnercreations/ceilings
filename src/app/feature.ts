@@ -171,11 +171,26 @@ export class Feature {
   }
 
   public getRows() {
-    return Math.ceil(this.length / 12 / 2);
+    var rows: number;
+    if(this.units == 'inches') {
+      rows = Math.ceil(this.length / 12 / 2);
+    }else{
+      rows = Math.ceil(this.convertCMtoIN(this.length) / 12 / 2);
+    }
+    console.log('rows: ' + rows);
+    return rows;
   }
 
   public getColumns() {
-    return Math.ceil(this.width / 12 / 2);
+    var columns: number;
+    if(this.units == 'inches') {
+      columns = Math.ceil(this.width / 12 / 2);
+    }else{
+      columns = Math.ceil(this.convertCMtoIN(this.width) / 12 / 2);
+    }
+
+    console.log('columns: ' + columns);
+    return columns;
   }
 
   public getFeatureTypeInteger() {
@@ -212,5 +227,13 @@ export class Feature {
         "Tiles": this.gridData
       }
     }
+  }
+
+  public convertCMtoIN(cm: number) {
+    // 1 cm = 0.393701 in
+    var conversion: number = 0.393701;
+    var inches = cm * conversion;
+    console.log('options-component', cm + ' cm is equal to ' + inches + ' inches.');
+    return Math.ceil(inches);
   }
 }

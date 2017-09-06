@@ -38,11 +38,11 @@ export class OptionsComponent implements OnInit {
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
-    if ( units == 'centimeters' && this.feature.units != units ) {
-      // convert measurements to inches
-      this.feature.length = this.convertCMtoIN(this.feature.length);
-      this.feature.width = this.convertCMtoIN(this.feature.width);
-    }
+    // if ( units == 'centimeters' && this.feature.units != units ) {
+    //   // convert measurements to inches
+    //   this.feature.length = this.convertCMtoIN(this.feature.length);
+    //   this.feature.width = this.convertCMtoIN(this.feature.width);
+    // }
     // update the units.
     this.feature.units = units;
   }
@@ -54,13 +54,6 @@ export class OptionsComponent implements OnInit {
     }else{
       return false;
     }
-  }
-
-  private convertCMtoIN(cm: number) {
-    // 1 cm = 0.393701 in
-    var inches: number = 0.393701;
-    this.debug.log('options-component', cm + ' cm is equal to ' + inches + ' inches.');
-    return cm * inches;
   }
 
 }
