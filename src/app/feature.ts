@@ -6,8 +6,9 @@ export class Feature {
   onBuildGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
   onToggleGuide = new EventEmitter();
+  onView3d = new EventEmitter();
   private static _instance: Feature = new Feature();
-  private debug: any;
+  private debug: DebugService;
 
   // attributes saved in DB
   public id: number;
@@ -80,7 +81,7 @@ export class Feature {
     'sprinkler'
   ];
 
-  public gridData = [];
+  public gridData: any;
 
   constructor() {
     if (Feature._instance) {
@@ -105,6 +106,7 @@ export class Feature {
     this.tiles = design.tiles;
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;
+    this.gridData = JSON.parse(design.grid_data);
     this.xml = design.xml;
     this.quoted = design.quoted;
     this.archived = design.archived;
@@ -113,7 +115,6 @@ export class Feature {
   }
 
   updateEstimatedAmount() {
-    this.debug.log('feature', 'updating estimated amount');
     return this.estimated_amount;
   }
 
@@ -153,7 +154,7 @@ export class Feature {
   }
 
   clearAll() {
-    this.gridData = [];
+    this.gridData = undefined;
     this.buildGrid();
   }
 
@@ -163,5 +164,53 @@ export class Feature {
 
   toggleGuide() {
     this.onToggleGuide.emit();
+  }
+
+  view3d() {
+    this.onView3d.emit();
+  }
+
+  public getRows() {
+    return Math.ceil(this.length / 12 / 2);
+  }
+
+  public getColumns() {
+    return Math.ceil(this.width / 12 / 2);
+  }
+
+  public getFeatureTypeInteger() {
+    var type: number;
+    switch (this.feature_type) {
+      case "tetria":
+        type = 100;
+        break;
+
+      case "clario":
+        type = 200;
+        break;
+
+      case "velo":
+        type = 300;
+        break;
+
+      // default to tetria
+      default:
+        type = 100
+        break;
+    }
+
+    return type;
+  }
+
+  public getUserInputs() {
+    return {
+      "UserInputs": {
+        "Type": this.getFeatureTypeInteger(),
+        "Material": this.material,
+        "NumX": this.getRows(),
+        "NumY": this.getColumns(),
+        "Tiles": this.gridData
+      }
+    }
   }
 }

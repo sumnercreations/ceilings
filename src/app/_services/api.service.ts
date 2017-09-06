@@ -30,7 +30,7 @@ export class ApiService {
   }
 
   loadDesign(id: number) {
-    this.debug.log('api', 'loading design' + id);
+    this.debug.log('api', 'loading design: ' + id);
     return this.http.get(this.apiUrl + id)
       .map((res: Response) => {
         this.onLoaded.emit();
@@ -45,6 +45,22 @@ export class ApiService {
     let patchData = {
       "id": this.feature.id,
       "uid": this.user.uid,
+      "feature_type": this.feature.feature_type,
+      "design_name": this.feature.design_name,
+      "project_name": this.feature.project_name,
+      "specifier": this.feature.specifier,
+      "width": this.feature.width,
+      "length": this.feature.length,
+      "units": this.feature.units,
+      "material": this.feature.material,
+      "tile_size": this.feature.tile_size,
+      "tiles": this.feature.tiles,
+      "estimated_amount": this.feature.estimated_amount,
+      "services_amount": this.feature.services_amount,
+      "grid_data": JSON.stringify(this.feature.gridData),
+      "xml": this.feature.xml,
+      "quoted": this.feature.quoted,
+      "archived": this.feature.archived
     };
 
     let headers = new Headers({"Content-Type": "application/json"});
@@ -75,6 +91,7 @@ export class ApiService {
       "tiles": this.feature.tiles,
       "estimated_amount": this.feature.estimated_amount,
       "services_amount": this.feature.services_amount,
+      "grid_data": this.feature.gridData,
       "xml": this.feature.xml,
       "quoted": this.feature.quoted,
       "archived": this.feature.archived

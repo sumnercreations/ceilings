@@ -44,6 +44,7 @@ span.sm {
   // height: 703px;
   height: 570px;
   padding: 5px 15px;
+  overflow: scroll;
 }
 
 .grid-wrapper {
@@ -66,7 +67,11 @@ span.sm {
 
 /* Tiles */
 .tiles {
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
+}
+
+.tiles p {
+  margin: 0;
 }
 
 .tile-container {

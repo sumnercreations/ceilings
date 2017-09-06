@@ -38,6 +38,7 @@ import { GridComponent } from './grid/grid.component';
 import { LoadDesignComponent } from './load-design/load-design.component';
 import { SaveDesignComponent } from './save-design/save-design.component';
 import { LoginComponent } from './login/login.component';
+import { VisualizationComponent } from './visualization/visualization.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -61,7 +62,8 @@ import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.componen
     LoadDesignComponent,
     SaveDesignComponent,
     LoginComponent,
-    ConfirmDeleteComponent
+    ConfirmDeleteComponent,
+    VisualizationComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +94,8 @@ import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.componen
     OptionsComponent,
     LoadDesignComponent,
     SaveDesignComponent,
-    LoginComponent
+    LoginComponent,
+    VisualizationComponent
   ]
 })
 export class AppModule { }
