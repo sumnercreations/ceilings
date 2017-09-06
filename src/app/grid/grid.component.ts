@@ -128,7 +128,7 @@ export class GridComponent implements OnInit {
 
         case "vent":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
-          this.feature.gridData[row][column].setTexture("/assets/icons/tools/vent.png");
+          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png)");
           break;
 
         case "sprinkler":
@@ -145,7 +145,7 @@ export class GridComponent implements OnInit {
             this.feature.gridData[row][column].setMaterial(this.feature.material);
           }else{
             this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-            this.feature.gridData[row][column].setTexture('/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png');
+            this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
             this.feature.gridData[row][column].setTile(this.feature.selectedTile);
             this.feature.gridData[row][column].setMaterial(this.feature.material);
             this.debug.log('grid-component', this.feature.gridData[row][column]);
