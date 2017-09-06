@@ -171,11 +171,23 @@ export class Feature {
   }
 
   public getRows() {
-    return Math.ceil(this.length / 12 / 2);
+    var rows: number;
+    if(this.units == 'inches') {
+      rows = Math.ceil(this.length / 12 / 2);
+    }else{
+      rows = Math.ceil(this.convertCMtoIN(this.length) / 12 / 2);
+    }
+    return rows;
   }
 
   public getColumns() {
-    return Math.ceil(this.width / 12 / 2);
+    var columns: number;
+    if(this.units == 'inches') {
+      columns = Math.ceil(this.width / 12 / 2);
+    }else{
+      columns = Math.ceil(this.convertCMtoIN(this.width) / 12 / 2);
+    }
+    return columns;
   }
 
   public getFeatureTypeInteger() {
@@ -195,7 +207,7 @@ export class Feature {
 
       // default to tetria
       default:
-        type = 100
+        type = 100;
         break;
     }
 
@@ -212,5 +224,12 @@ export class Feature {
         "Tiles": this.gridData
       }
     }
+  }
+
+  public convertCMtoIN(cm: number) {
+    // 1 cm = 0.393701 in
+    var conversion: number = 0.393701;
+    var inches = cm * conversion;
+    return Math.ceil(inches);
   }
 }

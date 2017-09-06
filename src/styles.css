@@ -100,13 +100,13 @@ input.square {
   margin-left: 20px;
 }
 
-#save-btn, #load-btn, #download-btn, #toggle-grid-labels {
+#save-btn, #load-btn{
   color: #666;
   cursor: pointer;
   transition: all .2s ease;
 }
 
-#save-btn:hover, #load-btn:hover, #download-btn:hover, #toggle-grid-labels:hover {
+#save-btn:hover, #load-btn:hover {
   text-decoration: none;
 }
 
@@ -124,6 +124,15 @@ input.square {
 .button[disabled] {
   cursor: not-allowed;
   opacity: 0.65;
+}
+
+.button.orange {
+  border: 1px solid #ff9933;
+}
+
+.button.orange:hover, .button.orange:focus {
+  background-color: #ff9933;
+  color: #fff;
 }
 
 .breadcrumb {
@@ -154,27 +163,6 @@ a:hover, a:visited {
 .number-input {
   text-align: right;
 }
-
-/* overriding some of the angular material rules */
-/*.mat-radio-button, .mat-button-toggle {
-  font-family: 'Graphik Web';
-}
-
-.mat-radio-label-content {
-  font-weight: 300;
-}
-
-.mat-radio-inner-circle {
-  background-color: #ff9933;
-}
-
-.mat-radio-outer-circle {
-  border-width: 1px;
-}
-
-.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #000;
-}*/
 
 /* 5 equal columns in 12 column grid */
 .col-xs-5ths,

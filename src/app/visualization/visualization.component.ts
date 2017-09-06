@@ -23,11 +23,10 @@ export class VisualizationComponent implements OnInit {
     this.debug.log('visualization-component', this.feature.gridData);
     this.tiling.QT.SetUserDataPropertiesJSONString(JSON.stringify(this.feature.getUserInputs()));
     this.tiling.QT.UpdateFeature();
-
     var boxes = this.tiling.QT.GetBoxes();
     this.debug.log('visualization-component', 'boxes: ' + boxes);
-    this.vis.QT.Visualization.SetFeatureType(this.feature.getFeatureTypeInteger());
-    this.vis.QT.Visualization.visualizeTiles(this.feature.getColumns(), this.feature.getRows(), boxes);
+    this.vis.QT.Visualization.SetFeatureType(this.tiling.QT.Properties.UserInputs.Type);
+    this.vis.QT.Visualization.visualizeTiles(this.feature.getColumns(), this.feature.getRows(), boxes, this.tiling.QT.Properties.UserInputs.Tiles, 100);
   }
 
 }

@@ -42,8 +42,9 @@ export class GridComponent implements OnInit {
   }
 
   updateGrid(applyAll: boolean = false) {
-    this.rows = new Array(Math.ceil(this.feature.length / 12 / 2));
-    this.columns = new Array(Math.ceil(this.feature.width / 12 / 2));
+    this.rows = new Array(this.feature.getRows());
+    this.columns = new Array(this.feature.getColumns());
+
     // new design
     if(typeof this.feature.gridData == 'undefined') {
       this.feature.gridData = [];
@@ -78,6 +79,7 @@ export class GridComponent implements OnInit {
                 r,
                 c,
                 this.feature.gridData[r][c]['backgroundImage'],
+                this.feature.gridData[r][c]['texture'],
                 this.feature.gridData[r][c]['rotation'],
                 this.feature.gridData[r][c]['material'],
                 this.feature.gridData[r][c]['tile'],
@@ -116,28 +118,34 @@ export class GridComponent implements OnInit {
 
         case "remove":
           this.feature.gridData[row][column].setBackgroundImage("");
+          this.feature.gridData[row][column].setTexture("");
           break;
 
         case "light":
-          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.material + ".png)");
+          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.material + ".png");
+          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png)");
           break;
 
         case "vent":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
+          this.feature.gridData[row][column].setTexture("/assets/icons/tools/vent.png");
           break;
 
         case "sprinkler":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/sprinkler.png), url('/assets/images/tiles/00/" + this.feature.material + ".png')");
+          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png");
           break;
 
         // when no tool is selected
         default:
-          this.debug.log('grid-component', this.feature.getRows());
-
           if( (this.feature.length % 4 != 0 && ( row == 0 || row == this.feature.getRows() - 1 )) || (this.feature.width % 4 != 0 && ( column == 0 || column == this.feature.getColumns() - 1 )) ) {
             this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/00/' + this.feature.material + '.png)');
+            this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+            this.feature.gridData[row][column].setTile('00');
+            this.feature.gridData[row][column].setMaterial(this.feature.material);
           }else{
             this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+            this.feature.gridData[row][column].setTexture('/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png');
             this.feature.gridData[row][column].setTile(this.feature.selectedTile);
             this.feature.gridData[row][column].setMaterial(this.feature.material);
             this.debug.log('grid-component', this.feature.gridData[row][column]);
@@ -168,19 +176,34 @@ export class GridComponent implements OnInit {
   }
 
   getGridWidth() {
-    return Math.ceil( this.feature.width / 12 / 2 ) * 48;
+    return this.feature.getColumns() * 48;
+    // return Math.ceil( this.feature.width / 12 / 2 ) * 48;
   }
 
   getGridHeight() {
-    return Math.ceil( this.feature.length / 12 / 2 ) * 48;
+    return this.feature.getRows() * 48;
+    // return Math.ceil( this.feature.length / 12 / 2 ) * 48;
   }
 
   getRoomGuideWidth() {
-    return ( this.feature.width / 12 / 2 ) * 48;
+    var guideWidth: number;
+    if(this.feature.units == 'inches') {
+      guideWidth = ( this.feature.width / 12 / 2 ) * 48;
+    }else{
+      guideWidth = ( this.feature.convertCMtoIN(this.feature.width) / 12 / 2 ) * 48;
+    }
+    return guideWidth;
   }
 
   getRoomGuideHeight() {
-    return ( this.feature.length / 12 / 2 ) * 48;
+    var guideHeight: number;
+    if(this.feature.units == 'inches') {
+      guideHeight = ( this.feature.length / 12 / 2 ) * 48;
+    }else{
+      guideHeight = ( this.feature.convertCMtoIN(this.feature.length) / 12 / 2 ) * 48;
+    }
+
+    return guideHeight;
   }
 
   getRoomGuideLeftAdjustment() {
