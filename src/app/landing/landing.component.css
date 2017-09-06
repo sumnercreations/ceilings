@@ -1,5 +1,5 @@
 .features {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .feature {
@@ -16,7 +16,7 @@
 }
 
 .feature > .content p {
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   color: #fff;
 }
 

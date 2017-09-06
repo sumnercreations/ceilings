@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class GridSection {
   backgroundImage: string;
+  texture: string;
   rotation: number;
   material: string;
   tile: string;
@@ -13,11 +14,13 @@ export class GridSection {
     _row: number,
     _column: number,
     _backgroundImage: string = '',
+    _texture: string = '',
     _rotation: number = 0,
     _material: string = '',
     _tile: string = '',
   ) {
     this.setBackgroundImage(_backgroundImage);
+    this.setTexture(_texture),
     this.setRotation(_rotation);
     this.setMaterial(_material);
     this.setTile(_tile);
@@ -33,6 +36,10 @@ export class GridSection {
 
   setBackgroundImage(url: string) {
     this.backgroundImage = url;
+  }
+
+  setTexture(texture: string) {
+    this.texture = texture;
   }
 
   setRotation(value: number) {
