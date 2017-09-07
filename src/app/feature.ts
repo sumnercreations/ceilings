@@ -258,11 +258,48 @@ export class Feature {
   }
 
   public getTilesUsed() {
-    return 0;
+    if(this.gridData) {
+      var totalTiles = 0;
+      for (var i = this.gridData.length - 1; i >= 0; i--) {
+        for (var j = this.gridData[i].length - 1; j >= 0; j--) {
+          if(this.gridData[i][j].tile) {
+            totalTiles++;
+          }
+        }
+      }
+      return totalTiles;
+    }else{
+      return 0;
+    }
   }
 
   public getTilesPurchased() {
-    return 0;
+    if(this.gridData) {
+      var pkgQty = this.getPackageQty();
+      var tiles = [];
+      var purchasedTiles = 0;
+
+      // Determine the number of unique tiles (color and tile)
+      for (var i = this.gridData.length - 1; i >= 0; i--) {
+        for (var j = this.gridData[i].length - 1; j >= 0; j--) {
+          if(this.gridData[i][j].tile) {
+            tiles[this.gridData[i][j]['material'] + '|' + this.gridData[i][j]['tile']] = (tiles[this.gridData[i][j]['material'] + '|' + this.gridData[i][j]['tile']] || 0) + 1;
+          }
+        }
+      }
+
+      // Round count of unique tiles to nearest factor of pkgQty
+      // multiply that by the pkgQty and add to the purchasedTiles total.
+      for(var tile in tiles) {
+        var tileCount = tiles[tile];
+        // console.log(tileCount);
+        // console.log(tileCount / pkgQty);
+        purchasedTiles += pkgQty * Math.ceil(tileCount / pkgQty);
+      }
+      return purchasedTiles;
+    }else{
+      return 0;
+    }
   }
 
   public getUserInputs() {
