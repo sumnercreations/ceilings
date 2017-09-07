@@ -117,23 +117,25 @@ export class GridComponent implements OnInit {
           break;
 
         case "remove":
-          this.feature.gridData[row][column].setBackgroundImage("");
-          this.feature.gridData[row][column].setTexture("");
+          this.feature.gridData[row][column] = new GridSection(row, column);
           break;
 
         case "light":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.material + ".png");
           this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png)");
+          this.feature.gridData[row][column].setTile("00");
           break;
 
         case "vent":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
           this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png)");
+          this.feature.gridData[row][column].setTile("");
           break;
 
         case "sprinkler":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/sprinkler.png), url('/assets/images/tiles/00/" + this.feature.material + ".png')");
           this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png");
+          this.feature.gridData[row][column].setTile("00");
           break;
 
         // when no tool is selected
