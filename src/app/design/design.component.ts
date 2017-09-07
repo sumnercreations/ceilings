@@ -136,8 +136,7 @@ export class DesignComponent implements OnInit {
       if(result == 'cancel') {
         // we need to close the savedDialog too if it's open.
         this.saveDesignDialogRef? this.saveDesignDialogRef.close() : null;
-      }
-      if(load) {
+      }else if(load) {
         // the user should be logged in now, so show the load dialog
         this.loadDesigns();
       }
