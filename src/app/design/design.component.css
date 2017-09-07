@@ -108,6 +108,11 @@ span.sm {
   width: 52px;
 }
 
+.tile-package-information {
+  text-align: right;
+  margin-right: 30px;
+}
+
 /* Keep below other borders so it will override the default border */
 .selected {
   border: 2px solid #ff9933;

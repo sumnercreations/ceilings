@@ -1,3 +1,11 @@
+.left-pane {
+  padding-left: 35px;
+}
+
+h3 {
+  margin: 15px 0 5px;
+}
+
 .toggle-button-form-wrapper {
   margin-top: 20px;
 }
@@ -10,8 +18,8 @@ label {
   font-weight: 400;
 }
 
-button.back-to-landing {
-  margin-top: 25px;
+div.back {
+  margin-top: 35px;
 }
 
 button.start-designing {
@@ -54,6 +62,12 @@ li.material img {
   width: 40px;
 }
 
+.grid-guides img {
+  margin-right: 5px;
+}
+
 aside.note {
+  margin-left: 5px;
   color: #888888;
+  width: 69%;
 }

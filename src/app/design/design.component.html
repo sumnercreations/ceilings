@@ -68,8 +68,8 @@
       </div>
       <div class="row">
         <div class="col-sm-12 actions">
-          <button class="button button-gray return-ceilings" (click)="feature.applyAll()">Apply All</button>
-          <button class="button button-gray return-ceilings" (click)="feature.clearAll()">Clear All</button>
+          <button class="button button-gray return-ceilings orange" (click)="feature.applyAll()">Apply All</button>
+          <button class="button button-gray return-ceilings orange" (click)="feature.clearAll()">Clear All</button>
         </div>
       </div>
       <hr>
@@ -95,7 +95,7 @@
       <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
     </div>
   </div>
-  <div class="col-sm-6">
-    <p class="text-center">You are currently using x of y tiles.</p>
+  <div class="col-sm-7">
+    <p class="tile-package-information">{{feature.getTileType('plural') | capitalize}} sold in quantities of {{feature.getPackageQty()}} | {{feature.getTilesUsed()}} of {{feature.getTilesPurchased()}} {{feature.getTileType('plural')}} used.</p>
   </div>
 </div>

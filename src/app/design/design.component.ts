@@ -64,6 +64,13 @@ export class DesignComponent implements OnInit {
       this.saveDesignDialogRef? this.saveDesignDialogRef.close() : null;
     });
 
+    // subscribe to the loadDesigns event to handle it all here.
+    // this will come from the options component
+    this.feature.onLoadDesigns.subscribe(success => {
+      this.debug.log('design-component', 'loading design event subscription');
+      this.loadDesigns();
+    });
+
     // subscribe to the loaded event to close the load dialog
     this.api.onLoaded.subscribe(success => {
       this.loadDesignDialogRef? this.loadDesignDialogRef.close() : null;
@@ -92,7 +99,7 @@ export class DesignComponent implements OnInit {
     // load a dialog to edit the options
     var config = new MdDialogConfig();
     config.disableClose = true;
-    config.height = "600px";
+    config.height = "700px";
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
     this.optionsDialogRef.afterClosed().subscribe(result => {
       this.feature.buildGrid();
@@ -101,13 +108,14 @@ export class DesignComponent implements OnInit {
 
   public loadDesigns() {
     // If the user is not logged in then present the login dialog
-    let loadDialog: MdDialog;
-    this.api.getMyDesigns().subscribe(designs => {
-      this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
-      this.loadDesignDialogRef.componentInstance.designs = designs;
-    });
     if(!this.user.isLoggedIn()) {
-      this.loginDialog();
+      this.loginDialog(true);
+    }else{
+      let loadDialog: MdDialog;
+      this.api.getMyDesigns().subscribe(designs => {
+        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
+        this.loadDesignDialogRef.componentInstance.designs = designs;
+      });
     }
   }
 
@@ -119,15 +127,18 @@ export class DesignComponent implements OnInit {
     }
   }
 
-  public loginDialog() {
+  public loginDialog(load: boolean = false) {
     this.debug.log('design-component', 'displaying login dialog');
     var config = new MdDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
     this.loginDialogRef.afterClosed().subscribe(result => {
       if(result == 'cancel') {
-        // we need to close the savedDialog too.
-        this.saveDesignDialogRef.close();
+        // we need to close the savedDialog too if it's open.
+        this.saveDesignDialogRef? this.saveDesignDialogRef.close() : null;
+      }else if(load) {
+        // the user should be logged in now, so show the load dialog
+        this.loadDesigns();
       }
     });
   }

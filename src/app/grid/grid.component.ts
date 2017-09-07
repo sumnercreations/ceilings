@@ -36,7 +36,7 @@ export class GridComponent implements OnInit {
 
     // subscribe to the toggleGrid event
     this.feature.onToggleGuide.subscribe( result => {
-      this.debug.log('grid-component', 'toggling grid');
+      this.debug.log('grid-component', 'toggling guides');
       this.toggleGrid();
     });
   }

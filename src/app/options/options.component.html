@@ -1,17 +1,17 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-4 col-sm-offset-1">
+  <div class="col-xs-12 col-sm-6 left-pane">
     <div class="intro">
       <h2>{{title | capitalize}}</h2>
     </div>
-    <div class="grid-guides">
+    <div class="grid-guides clearfix">
       <h3>Grid and Guides</h3>
       <p>Design dimensions are shown by a blue guide.</p>
-      <img src="" alt="Grid with Blue Guides" class="pull-left">
+      <img src="/assets/images/grid-and-guide.png" alt="Grid with Blue Guides" class="pull-left">
       <aside class="note">Tiles extending past the blue guide must be flat tiles to allow cutting.</aside>
     </div>
     <div id="design">
       <h3>Design</h3>
-      <p>Choose your {{tile_type}} design and color.</p>
+      <p>Choose your {{feature.getTileType()}} design and color.</p>
       <div id="tiles">
         <ul class="list-inline">
           <li class="tile"><img src="/assets/images/tiles/01.png" alt="Tile 01" class="img-responsive"></li>
@@ -29,7 +29,7 @@
     </div>
     <div id="modify">
       <h3>Modify</h3>
-      <p>Rotate or remove {{tile_type}}s.</p>
+      <p>Rotate or remove {{feature.getTileType('plural')}}.</p>
       <ul class="list-inline tools">
         <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2">
           <div class="tool" [class.add-border-right]="isLast">
@@ -50,10 +50,10 @@
       </ul>
     </div>
     <div class="back">
-      <a id="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
+      <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
     </div>
   </div>
-  <div class="col-xs-12 col-sm-5 col-sm-offset-1">
+  <div class="col-xs-12 col-sm-6">
     <div class="row">
       <div class="col-sm-12">
         <h3>Design Name</h3>
@@ -66,7 +66,7 @@
         </div>
       </div>
       <div class="col-sm-3 options-load">
-        <a id="load-btn" title="load a design"><span class="icomoon-folder orange"></span> Load</a>
+        <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
       </div>
     </div>
     <hr>
@@ -97,7 +97,12 @@
       </div>
       <div class="example-selected-value">Selected units: {{units.value}}</div>
     </div>
-    <div id="grid-size" [class.hide]="feature.feature_type=='tetria'">
+    <div class="grid-size" [class.hide]="feature.feature_type!='tetria'">
+      <hr>
+      <h3>Tile Size</h3>
+      <p>24" x 24" Qty. 4 per package</p>
+    </div>
+    <div id="grid-size" [class.hide]="feature.feature_type!='clario'">
       <hr>
       <h3>Tile Size</h3>
       <p>Please specify the size of your grid.</p>
