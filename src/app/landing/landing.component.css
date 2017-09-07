@@ -3,7 +3,7 @@
 }
 
 .feature {
-  height: 300px;
+  height: 250px;
   margin-bottom: 15px;
 }
 
@@ -21,7 +21,7 @@
 }
 
 #seeyond {
-  background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(/assets/images/features/seeyond.jpg);
+  background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(/assets/images/features/seeyond.png);
   background-size: cover;
   background-position: 50%;
 }

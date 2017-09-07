@@ -19,14 +19,18 @@ export class VisualizationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.debug.log('visualization-component', 'ngOnInit');
-    this.debug.log('visualization-component', this.feature.gridData);
+    this.debug.log('visualization-component', JSON.stringify(this.feature.getUserInputs()));
     this.tiling.QT.SetUserDataPropertiesJSONString(JSON.stringify(this.feature.getUserInputs()));
     this.tiling.QT.UpdateFeature();
     var boxes = this.tiling.QT.GetBoxes();
-    this.debug.log('visualization-component', 'boxes: ' + boxes);
     this.vis.QT.Visualization.SetFeatureType(this.tiling.QT.Properties.UserInputs.Type);
-    this.vis.QT.Visualization.visualizeTiles(this.feature.getColumns(), this.feature.getRows(), boxes, this.tiling.QT.Properties.UserInputs.Tiles, 100);
+    this.vis.QT.Visualization.visualizeTiles(
+      this.tiling.QT.Properties.UserInputs.NumX,
+      this.tiling.QT.Properties.UserInputs.NumY,
+      boxes,
+      this.tiling.QT.Properties.UserInputs.Tiles,
+      100
+    );
   }
 
 }

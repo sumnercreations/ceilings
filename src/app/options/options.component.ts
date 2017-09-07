@@ -11,7 +11,6 @@ import { Feature } from '../feature';
 })
 export class OptionsComponent implements OnInit {
   public title = 'Ceilings Design Tool';
-  public tile_type: string = 'tile';
   public modifyToolsArray = [
     'rotate',
     'remove'
@@ -38,7 +37,6 @@ export class OptionsComponent implements OnInit {
 
     this.debug.log('options-component', this.feature.feature_type);
     this.title =  this.feature.feature_type + ' Design Tool';
-    this.tile_type = this.feature.feature_type == 'clario' ? 'baffle' : 'tile';
   }
 
   public goToLanding() {

@@ -7,6 +7,8 @@ export class Feature {
   onApplyAll = new EventEmitter();
   onToggleGuide = new EventEmitter();
   onView3d = new EventEmitter();
+  onLoadDesigns = new EventEmitter();
+
   private static _instance: Feature = new Feature();
   private debug: DebugService;
 
@@ -30,6 +32,7 @@ export class Feature {
   public archived: boolean = false; // boolean
 
   // attributes for the tool
+  public tile_type: string = 'tile';
   public selectedTile: string = "01";
   public selectedTool: string;
 
@@ -170,6 +173,10 @@ export class Feature {
     this.onView3d.emit();
   }
 
+  loadDesigns() {
+    this.onLoadDesigns.emit();
+  }
+
   public getRows() {
     var rows: number;
     if(this.units == 'inches') {
@@ -212,6 +219,50 @@ export class Feature {
     }
 
     return type;
+  }
+
+  public getTileType(grammar: string = 'singular') {
+    var type: string = '';
+    if(grammar == 'plural') {
+      type = this.feature_type == 'clario' ? 'baffles' : 'tiles';
+    }else{
+      type = this.feature_type == 'clario' ? 'baffle' : 'tile';
+    }
+    return type;
+  }
+
+  public getPackageQty() {
+    var qty: number = 0;
+    switch (this.feature_type) {
+      case "tetria":
+        qty = 4;
+        break;
+
+      case "clario":
+        if(this.tile_size == 24) {
+          qty =  4;
+        }else{
+          qty =  2;
+        }
+        break;
+
+      case "velo":
+        qty = 8;
+        break;
+
+      default:
+        qty = 4;
+        break;
+    }
+    return qty;
+  }
+
+  public getTilesUsed() {
+    return 0;
+  }
+
+  public getTilesPurchased() {
+    return 0;
   }
 
   public getUserInputs() {
