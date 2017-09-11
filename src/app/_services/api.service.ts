@@ -58,7 +58,6 @@ export class ApiService {
       "estimated_amount": this.feature.estimated_amount,
       "services_amount": this.feature.services_amount,
       "grid_data": JSON.stringify(this.feature.gridData),
-      "xml": this.feature.xml,
       "quoted": this.feature.quoted,
       "archived": this.feature.archived
     };
@@ -92,7 +91,6 @@ export class ApiService {
       "estimated_amount": this.feature.estimated_amount,
       "services_amount": this.feature.services_amount,
       "grid_data": this.feature.gridData,
-      "xml": this.feature.xml,
       "quoted": this.feature.quoted,
       "archived": this.feature.archived
     }

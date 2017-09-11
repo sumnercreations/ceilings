@@ -110,7 +110,7 @@ span.sm {
 
 .tile-package-information {
   text-align: right;
-  margin-right: 30px;
+  margin: 3px 30px 0 0;
 }
 
 /* Keep below other borders so it will override the default border */
