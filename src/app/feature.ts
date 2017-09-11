@@ -288,7 +288,7 @@ export class Feature {
 
       // Round count of unique tiles to nearest factor of pkgQty
       // multiply that by the pkgQty and add to the purchasedTiles total.
-      console.log(tiles);
+      // console.log(tiles);
       for(var tile in tiles) {
         var tileCount = tiles[tile];
         // console.log(tileCount);
