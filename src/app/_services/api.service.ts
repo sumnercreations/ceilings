@@ -90,7 +90,7 @@ export class ApiService {
       "tiles": this.feature.tiles,
       "estimated_amount": this.feature.estimated_amount,
       "services_amount": this.feature.services_amount,
-      "grid_data": this.feature.gridData,
+      "grid_data": JSON.stringify(this.feature.gridData),
       "quoted": this.feature.quoted,
       "archived": this.feature.archived
     }
