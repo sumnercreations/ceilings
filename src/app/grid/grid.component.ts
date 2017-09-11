@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { GridSection } from './../_models/grid-section';
+import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-grid',
@@ -18,6 +19,7 @@ export class GridComponent implements OnInit {
   constructor(
     private debug: DebugService,
     private sanitizer: DomSanitizer,
+    private alert: AlertService,
     public feature: Feature
   ) { }
 
@@ -145,6 +147,7 @@ export class GridComponent implements OnInit {
             this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
             this.feature.gridData[row][column].setTile('00');
             this.feature.gridData[row][column].setMaterial(this.feature.material);
+            this.alert.error("Tiles on the outside must be flat.");
           }else{
             this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
             this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');

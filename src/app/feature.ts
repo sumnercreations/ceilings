@@ -27,7 +27,6 @@ export class Feature {
   public tiles: number = 0;
   public estimated_amount: number = 0.00;
   public services_amount: number = 0.00;
-  public xml: any = {};
   public quoted: boolean = false; // boolean
   public archived: boolean = false; // boolean
 
@@ -110,7 +109,6 @@ export class Feature {
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;
     this.gridData = JSON.parse(design.grid_data);
-    this.xml = design.xml;
     this.quoted = design.quoted;
     this.archived = design.archived;
 
@@ -290,12 +288,14 @@ export class Feature {
 
       // Round count of unique tiles to nearest factor of pkgQty
       // multiply that by the pkgQty and add to the purchasedTiles total.
+      console.log(tiles);
       for(var tile in tiles) {
         var tileCount = tiles[tile];
         // console.log(tileCount);
         // console.log(tileCount / pkgQty);
         purchasedTiles += pkgQty * Math.ceil(tileCount / pkgQty);
       }
+      this.tiles = purchasedTiles;
       return purchasedTiles;
     }else{
       return 0;
@@ -306,7 +306,6 @@ export class Feature {
     return {
       "UserInputs": {
         "Type": this.getFeatureTypeInteger(),
-        "Material": this.material,
         "NumX": this.getRows(),
         "NumY": this.getColumns(),
         "Tiles": this.gridData

@@ -29,7 +29,7 @@ export class VisualizationComponent implements OnInit {
       this.tiling.QT.Properties.UserInputs.NumY,
       boxes,
       this.tiling.QT.Properties.UserInputs.Tiles,
-      100
+      50
     );
   }
 
