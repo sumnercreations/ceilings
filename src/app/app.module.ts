@@ -95,6 +95,7 @@ import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.componen
     LoadDesignComponent,
     SaveDesignComponent,
     LoginComponent,
+    ConfirmDeleteComponent,
     VisualizationComponent
   ]
 })

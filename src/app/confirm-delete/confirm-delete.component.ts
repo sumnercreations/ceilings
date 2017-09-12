@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MdDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-confirm-delete',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmDeleteComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialogRef: MdDialogRef<ConfirmDeleteComponent>
+  ) { }
 
   ngOnInit() {
   }

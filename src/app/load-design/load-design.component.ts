@@ -31,7 +31,7 @@ export class LoadDesignComponent implements OnInit {
 
   load(id: number) {
     this.debug.log('load-design', 'loading id: ' + id);
-    this.router.navigate(['/design', id]);
+    this.router.navigate([this.feature.feature_type + '/design', id]);
   }
 
   delete(id: number, target: any) {

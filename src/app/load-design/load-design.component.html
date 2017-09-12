@@ -17,7 +17,7 @@
         <td (click)="load(design.id)" class="link">{{design.id}}</td>
         <td (click)="load(design.id)" class="link">{{design.design_name}}</td>
         <td>
-          <i class="material-icons link" (click)="delete(seeyond.id, $event.target.parentNode.parentNode)">delete</i>
+          <span class="link icomoon-remove2" (click)="delete(design.id, $event.target.parentNode.parentNode)"></span>
         </td>
       </tr>
     </table>
