@@ -39,6 +39,7 @@ import { LoadDesignComponent } from './load-design/load-design.component';
 import { SaveDesignComponent } from './save-design/save-design.component';
 import { LoginComponent } from './login/login.component';
 import { VisualizationComponent } from './visualization/visualization.component';
+import { TileUsageComponent } from './tile-usage/tile-usage.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -48,6 +49,7 @@ import { ApiService } from './_services/api.service';
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
+import { KeysPipe } from './_pipes/keys.pipe';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.componen
     SaveDesignComponent,
     LoginComponent,
     ConfirmDeleteComponent,
-    VisualizationComponent
+    VisualizationComponent,
+    TileUsageComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
@@ -96,7 +100,8 @@ import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.componen
     SaveDesignComponent,
     LoginComponent,
     ConfirmDeleteComponent,
-    VisualizationComponent
+    VisualizationComponent,
+    TileUsageComponent
   ]
 })
 export class AppModule { }

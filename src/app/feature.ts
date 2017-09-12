@@ -5,7 +5,6 @@ import { DebugService } from './_services/debug.service';
 export class Feature {
   onBuildGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
-  onToggleGuide = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
 
@@ -34,6 +33,7 @@ export class Feature {
   public tile_type: string = 'tile';
   public selectedTile: string = "01";
   public selectedTool: string;
+  public showGuide: boolean = true;
 
   public tilesArray = [
     '01',
@@ -164,7 +164,7 @@ export class Feature {
   }
 
   toggleGuide() {
-    this.onToggleGuide.emit();
+    this.showGuide = !this.showGuide;
   }
 
   view3d() {
@@ -231,6 +231,8 @@ export class Feature {
 
   public getPackageQty() {
     var qty: number = 0;
+    console.log(this.feature_type);
+    console.log(this.tile_size);
     switch (this.feature_type) {
       case "tetria":
         qty = 4;
@@ -271,35 +273,48 @@ export class Feature {
     }
   }
 
-  public getTilesPurchased() {
+  public getTilesPurchasedArray() {
+    // Determine the number of unique tiles (color and tile)
+    var pkgQty = this.getPackageQty();
+    var tiles = [];
     if(this.gridData) {
-      var pkgQty = this.getPackageQty();
-      var tiles = [];
-      var purchasedTiles = 0;
-
-      // Determine the number of unique tiles (color and tile)
       for (var i = this.gridData.length - 1; i >= 0; i--) {
         for (var j = this.gridData[i].length - 1; j >= 0; j--) {
           if(this.gridData[i][j].tile) {
-            tiles[this.gridData[i][j]['material'] + '|' + this.gridData[i][j]['tile']] = (tiles[this.gridData[i][j]['material'] + '|' + this.gridData[i][j]['tile']] || 0) + 1;
+            var key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
+            if(tiles[key]) {
+              tiles[key].used += 1;
+              tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
+            }else{
+              tiles[key] = {
+                "purchased": 0,
+                "image": "/assets/images/tiles/" + this.gridData[i][j]['tile'] + "/" + this.gridData[i][j]['material'] + ".png",
+                "used": 1,
+                "material": this.gridData[i][j]['material'],
+                "tile": this.gridData[i][j]['tile']
+              }
+            }
           }
         }
       }
-
-      // Round count of unique tiles to nearest factor of pkgQty
-      // multiply that by the pkgQty and add to the purchasedTiles total.
-      // console.log(tiles);
-      for(var tile in tiles) {
-        var tileCount = tiles[tile];
-        // console.log(tileCount);
-        // console.log(tileCount / pkgQty);
-        purchasedTiles += pkgQty * Math.ceil(tileCount / pkgQty);
-      }
-      this.tiles = purchasedTiles;
-      return purchasedTiles;
-    }else{
-      return 0;
     }
+    return tiles;
+  }
+
+  public getTilesPurchased() {
+    var pkgQty = this.getPackageQty();
+    var purchasedTilesArray = this.getTilesPurchasedArray();
+    var purchasedTiles = 0;
+
+    // Round count of unique tiles to nearest factor of pkgQty
+    // multiply that by the pkgQty and add to the purchasedTiles total.
+    for(var tile in purchasedTilesArray) {
+      var tileCount = purchasedTilesArray[tile];
+      purchasedTiles += pkgQty * Math.ceil(tileCount / pkgQty);
+    }
+    // set the number of tiles for this feature.
+    this.tiles = purchasedTiles;
+    return purchasedTiles;
   }
 
   public getUserInputs() {

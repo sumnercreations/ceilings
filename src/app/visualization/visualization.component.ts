@@ -31,12 +31,14 @@ export class VisualizationComponent implements OnInit {
     this.debug.log('visualization-component', "Ceilings: " + this.appVersion);
     this.debug.log('visualization-component', "Syd-Tiling: " + this.tilingVersion);
     this.debug.log('visualization-component', "Syd-Visualization: " + this.visualizationVersion);
-
+    this.debug.log('visualization-component', 'Show Guide: ' + this.feature.showGuide);
     this.debug.log('visualization-component', JSON.stringify(this.feature.getUserInputs()));
+
     this.tiling.QT.SetUserDataPropertiesJSONString(JSON.stringify(this.feature.getUserInputs()));
     this.tiling.QT.UpdateFeature();
     var boxes = this.tiling.QT.GetBoxes();
     this.vis.QT.Visualization.SetFeatureType(this.tiling.QT.Properties.UserInputs.Type);
+    // this.vis.QT.Visualization.showGuide(this.feature.showGuide);
     this.vis.QT.Visualization.visualizeTiles(
       this.tiling.QT.Properties.UserInputs.NumX,
       this.tiling.QT.Properties.UserInputs.NumY,

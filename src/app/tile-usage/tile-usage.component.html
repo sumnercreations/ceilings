@@ -1,0 +1,16 @@
+<h3>{{feature.getTileType('plural') | capitalize}} are sold in quantities of {{feature.getPackageQty()}}.</h3>
+<p class="md">Your tile usage is described below:</p>
+<table class="table table-striped">
+  <tr>
+    <th>{{feature.getTileType() | capitalize}}</th>
+    <th>Used</th>
+    <th>Receiving</th>
+    <th>Unused</th>
+  </tr>
+  <tr *ngFor="let tile of feature.getTilesPurchasedArray() | keys">
+    <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
+    <td>{{tile.used}}</td>
+    <td>{{tile.purchased}}</td>
+    <td>{{tile.purchased - tile.used}}</td>
+  </tr>
+</table>
