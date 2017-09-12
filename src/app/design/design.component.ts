@@ -8,6 +8,7 @@ import { LoadDesignComponent } from '../load-design/load-design.component';
 import { SaveDesignComponent } from '../save-design/save-design.component';
 import { LoginComponent } from '../login/login.component';
 import { VisualizationComponent } from '../visualization/visualization.component';
+import { TileUsageComponent } from '../tile-usage/tile-usage.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
 
@@ -21,7 +22,8 @@ export class DesignComponent implements OnInit {
   loadDesignDialogRef: MdDialogRef<any>;
   saveDesignDialogRef: MdDialogRef<any>;
   loginDialogRef: MdDialogRef<any>;
-  view3dDialog: MdDialogRef<any>;
+  view3dDialogRef: MdDialogRef<any>;
+  tileUsageDialogRef: MdDialogRef<any>;
   position = 'above';
 
   constructor(
@@ -151,7 +153,11 @@ export class DesignComponent implements OnInit {
   public view3d() {
     this.debug.log('design-component', 'displaying 3d dialog');
     // display the dialog where the 3d visualization will be rendered
-    this.view3dDialog = this.dialog.open(VisualizationComponent, new MdDialogConfig);
+    this.view3dDialogRef = this.dialog.open(VisualizationComponent, new MdDialogConfig);
+  }
+
+  public tileUsage() {
+    this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, new MdDialogConfig);
   }
 
 }

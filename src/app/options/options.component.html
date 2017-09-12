@@ -95,7 +95,6 @@
           </div>
         </div>
       </div>
-      <div class="example-selected-value">Selected units: {{units.value}}</div>
     </div>
     <div class="grid-size" [class.hide]="feature.feature_type!='tetria'">
       <hr>
@@ -106,7 +105,7 @@
       <hr>
       <h3>Tile Size</h3>
       <p>Please specify the size of your grid.</p>
-      <md-radio-group class="grid-size" [(ngModel)]="feature.size" name="grid-size">
+      <md-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
         <div class="row">
           <div class="col-sm-4">
             <md-radio-button class="radio-button" [value]="24">

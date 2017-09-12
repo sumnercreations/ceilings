@@ -96,6 +96,8 @@
     </div>
   </div>
   <div class="col-sm-7">
-    <p class="tile-package-information">{{feature.getTileType('plural') | capitalize}} sold in quantities of {{feature.getPackageQty()}} | {{feature.getTilesUsed()}} of {{feature.getTilesPurchased()}} {{feature.getTileType('plural')}} used.</p>
+    <p class="tile-package-information">
+      {{feature.getTileType('plural') | capitalize}} are sold in quantities of {{feature.getPackageQty()}}. <a id="tile-usage-details" (click)="tileUsage()">View Tile Usage</a>
+    </p>
   </div>
 </div>
