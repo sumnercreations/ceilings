@@ -13,7 +13,6 @@ import { AlertService } from '../_services/alert.service';
 export class GridComponent implements OnInit {
   public rows: any;
   public columns: any;
-  public hideGuide: boolean = false;
   public mouseIsDown: boolean = false;
 
   constructor(
@@ -34,12 +33,6 @@ export class GridComponent implements OnInit {
     this.feature.onApplyAll.subscribe( result => {
       this.debug.log('grid-component', 'applying all');
       this.updateGrid(true);
-    });
-
-    // subscribe to the toggleGrid event
-    this.feature.onToggleGuide.subscribe( result => {
-      this.debug.log('grid-component', 'toggling guides');
-      this.toggleGrid();
     });
   }
 
@@ -158,10 +151,6 @@ export class GridComponent implements OnInit {
           break;
       }
     }
-  }
-
-  toggleGrid() {
-    this.hideGuide = !this.hideGuide;
   }
 
   /**

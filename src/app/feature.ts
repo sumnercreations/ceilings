@@ -5,7 +5,6 @@ import { DebugService } from './_services/debug.service';
 export class Feature {
   onBuildGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
-  onToggleGuide = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
 
@@ -34,6 +33,7 @@ export class Feature {
   public tile_type: string = 'tile';
   public selectedTile: string = "01";
   public selectedTool: string;
+  public showGuide: boolean = true;
 
   public tilesArray = [
     '01',
@@ -164,7 +164,7 @@ export class Feature {
   }
 
   toggleGuide() {
-    this.onToggleGuide.emit();
+    this.showGuide = !this.showGuide;
   }
 
   view3d() {
