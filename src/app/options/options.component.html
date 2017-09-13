@@ -12,7 +12,7 @@
     <div id="design">
       <h3>Design</h3>
       <p>Choose your {{feature.getTileType()}} design and color.</p>
-      <div id="tiles">
+      <div id="tiles" *ngIf="feature.feature_type=='tetria'">
         <ul class="list-inline">
           <li class="tile"><img src="/assets/images/tiles/01.png" alt="Tile 01" class="img-responsive"></li>
           <li class="tile"><img src="/assets/images/tiles/02.png" alt="Tile 02" class="img-responsive"></li>
@@ -24,6 +24,37 @@
           <li class="material"><img src="/assets/images/materials/felt/merino/heather-charcoal.png" alt="Heather Charcoal" class="img-responsive"></li>
           <li class="material"><img src="/assets/images/materials/felt/merino/heather-black.png" alt="Heather Black" class="img-responsive"></li>
           <li class="material"><img src="/assets/images/materials/felt/merino/black.png" alt="Black" class="img-responsive"></li>
+        </ul>
+      </div>
+      <div id="tiles" *ngIf="feature.feature_type=='clario'">
+        <ul class="list-inline">
+          <li class="tile">
+            <img src="/assets/images/baffles/baffle_24_x_24.png" alt="24x24 Baffle" class="img-responsive">
+          </li>
+          <li class="tile">
+            <img src="/assets/images/tiles/00.png" alt="Tile 00" class="img-responsive">
+          </li>
+          <li class="baffle">
+            <img src="/assets/images/baffles/baffle_24_x_48.png" alt="24x48 Baffle" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/zinc.jpg" alt="Zinc" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/nickel.jpg" alt="Nickel" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/cashmere.jpg" alt="Cashemere" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/burnt_umber.jpg" alt="Burnt Umber" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/ore.jpg" alt="Ore" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/dark_gray.jpg" alt="Dark Gray" class="img-responsive">
+          </li>
         </ul>
       </div>
     </div>
@@ -111,11 +142,13 @@
             <md-radio-button class="radio-button" [value]="24">
               24 X 24
             </md-radio-button>
+            <p>Qty. 4 per package</p>
           </div>
           <div class="col-sm-4">
             <md-radio-button class="radio-button" [value]="48">
               24 X 48
             </md-radio-button>
+            <p>Qty. 2 per package</p>
           </div>
         </div>
       </md-radio-group>
