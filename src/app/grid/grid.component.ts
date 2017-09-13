@@ -78,6 +78,7 @@ export class GridComponent implements OnInit {
                 this.feature.gridData[r][c]['rotation'],
                 this.feature.gridData[r][c]['material'],
                 this.feature.gridData[r][c]['tile'],
+                this.feature.gridData[r][c]['tile_size'],
               );
             }
           }
@@ -142,8 +143,18 @@ export class GridComponent implements OnInit {
             this.feature.gridData[row][column].setMaterial(this.feature.material);
             this.alert.error("Tiles on the outside must be flat.");
           }else{
-            this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-            this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+            if(this.feature.feature_type == 'tetria') {
+              this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+              this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+            }else if(this.feature.feature_type == 'clario') {
+              this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+              this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+            }else{
+              // must be velo
+              this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/velo/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+              this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+            }
+
             this.feature.gridData[row][column].setTile(this.feature.selectedTile);
             this.feature.gridData[row][column].setMaterial(this.feature.material);
             this.debug.log('grid-component', this.feature.gridData[row][column]);

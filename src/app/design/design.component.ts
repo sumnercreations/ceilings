@@ -157,7 +157,9 @@ export class DesignComponent implements OnInit {
   }
 
   public tileUsage() {
-    this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, new MdDialogConfig);
+    var config = new MdDialogConfig();
+    config.height = '700px';
+    this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
   }
 
 }
