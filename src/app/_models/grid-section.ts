@@ -37,6 +37,14 @@ export class GridSection {
   //  (__  )  __/ /_/ /_/  __/ /  (__  )
   // /____/\___/\__/\__/\___/_/  /____/
 
+  setRow(row: number) {
+    this.row = row;
+  }
+
+  setColumn(column: number) {
+    this.column = column;
+  }
+
   setBackgroundImage(url: string) {
     this.backgroundImage = url;
   }
@@ -57,14 +65,6 @@ export class GridSection {
     this.tile = type;
   }
 
-  setRow(row: number) {
-    this.row = row;
-  }
-
-  setColumn(column: number) {
-    this.column = column;
-  }
-
   setTileSize(size: string) {
     this.tileSize = size;
   }
@@ -75,6 +75,14 @@ export class GridSection {
   //  / /_/ /  __/ /_/ /_/  __/ /  (__  )
   //  \__, /\___/\__/\__/\___/_/  /____/
   // /____/
+
+  getRow() {
+    return this.row;
+  }
+
+  getColumn() {
+    return this.column;
+  }
 
   getBackgroundImage() {
     return this.backgroundImage;
@@ -92,11 +100,7 @@ export class GridSection {
     return this.tile;
   }
 
-  getRow() {
-    return this.row;
-  }
-
-  getColumn() {
-    return this.column;
+  getTileSize() {
+    return this.tileSize;
   }
 }
