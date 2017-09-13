@@ -1,4 +1,3 @@
-<!-- <design-header></design-header> -->
 <div class="design-header">
   <div class="row">
     <div class="col-sm-4">
@@ -6,10 +5,10 @@
     </div>
     <div class="col-sm-8">
       <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-8">
           <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <button class="button button-orange design-quote pull-right">Request Quote</button>
         </div>
       </div>
@@ -23,9 +22,8 @@
   <div class="row full-height">
     <div class="col-sm-9 full-height">
       <div class="grid-wrapper">
-        <!-- <grid-header></grid-header> -->
         <div class="row grid-header">
-          <div class="col-sm-6">
+          <div class="col-sm-5">
             <p>{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
           <div class="col-sm-3">
@@ -36,10 +34,10 @@
                 </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
             </p>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <p>
-              <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D</button>
-              <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guide</button>
+              <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
+              <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
             </p>
           </div>
         </div>
@@ -51,19 +49,18 @@
       </div>
     </div>
     <div class="col-sm-3 full-height">
-      <!-- <tools></tools> -->
       <div class="row tiles">
         <p class="md">Design</p>
-        <div *ngFor="let tile of feature.tilesArray" mdTooltip="{{tile | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)" class="col-sm-3 tile-container tooltip-host">
-          <div class="tile" [class.selected]="feature.selectedTile==tile">
-            <img src="/assets/images/tiles/{{tile}}.png" alt="{{tile | capitalize}}" class="img-responsive">
+        <div *ngFor="let tile of feature.tilesArray[feature.feature_type] | keys" mdTooltip="{{tile.tile | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" [class.col-sm-6]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host">
+          <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
+            <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
           </div>
-          <p class="text-center">{{tile | capitalize}}</p>
+          <p class="text-center">{{tile.tile | capitalize}}</p>
         </div>
       </div>
       <div class="row materials">
-        <div *ngFor="let material of feature.materialsArray" mdTooltip="{{material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
-          <img src="/assets/images/materials/{{material}}.png" alt="{{material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material">
+        <div *ngFor="let material of feature.newMaterialsArray[feature.feature_type] | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
+          <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
         </div>
       </div>
       <div class="row">

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class GridSection {
+  row: number;
+  column: number;
   backgroundImage: string;
   texture: string;
   rotation: number;
   material: string;
   tile: string;
-  row: number;
-  column: number;
+  tileSize: string;
 
   constructor(
     _row: number,
@@ -18,6 +19,7 @@ export class GridSection {
     _rotation: number = 0,
     _material: string = '',
     _tile: string = '',
+    _tileSize: string = ''
   ) {
     this.setBackgroundImage(_backgroundImage);
     this.setTexture(_texture),
@@ -26,6 +28,7 @@ export class GridSection {
     this.setTile(_tile);
     this.setRow(_row);
     this.setColumn(_column);
+    this.setTileSize(_tileSize);
   }
 
   //               __  __
@@ -33,6 +36,14 @@ export class GridSection {
   //   / ___/ _ \/ __/ __/ _ \/ ___/ ___/
   //  (__  )  __/ /_/ /_/  __/ /  (__  )
   // /____/\___/\__/\__/\___/_/  /____/
+
+  setRow(row: number) {
+    this.row = row;
+  }
+
+  setColumn(column: number) {
+    this.column = column;
+  }
 
   setBackgroundImage(url: string) {
     this.backgroundImage = url;
@@ -54,12 +65,8 @@ export class GridSection {
     this.tile = type;
   }
 
-  setRow(row: number) {
-    this.row = row;
-  }
-
-  setColumn(column: number) {
-    this.column = column;
+  setTileSize(size: string) {
+    this.tileSize = size;
   }
 
   //                __  __
@@ -68,6 +75,14 @@ export class GridSection {
   //  / /_/ /  __/ /_/ /_/  __/ /  (__  )
   //  \__, /\___/\__/\__/\___/_/  /____/
   // /____/
+
+  getRow() {
+    return this.row;
+  }
+
+  getColumn() {
+    return this.column;
+  }
 
   getBackgroundImage() {
     return this.backgroundImage;
@@ -85,11 +100,7 @@ export class GridSection {
     return this.tile;
   }
 
-  getRow() {
-    return this.row;
-  }
-
-  getColumn() {
-    return this.column;
+  getTileSize() {
+    return this.tileSize;
   }
 }

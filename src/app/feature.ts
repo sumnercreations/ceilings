@@ -18,8 +18,8 @@ export class Feature {
   public design_name: string;
   public project_name: string;
   public specifier: string;
-  public width: number = 0;
-  public length: number = 0;
+  public width: number;
+  public length: number;
   public units: string = "inches";
   public material: string = "milky-white";
   public tile_size: number = 24;
@@ -35,12 +35,339 @@ export class Feature {
   public selectedTool: string;
   public showGuide: boolean = true;
 
-  public tilesArray = [
-    '01',
-    '02',
-    '03',
-    '00'
-  ];
+  public tilesArray = {
+    tetria: {
+      0: {
+        image: '/assets/images/tiles/01.png',
+        tile: '01'
+      },
+      1: {
+        image: '/assets/images/tiles/02.png',
+        tile: '02'
+      },
+      2: {
+        image: '/assets/images/tiles/03.png',
+        tile: '03'
+      },
+      3: {
+        image: '/assets/images/tiles/00.png',
+        tile: '00'
+      }
+    },
+    clario: {
+      0: {
+        image: '/assets/images/baffles/baffle_24_x_24.png',
+        tile: '24'
+      },
+      1: {
+        image: '/assets/images/baffles/baffle_24_x_48.png',
+        tile: '48'
+      },
+      2: {
+        image: '/assets/images/tiles/00.png',
+        tile: '00'
+      }
+    },
+    velo: {
+      0: {
+        image: '/assets/images/velo/concave.png',
+        tile: 'concave'
+      },
+      1: {
+        image: '/assets/images/velo/convex.png',
+        tile: 'convex'
+      }
+    }
+  };
+
+  public newMaterialsArray = {
+    tetria: {
+      0: {
+        material: 'milky-white',
+        image: '/assets/images/materials/felt/merino/milky-white.png'
+      },
+      1: {
+        material: 'heather-gray',
+        image: '/assets/images/materials/felt/merino/heather-gray.png'
+      },
+      2: {
+        material: 'charcoal',
+        image: '/assets/images/materials/felt/merino/charcoal.png'
+      },
+      3: {
+        material: 'heather-charcoal',
+        image: '/assets/images/materials/felt/merino/heather-charcoal.png'
+      },
+      4: {
+        material: 'heather-black',
+        image: '/assets/images/materials/felt/merino/heather-black.png'
+      },
+      5: {
+        material: 'black',
+        image: '/assets/images/materials/felt/merino/black.png'
+      },
+      6: {
+        material: 'taupe',
+        image: '/assets/images/materials/felt/merino/taupe.png'
+      },
+      7: {
+        material: 'heather-taupe',
+        image: '/assets/images/materials/felt/merino/heather-taupe.png'
+      },
+      8: {
+        material: 'putty',
+        image: '/assets/images/materials/felt/merino/putty.png'
+      },
+      9: {
+        material: 'latte',
+        image: '/assets/images/materials/felt/merino/latte.png'
+      },
+      10: {
+        material: 'heather-dark-brown',
+        image: '/assets/images/materials/felt/merino/heather-dark-brown.png'
+      },
+      11: {
+        material: 'dark-brown',
+        image: '/assets/images/materials/felt/merino/dark-brown.png'
+      },
+      12: {
+        material: 'red',
+        image: '/assets/images/materials/felt/merino/red.png'
+      },
+      13: {
+        material: 'crimson',
+        image: '/assets/images/materials/felt/merino/crimson.png'
+      },
+      14: {
+        material: 'bordeaux',
+        image: '/assets/images/materials/felt/merino/bordeaux.png'
+      },
+      15: {
+        material: 'raspberry-jam',
+        image: '/assets/images/materials/felt/merino/raspberry-jam.png'
+      },
+      16: {
+        material: 'royal-purple',
+        image: '/assets/images/materials/felt/merino/royal-purple.png'
+      },
+      17: {
+        material: 'midnight-blue',
+        image: '/assets/images/materials/felt/merino/midnight-blue.png'
+      },
+      18: {
+        material: 'peacock',
+        image: '/assets/images/materials/felt/merino/peacock.png'
+      },
+      19: {
+        material: 'liberty-blue',
+        image: '/assets/images/materials/felt/merino/liberty-blue.png'
+      },
+      20: {
+        material: 'deep-turquoise',
+        image: '/assets/images/materials/felt/merino/deep-turquoise.png'
+      },
+      21: {
+        material: 'platinum',
+        image: '/assets/images/materials/felt/merino/platinum.png'
+      },
+      22: {
+        material: 'sky-blue',
+        image: '/assets/images/materials/felt/merino/sky-blue.png'
+      },
+      23: {
+        material: 'teal',
+        image: '/assets/images/materials/felt/merino/teal.png'
+      },
+      24: {
+        material: 'hunter-green',
+        image: '/assets/images/materials/felt/merino/hunter-green.png'
+      },
+      25: {
+        material: 'avocado',
+        image: '/assets/images/materials/felt/merino/avocado.png'
+      },
+      26: {
+        material: 'clover-green',
+        image: '/assets/images/materials/felt/merino/clover-green.png'
+      },
+      27: {
+        material: 'goldenrod',
+        image: '/assets/images/materials/felt/merino/goldenrod.png'
+      },
+      28: {
+        material: 'camel',
+        image: '/assets/images/materials/felt/merino/camel.png'
+      },
+      29: {
+        material: 'orange',
+        image: '/assets/images/materials/felt/merino/orange.png'
+      }
+    },
+    clario: {
+      0: {
+        material: 'zinc',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      1: {
+        material: 'nickel',
+        image: '/assets/images/materials/felt/sola/nickel.jpg'
+      },
+      2: {
+        material: 'cashmere',
+        image: '/assets/images/materials/felt/sola/cashmere.jpg'
+      },
+      3: {
+        material: 'burnt_umber',
+        image: '/assets/images/materials/felt/sola/burnt_umber.jpg'
+      },
+      4: {
+        material: 'ore',
+        image: '/assets/images/materials/felt/sola/ore.jpg'
+      },
+      5: {
+        material: 'dark_gray',
+        image: '/assets/images/materials/felt/sola/dark_gray.jpg'
+      },
+      6: {
+        material: 'cast',
+        image: '/assets/images/materials/felt/sola/cast.jpg'
+      },
+      7: {
+        material: 'ebony',
+        image: '/assets/images/materials/felt/sola/ebony.jpg'
+      }
+    },
+    velo: {
+      felt: {
+        0: {
+          material: 'milky-white',
+          image: '/assets/images/materials/felt/merino/milky-white.png'
+        },
+        1: {
+          material: 'heather-gray',
+          image: '/assets/images/materials/felt/merino/heather-gray.png'
+        },
+        2: {
+          material: 'charcoal',
+          image: '/assets/images/materials/felt/merino/charcoal.png'
+        },
+        3: {
+          material: 'heather-charcoal',
+          image: '/assets/images/materials/felt/merino/heather-charcoal.png'
+        },
+        4: {
+          material: 'heather-black',
+          image: '/assets/images/materials/felt/merino/heather-black.png'
+        },
+        5: {
+          material: 'black',
+          image: '/assets/images/materials/felt/merino/black.png'
+        },
+        6: {
+          material: 'taupe',
+          image: '/assets/images/materials/felt/merino/taupe.png'
+        },
+        7: {
+          material: 'heather-taupe',
+          image: '/assets/images/materials/felt/merino/heather-taupe.png'
+        },
+        8: {
+          material: 'putty',
+          image: '/assets/images/materials/felt/merino/putty.png'
+        },
+        9: {
+          material: 'latte',
+          image: '/assets/images/materials/felt/merino/latte.png'
+        },
+        10: {
+          material: 'heather-dark-brown',
+          image: '/assets/images/materials/felt/merino/heather-dark-brown.png'
+        },
+        11: {
+          material: 'dark-brown',
+          image: '/assets/images/materials/felt/merino/dark-brown.png'
+        },
+        12: {
+          material: 'red',
+          image: '/assets/images/materials/felt/merino/red.png'
+        },
+        13: {
+          material: 'crimson',
+          image: '/assets/images/materials/felt/merino/crimson.png'
+        },
+        14: {
+          material: 'bordeaux',
+          image: '/assets/images/materials/felt/merino/bordeaux.png'
+        },
+        15: {
+          material: 'raspberry-jam',
+          image: '/assets/images/materials/felt/merino/raspberry-jam.png'
+        },
+        16: {
+          material: 'royal-purple',
+          image: '/assets/images/materials/felt/merino/royal-purple.png'
+        },
+        17: {
+          material: 'midnight-blue',
+          image: '/assets/images/materials/felt/merino/midnight-blue.png'
+        },
+        18: {
+          material: 'peacock',
+          image: '/assets/images/materials/felt/merino/peacock.png'
+        },
+        19: {
+          material: 'liberty-blue',
+          image: '/assets/images/materials/felt/merino/liberty-blue.png'
+        },
+        20: {
+          material: 'deep-turquoise',
+          image: '/assets/images/materials/felt/merino/deep-turquoise.png'
+        },
+        21: {
+          material: 'platinum',
+          image: '/assets/images/materials/felt/merino/platinum.png'
+        },
+        22: {
+          material: 'sky-blue',
+          image: '/assets/images/materials/felt/merino/sky-blue.png'
+        },
+        23: {
+          material: 'teal',
+          image: '/assets/images/materials/felt/merino/teal.png'
+        },
+        24: {
+          material: 'hunter-green',
+          image: '/assets/images/materials/felt/merino/hunter-green.png'
+        },
+        25: {
+          material: 'avocado',
+          image: '/assets/images/materials/felt/merino/avocado.png'
+        },
+        26: {
+          material: 'clover-green',
+          image: '/assets/images/materials/felt/merino/clover-green.png'
+        },
+        27: {
+          material: 'goldenrod',
+          image: '/assets/images/materials/felt/merino/goldenrod.png'
+        },
+        28: {
+          material: 'camel',
+          image: '/assets/images/materials/felt/merino/camel.png'
+        },
+        29: {
+          material: 'orange',
+          image: '/assets/images/materials/felt/merino/orange.png'
+        }
+      },
+      varia: {
+        0: {
+          material: 'glazed_g15',
+          image: '/assets/images/materials/varia/glazed_g15.png'
+        }
+      }
+    }
+  }
 
   public materialsArray = [
     'milky-white',
@@ -231,8 +558,6 @@ export class Feature {
 
   public getPackageQty() {
     var qty: number = 0;
-    console.log(this.feature_type);
-    console.log(this.tile_size);
     switch (this.feature_type) {
       case "tetria":
         qty = 4;
@@ -276,6 +601,7 @@ export class Feature {
   public getTilesPurchasedArray() {
     // Determine the number of unique tiles (color and tile)
     var pkgQty = this.getPackageQty();
+    var tileType = this.getTileType('plural');
     var tiles = [];
     if(this.gridData) {
       for (var i = this.gridData.length - 1; i >= 0; i--) {
@@ -287,8 +613,8 @@ export class Feature {
               tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
             }else{
               tiles[key] = {
-                "purchased": 0,
-                "image": "/assets/images/tiles/" + this.gridData[i][j]['tile'] + "/" + this.gridData[i][j]['material'] + ".png",
+                "purchased": pkgQty,
+                "image": "/assets/images/" + tileType + "/" + this.gridData[i][j]['tile'] + "/" + this.gridData[i][j]['material'] + ".png",
                 "used": 1,
                 "material": this.gridData[i][j]['material'],
                 "tile": this.gridData[i][j]['tile']

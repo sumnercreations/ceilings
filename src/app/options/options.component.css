@@ -37,6 +37,13 @@ li.tile {
   border: 2px solid #E7E7E7;
 }
 
+li.baffle {
+  width: 62px;
+  height: 34px;
+  padding: 2px;
+  border: 2px solid #E7E7E7;
+}
+
 li.material {
   padding: 2px;
   margin-bottom: 4px;
