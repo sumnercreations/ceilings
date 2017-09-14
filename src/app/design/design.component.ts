@@ -56,6 +56,14 @@ export class DesignComponent implements OnInit {
       }else{
         setTimeout(() => {
           this.feature.feature_type = params['type'];
+          // set the default values for tile and material
+          if (this.feature.feature_type == 'tetria') {
+            this.feature.selectedTile = '01';
+            this.feature.material = 'milky-white';
+          }else if(this.feature.feature_type == 'clario') {
+            this.feature.selectedTile = this.feature.tile_size.toString();
+            this.feature.material = 'zinc';
+          }
           this.editOptions();
         }, 500);
       }
