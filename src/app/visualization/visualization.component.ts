@@ -4,7 +4,7 @@ import { Feature } from '../feature';
 import * as visualization from 'syd-visualization';
 import * as tiling from 'syd-tiling';
 import * as jszip from 'jszip';
-// import * as filesaver from 'file-saver';
+import * as FileSaver from 'file-saver';
 
 var packageJSON = require('../../../package.json');
 
@@ -16,7 +16,7 @@ var packageJSON = require('../../../package.json');
 export class VisualizationComponent implements OnInit {
   private vis = visualization;
   private tiling = tiling;
-  // private filesaver = filesaver;
+  private FileSaver = FileSaver;
   private appVersion = '';
   private tilingVersion = '';
   private visualizationVersion = '';
@@ -51,36 +51,22 @@ export class VisualizationComponent implements OnInit {
     );
   }
 
-  // downloadImages() {
-  //   var profile = this.feature.syd_v.QT.Visualization.TakeSnapshot(45);
-  //   var facing  = this.feature.syd_v.QT.Visualization.TakeSnapshot(0);
-  //   var filename = this.feature.name + ".zip";
-  //   var FileSaver = require('file-saver');
-  //   var JSZip = require("jszip");
-  //   var zip = new JSZip();
-
-  //   profile = profile.replace(/^data:image\/(png|jpg);base64,/, '');
-  //   facing = facing.replace(/^data:image\/(png|jpg);base64,/, '');
-  //   zip.file("profile.png", profile, {base64: true});
-  //   zip.file("facing.png", facing, {base64: true});
-  //   zip.generateAsync({type:"blob"})
-  //   .then(function (blob) {
-  //       FileSaver.saveAs(blob, filename);
-  //   });
-  // }
-
-  takeScreenshot() {
-    this.debug.log('visualization-component', 'taking a screenshot');
-    var profile = this.vis.QT.Visualization.TakeSnapshot(45);
-    var facing  = this.vis.QT.Visualization.TakeSnapshot(0);
+  downloadImages() {
+    var left = this.vis.QT.Visualization.TakeSnapshot(270);
+    var back  = this.vis.QT.Visualization.TakeSnapshot(180);
+    var right = this.vis.QT.Visualization.TakeSnapshot(90);
+    var front  = this.vis.QT.Visualization.TakeSnapshot(0);
     var filename = this.feature.feature_type + ".zip";
     var zip = new jszip();
-    var FileSaver = require('file-saver');
 
-    profile = profile.replace(/^data:image\/(png|jpg);base64,/, '');
-    facing = facing.replace(/^data:image\/(png|jpg);base64,/, '');
-    zip.file("profile.png", profile, {base64: true});
-    zip.file("facing.png", facing, {base64: true});
+    right = right.replace(/^data:image\/(png|jpg);base64,/, '');
+    front = front.replace(/^data:image\/(png|jpg);base64,/, '');
+    back = back.replace(/^data:image\/(png|jpg);base64,/, '');
+    left = left.replace(/^data:image\/(png|jpg);base64,/, '');
+    zip.file("right.png", right, {base64: true});
+    zip.file("front.png", front, {base64: true});
+    zip.file("back.png", back, {base64: true});
+    zip.file("left.png", left, {base64: true});
     zip.generateAsync({type:"blob"})
     .then(function (blob) {
         FileSaver.saveAs(blob, filename);
