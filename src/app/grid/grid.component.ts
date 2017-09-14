@@ -78,7 +78,6 @@ export class GridComponent implements OnInit {
                 this.feature.gridData[r][c]['rotation'],
                 this.feature.gridData[r][c]['material'],
                 this.feature.gridData[r][c]['tile'],
-                this.feature.gridData[r][c]['tile_size'],
               );
             }
           }

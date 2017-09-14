@@ -3,6 +3,8 @@ import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import * as visualization from 'syd-visualization';
 import * as tiling from 'syd-tiling';
+import * as jszip from 'jszip';
+import * as FileSaver from 'file-saver';
 
 var packageJSON = require('../../../package.json');
 
@@ -14,6 +16,7 @@ var packageJSON = require('../../../package.json');
 export class VisualizationComponent implements OnInit {
   private vis = visualization;
   private tiling = tiling;
+  private FileSaver = FileSaver;
   private appVersion = '';
   private tilingVersion = '';
   private visualizationVersion = '';
@@ -46,6 +49,28 @@ export class VisualizationComponent implements OnInit {
       this.tiling.QT.Properties.UserInputs.Tiles,
       50
     );
+  }
+
+  downloadImages() {
+    var left = this.vis.QT.Visualization.TakeSnapshot(270);
+    var back  = this.vis.QT.Visualization.TakeSnapshot(180);
+    var right = this.vis.QT.Visualization.TakeSnapshot(90);
+    var front  = this.vis.QT.Visualization.TakeSnapshot(0);
+    var filename = this.feature.feature_type + ".zip";
+    var zip = new jszip();
+
+    right = right.replace(/^data:image\/(png|jpg);base64,/, '');
+    front = front.replace(/^data:image\/(png|jpg);base64,/, '');
+    back = back.replace(/^data:image\/(png|jpg);base64,/, '');
+    left = left.replace(/^data:image\/(png|jpg);base64,/, '');
+    zip.file("right.png", right, {base64: true});
+    zip.file("front.png", front, {base64: true});
+    zip.file("back.png", back, {base64: true});
+    zip.file("left.png", left, {base64: true});
+    zip.generateAsync({type:"blob"})
+    .then(function (blob) {
+        FileSaver.saveAs(blob, filename);
+    });
   }
 
 }
