@@ -21,7 +21,7 @@ export class Feature {
   public width: number;
   public length: number;
   public units: string = "inches";
-  public material: string = "milky-white";
+  public material: string;
   public tile_size: number = 24;
   public tiles: number = 0;
   public estimated_amount: number = 0.00;

@@ -1,6 +1,6 @@
 {
   "name": "ceilings",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -29,8 +29,8 @@
     "ng2-breadcrumb": "^0.5.14",
     "ng2-breadcrumbs": "^0.1.24",
     "rxjs": "^5.1.0",
-    "syd-tiling": "0.0.7",
-    "syd-visualization": "0.0.60",
+    "syd-tiling": "0.0.8",
+    "syd-visualization": "0.0.61",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
