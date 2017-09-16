@@ -117,24 +117,29 @@ export class GridComponent implements OnInit {
 
         case "light":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.material + ".png");
-          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png)");
+          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/light/" + this.feature.material + ".png");
           this.feature.gridData[row][column].setTile("00");
+          this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
         case "vent":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
           this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png)");
+          this.feature.gridData[row][column].setTexture("/assets/icons/tools/vent-white.png");
           this.feature.gridData[row][column].setTile("");
           break;
 
         case "sprinkler":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/sprinkler.png), url('/assets/images/tiles/00/" + this.feature.material + ".png')");
-          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png");
+          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/sprinkler/" + this.feature.material + ".png");
           this.feature.gridData[row][column].setTile("00");
+          this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
         // when no tool is selected
         default:
+          this.debug.log('grid-component', "length mod 4: " + this.feature.length % 4);
+          this.debug.log('grid-component', "width mod 4: " + this.feature.width % 4);
           if( (this.feature.length % 4 != 0 && ( row == 0 || row == this.feature.getRows() - 1 )) || (this.feature.width % 4 != 0 && ( column == 0 || column == this.feature.getColumns() - 1 )) ) {
             this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/00/' + this.feature.material + '.png)');
             this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
@@ -159,6 +164,10 @@ export class GridComponent implements OnInit {
             this.debug.log('grid-component', this.feature.gridData[row][column]);
           }
           break;
+      }
+      if(this.feature.selectedTool != 'rotate') {
+        // update the estimated amount
+        this.feature.updateEstimatedAmount();
       }
     }
   }

@@ -4,9 +4,9 @@
     <div *ngFor="let col of columns; index as c" id="grid-section-1-1" grid="1-1" class="grid-section-control" [class.add-border-bottom]="lastRow">
       <div class="grid-section" (click)="updateTile(r, c)" on-mouseup="removeFlag()" on-mousedown="setFlag(r, c)" on-mousemove="updateTile(r, c)"
       [style.background-image]="getTileBackgroundImage(r, c)"
-      [style.background-size]="'cover'"
       [style.background-position]="'center center'"
-      [style.transform]="'rotate(' + getTileRotation(r, c) + 'deg)'">
+      [style.transform]="'rotate(' + getTileRotation(r, c) + 'deg)'"
+      [style.background-repeat]="'no-repeat'">
         <div class="grid-label" [class.hide]="!feature.showGuide">{{r}} | {{c}}</div>
       </div>
     </div>
