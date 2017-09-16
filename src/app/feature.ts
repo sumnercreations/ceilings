@@ -471,7 +471,7 @@ export class Feature {
       console.log("tetria tiles: " + tetriaTileCount);
       console.log("flat tiles: " + flatTileCount);
       this.services_amount = (tetriaTileCount * tetriaTilePrice) + (flatTileCount * flatTilePrice);
-      this.estimated_amount = tilePrice;
+      this.estimated_amount = this.services_amount;
     }
     return this.estimated_amount;
   }
