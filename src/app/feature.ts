@@ -443,6 +443,36 @@ export class Feature {
   }
 
   updateEstimatedAmount() {
+    console.log("updating estimated_amount");
+    // determine which feature_type
+    if(this.feature_type == 'tetria') {
+      var flatTilePrice = 73.00;
+      var tetriaTilePrice = 135.73;
+      var tileWeight = 1.55;
+      var tiles = this.getTilesPurchasedArray();
+      var flatTileCount = 0;
+      var tetriaTileCount = 0;
+      var tetriaTiles = ["01","02","03"];
+
+      for (var tile in tiles) {
+        // console.log(tiles[tile]);
+        var currentTile = tiles[tile];
+        // console.log(currentTile.purchased);
+        if(tetriaTiles.indexOf(currentTile.tile) != -1) {
+          // console.log(currentTile);
+          // add the purchased amount to the tetria tile count
+          tetriaTileCount += currentTile.purchased;
+        }else if(currentTile.tile == "00"){
+          // add the purchased amount to the flat tile count
+          console.log(currentTile);
+          flatTileCount += currentTile.purchased;
+        }
+      }
+      console.log("tetria tiles: " + tetriaTileCount);
+      console.log("flat tiles: " + flatTileCount);
+      this.services_amount = (tetriaTileCount * tetriaTilePrice) + (flatTileCount * flatTilePrice);
+      this.estimated_amount = this.services_amount;
+    }
     return this.estimated_amount;
   }
 
@@ -483,10 +513,12 @@ export class Feature {
 
   clearAll() {
     this.gridData = undefined;
+    this.estimated_amount = 0.00;
     this.buildGrid();
   }
 
   applyAll() {
+    this.updateEstimatedAmount();
     this.onApplyAll.emit();
   }
 
@@ -627,21 +659,21 @@ export class Feature {
     return tiles;
   }
 
-  public getTilesPurchased() {
-    var pkgQty = this.getPackageQty();
-    var purchasedTilesArray = this.getTilesPurchasedArray();
-    var purchasedTiles = 0;
+  // public getTilesPurchased() {
+  //   var pkgQty = this.getPackageQty();
+  //   var purchasedTilesArray = this.getTilesPurchasedArray();
+  //   var purchasedTiles = 0;
 
-    // Round count of unique tiles to nearest factor of pkgQty
-    // multiply that by the pkgQty and add to the purchasedTiles total.
-    for(var tile in purchasedTilesArray) {
-      var tileCount = purchasedTilesArray[tile];
-      purchasedTiles += pkgQty * Math.ceil(tileCount / pkgQty);
-    }
-    // set the number of tiles for this feature.
-    this.tiles = purchasedTiles;
-    return purchasedTiles;
-  }
+  //   // Round count of unique tiles to nearest factor of pkgQty
+  //   // multiply that by the pkgQty and add to the purchasedTiles total.
+  //   for(var tile in purchasedTilesArray) {
+  //     var tileCount = purchasedTilesArray[tile];
+  //     purchasedTiles += pkgQty * Math.ceil(tileCount / pkgQty);
+  //   }
+  //   // set the number of tiles for this feature.
+  //   this.tiles = purchasedTiles;
+  //   return purchasedTiles;
+  // }
 
   public getUserInputs() {
     return {

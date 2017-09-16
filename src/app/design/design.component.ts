@@ -11,6 +11,8 @@ import { VisualizationComponent } from '../visualization/visualization.component
 import { TileUsageComponent } from '../tile-usage/tile-usage.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
+import * as FileSaver from 'file-saver';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   // selector: 'app-design',
@@ -25,6 +27,7 @@ export class DesignComponent implements OnInit {
   view3dDialogRef: MdDialogRef<any>;
   tileUsageDialogRef: MdDialogRef<any>;
   position = 'above';
+  FileSaver = FileSaver;
 
   constructor(
     private route: ActivatedRoute,
@@ -168,6 +171,18 @@ export class DesignComponent implements OnInit {
     var config = new MdDialogConfig();
     config.height = '700px';
     this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
+  }
+
+  public downloadGridGuide() {
+    html2canvas(document.getElementById("grid"), {
+      onrendered: function(canvas) {
+        var theCanvas = canvas;
+        // document.body.appendChild(canvas);
+        canvas.toBlob(function(blob) {
+          FileSaver.saveAs(blob, "design_guide.png");
+        });
+      }
+    });
   }
 
 }
