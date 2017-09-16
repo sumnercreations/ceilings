@@ -138,9 +138,7 @@ export class GridComponent implements OnInit {
 
         // when no tool is selected
         default:
-          this.debug.log('grid-component', "length mod 4: " + this.feature.length % 4);
-          this.debug.log('grid-component', "width mod 4: " + this.feature.width % 4);
-          if( (this.feature.length % 4 != 0 && ( row == 0 || row == this.feature.getRows() - 1 )) || (this.feature.width % 4 != 0 && ( column == 0 || column == this.feature.getColumns() - 1 )) ) {
+          if( (this.getGridHeight() != this.getRoomGuideHeight() && ( row == 0 || row == this.feature.getRows() - 1)) || (this.getGridWidth() != this.getRoomGuideWidth() && ( column == 0 || column == this.feature.getColumns() -1)) ) {
             this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/00/' + this.feature.material + '.png)');
             this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
             this.feature.gridData[row][column].setTile('00');
