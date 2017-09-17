@@ -138,6 +138,14 @@ export class GridComponent implements OnInit {
 
         // when no tool is selected
         default:
+          // TODO:
+          // - If the design is clario and the tile is 48:
+          //   - Rotation == 0 || 180 ? tile to right backgroundImage should be exactly the
+          //     same, texture should be blank
+          //   - Rotation == 90 || 270 ? tile below backgroundImage should be exactly the
+          //     same, texture should be blank
+          //   - Left and right most tiles can not be 48 and rotation 0 || 180
+          //   - Top and bottom most tiles can not be 48 and rotation 90 || 270
           if( (this.getGridHeight() != this.getRoomGuideHeight() && ( row == 0 || row == this.feature.getRows() - 1)) || (this.getGridWidth() != this.getRoomGuideWidth() && ( column == 0 || column == this.feature.getColumns() -1)) ) {
             this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/00/' + this.feature.material + '.png)');
             this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
