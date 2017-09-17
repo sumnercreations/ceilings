@@ -444,19 +444,20 @@ export class Feature {
 
   updateEstimatedAmount() {
     console.log("updating estimated_amount");
-    // determine which feature_type
+    var tilesArray = this.getTilesPurchasedArray();
+
+    // TETRIA
     if(this.feature_type == 'tetria') {
       var flatTilePrice = 73.00;
       var tetriaTilePrice = 135.73;
       var tileWeight = 1.55;
-      var tiles = this.getTilesPurchasedArray();
       var flatTileCount = 0;
       var tetriaTileCount = 0;
       var tetriaTiles = ["01","02","03"];
 
-      for (var tile in tiles) {
+      for (var tile in tilesArray) {
         // console.log(tiles[tile]);
-        var currentTile = tiles[tile];
+        var currentTile = tilesArray[tile];
         // console.log(currentTile.purchased);
         if(tetriaTiles.indexOf(currentTile.tile) != -1) {
           // console.log(currentTile);
@@ -472,7 +473,36 @@ export class Feature {
       console.log("flat tiles: " + flatTileCount);
       this.services_amount = (tetriaTileCount * tetriaTilePrice) + (flatTileCount * flatTilePrice);
       this.estimated_amount = this.services_amount;
-    }
+    } // END TETRIA
+
+    // CLARIO
+    if(this.feature_type == 'clario') {
+      console.log('this is a clario design');
+      console.log(tilesArray);
+      var clario24TileCount = 0;
+      var clario48TileCount = 0;
+      for (var tile in tilesArray) {
+        var currentTile = tilesArray[tile];
+        console.log(currentTile);
+        if(currentTile.tile == "24") {
+          // 24x24 prices
+          clario24TileCount += currentTile.purchased;
+        }else if(currentTile.tile == "48") {
+          // 24x48 prices
+          clario48TileCount += currentTile.purchased;
+        }
+      }
+
+      // SERVICES AMOUNT
+      var service24Cost = 44.79;
+      var service48Cost = 44.79;
+      var service24TileCost = clario24TileCount * service24Cost;
+      var service48TileCost = clario48TileCount * service48Cost;
+      this.services_amount = service24TileCost + service48TileCost;
+      // END SERVICES AMOUNT
+    } // END CLARIO
+
+    this.estimated_amount = this.services_amount;
     return this.estimated_amount;
   }
 
