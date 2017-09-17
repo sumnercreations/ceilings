@@ -479,6 +479,7 @@ export class Feature {
     if(this.feature_type == 'clario') {
       console.log('this is a clario design');
       console.log(tilesArray);
+      var products_amount: number = 0.00;
       var clario24TileCount = 0;
       var clario48TileCount = 0;
       for (var tile in tilesArray) {
@@ -487,6 +488,10 @@ export class Feature {
         if(currentTile.tile == "24") {
           // 24x24 prices
           clario24TileCount += currentTile.purchased;
+          // what part_id is the material?
+          // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
+          // sheetCost = sheetsNeeded * prices[part_id];
+          // products_amount += sheetCost;
         }else if(currentTile.tile == "48") {
           // 24x48 prices
           clario48TileCount += currentTile.purchased;
@@ -500,9 +505,10 @@ export class Feature {
       var service48TileCost = clario48TileCount * service48Cost;
       this.services_amount = service24TileCost + service48TileCost;
       // END SERVICES AMOUNT
+
+      this.estimated_amount = this.services_amount + products_amount;
     } // END CLARIO
 
-    this.estimated_amount = this.services_amount;
     return this.estimated_amount;
   }
 
@@ -618,19 +624,19 @@ export class Feature {
     return type;
   }
 
-  public getPackageQty() {
+  public getPackageQty(tile: string) {
     var qty: number = 0;
-    switch (this.feature_type) {
-      case "tetria":
+    switch (tile) {
+      case "00":
+      case "01":
+      case "02":
+      case "03":
+      case "24":
         qty = 4;
         break;
 
-      case "clario":
-        if(this.tile_size == 24) {
-          qty =  4;
-        }else{
-          qty =  2;
-        }
+      case "48":
+        qty = 2;
         break;
 
       case "velo":
@@ -662,7 +668,7 @@ export class Feature {
 
   public getTilesPurchasedArray() {
     // Determine the number of unique tiles (color and tile)
-    var pkgQty = this.getPackageQty();
+    var pkgQty: number;
     var tileType = this.getTileType('plural');
     var tiles = [];
     if(this.gridData) {
@@ -670,6 +676,7 @@ export class Feature {
         for (var j = this.gridData[i].length - 1; j >= 0; j--) {
           if(this.gridData[i][j].tile) {
             var key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
+            var pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
             if(tiles[key]) {
               tiles[key].used += 1;
               tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
