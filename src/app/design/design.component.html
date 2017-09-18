@@ -9,7 +9,7 @@
           <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
         </div>
         <div class="col-sm-4">
-          <button class="button button-orange design-quote pull-right">Request Quote</button>
+          <button class="button button-orange design-quote pull-right" (click)="requestQuote()">Request Quote</button>
         </div>
       </div>
     </div>

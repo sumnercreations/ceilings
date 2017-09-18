@@ -42,6 +42,7 @@ export class ApiService {
   updateDesign() {
     this.debug.log('api', 'updating design');
     // we can't forget about the hardware...
+    this.debug.log('api', this.feature.tiles);
     let patchData = {
       "id": this.feature.id,
       "uid": this.user.uid,
@@ -54,7 +55,7 @@ export class ApiService {
       "units": this.feature.units,
       "material": this.feature.material,
       "tile_size": this.feature.tile_size,
-      "tiles": this.feature.tiles,
+      "tiles": JSON.stringify(this.feature.tiles),
       "estimated_amount": this.feature.estimated_amount,
       "services_amount": this.feature.services_amount,
       "grid_data": JSON.stringify(this.feature.gridData),
@@ -87,7 +88,7 @@ export class ApiService {
       "units": this.feature.units,
       "material": this.feature.material,
       "tile_size": this.feature.tile_size,
-      "tiles": this.feature.tiles,
+      "tiles": JSON.stringify(this.feature.tiles),
       "estimated_amount": this.feature.estimated_amount,
       "services_amount": this.feature.services_amount,
       "grid_data": JSON.stringify(this.feature.gridData),

@@ -1,0 +1,66 @@
+<!-- not logged in -->
+<div *ngIf="!user.uid" class="text-center">
+  <p>You must be logged in to quote your design.</p>
+</div>
+
+<div *ngIf="user.uid">
+  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</h2>
+  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p></h2>
+  <div md-dialog-content>
+    <dl class="dl-horizontal">
+      <dt>Feature</dt>
+      <dd>{{feature.feature_type}}</dd>
+      <dt>Width</dt>
+      <dd>{{feature.width}}"</dd>
+      <dt>Length</dt>
+      <dd>{{feature.length}}"</dd>
+      <dt>Estimated Amount</dt>
+      <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd>
+      <dt [ngClass]="{'hidden': !feature.quoted}">Project Name</dt>
+      <dd [ngClass]="{'hidden': !feature.quoted}">{{feature.project_name}}</dd>
+      <dt [ngClass]="{'hidden': !feature.quoted}">Specifier</dt>
+      <dd [ngClass]="{'hidden': !feature.quoted}">{{feature.specifier}}</dd>
+    </dl>
+    <h3>{{feature.getTileType('plural') | capitalize}}</h3>
+    <table class="table table-striped">
+      <tr>
+        <th>{{feature.getTileType() | capitalize}}</th>
+        <th>Used</th>
+        <th>Receiving</th>
+        <th>Unused</th>
+      </tr>
+      <tr *ngFor="let tile of feature.getTilesPurchasedArray() | keys">
+        <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
+        <td>{{tile.used}}</td>
+        <td>{{tile.purchased}}</td>
+        <td>{{tile.purchased - tile.used}}</td>
+      </tr>
+    </table>
+
+
+    <form (ngSubmit)="quoteConfirmed()" #confirmQuote="ngForm" [ngClass]="{'hidden': feature.quoted}">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <md-input-container class="full-width">
+              <input type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="feature.project_name">
+            </md-input-container>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <md-input-container class="full-width">
+              <input type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="feature.specifier">
+            </md-input-container>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <button md-button type="submit" class="button button-gray" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
+        <button md-button (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -23,7 +23,7 @@ export class Feature {
   public units: string = "inches";
   public material: string;
   public tile_size: number = 24;
-  public tiles: number = 0;
+  public tiles: any;
   public estimated_amount: number = 0.00;
   public services_amount: number = 0.00;
   public quoted: boolean = false; // boolean
@@ -432,7 +432,7 @@ export class Feature {
     this.units = design.units;
     this.material = design.material;
     this.tile_size = design.tile_size;
-    this.tiles = design.tiles;
+    this.tiles = JSON.parse(design.tiles);
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;
     this.gridData = JSON.parse(design.grid_data);
@@ -681,6 +681,9 @@ export class Feature {
               tiles[key].used += 1;
               tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
             }else{
+              if(this.gridData[i][j]['tile'] == "00") {
+                tileType = "tiles";
+              }
               tiles[key] = {
                 "purchased": pkgQty,
                 "image": "/assets/images/" + tileType + "/" + this.gridData[i][j]['tile'] + "/" + this.gridData[i][j]['material'] + ".png",
@@ -693,6 +696,13 @@ export class Feature {
         }
       }
     }
+
+    let tilesArray = [];
+    for(var tile in tiles) {
+      var currentTile = tiles[tile];
+      tilesArray.push(currentTile);
+    }
+    this.tiles = tilesArray;
     return tiles;
   }
 
