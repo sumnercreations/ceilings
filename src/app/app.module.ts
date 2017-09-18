@@ -40,6 +40,7 @@ import { SaveDesignComponent } from './save-design/save-design.component';
 import { LoginComponent } from './login/login.component';
 import { VisualizationComponent } from './visualization/visualization.component';
 import { TileUsageComponent } from './tile-usage/tile-usage.component';
+import { QuoteDialogComponent } from './quote-dialog/quote-dialog.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -67,7 +68,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     ConfirmDeleteComponent,
     VisualizationComponent,
     TileUsageComponent,
-    KeysPipe
+    KeysPipe,
+    QuoteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +103,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     LoginComponent,
     ConfirmDeleteComponent,
     VisualizationComponent,
-    TileUsageComponent
+    TileUsageComponent,
+    QuoteDialogComponent
   ]
 })
 export class AppModule { }

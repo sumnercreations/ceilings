@@ -9,6 +9,7 @@ import { SaveDesignComponent } from '../save-design/save-design.component';
 import { LoginComponent } from '../login/login.component';
 import { VisualizationComponent } from '../visualization/visualization.component';
 import { TileUsageComponent } from '../tile-usage/tile-usage.component';
+import { QuoteDialogComponent } from '../quote-dialog/quote-dialog.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
 import * as FileSaver from 'file-saver';
@@ -183,6 +184,13 @@ export class DesignComponent implements OnInit {
         });
       }
     });
+  }
+
+  requestQuote() {
+    // load the dialog to confirm the design we will be sending
+    var config = new MdDialogConfig();
+    // config.height = '700px';
+    var dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
 }
