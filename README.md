@@ -9,6 +9,7 @@ The development server must be run with SSL and use the 3form wildcard cert in o
 Run `ng serve --host dev-ng.3-form.com --ssl true --ssl-key ssl/wildcard.key --ssl-cert ssl/wildcard.crt` for a dev server. Navigate to `https://dev-ng.3-from.com:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Debugging Service
+
 We have implemented the [Debug](https://github.com/visionmedia/debug) JS library for logging our app. This has the advantage of allowing us to create helpful logging messages and send them to the production server. We can do this because the logging is disabled by default. The advantage, is that we can turn on the logging for our browser only in order to debug the live environment.
 
 The Debug library has been added as a service. You must include the service in any component, directive, pipe, service, class, or module that you want to log from. You do this by adding the following import. (You may need to adjust the relative path depending on where your new file is in the file system).
@@ -47,6 +48,7 @@ You can change what logs appear simply by changing the value of the `debug` vari
 For more information on what the `Debug` library can do. Look at their [Github Page](https://github.com/visionmedia/debug)
 
 ## Versioning
+
 We use [grunt-bump](https://github.com/vojtajina/grunt-bump) to manage our versions. We are using very basic settings, found in the `Gruntfile.js`. To bump the version you just need to run:
 ```
 grunt bump
@@ -54,9 +56,6 @@ grunt bump
 This will bump the `patch` by 1. So if the version is `0.0.1` and we run the command above then the version will become `0.0.2`.
 
 The current settings will push the version bump commit into the `origin` so that we don't push code to our live code without using a pull request. The process is to move the code live via a pull request and then after that you can run `git push upstream v0.0.2` **remember to push the correct tag name (version)**
-
-## AccountingJS
-
 
 ## Code scaffolding
 
@@ -78,3 +77,6 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## License
+GNU General Public License v3.0

@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
+import * as debug from 'debug';
 
 @Injectable()
 export class DebugService {
-  private debug;
+  private debug = debug;
 
   constructor() {
-    // setup the debug for logging
-    System.import('../../../node_modules/debug/src/browser.js').then(debug => {
-      this.debug = debug;
-    });
   }
 
-  log(identifier: string, message: string) {
-    this.debug = this.debug('ceilings:' + identifier);
-    this.debug(message);
+  log(identifier: string, message: any) {
+    this.debug('ceilings:' + identifier)(message);
   }
 
 }

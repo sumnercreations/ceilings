@@ -1,3 +1,158 @@
-<p>
-  options works!
-</p>
+<div class="row">
+  <div class="col-xs-12 col-sm-6 left-pane">
+    <div class="intro">
+      <h2>{{title | capitalize}}</h2>
+    </div>
+    <div class="grid-guides clearfix">
+      <h3>Grid and Guides</h3>
+      <p>Design dimensions are shown by a blue guide.</p>
+      <img src="/assets/images/grid-and-guide.png" alt="Grid with Blue Guides" class="pull-left">
+      <aside class="note">Tiles extending past the blue guide must be flat tiles to allow cutting.</aside>
+    </div>
+    <div id="design">
+      <h3>Design</h3>
+      <p>Choose your {{feature.getTileType()}} design and color.</p>
+      <div id="tiles" *ngIf="feature.feature_type=='tetria'">
+        <ul class="list-inline">
+          <li class="tile"><img src="/assets/images/tiles/01.png" alt="Tile 01" class="img-responsive"></li>
+          <li class="tile"><img src="/assets/images/tiles/02.png" alt="Tile 02" class="img-responsive"></li>
+          <li class="tile"><img src="/assets/images/tiles/03.png" alt="Tile 03" class="img-responsive"></li>
+          <li class="tile"><img src="/assets/images/tiles/00.png" alt="Tile 00" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/milky-white.png" alt="Milky White" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/charcoal.png" alt="Charcoal" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/heather-charcoal.png" alt="Heather Charcoal" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/heather-black.png" alt="Heather Black" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/black.png" alt="Black" class="img-responsive"></li>
+        </ul>
+      </div>
+      <div id="tiles" *ngIf="feature.feature_type=='clario'">
+        <ul class="list-inline">
+          <li class="tile">
+            <img src="/assets/images/baffles/baffle_24_x_24.png" alt="24x24 Baffle" class="img-responsive">
+          </li>
+          <li class="tile">
+            <img src="/assets/images/tiles/00.png" alt="Tile 00" class="img-responsive">
+          </li>
+          <li class="baffle">
+            <img src="/assets/images/baffles/baffle_24_x_48.png" alt="24x48 Baffle" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/zinc.jpg" alt="Zinc" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/nickel.jpg" alt="Nickel" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/cashmere.jpg" alt="Cashemere" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/burnt_umber.jpg" alt="Burnt Umber" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/ore.jpg" alt="Ore" class="img-responsive">
+          </li>
+          <li class="material">
+            <img src="/assets/images/materials/felt/sola/dark_gray.jpg" alt="Dark Gray" class="img-responsive">
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="modify">
+      <h3>Modify</h3>
+      <p>Rotate or remove {{feature.getTileType('plural')}}.</p>
+      <ul class="list-inline tools">
+        <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2">
+          <div class="tool" [class.add-border-right]="isLast">
+            <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="fixtures">
+      <h3>Fixtures</h3>
+      <p>Accomodate ceiling fixtures with flat tiles.</p>
+      <ul class="list-inline tools">
+        <li *ngFor="let tool of fixturesToolsArray last as isLast; index as i" class="tool-container">
+          <div class="tool" [class.add-border-right]="isLast">
+            <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="back">
+      <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-6">
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Design Name</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="form-group">
+          <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+        </div>
+      </div>
+      <div class="col-sm-3 options-load">
+        <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+      </div>
+    </div>
+    <hr>
+    <div id="grid-dimensions">
+      <h3>Design Dimensions</h3>
+      <p>A 15/16 grid system is required for this product.</p>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="width">Width</label>
+            <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Width" name="width" id="width">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="length">Length</label>
+            <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Length" name="length" id="length">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="toggle-button-form-wrapper">
+            <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+              <md-button-toggle value="inches">IN</md-button-toggle>
+              <md-button-toggle value="centimeters">CM</md-button-toggle>
+            </md-button-toggle-group>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-size" [class.hide]="feature.feature_type!='tetria'">
+      <hr>
+      <h3>Tile Size</h3>
+      <p>24" x 24" Qty. 4 per package</p>
+    </div>
+    <div id="grid-size" [class.hide]="feature.feature_type!='clario'">
+      <hr>
+      <h3>Tile Size</h3>
+      <p>Please specify the size of your grid.</p>
+      <md-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
+        <div class="row">
+          <div class="col-sm-4">
+            <md-radio-button class="radio-button" [value]="24">
+              24 X 24
+            </md-radio-button>
+            <p>Qty. 4 per package</p>
+          </div>
+          <div class="col-sm-4">
+            <md-radio-button class="radio-button" [value]="48">
+              24 X 48
+            </md-radio-button>
+            <p>Qty. 2 per package</p>
+          </div>
+        </div>
+      </md-radio-group>
+    </div>
+    <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="validateOptions()">start designing</button>
+  </div>
+</div>
