@@ -59,10 +59,10 @@ export class Feature {
         image: '/assets/images/baffles/baffle_24_x_24.png',
         tile: '24'
       },
-      1: {
-        image: '/assets/images/baffles/baffle_24_x_48.png',
-        tile: '48'
-      },
+      // 1: {
+      //   image: '/assets/images/baffles/baffle_24_x_48.png',
+      //   tile: '48'
+      // },
       2: {
         image: '/assets/images/tiles/00.png',
         tile: '00'
@@ -439,6 +439,11 @@ export class Feature {
     this.quoted = design.quoted;
     this.archived = design.archived;
 
+    // after it's been loaded, recalculate the price if the design
+    // hasn't been quoted. In the event that the prices have changed.
+    if(!this.quoted) {
+      this.updateEstimatedAmount();
+    }
     this.buildGrid();
   }
 
@@ -448,8 +453,8 @@ export class Feature {
 
     // TETRIA
     if(this.feature_type == 'tetria') {
-      var flatTilePrice = 73.00;
-      var tetriaTilePrice = 135.73;
+      var flatTilePrice = 15.00;
+      var tetriaTilePrice = 80;
       var tileWeight = 1.55;
       var flatTileCount = 0;
       var tetriaTileCount = 0;
@@ -499,8 +504,8 @@ export class Feature {
       }
 
       // SERVICES AMOUNT
-      var service24Cost = 44.79;
-      var service48Cost = 44.79;
+      var service24Cost = 13;
+      var service48Cost = 13;
       var service24TileCost = clario24TileCount * service24Cost;
       var service48TileCost = clario48TileCount * service48Cost;
       this.services_amount = service24TileCost + service48TileCost;
