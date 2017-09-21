@@ -126,7 +126,7 @@ export class GridComponent implements OnInit {
         case "vent":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
           this.feature.gridData[row][column].setTexture("/assets/icons/tools/vent-white.png");
-          this.feature.gridData[row][column].setTile("");
+          this.feature.gridData[row][column].setTile("00");
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
