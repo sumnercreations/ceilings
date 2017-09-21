@@ -33,7 +33,7 @@
     "ng2-breadcrumbs": "^0.1.24",
     "rxjs": "^5.1.0",
     "syd-tiling": "0.0.9",
-    "syd-visualization": "0.0.64",
+    "syd-visualization": "0.0.65",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
