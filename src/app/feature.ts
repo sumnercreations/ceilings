@@ -496,6 +496,7 @@ export class Feature {
           // what part_id is the material?
           // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
           // sheetCost = sheetsNeeded * prices[part_id];
+          console.log("sheets needed: " + currentTile.purchased / 4);
           // products_amount += sheetCost;
         }else if(currentTile.tile == "48") {
           // 24x48 prices
@@ -504,11 +505,9 @@ export class Feature {
       }
 
       // SERVICES AMOUNT
-      var service24Cost = 13;
-      var service48Cost = 13;
-      var service24TileCost = clario24TileCount * service24Cost;
-      var service48TileCost = clario48TileCount * service48Cost;
-      this.services_amount = service24TileCost + service48TileCost;
+      var clarioServiceCost = 13;
+      var totalClarioTiles = clario24TileCount + clario48TileCount;
+      this.services_amount = totalClarioTiles * clarioServiceCost;
       // END SERVICES AMOUNT
 
       this.estimated_amount = this.services_amount + products_amount;
