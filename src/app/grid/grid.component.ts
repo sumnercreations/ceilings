@@ -116,16 +116,16 @@ export class GridComponent implements OnInit {
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
-        case "light":
-          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.material + ".png");
-          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/light/" + this.feature.material + ".png");
-          this.feature.gridData[row][column].setTile("00");
-          this.debug.log('grid-component', this.feature.gridData[row][column]);
-          break;
-
         case "vent":
           this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
           this.feature.gridData[row][column].setTexture("/assets/icons/tools/vent-white.png");
+          this.feature.gridData[row][column].setTile("");
+          this.debug.log('grid-component', this.feature.gridData[row][column]);
+          break;
+
+        case "light":
+          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/" + this.feature.material + ".png");
+          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/light/" + this.feature.material + ".png");
           this.feature.gridData[row][column].setTile("00");
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
