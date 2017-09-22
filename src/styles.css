@@ -135,16 +135,6 @@ input.square {
   color: #fff;
 }
 
-.breadcrumb {
-  background-color: #fff;
-  color: #666;
-  margin-bottom: 0;
-}
-
-.breadcrumb > .active, .breadcrumb>li+li:before {
-  color: #666;
-}
-
 /* more appropriate link colors */
 a {
   color: #ff9933;

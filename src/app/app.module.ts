@@ -4,9 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-// breadcrumb
-import {Ng2BreadcrumbModule} from 'ng2-breadcrumb/ng2-breadcrumb';
-
 // material.angular.io
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
@@ -83,8 +80,7 @@ import { KeysPipe } from './_pipes/keys.pipe';
     MdSnackBarModule,
     MdDialogModule,
     MdInputModule,
-    MdProgressSpinnerModule,
-    Ng2BreadcrumbModule.forRoot()
+    MdProgressSpinnerModule
   ],
   providers: [
     Feature,
