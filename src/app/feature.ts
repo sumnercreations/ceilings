@@ -487,6 +487,8 @@ export class Feature {
       var products_amount: number = 0.00;
       var clario24TileCount = 0;
       var clario48TileCount = 0;
+      var sheetsNeeded: number = 0;
+      var sheetCost: number = 0.00;
       for (var tile in tilesArray) {
         var currentTile = tilesArray[tile];
         console.log(currentTile);
@@ -495,22 +497,27 @@ export class Feature {
           clario24TileCount += currentTile.purchased;
           // what part_id is the material?
           // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
-          // sheetCost = sheetsNeeded * prices[part_id];
-          // products_amount += sheetCost;
+          sheetsNeeded = currentTile.purchased / 4;
+          console.log("24x24 sheets needed: " + sheetsNeeded);
         }else if(currentTile.tile == "48") {
           // 24x48 prices
           clario48TileCount += currentTile.purchased;
+          sheetsNeeded = currentTile.purchased / 2;
+          console.log("24x48 sheets needed: " + sheetsNeeded);
         }
+        // calculate the sheet cost and add it to the products_amount
+        sheetCost = sheetsNeeded * 47.50;
+        products_amount += sheetCost;
       }
 
       // SERVICES AMOUNT
-      var service24Cost = 13;
-      var service48Cost = 13;
-      var service24TileCost = clario24TileCount * service24Cost;
-      var service48TileCost = clario48TileCount * service48Cost;
-      this.services_amount = service24TileCost + service48TileCost;
+      var clarioServiceCost = 13;
+      var totalClarioTiles = clario24TileCount + clario48TileCount;
+      this.services_amount = totalClarioTiles * clarioServiceCost;
       // END SERVICES AMOUNT
 
+      console.log("services amount: " + this.services_amount);
+      console.log("products amount: " + products_amount);
       this.estimated_amount = this.services_amount + products_amount;
     } // END CLARIO
 

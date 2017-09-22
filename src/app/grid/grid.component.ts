@@ -113,6 +113,14 @@ export class GridComponent implements OnInit {
 
         case "remove":
           this.feature.gridData[row][column] = new GridSection(row, column);
+          this.debug.log('grid-component', this.feature.gridData[row][column]);
+          break;
+
+        case "vent":
+          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
+          this.feature.gridData[row][column].setTexture("/assets/icons/tools/vent-white.png");
+          this.feature.gridData[row][column].setTile("");
+          this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
         case "light":
@@ -120,13 +128,6 @@ export class GridComponent implements OnInit {
           this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/light/" + this.feature.material + ".png");
           this.feature.gridData[row][column].setTile("00");
           this.debug.log('grid-component', this.feature.gridData[row][column]);
-          break;
-
-        case "vent":
-          this.feature.gridData[row][column].setBackgroundImage("url(/assets/icons/tools/vent.png)");
-          this.feature.gridData[row][column].setTexture("/assets/images/tiles/00/" + this.feature.material + ".png)");
-          this.feature.gridData[row][column].setTexture("/assets/icons/tools/vent-white.png");
-          this.feature.gridData[row][column].setTile("");
           break;
 
         case "sprinkler":
@@ -159,6 +160,7 @@ export class GridComponent implements OnInit {
             }else if(this.feature.feature_type == 'clario') {
               if(this.feature.selectedTile == "00") {
                 this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+                this.feature.gridData[row][column].setTile('00');
               }else{
                 this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
               }
