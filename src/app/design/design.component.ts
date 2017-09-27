@@ -178,9 +178,12 @@ export class DesignComponent implements OnInit {
     html2canvas(document.getElementById("grid"), {
       onrendered: function(canvas) {
         var theCanvas = canvas;
-        // document.body.appendChild(canvas);
-        canvas.toBlob(function(blob) {
-          FileSaver.saveAs(blob, "design_guide.png");
+        var dataURL = theCanvas.toDataURL();
+        console.log(dataURL);
+        document.getElementById("grid").appendChild(theCanvas);
+        theCanvas.toBlob(function(blob) {
+          console.log(blob);
+          this.feature.blob = blob;
         });
       }
     });
