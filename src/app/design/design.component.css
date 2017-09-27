@@ -1,3 +1,8 @@
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .logo {
   padding: 0px 15px;
 }
@@ -33,13 +38,13 @@ span.sm {
   background-color: #fff;
   height: 570px;
   padding: 5px 15px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .grid-wrapper {
   border-right: 2px solid #cdcdcd;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .grid-header {
