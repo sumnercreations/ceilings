@@ -13,6 +13,7 @@ import { User } from '../_models/user';
   styleUrls: ['./quote-dialog.component.css']
 })
 export class QuoteDialogComponent implements OnInit {
+  public tilesArray: any;
 
   constructor(
     private router: Router,
@@ -26,6 +27,7 @@ export class QuoteDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.tilesArray = this.feature.getTilesPurchasedArray();
   }
 
   public quoteConfirmed() {
