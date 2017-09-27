@@ -53,7 +53,7 @@
         <th>Receiving</th>
         <th>Unused</th>
       </tr>
-      <tr *ngFor="let tile of tilesArray? | keys">
+      <tr *ngFor="let tile of tilesArray | keys">
         <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
         <td>{{tile.used}}</td>
         <td>{{tile.purchased}}</td>
