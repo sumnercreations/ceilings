@@ -448,7 +448,6 @@ export class Feature {
   }
 
   updateEstimatedAmount() {
-    console.log("updating estimated_amount");
     var tilesArray = this.getTilesPurchasedArray();
 
     // TETRIA
@@ -461,29 +460,21 @@ export class Feature {
       var tetriaTiles = ["01","02","03"];
 
       for (var tile in tilesArray) {
-        // console.log(tiles[tile]);
         var currentTile = tilesArray[tile];
-        // console.log(currentTile.purchased);
         if(tetriaTiles.indexOf(currentTile.tile) != -1) {
-          // console.log(currentTile);
           // add the purchased amount to the tetria tile count
           tetriaTileCount += currentTile.purchased;
         }else if(currentTile.tile == "00"){
           // add the purchased amount to the flat tile count
-          console.log(currentTile);
           flatTileCount += currentTile.purchased;
         }
       }
-      console.log("tetria tiles: " + tetriaTileCount);
-      console.log("flat tiles: " + flatTileCount);
       this.services_amount = (tetriaTileCount * tetriaTilePrice) + (flatTileCount * flatTilePrice);
       this.estimated_amount = this.services_amount;
     } // END TETRIA
 
     // CLARIO
     if(this.feature_type == 'clario') {
-      console.log('this is a clario design');
-      console.log(tilesArray);
       var products_amount: number = 0.00;
       var clario24TileCount = 0;
       var clario48TileCount = 0;
@@ -491,19 +482,16 @@ export class Feature {
       var sheetCost: number = 0.00;
       for (var tile in tilesArray) {
         var currentTile = tilesArray[tile];
-        console.log(currentTile);
         if(currentTile.tile == "24") {
           // 24x24 prices
           clario24TileCount += currentTile.purchased;
           // what part_id is the material?
           // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
           sheetsNeeded = currentTile.purchased / 4;
-          console.log("24x24 sheets needed: " + sheetsNeeded);
         }else if(currentTile.tile == "48") {
           // 24x48 prices
           clario48TileCount += currentTile.purchased;
           sheetsNeeded = currentTile.purchased / 2;
-          console.log("24x48 sheets needed: " + sheetsNeeded);
         }
         // calculate the sheet cost and add it to the products_amount
         sheetCost = sheetsNeeded * 47.50;
@@ -516,8 +504,6 @@ export class Feature {
       this.services_amount = totalClarioTiles * clarioServiceCost;
       // END SERVICES AMOUNT
 
-      console.log("services amount: " + this.services_amount);
-      console.log("products amount: " + products_amount);
       this.estimated_amount = this.services_amount + products_amount;
     } // END CLARIO
 
@@ -717,22 +703,6 @@ export class Feature {
     this.tiles = tilesArray;
     return tiles;
   }
-
-  // public getTilesPurchased() {
-  //   var pkgQty = this.getPackageQty();
-  //   var purchasedTilesArray = this.getTilesPurchasedArray();
-  //   var purchasedTiles = 0;
-
-  //   // Round count of unique tiles to nearest factor of pkgQty
-  //   // multiply that by the pkgQty and add to the purchasedTiles total.
-  //   for(var tile in purchasedTilesArray) {
-  //     var tileCount = purchasedTilesArray[tile];
-  //     purchasedTiles += pkgQty * Math.ceil(tileCount / pkgQty);
-  //   }
-  //   // set the number of tiles for this feature.
-  //   this.tiles = purchasedTiles;
-  //   return purchasedTiles;
-  // }
 
   public getUserInputs() {
     return {
