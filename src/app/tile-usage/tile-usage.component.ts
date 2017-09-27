@@ -14,16 +14,6 @@ export class TileUsageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    var tiles = this.feature.getTilesPurchasedArray();
-    for(var tile in tiles) {
-      var tilesPurchased = tiles[tile];
-      var tileInfo = tile.split('|');
-      for(var info in tileInfo) {
-        this.debug.log('tile-usage-component', tileInfo);
-        this.debug.log('tile-usage-component', tileInfo[info]);
-      }
-    }
-    this.debug.log('tile-usage-component', this.feature.getTilesPurchasedArray());
   }
 
 }
