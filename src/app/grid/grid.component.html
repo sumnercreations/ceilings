@@ -1,4 +1,4 @@
-<div class="grid" id="grid" [ngClass]="feature.selectedTool != undefined ? feature.selectedTool + '-cursor' : ''" [style.width]="getGridWidth() + 'px'">
+<div class="grid" id="grid" [ngClass]="feature.selectedTool != undefined ? feature.selectedTool + '-cursor' : ''" [style.width]="getGridWidth() + 'px'" [style.height]="getGridHeight() + 'px'">
   <div class="grid-room-guide" [class.hide]="!feature.showGuide" [style.width]="getRoomGuideWidth() + 'px'" [style.height]="getRoomGuideHeight() + 'px'" [style.top]="getRoomGuideTopAdjustment() + 'px'" [style.left]="getRoomGuideLeftAdjustment() + 'px'"></div>
   <div *ngFor="let row of rows; index as r; last as lastRow">
     <div *ngFor="let col of columns; index as c" id="grid-section-1-1" grid="1-1" class="grid-section-control" [class.add-border-bottom]="lastRow">

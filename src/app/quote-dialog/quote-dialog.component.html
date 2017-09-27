@@ -9,7 +9,7 @@
   <div md-dialog-content>
     <dl class="dl-horizontal">
       <dt>Feature</dt>
-      <dd>{{feature.feature_type}}</dd>
+      <dd>{{feature.feature_type | capitalize}}</dd>
       <dt>Width</dt>
       <dd>{{feature.width}}"</dd>
       <dt>Length</dt>
@@ -21,23 +21,6 @@
       <dt [ngClass]="{'hidden': !feature.quoted}">Specifier</dt>
       <dd [ngClass]="{'hidden': !feature.quoted}">{{feature.specifier}}</dd>
     </dl>
-    <h3>{{feature.getTileType('plural') | capitalize}}</h3>
-    <table class="table table-striped">
-      <tr>
-        <th>{{feature.getTileType() | capitalize}}</th>
-        <th>Used</th>
-        <th>Receiving</th>
-        <th>Unused</th>
-      </tr>
-      <tr *ngFor="let tile of feature.getTilesPurchasedArray() | keys">
-        <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
-        <td>{{tile.used}}</td>
-        <td>{{tile.purchased}}</td>
-        <td>{{tile.purchased - tile.used}}</td>
-      </tr>
-    </table>
-
-
     <form (ngSubmit)="quoteConfirmed()" #confirmQuote="ngForm" [ngClass]="{'hidden': feature.quoted}">
       <div class="row">
         <div class="col-sm-12">
@@ -62,5 +45,20 @@
         <button md-button (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
+    <h3>{{feature.getTileType('plural') | capitalize}}</h3>
+    <table class="table table-striped">
+      <tr>
+        <th>{{feature.getTileType('plural') | capitalize}}</th>
+        <th>Used</th>
+        <th>Receiving</th>
+        <th>Unused</th>
+      </tr>
+      <tr *ngFor="let tile of feature.getTilesPurchasedArray() | keys">
+        <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
+        <td>{{tile.used}}</td>
+        <td>{{tile.purchased}}</td>
+        <td>{{tile.purchased - tile.used}}</td>
+      </tr>
+    </table>
   </div>
 </div>
