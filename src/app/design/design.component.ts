@@ -52,6 +52,11 @@ export class DesignComponent implements OnInit {
             // design was found so load it.
             if(design.feature_type === params['type']) {
               this.feature.setDesign(design);
+              if(this.feature.feature_type == 'clario') {
+                this.feature.selectedTile = this.feature.tile_size.toString();
+              }else if(this.feature.feature_type == 'velo') {
+                // velo defaults
+              }
             }else{
               this.router.navigate([design.feature_type, 'design', design.id]);
             }

@@ -59,10 +59,10 @@ export class Feature {
         image: '/assets/images/baffles/baffle_24_x_24.png',
         tile: '24'
       },
-      // 1: {
-      //   image: '/assets/images/baffles/baffle_24_x_48.png',
-      //   tile: '48'
-      // },
+      1: {
+        image: '/assets/images/baffles/baffle_24_x_48.png',
+        tile: '48'
+      },
       2: {
         image: '/assets/images/tiles/00.png',
         tile: '00'
