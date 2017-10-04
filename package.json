@@ -1,6 +1,6 @@
 {
   "name": "ceilings",
-  "version": "0.0.64",
+  "version": "0.0.66",
   "license": "MIT",
   "scripts": {
     "ng": "ng",

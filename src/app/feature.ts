@@ -39,33 +39,40 @@ export class Feature {
     tetria: {
       0: {
         image: '/assets/images/tiles/01.png',
-        tile: '01'
+        tile: '01',
+        name: '01'
       },
       1: {
         image: '/assets/images/tiles/02.png',
-        tile: '02'
+        tile: '02',
+        name: '02'
       },
       2: {
         image: '/assets/images/tiles/03.png',
-        tile: '03'
+        tile: '03',
+        name: '03'
       },
       3: {
         image: '/assets/images/tiles/00.png',
-        tile: '00'
+        tile: '00',
+        name: '00'
       }
     },
     clario: {
       0: {
-        image: '/assets/images/baffles/baffle_24_x_24.png',
-        tile: '24'
+        image: '/assets/images/baffles/baffle_24_x_48.png',
+        tile: '48',
+        name: '24x48'
       },
-      // 1: {
-      //   image: '/assets/images/baffles/baffle_24_x_48.png',
-      //   tile: '48'
-      // },
+      1: {
+        image: '/assets/images/baffles/baffle_24_x_24.png',
+        tile: '24',
+        name: '24x24'
+      },
       2: {
         image: '/assets/images/tiles/00.png',
-        tile: '00'
+        tile: '00',
+        name: '00'
       }
     },
     velo: {
