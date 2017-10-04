@@ -152,47 +152,54 @@ export class GridComponent implements OnInit {
             if(this.feature.feature_type == 'tetria') {
               this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
               this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+              this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+              this.feature.gridData[row][column].setMaterial(this.feature.material);
+              this.debug.log('grid-component', this.feature.gridData[row][column]);
             }else if(this.feature.feature_type == 'clario') {
               if(this.feature.selectedTile == "00") {
                 this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
                 this.feature.gridData[row][column].setTile('00');
+                this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+                this.feature.gridData[row][column].setMaterial(this.feature.material);
+                this.debug.log('grid-component', this.feature.gridData[row][column]);
               }else if(this.feature.selectedTile == "24") {
+                // 24x24 baffle
                 this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-              }else{
-                // 24x48 tile
-                // - Rotation == 0 || 180
-                //   - tile to right backgroundImage should be exactly the same
-                //   - tile to right texture should be blank
-                //   - Left and right most tiles can not be 48
-                if(this.feature.gridData[row][column].rotation == 0 || this.feature.gridData[row][column].rotation == 180){
-                  this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-                  this.feature.gridData[row][column+1].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-                  this.feature.gridData[row][column+1].setRotation(this.feature.gridData[row][column].rotation);
-                  this.feature.gridData[row][column+1].setTexture("");
+                // the 3D view just needs the flat tile for the texture to be applied to the
+                // geometry that it creates.
+                this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+
+                this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+                this.feature.gridData[row][column].setMaterial(this.feature.material);
+                // for 24x24 tiles in a 24x48 grid
+                if(this.feature.tile_size == 48) {
+                  this.feature.gridData[row][column].setRotation(270);
                 }
-                // - Rotation == 90 || 270
-                //   - tile below backgroundImage should be exactly the same
-                //   - tile below texture should be blank
-                //   - Top and bottom most tiles can not be 48
-                if(this.feature.gridData[row][column].rotation == 90 || this.feature.gridData[row][column].rotation == 270){
-                  this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-                  this.feature.gridData[row+1][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-                  this.feature.gridData[row+1][column].setRotation(this.feature.gridData[row][column].rotation);
-                  this.feature.gridData[row+1][column].setTexture("");
+                this.debug.log('grid-component', this.feature.gridData[row][column]);
+              }else if(this.feature.selectedTile == "48") {
+                // 24x48 baffle
+                this.debug.log('grid-component', 'is perfect grid: ' + this.isPerfectGrid());
+                this.debug.log('grid-component', 'is column odd: ' + this.isOdd(column));
+                if(this.isPerfectGrid() && this.isOdd(column)) {
+                  this.debug.log('grid-component', 'this and column to left');
+                  this.set48TileLeft(row, column);
+                }else if(this.isPerfectGrid() && !this.isOdd(column)) {
+                  this.set48TileRight(row, column);
+                  this.debug.log('grid-component', 'this and column to right');
+                }else if(!this.isPerfectGrid() && !this.isOdd(column)) {
+                  this.set48TileLeft(row, column);
+                }else{
+                  this.set48TileRight(row, column);
                 }
               }
-              // the 3D view just needs the flat tile for the texture to be applied to the
-              // geometry that it creates.
-              this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
             }else{
               // must be velo
               this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/velo/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
               this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+              this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+              this.feature.gridData[row][column].setMaterial(this.feature.material);
+              this.debug.log('grid-component', this.feature.gridData[row][column]);
             }
-
-            this.feature.gridData[row][column].setTile(this.feature.selectedTile);
-            this.feature.gridData[row][column].setMaterial(this.feature.material);
-            this.debug.log('grid-component', this.feature.gridData[row][column]);
           }
           break;
       }
@@ -256,6 +263,42 @@ export class GridComponent implements OnInit {
 
   getRoomGuideTopAdjustment() {
     return ( this.getGridHeight() - this.getRoomGuideHeight() ) / 2;
+  }
+
+  isPerfectGrid() {
+    return this.getGridWidth() == this.getRoomGuideWidth();
+  }
+
+  isOdd(column: number) {
+    return column % 2;
+  }
+
+  set48TileRight(row, column) {
+    // this and the column to the right must match
+    if(column+1 == this.feature.getColumns() - 1) {
+      this.debug.log('grid-component', 'the column to the right of this must be flat, so this can not be 48 tile');
+      this.alert.error("This tile must be a 24x24 tile");
+      return;
+    }
+    this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+    this.feature.gridData[row][column+1].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+    this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+    this.feature.gridData[row][column+1].setTexture('');
+
+    this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+    this.feature.gridData[row][column].setMaterial(this.feature.material);
+    this.debug.log('grid-component', this.feature.gridData[row][column]);
+  }
+
+  set48TileLeft(row, column) {
+    // odd column. this and the column to the left must match
+    this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+    this.feature.gridData[row][column].setTexture('');
+    this.feature.gridData[row][column-1].setBackgroundImage('url(/assets/images/baffles/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
+    this.feature.gridData[row][column-1].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+    this.feature.gridData[row][column-1].setTile(this.feature.selectedTile);
+    this.feature.gridData[row][column-1].setMaterial(this.feature.material);
+    this.debug.log('grid-component', this.feature.gridData[row][column]);
   }
 
 }

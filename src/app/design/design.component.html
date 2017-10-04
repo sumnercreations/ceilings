@@ -51,11 +51,11 @@
     <div class="col-sm-3 full-height">
       <div class="row tiles">
         <p class="md">Design</p>
-        <div *ngFor="let tile of feature.tilesArray[feature.feature_type] | keys" mdTooltip="{{tile.tile | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" [class.col-sm-6]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host" [class.hide]="feature.tile_size==24 && tile.tile==48">
+        <div *ngFor="let tile of feature.tilesArray[feature.feature_type] | keys" mdTooltip="{{tile.tile | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" [class.col-sm-5]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host" [class.hide]="feature.tile_size==24 && tile.tile==48">
           <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
             <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
           </div>
-          <p class="text-center">{{tile.tile | capitalize}}</p>
+          <p class="text-center">{{tile.name | capitalize}}</p>
         </div>
       </div>
       <div class="row materials">
