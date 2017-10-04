@@ -38,6 +38,7 @@ import { LoginComponent } from './login/login.component';
 import { VisualizationComponent } from './visualization/visualization.component';
 import { TileUsageComponent } from './tile-usage/tile-usage.component';
 import { QuoteDialogComponent } from './quote-dialog/quote-dialog.component';
+import { DetailsComponent } from './details/details.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -66,7 +67,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     VisualizationComponent,
     TileUsageComponent,
     KeysPipe,
-    QuoteDialogComponent
+    QuoteDialogComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,
