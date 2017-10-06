@@ -24,10 +24,12 @@ export class Feature {
   public material: string;
   public tile_size: number = 24;
   public tiles: any;
+  public blob: any;
   public estimated_amount: number = 0.00;
   public services_amount: number = 0.00;
   public quoted: boolean = false; // boolean
   public archived: boolean = false; // boolean
+  public updated_at: string;
 
   // attributes for the tool
   public tile_type: string = 'tile';
@@ -445,6 +447,7 @@ export class Feature {
     this.gridData = JSON.parse(design.grid_data);
     this.quoted = design.quoted;
     this.archived = design.archived;
+    this.updated_at = design.updated_at;
 
     // after it's been loaded, recalculate the price if the design
     // hasn't been quoted. In the event that the prices have changed.
@@ -688,6 +691,8 @@ export class Feature {
             }else{
               if(this.gridData[i][j]['tile'] == "00") {
                 tileType = "tiles";
+              }else{
+                tileType = this.getTileType('plural');
               }
               tiles[key] = {
                 "purchased": pkgQty,

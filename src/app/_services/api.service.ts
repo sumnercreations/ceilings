@@ -15,6 +15,7 @@ export class ApiService {
   onUserLoggedIn = new EventEmitter();
   apiUrl = 'https://' + environment.API_URL + '/ceilings/';
   loginUrl = 'https://' + environment.API_URL + '/auth/login';
+  userUrl = 'https://' + environment.API_URL + '/users/';
 
   constructor(
     private http: Http,
@@ -25,6 +26,13 @@ export class ApiService {
 
   getMyDesigns() {
     return this.http.get(this.apiUrl + 'list/' + this.user.uid)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+  getUserRep(uid: number) {
+    this.debug.log('api', 'getting user rep');
+    return this.http.get(this.userUrl + uid + '/rep')
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }

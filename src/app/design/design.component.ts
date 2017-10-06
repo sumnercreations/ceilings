@@ -180,21 +180,27 @@ export class DesignComponent implements OnInit {
   }
 
   public downloadGridGuide() {
+    this.debug.log('design-component', 'generating grid guide');
+    var _blob;
     html2canvas(document.getElementById("grid"), {
       onrendered: function(canvas) {
         var theCanvas = canvas;
         var dataURL = theCanvas.toDataURL();
-        console.log(dataURL);
-        document.getElementById("grid").appendChild(theCanvas);
+        // document.getElementById("grid").appendChild(theCanvas);
         theCanvas.toBlob(function(blob) {
           console.log(blob);
-          this.feature.blob = blob;
+          _blob = blob;
         });
       }
     });
+    this.feature.blob = _blob;
   }
 
-  requestQuote() {
+  public requestQuote() {
+    // get the grid with guides
+    // make sure the guide is set to true
+    this.feature.showGuide = true;
+    this.downloadGridGuide();
     // load the dialog to confirm the design we will be sending
     var config = new MdDialogConfig();
     // config.height = '700px';
