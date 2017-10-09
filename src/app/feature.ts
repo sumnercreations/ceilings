@@ -24,10 +24,12 @@ export class Feature {
   public material: string;
   public tile_size: number = 24;
   public tiles: any;
+  public design_data_url: any;
   public estimated_amount: number = 0.00;
   public services_amount: number = 0.00;
   public quoted: boolean = false; // boolean
   public archived: boolean = false; // boolean
+  public updated_at: string;
 
   // attributes for the tool
   public tile_type: string = 'tile';
@@ -439,12 +441,14 @@ export class Feature {
     this.units = design.units;
     this.material = design.material;
     this.tile_size = design.tile_size;
+    this.design_data_url = design.design_data_url;
     this.tiles = JSON.parse(design.tiles);
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;
     this.gridData = JSON.parse(design.grid_data);
     this.quoted = design.quoted;
     this.archived = design.archived;
+    this.updated_at = design.updated_at;
 
     // after it's been loaded, recalculate the price if the design
     // hasn't been quoted. In the event that the prices have changed.
@@ -688,6 +692,8 @@ export class Feature {
             }else{
               if(this.gridData[i][j]['tile'] == "00") {
                 tileType = "tiles";
+              }else{
+                tileType = this.getTileType('plural');
               }
               tiles[key] = {
                 "purchased": pkgQty,
