@@ -186,6 +186,7 @@ export class DesignComponent implements OnInit {
       onrendered: function(canvas) {
         let theCanvas = canvas;
         let dataURL = theCanvas.toDataURL();
+        _this.debug.log('design-guide-data-url', dataURL);
         _this.feature.design_data_url = dataURL;
       }
     });
