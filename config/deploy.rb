@@ -68,7 +68,7 @@ namespace :deploy do
   end
 
   after "updating", "deploy:npm_install"
+  after "updating", "deploy:ng_version"
   after "updating", "deploy:ng_build"
   # after "updating", "deploy:precache"
-  after "updating", "deploy:ng_version"
 end

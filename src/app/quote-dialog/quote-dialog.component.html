@@ -5,7 +5,7 @@
 
 <div *ngIf="user.uid">
   <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</h2>
-  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p></h2>
+  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
   <div md-dialog-content>
     <dl class="dl-horizontal">
       <dt>Feature</dt>

@@ -88,6 +88,14 @@ input.square {
   border-radius: 0;
 }
 
+span.orange {
+  color: #ff9933;
+}
+
+p.orange {
+  color: #ff9933;
+}
+
 .add-border-right {
   box-shadow: inset -2px 0 0 0 #E7E7E7;
 }
