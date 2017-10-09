@@ -1,3 +1,8 @@
+<div class="row">
+  <div class="col-sm-2">
+    <a class="hidden-print back-to-design" (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> Back to Design</a>
+  </div>
+</div>
 <div class="row header">
   <div class="col-sm-12">
     <div class="row">
@@ -5,7 +10,7 @@
         <p class="sm">Project: <span class="md info">{{this.feature.project_name}}</span></p>
       </div>
       <div class="col-sm-5">
-        <p class="sm">Feature: <span class="md info">{{this.feature.feature_type | capitalize}}</span></p>
+        <p class="sm">Feature: <span class="md info">{{this.feature.feature_type | capitalize}} - ID: {{this.feature.id}}</span></p>
       </div>
       <div class="col-sm-1 hidden-print">
         <p class="sm bold print" (click)="print()"><span class="icomoon-print orange"></span> Print</p>
@@ -31,10 +36,10 @@
 <div class="row">
   <div class="col-sm-6">
     <p class="sm">Dimensions: <span class="md info">{{feature.width}} W x {{feature.length}} L ({{feature.units}})</span></p>
-    <img src="/assets/images/design_guide.png" alt="Grid Guide Image" style="width: 100%; height: 100%">
+    <img class="grid-guide" src="{{this.feature.design_data_url}}" alt="Grid Guide Image">
   </div>
   <div class="col-sm-6">
-    <p class="md info" [class.hide]="feature.feature_type!='tetria'">24" x 24" {{feature.getTileType('plural') | capitalize}} <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span></p>
+    <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_size=='24')">24" x 24" {{feature.getTileType('plural') | capitalize}} <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span></p>
     <div class="row tile-info-header">
       <div class="col-sm-3">
         <div class="row">
@@ -42,19 +47,19 @@
           <div class="col-sm-6">Qty</div>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-3" *ngIf="tileArraySize > 1">
         <div class="row">
           <div class="col-sm-6">{{feature.getTileType() | capitalize}}</div>
           <div class="col-sm-6">Qty</div>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-3" *ngIf="tileArraySize > 2">
         <div class="row">
           <div class="col-sm-6">{{feature.getTileType() | capitalize}}</div>
           <div class="col-sm-6">Qty</div>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-3" *ngIf="tileArraySize > 3">
         <div class="row">
           <div class="col-sm-6">{{feature.getTileType() | capitalize}}</div>
           <div class="col-sm-6">Qty</div>
@@ -71,47 +76,31 @@
         </div>
       </div>
     </div>
-    <!-- <table class="table table-striped" *ngIf="tilesArray">
-      <thead>
-        <tr>
-          <th>{{feature.getTileType('plural') | capitalize}}</th>
-          <th>Used/Receiving</th>
-          <th>{{feature.getTileType('plural') | capitalize}}</th>
-          <th>Used/Receiving</th>
-          <th>{{feature.getTileType('plural') | capitalize}}</th>
-          <th>Used/Receiving</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td *ngFor="let tile of tilesArray | keys" colspan="2"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}">
-          {{tile.used}}/{{tile.purchased}}</td>
-
-          <td colspan="2"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}">
-          {{tile.used}}/{{tile.purchased}}</td>
-
-          <td colspan="2"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}">
-          {{tile.used}}/{{tile.purchased}}</td>
-        </tr>
-      </tbody>
-    </table> -->
   </div>
 </div>
 
 <div class="row footer">
-  <div class="col-sm-1">
-    <div class="logo">
-      <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="logo">
+          <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
+        </div>
+      </div>
+      <div class="col-sm-10" *ngIf="rep">
+        <p class="rep-name"><span class="bold">{{rep.name}}</span> Sales Rep</p>
+        <p class="rep-info">{{rep.phone}} | {{rep.email}}</p>
+      </div>
     </div>
   </div>
-  <div class="col-sm-4" *ngIf="rep">
-    <p class="rep-name"><span class="bold">{{rep.name}}</span> Sales Rep</p>
-    <p class="rep-info">{{rep.phone}} | {{rep.email}}</p>
-  </div>
-  <div class="col-sm-4">
-    <p class="xs"><sup>*</sup>Taxes, Shipping and Handling not included</p>
-  </div>
-  <div class="col-sm-2">
-    <p class="xs orange">3-form.com</p>
+  <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-9">
+        <p class="xs"><sup>*</sup>Taxes, Shipping and Handling not included</p>
+      </div>
+      <div class="col-sm-3">
+        <p class="xs orange pull-right">3-form.com</p>
+      </div>
+    </div>
   </div>
 </div>

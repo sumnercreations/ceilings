@@ -13,6 +13,8 @@ import { Feature } from '../feature';
 export class DetailsComponent implements OnInit {
   public rep: any;
   public tilesArray: any;
+  public tileArraySize: number;
+  public encodedImage: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +40,8 @@ export class DetailsComponent implements OnInit {
               this.rep = rep;
               this.feature.setDesign(design);
               this.tilesArray = this.feature.getTilesPurchasedArray();
+              this.tileArraySize = Object.keys(this.tilesArray).length;
+              this.debug.log('details-component', this.tileArraySize);
             });
           }
         });
@@ -47,6 +51,10 @@ export class DetailsComponent implements OnInit {
 
   print() {
     window.print();
+  }
+
+  backToDesign() {
+    this.router.navigate([this.feature.feature_type, 'design', this.feature.id]);
   }
 
 }

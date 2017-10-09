@@ -24,7 +24,7 @@ export class Feature {
   public material: string;
   public tile_size: number = 24;
   public tiles: any;
-  public blob: any;
+  public design_data_url: any;
   public estimated_amount: number = 0.00;
   public services_amount: number = 0.00;
   public quoted: boolean = false; // boolean
@@ -441,6 +441,7 @@ export class Feature {
     this.units = design.units;
     this.material = design.material;
     this.tile_size = design.tile_size;
+    this.design_data_url = design.design_data_url;
     this.tiles = JSON.parse(design.tiles);
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;

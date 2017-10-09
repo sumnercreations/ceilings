@@ -116,7 +116,7 @@ export class DesignComponent implements OnInit {
 
   public editOptions() {
     // load a dialog to edit the options
-    var config = new MdDialogConfig();
+    let config = new MdDialogConfig();
     config.disableClose = true;
     config.height = "700px";
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
@@ -148,7 +148,7 @@ export class DesignComponent implements OnInit {
 
   public loginDialog(load: boolean = false) {
     this.debug.log('design-component', 'displaying login dialog');
-    var config = new MdDialogConfig();
+    let config = new MdDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
     this.loginDialogRef.afterClosed().subscribe(result => {
@@ -174,26 +174,21 @@ export class DesignComponent implements OnInit {
   }
 
   public tileUsage() {
-    var config = new MdDialogConfig();
+    let config = new MdDialogConfig();
     config.height = '700px';
     this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
   }
 
   public downloadGridGuide() {
     this.debug.log('design-component', 'generating grid guide');
-    var _blob;
+    let _this = this;
     html2canvas(document.getElementById("grid"), {
       onrendered: function(canvas) {
-        var theCanvas = canvas;
-        var dataURL = theCanvas.toDataURL();
-        // document.getElementById("grid").appendChild(theCanvas);
-        theCanvas.toBlob(function(blob) {
-          console.log(blob);
-          _blob = blob;
-        });
+        let theCanvas = canvas;
+        let dataURL = theCanvas.toDataURL();
+        _this.feature.design_data_url = dataURL;
       }
     });
-    this.feature.blob = _blob;
   }
 
   public requestQuote() {
@@ -202,9 +197,9 @@ export class DesignComponent implements OnInit {
     this.feature.showGuide = true;
     this.downloadGridGuide();
     // load the dialog to confirm the design we will be sending
-    var config = new MdDialogConfig();
+    let config = new MdDialogConfig();
     // config.height = '700px';
-    var dialogRef = this.dialog.open(QuoteDialogComponent, config);
+    let dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
 }

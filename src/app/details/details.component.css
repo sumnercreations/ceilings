@@ -13,7 +13,7 @@ hr {
 }
 
 .footer {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .rep-name, .rep-info {
@@ -62,10 +62,12 @@ th {
   font-weight: 300;
 }
 
-div.columns {
-  -webkit-column-count: 2 185px;
-     -moz-column-count: 2 185px;
-          column-count: 2 185px;
+.back-to-design span {
+  font-size: 11px;
+}
+
+img.grid-guide {
+  /*transform: scale(2);*/
 }
 
 /*
