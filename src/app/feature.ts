@@ -4,6 +4,7 @@ import { DebugService } from './_services/debug.service';
 @Injectable()
 export class Feature {
   onBuildGrid = new EventEmitter();
+  onBuildVeloGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
@@ -552,8 +553,13 @@ export class Feature {
   }
 
   buildGrid() {
-    // emit an event to build a new grid
-    this.onBuildGrid.emit();
+    // If the feature type is velo build that grid
+    if(this.feature_type == 'velo') {
+      this.onBuildVeloGrid.emit();
+    }else{
+      // emit an event to build a new grid
+      this.onBuildGrid.emit();
+    }
   }
 
   clearAll() {

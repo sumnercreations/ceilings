@@ -49,6 +49,7 @@ import { ApiService } from './_services/api.service';
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
+import { VeloGridComponent } from './velo-grid/velo-grid.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     TileUsageComponent,
     KeysPipe,
     QuoteDialogComponent,
-    DetailsComponent
+    DetailsComponent,
+    VeloGridComponent
   ],
   imports: [
     BrowserModule,

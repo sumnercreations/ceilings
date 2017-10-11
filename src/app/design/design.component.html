@@ -43,7 +43,8 @@
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <app-grid></app-grid>
+            <app-grid *ngIf="feature.feature_type!='velo'"></app-grid>
+            <app-velo-grid *ngIf="feature.feature_type=='velo'"></app-velo-grid>
           </div>
         </div>
       </div>
