@@ -13,7 +13,8 @@ import {
   MdSnackBarModule,
   MdDialogModule,
   MdInputModule,
-  MdProgressSpinnerModule
+  MdProgressSpinnerModule,
+  MdTabsModule
 } from '@angular/material';
 
 // routing
@@ -84,7 +85,8 @@ import { VeloGridComponent } from './velo-grid/velo-grid.component';
     MdSnackBarModule,
     MdDialogModule,
     MdInputModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    MdTabsModule
   ],
   providers: [
     Feature,

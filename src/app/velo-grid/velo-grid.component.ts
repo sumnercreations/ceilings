@@ -21,18 +21,17 @@ export class VeloGridComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
     // subscribe to the buildVeloGrid event
     this.feature.onBuildVeloGrid.subscribe( result => {
       this.debug.log('velo-grid-component', 'building the velo grid');
-      this.updateGrid();
+      this.renderGrid();
     });
   }
 
-  updateGrid() {
+  renderGrid() {
     let canvas = this.canvas.nativeElement;
     canvas.width = 820;
     canvas.height = 500;
@@ -52,8 +51,14 @@ export class VeloGridComponent implements OnInit {
     }
   }
 
+  gridClick(event: any) {
+    this.debug.log('velo-grid', event);
+    let x = event.layerX;
+    let y = event.layerY;
+    this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
+  }
+
   private createPentagonSection(ctx, adjustmentX, adjustmentY, isOdd) {
-    this.debug.log('velo-grid', isOdd);
     if(isOdd) {
       // start off 48px off canvas
       this.drawPentagon(ctx, 18 + adjustmentX, 33 + adjustmentY, -Math.PI / 2);

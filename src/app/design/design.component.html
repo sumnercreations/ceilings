@@ -59,7 +59,10 @@
           <p class="text-center">{{tile.name | capitalize}}</p>
         </div>
       </div>
-      <div class="row materials">
+      <div class="row velo-materials" *ngIf="feature.feature_type == 'velo'">
+        <p>velo materials</p>
+      </div>
+      <div class="row materials" *ngIf="feature.feature_type != 'velo'">
         <div *ngFor="let material of feature.newMaterialsArray[feature.feature_type] | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
           <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
         </div>
