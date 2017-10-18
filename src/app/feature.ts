@@ -486,13 +486,14 @@ export class Feature {
 
     // CLARIO
     if(this.feature_type == 'clario') {
-      var products_amount: number = 0.00;
-      var clario24TileCount = 0;
-      var clario48TileCount = 0;
-      var sheetsNeeded: number = 0;
-      var sheetCost: number = 0.00;
-      for (var tile in tilesArray) {
-        var currentTile = tilesArray[tile];
+      let products_amount: number = 0.00;
+      let clario24TileCount = 0;
+      let clario48TileCount = 0;
+      let clario00TileCount = 0;
+      let sheetsNeeded: number = 0;
+      let sheetCost: number = 0.00;
+      for (let tile in tilesArray) {
+        let currentTile = tilesArray[tile];
         if(currentTile.tile == "24") {
           // 24x24 prices
           clario24TileCount += currentTile.purchased;
@@ -503,16 +504,23 @@ export class Feature {
           // 24x48 prices
           clario48TileCount += currentTile.purchased;
           sheetsNeeded = currentTile.purchased / 2;
+        } else if(currentTile.tile == "00") {
+          // 00 flat tiles
+          clario00TileCount += currentTile.purchased;
+          sheetsNeeded = currentTile.purchased / 4;
         }
+
         // calculate the sheet cost and add it to the products_amount
         sheetCost = sheetsNeeded * 47.50;
         products_amount += sheetCost;
       }
 
       // SERVICES AMOUNT
-      var clarioServiceCost = 13;
-      var totalClarioTiles = clario24TileCount + clario48TileCount;
-      this.services_amount = totalClarioTiles * clarioServiceCost;
+      let clarioBaffleServiceCost = 44.79;
+      let clarioFlatTileServiceCost = 23.12;
+      let totalClarioBaffles = clario24TileCount + clario48TileCount;
+
+      this.services_amount = (totalClarioBaffles * clarioBaffleServiceCost) + (clario00TileCount * clarioFlatTileServiceCost);
       // END SERVICES AMOUNT
 
       this.estimated_amount = this.services_amount + products_amount;
