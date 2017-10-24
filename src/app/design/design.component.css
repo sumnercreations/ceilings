@@ -90,6 +90,12 @@ span.sm {
   border-radius: 19px;
 }
 
+.velo-materials .circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+}
+
 /* Actions */
 .actions {
   padding: 2px;

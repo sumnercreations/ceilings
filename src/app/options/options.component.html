@@ -57,19 +57,32 @@
           </li>
         </ul>
       </div>
+      <div id="tiles" *ngIf="feature.feature_type=='velo'">
+        <ul class="list-inline">
+          <li class="tile"><img src="/assets/images/velo/concave.png" alt="Concave" class="img-responsive"></li>
+          <li class="tile"><img src="/assets/images/velo/convex.png" alt="Convex" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/milky-white.png" alt="Milky White" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/charcoal.png" alt="Charcoal" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/heather-charcoal.png" alt="Heather Charcoal" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/heather-black.png" alt="Heather Black" class="img-responsive"></li>
+          <li class="material"><img src="/assets/images/materials/felt/merino/black.png" alt="Black" class="img-responsive"></li>
+        </ul>
+      </div>
     </div>
     <div id="modify">
       <h3>Modify</h3>
-      <p>Rotate or remove {{feature.getTileType('plural')}}.</p>
+      <p *ngIf="feature.feature_type=='velo'">Remove tiles as needed.</p>
+      <p *ngIf="feature.feature_type!='velo'">Rotate or remove {{feature.getTileType('plural')}}.</p>
       <ul class="list-inline tools">
-        <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2">
+        <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.feature_type=='velo' && tool != 'remove'">
           <div class="tool" [class.add-border-right]="isLast">
             <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
           </div>
         </li>
       </ul>
     </div>
-    <div id="fixtures">
+    <div id="fixtures" *ngIf="feature.feature_type !='velo'">
       <h3>Fixtures</h3>
       <p>Accomodate ceiling fixtures with flat tiles.</p>
       <ul class="list-inline tools">
@@ -103,7 +116,7 @@
     <hr>
     <div id="grid-dimensions">
       <h3>Design Dimensions</h3>
-      <p>A 15/16 grid system is required for this product.</p>
+      <p *ngIf="feature.feature_type!='velo'">A 15/16 grid system is required for this product.</p>
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">

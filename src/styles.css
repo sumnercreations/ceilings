@@ -226,3 +226,12 @@ a:hover, a:visited {
     width: 1200px;
   }
 }
+
+/* Overwrite some default css styles */
+div.mat-tab-label {
+  min-width: 72px;
+}
+
+.mat-tab-header-pagination {
+  display: none;
+}

@@ -60,7 +60,20 @@
         </div>
       </div>
       <div class="row velo-materials" *ngIf="feature.feature_type == 'velo'">
-        <p>velo materials</p>
+        <md-tab-group class="velo-materials-tab-group" mat-stretch-tabs>
+          <md-tab label="Merino">
+            <div class="merino-felt-materials">
+              <div *ngFor="let felt of feature.newMaterialsArray[feature.feature_type]['felt'] | keys" mdTooltip="{{felt.felt | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(felt.material)" class="col-sm-2 material tooltip-host">
+                <img src="{{felt.image}}" alt="{{felt.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==felt.material">
+              </div>
+            </div>
+          </md-tab>
+          <md-tab label="Varia">
+            <div class="varia-materials">
+              <p>this is varia section</p>
+            </div>
+          </md-tab>
+        </md-tab-group>
       </div>
       <div class="row materials" *ngIf="feature.feature_type != 'velo'">
         <div *ngFor="let material of feature.newMaterialsArray[feature.feature_type] | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
