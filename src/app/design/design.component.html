@@ -93,7 +93,7 @@
         </div>
       </div>
       <ul class="row tools list-inline">
-        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'">
+        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'" [class.hide]="feature.feature_type=='velo' && tool !='remove'">
           <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
             <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
           </div>

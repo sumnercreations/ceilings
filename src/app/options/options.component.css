@@ -37,7 +37,7 @@ li.tile {
   border: 2px solid #E7E7E7;
 }
 
-li.baffle {
+li.baffle, li.velo-tile {
   width: 62px;
   height: 34px;
   padding: 2px;

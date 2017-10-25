@@ -740,7 +740,7 @@ export class Feature {
         "Type": this.getFeatureTypeInteger(),
         "NumX": this.getRows(),
         "NumY": this.getColumns(),
-        "Tiles": this.gridData
+        "Tiles": this.feature_type == 'velo' ? this.veloTiles() : this.gridData
       }
     }
   }
@@ -750,5 +750,15 @@ export class Feature {
     var conversion: number = 0.393701;
     var inches = cm * conversion;
     return Math.ceil(inches);
+  }
+
+  public veloTiles() {
+    let veloTiles = [];
+    for( var tile in this.gridData) {
+      if(this.gridData[tile].texture != '') {
+        veloTiles.push(this.gridData[tile]);
+      }
+    }
+    return veloTiles;
   }
 }

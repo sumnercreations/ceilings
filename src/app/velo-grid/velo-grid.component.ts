@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { AlertService } from '../_services/alert.service';
+import * as pip from 'point-in-polygon';
 
 @Component({
   selector: 'app-velo-grid',
@@ -30,12 +31,12 @@ export class VeloGridComponent implements OnInit {
   ngAfterViewInit() {
     // subscribe to the buildVeloGrid event
     this.feature.onBuildVeloGrid.subscribe( result => {
-      this.debug.log('velo-grid-component', 'building the velo grid');
       this.renderGrid();
     });
   }
 
   renderGrid() {
+    this.debug.log('velo-grid-component', 'building the velo grid');
     let canvas = this.canvas.nativeElement;
     canvas.width = this.canvasWidth;
     canvas.height = this.canvasHeight;
@@ -66,24 +67,35 @@ export class VeloGridComponent implements OnInit {
     let x = event.layerX;
     let y = event.layerY;
     this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
-  }
-
-  private createPentagonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
-    if(isOdd) {
-      // start off 48px off canvas
-      this.drawPentagon(ctx, 18 + adjustmentX, 33 + adjustmentY, -Math.PI / 2, row, column);
-      this.drawPentagon(ctx, 50 + adjustmentX, 17 + adjustmentY, Math.PI, row, column);
-      this.drawPentagon(ctx, 50 + adjustmentX, 49 + adjustmentY, 2 * Math.PI, row, column);
-      this.drawPentagon(ctx, 82 + adjustmentX, 33 + adjustmentY, Math.PI / 2, row, column);
-    }else{
-      this.drawPentagon(ctx, -30 + adjustmentX, 33 + adjustmentY, -Math.PI / 2, row, column);
-      this.drawPentagon(ctx, 2 + adjustmentX, 17 + adjustmentY, Math.PI, row, column);
-      this.drawPentagon(ctx, 2 + adjustmentX, 49 + adjustmentY, 2 * Math.PI, row, column);
-      this.drawPentagon(ctx, 34 + adjustmentX, 33 + adjustmentY, Math.PI / 2, row, column);
+    for (var el in this.feature.gridData) {
+      if(pip([x, y], this.feature.gridData[el].pentagon)) {
+        this.debug.log('velo-grid', 'point in pentagon');
+        this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
+        this.feature.gridData[el].tile = this.feature.selectedTile;
+        this.debug.log('velo-grid', this.feature.gridData[el]);
+        // render the canvas again
+        this.renderGrid();
+      }
     }
   }
 
-  private drawPentagon(ctx, x, y, rotateAngle, row, column) {
+  private createPentagonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
+    let index = (row * 9 + column) * 4;
+    if(isOdd) {
+      // start off 48px off canvas
+      this.drawPentagon(ctx, 18 + adjustmentX, 33 + adjustmentY, -Math.PI / 2, row, column, index);
+      this.drawPentagon(ctx, 50 + adjustmentX, 17 + adjustmentY, Math.PI, row, column, index + 1);
+      this.drawPentagon(ctx, 50 + adjustmentX, 49 + adjustmentY, 2 * Math.PI, row, column, index + 2);
+      this.drawPentagon(ctx, 82 + adjustmentX, 33 + adjustmentY, Math.PI / 2, row, column, index + 3);
+    }else{
+      this.drawPentagon(ctx, -30 + adjustmentX, 33 + adjustmentY, -Math.PI / 2, row, column, index);
+      this.drawPentagon(ctx, 2 + adjustmentX, 17 + adjustmentY, Math.PI, row, column, index + 1);
+      this.drawPentagon(ctx, 2 + adjustmentX, 49 + adjustmentY, 2 * Math.PI, row, column, index + 2);
+      this.drawPentagon(ctx, 34 + adjustmentX, 33 + adjustmentY, Math.PI / 2, row, column, index + 3);
+    }
+  }
+
+  private drawPentagon(ctx, x, y, rotateAngle, row, column, index) {
     // pentagon points
     let xcoords = [0, -23.9, -15.95, 15.95, 23.9];
     let ycoords = [15.94, 7.96, -15.94, -15.94, 7.96];
@@ -97,6 +109,7 @@ export class VeloGridComponent implements OnInit {
 
     if(this.newDesign) {
       this.feature.gridData.push({
+        "index": index,
         "row": row,
         "column": column,
         "x": x,
@@ -127,8 +140,23 @@ export class VeloGridComponent implements OnInit {
     ctx.closePath();
     // set the strokestyle
     ctx.strokeStyle = this.strokeStyle;
-    // set the fillstyle
-    ctx.fillStyle = this.fillStyle;
+
+    // if the design is not new, then we can set fill style from gridData
+    if(!this.newDesign && this.feature.gridData[index].texture != '') {
+      // set the fillstyle
+      ctx.fillStyle = '#007D8A';
+      // let img = new Image();
+      // img.src = this.feature.gridData[index].texture;
+      // this.debug.log('velo-grid', img.src);
+      // img.onload = function() {
+      //   console.log('image has loaded');
+      //   let pattern = ctx.createPattern(img, "repeat");
+      //   ctx.fillStyle = pattern;
+      // }
+    }else{
+      ctx.fillStyle = this.fillStyle;
+    }
+
     // fill the pentagon
     ctx.fill();
     // stroke all the pentagon lines
