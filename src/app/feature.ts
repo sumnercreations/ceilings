@@ -4,6 +4,7 @@ import { DebugService } from './_services/debug.service';
 @Injectable()
 export class Feature {
   onBuildGrid = new EventEmitter();
+  onBuildVeloGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
@@ -80,11 +81,13 @@ export class Feature {
     velo: {
       0: {
         image: '/assets/images/velo/concave.png',
-        tile: 'concave'
+        tile: 'concave',
+        name: 'concave'
       },
       1: {
         image: '/assets/images/velo/convex.png',
-        tile: 'convex'
+        tile: 'convex',
+        name: 'convex'
       }
     }
   };
@@ -560,8 +563,13 @@ export class Feature {
   }
 
   buildGrid() {
-    // emit an event to build a new grid
-    this.onBuildGrid.emit();
+    // If the feature type is velo build that grid
+    if(this.feature_type == 'velo') {
+      this.onBuildVeloGrid.emit();
+    }else{
+      // emit an event to build a new grid
+      this.onBuildGrid.emit();
+    }
   }
 
   clearAll() {
@@ -589,7 +597,11 @@ export class Feature {
 
   public getRows() {
     var rows: number;
-    if(this.units == 'inches') {
+
+    // velo has a static grid
+    if(this.feature_type == 'velo') {
+      rows = 10;
+    }else if(this.units == 'inches') {
       rows = Math.ceil(this.length / 12 / 2);
     }else{
       rows = Math.ceil(this.convertCMtoIN(this.length) / 12 / 2);
@@ -599,7 +611,11 @@ export class Feature {
 
   public getColumns() {
     var columns: number;
-    if(this.units == 'inches') {
+
+    // velo has a static grid
+    if(this.feature_type == 'velo') {
+      columns = 9;
+    }else if(this.units == 'inches') {
       columns = Math.ceil(this.width / 12 / 2);
     }else{
       columns = Math.ceil(this.convertCMtoIN(this.width) / 12 / 2);
@@ -656,7 +672,8 @@ export class Feature {
         qty = 2;
         break;
 
-      case "velo":
+      case "concave":
+      case "convex":
         qty = 8;
         break;
 
@@ -731,7 +748,7 @@ export class Feature {
         "Type": this.getFeatureTypeInteger(),
         "NumX": this.getRows(),
         "NumY": this.getColumns(),
-        "Tiles": this.gridData
+        "Tiles": this.feature_type == 'velo' ? this.veloTiles() : this.gridData
       }
     }
   }
@@ -741,5 +758,15 @@ export class Feature {
     var conversion: number = 0.393701;
     var inches = cm * conversion;
     return Math.ceil(inches);
+  }
+
+  public veloTiles() {
+    let veloTiles = [];
+    for( var tile in this.gridData) {
+      if(this.gridData[tile].texture != '') {
+        veloTiles.push(this.gridData[tile]);
+      }
+    }
+    return veloTiles;
   }
 }

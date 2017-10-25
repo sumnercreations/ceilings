@@ -43,7 +43,8 @@
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <app-grid></app-grid>
+            <app-grid *ngIf="feature.feature_type!='velo'"></app-grid>
+            <app-velo-grid *ngIf="feature.feature_type=='velo'"></app-velo-grid>
           </div>
         </div>
       </div>
@@ -58,7 +59,23 @@
           <p class="text-center">{{tile.name | capitalize}}</p>
         </div>
       </div>
-      <div class="row materials">
+      <div class="row velo-materials" *ngIf="feature.feature_type == 'velo'">
+        <md-tab-group class="velo-materials-tab-group" mat-stretch-tabs>
+          <md-tab label="Merino">
+            <div class="merino-felt-materials">
+              <div *ngFor="let felt of feature.newMaterialsArray[feature.feature_type]['felt'] | keys" mdTooltip="{{felt.felt | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(felt.material)" class="col-sm-2 material tooltip-host">
+                <img src="{{felt.image}}" alt="{{felt.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==felt.material">
+              </div>
+            </div>
+          </md-tab>
+          <md-tab label="Varia">
+            <div class="varia-materials">
+              <p>this is varia section</p>
+            </div>
+          </md-tab>
+        </md-tab-group>
+      </div>
+      <div class="row materials" *ngIf="feature.feature_type != 'velo'">
         <div *ngFor="let material of feature.newMaterialsArray[feature.feature_type] | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
           <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
         </div>
@@ -76,7 +93,7 @@
         </div>
       </div>
       <ul class="row tools list-inline">
-        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'">
+        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'" [class.hide]="feature.feature_type=='velo' && tool !='remove'">
           <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
             <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
           </div>
