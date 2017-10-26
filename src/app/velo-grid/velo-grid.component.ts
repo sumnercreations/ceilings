@@ -11,7 +11,7 @@ import * as pip from 'point-in-polygon';
 })
 export class VeloGridComponent implements OnInit {
   context:CanvasRenderingContext2D;
-  strokeStyle: string =  "#000000";
+  strokeStyle: string =  "#cdcdcd";
   fillStyle: string =  "#ffffff";
   canvasWidth: number = 820;
   canvasHeight: number = 500;
@@ -69,10 +69,27 @@ export class VeloGridComponent implements OnInit {
     this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
     for (var el in this.feature.gridData) {
       if(pip([x, y], this.feature.gridData[el].pentagon)) {
-        this.debug.log('velo-grid', 'point in pentagon');
-        this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
-        this.feature.gridData[el].tile = this.feature.selectedTile;
-        this.debug.log('velo-grid', this.feature.gridData[el]);
+        if(this.feature.selectedTool == 'remove') {
+          // set the texture for the 3D view.
+          this.feature.gridData[el].texture = '';
+          // set the tile
+          this.feature.gridData[el].tile = '';
+          // set material
+          this.feature.gridData[el].material = '';
+          // set hex color value
+          this.feature.gridData[el].hex = '';
+          this.debug.log('velo-grid', this.feature.gridData[el]);
+        }else{
+          // set the texture for the 3D view.
+          this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
+          // set the tile
+          this.feature.gridData[el].tile = this.feature.selectedTile;
+          // set material
+          this.feature.gridData[el].material = this.feature.material;
+          // set hex color value
+          this.feature.gridData[el].hex = this.feature.materialHex;
+          this.debug.log('velo-grid', this.feature.gridData[el]);
+        }
         // render the canvas again
         this.renderGrid();
       }
@@ -144,15 +161,8 @@ export class VeloGridComponent implements OnInit {
     // if the design is not new, then we can set fill style from gridData
     if(!this.newDesign && this.feature.gridData[index].texture != '') {
       // set the fillstyle
-      ctx.fillStyle = '#007D8A';
-      // let img = new Image();
-      // img.src = this.feature.gridData[index].texture;
-      // this.debug.log('velo-grid', img.src);
-      // img.onload = function() {
-      //   console.log('image has loaded');
-      //   let pattern = ctx.createPattern(img, "repeat");
-      //   ctx.fillStyle = pattern;
-      // }
+      // ctx.fillStyle = '#ff9933';
+      ctx.fillStyle = this.feature.gridData[index].hex;
     }else{
       ctx.fillStyle = this.fillStyle;
     }

@@ -230,8 +230,17 @@ a:hover, a:visited {
 /* Overwrite some default css styles */
 div.mat-tab-label {
   min-width: 72px;
+  height: 25px;
 }
 
 .mat-tab-header-pagination {
   display: none;
+}
+
+.mat-tab-group.mat-primary .mat-tab-label:focus, .mat-tab-group.mat-primary .mat-tab-link:focus, .mat-tab-nav-bar.mat-primary .mat-tab-label:focus, .mat-tab-nav-bar.mat-primary .mat-tab-link:focus {
+  background-color: rgba(255,153,51,.3);
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #ff9933;
 }

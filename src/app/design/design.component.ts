@@ -75,6 +75,7 @@ export class DesignComponent implements OnInit {
           }else if(this.feature.feature_type == 'velo') {
             this.feature.selectedTile = 'concave';
             this.feature.material = 'milky-white';
+            this.feature.materialHex = '#dfdee0';
           }
           this.editOptions();
         }, 500);
