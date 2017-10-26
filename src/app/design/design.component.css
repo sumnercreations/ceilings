@@ -90,6 +90,11 @@ span.sm {
   border-radius: 19px;
 }
 
+.velo-materials {
+  max-height: 266px;
+  overflow: auto;
+}
+
 .velo-materials .circle {
   width: 38px;
   height: 38px;

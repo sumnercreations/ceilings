@@ -7,7 +7,7 @@
       <h3>Grid and Guides</h3>
       <p>Design dimensions are shown by a blue guide.</p>
       <img src="/assets/images/grid-and-guide.png" alt="Grid with Blue Guides" class="pull-left">
-      <aside class="note">Tiles extending past the blue guide must be flat tiles to allow cutting.</aside>
+      <aside class="note" *ngIf="feature.feature_type != 'velo'">Tiles extending past the blue guide must be flat tiles to allow cutting.</aside>
     </div>
     <div id="design">
       <h3>Design</h3>
