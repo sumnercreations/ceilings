@@ -66,9 +66,12 @@ export class VeloGridComponent implements OnInit {
   gridClick(event: any) {
     let x = event.layerX;
     let y = event.layerY;
+    let foundTile: boolean = false;
     this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
     for (var el in this.feature.gridData) {
-      if(pip([x, y], this.feature.gridData[el].pentagon)) {
+      this.debug.log('velo-grid', foundTile);
+      if(!foundTile && pip([x, y], this.feature.gridData[el].pentagon)) {
+        // removing a tile
         if(this.feature.selectedTool == 'remove') {
           // set the texture for the 3D view.
           this.feature.gridData[el].texture = '';
@@ -79,6 +82,8 @@ export class VeloGridComponent implements OnInit {
           // set hex color value
           this.feature.gridData[el].hex = '';
           this.debug.log('velo-grid', this.feature.gridData[el]);
+          // set the tile found true so we don't "find" another one that's close
+          foundTile = true;
         }else{
           // set the texture for the 3D view.
           this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
@@ -89,6 +94,8 @@ export class VeloGridComponent implements OnInit {
           // set hex color value
           this.feature.gridData[el].hex = this.feature.materialHex;
           this.debug.log('velo-grid', this.feature.gridData[el]);
+          // set the tile found true so we don't "find" another one that's close
+          foundTile = true;
         }
         // render the canvas again
         this.renderGrid();
