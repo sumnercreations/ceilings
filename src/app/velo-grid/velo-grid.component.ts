@@ -69,17 +69,18 @@ export class VeloGridComponent implements OnInit {
     let foundTile: boolean = false;
     this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
     for (var el in this.feature.gridData) {
-      this.debug.log('velo-grid', foundTile);
       if(!foundTile && pip([x, y], this.feature.gridData[el].pentagon)) {
         // removing a tile
         if(this.feature.selectedTool == 'remove') {
-          // set the texture for the 3D view.
+          // reset the texture for the 3D view.
           this.feature.gridData[el].texture = '';
-          // set the tile
+          // reset the tile
           this.feature.gridData[el].tile = '';
-          // set material
+          // reset material
           this.feature.gridData[el].material = '';
-          // set hex color value
+          // reset materialType
+          this.feature.gridData[el].materialType = '';
+          // reset hex color value
           this.feature.gridData[el].hex = '';
           this.debug.log('velo-grid', this.feature.gridData[el]);
           // set the tile found true so we don't "find" another one that's close
@@ -91,6 +92,8 @@ export class VeloGridComponent implements OnInit {
           this.feature.gridData[el].tile = this.feature.selectedTile;
           // set material
           this.feature.gridData[el].material = this.feature.material;
+          // set materialType
+          this.feature.gridData[el].materialType = this.feature.materialType;
           // set hex color value
           this.feature.gridData[el].hex = this.feature.materialHex;
           this.debug.log('velo-grid', this.feature.gridData[el]);
@@ -170,12 +173,22 @@ export class VeloGridComponent implements OnInit {
       // set the fillstyle
       // ctx.fillStyle = '#ff9933';
       ctx.fillStyle = this.feature.gridData[index].hex;
+      // fill the pentagon
+      ctx.fill();
+      // rotate back so the text is always top down
+      ctx.rotate(-rotateAngle);
+      // change fillStyle for the font (cyan)
+      ctx.fillStyle = '#00E1E1';
+      ctx.font = '16px Arial';
+      ctx.fillText(this.materialTypeAbbreviation(this.feature.gridData[index].materialType), -5, 0);
+      ctx.font = '10px Arial';
+      ctx.fillText(this.tileAbbreviation(this.feature.gridData[index].tile), -8, 10);
     }else{
       ctx.fillStyle = this.fillStyle;
+      // fill the pentagon
+      ctx.fill();
     }
 
-    // fill the pentagon
-    ctx.fill();
     // stroke all the pentagon lines
     ctx.stroke();
     // restore the context so that we can draw the next pentagon.
@@ -188,6 +201,43 @@ export class VeloGridComponent implements OnInit {
 
   private isOdd(column: number) {
     return column % 2;
+  }
+
+  private tileAbbreviation(tile) {
+    this.debug.log('tile-abbreviation', tile);
+    let abbreviation: string;
+    switch (tile) {
+      case "concave":
+        abbreviation = "CC";
+        break;
+
+      case "convex":
+        abbreviation = "CV";
+        break;
+
+      default:
+        this.alert.error("Unknown tile: " + tile);
+        break;
+    }
+    return abbreviation;
+  }
+
+  private materialTypeAbbreviation(materialType) {
+    let abbreviation: string;
+    switch (materialType) {
+      case "felt":
+        abbreviation = 'F';
+        break;
+
+      case "varia":
+        abbreviation = 'V';
+        break;
+
+      default:
+        this.alert.error("Unknown material type: " + materialType);
+        break;
+    }
+    return abbreviation;
   }
 
 }

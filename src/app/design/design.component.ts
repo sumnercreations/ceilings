@@ -76,6 +76,7 @@ export class DesignComponent implements OnInit {
             this.feature.selectedTile = 'concave';
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
+            this.feature.materialType = 'felt';
           }
           this.editOptions();
         }, 500);
