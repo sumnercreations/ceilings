@@ -38,6 +38,7 @@ export class Feature {
   public selectedTool: string;
   public showGuide: boolean = true;
   public materialHex: string;
+  public materialType: string;
 
   public tilesArray = {
     tetria: {
@@ -777,13 +778,16 @@ export class Feature {
     }
   }
 
-  updateSelectedMaterial(material: string, hex: string = "") {
+  updateSelectedMaterial(material: string, hex: string = "", materialType: string = "felt") {
     this.material = material;
 
     // set the hex value as well if not blank
     if(hex != "") {
       this.materialHex = hex;
     }
+
+    // set the materialType as well
+    this.materialType = materialType;
 
     // if a tool is selected then remove it
     if(this.selectedTool != '') {
