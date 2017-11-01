@@ -43,14 +43,20 @@ export class DesignComponent implements OnInit {
   ngOnInit() {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
+      // default the feature type
+      if(params['type']) {
+        this.feature.feature_type = params['type'];
+      }
       if(params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
           if(design == null) {
+            this.debug.log('design-component', 'design not found');
             // design not found redirect to the design url
             this.router.navigate([params['type'], 'design']);
           }else{
             // design was found so load it.
             if(design.feature_type === params['type']) {
+              this.debug.log('design-component', 'setting the design.');
               this.feature.setDesign(design);
               if(this.feature.feature_type == 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();

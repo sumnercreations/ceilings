@@ -15,7 +15,7 @@ export class Feature {
   // attributes saved in DB
   public id: number;
   public uid: number;
-  public feature_type: string = "tetria";
+  public feature_type: string;
   public design_name: string;
   public project_name: string;
   public specifier: string;
