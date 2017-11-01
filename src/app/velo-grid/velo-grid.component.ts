@@ -174,14 +174,9 @@ export class VeloGridComponent implements OnInit {
       ctx.fillStyle = this.feature.gridData[index].hex;
       // fill the pentagon
       ctx.fill();
-      // rotate back so the text is always top down
-      ctx.rotate(-rotateAngle);
-      // change fillStyle for the font (cyan)
-      ctx.fillStyle = '#00E1E1';
-      ctx.font = '16px Arial';
-      ctx.fillText(this.materialTypeAbbreviation(this.feature.gridData[index].materialType), -5, 0);
-      ctx.font = '10px Arial';
-      ctx.fillText(this.tileAbbreviation(this.feature.gridData[index].tile), -8, 10);
+      if(this.feature.showGuide) {
+        this.labelTiles(ctx, rotateAngle, index);
+      }
     }else{
       ctx.fillStyle = this.fillStyle;
       // fill the pentagon
@@ -236,6 +231,17 @@ export class VeloGridComponent implements OnInit {
         break;
     }
     return abbreviation;
+  }
+
+  private labelTiles(ctx, rotateAngle, index) {
+    // rotate back so the text is always top down
+    ctx.rotate(-rotateAngle);
+    // change fillStyle for the font (cyan)
+    ctx.fillStyle = '#00E1E1';
+    ctx.font = '16px Arial';
+    ctx.fillText(this.materialTypeAbbreviation(this.feature.gridData[index].materialType), -5, 0);
+    ctx.font = '10px Arial';
+    ctx.fillText(this.tileAbbreviation(this.feature.gridData[index].tile), -8, 10);
   }
 
 }

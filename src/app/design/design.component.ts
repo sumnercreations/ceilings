@@ -62,6 +62,10 @@ export class DesignComponent implements OnInit {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if(this.feature.feature_type == 'velo') {
                 // velo defaults
+                this.feature.selectedTile = 'concave';
+                this.feature.material = 'milky-white';
+                this.feature.materialHex = '#dfdee0';
+                this.feature.materialType = 'felt';
               }
             }else{
               this.router.navigate([design.feature_type, 'design', design.id]);
