@@ -26,17 +26,16 @@ export class VeloGridComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  }
-
-  ngAfterViewInit() {
     // subscribe to the buildVeloGrid event
+    this.debug.log('velo-grid', 'setting veloGrid Subscription');
     this.feature.onBuildVeloGrid.subscribe( result => {
+      this.debug.log('velo-grid-component', 'building the velo grid');
       this.renderGrid();
     });
   }
 
   renderGrid() {
-    this.debug.log('velo-grid-component', 'building the velo grid');
+    this.debug.log('velo-grid-component', 'rendering the velo grid');
     let canvas = this.canvas.nativeElement;
     canvas.width = this.canvasWidth;
     canvas.height = this.canvasHeight;

@@ -40,6 +40,7 @@ import { VisualizationComponent } from './visualization/visualization.component'
 import { TileUsageComponent } from './tile-usage/tile-usage.component';
 import { QuoteDialogComponent } from './quote-dialog/quote-dialog.component';
 import { DetailsComponent } from './details/details.component';
+import { VeloGridComponent } from './velo-grid/velo-grid.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -50,7 +51,6 @@ import { ApiService } from './_services/api.service';
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
-import { VeloGridComponent } from './velo-grid/velo-grid.component';
 
 @NgModule({
   declarations: [

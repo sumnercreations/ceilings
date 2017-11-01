@@ -24,6 +24,7 @@ export class GridComponent implements OnInit {
 
   ngOnInit() {
     // subscribe to the buildGrid event
+    this.debug.log('grid-component', 'setting grid Subscription');
     this.feature.onBuildGrid.subscribe( result => {
       this.debug.log('grid-component', 'building the grid');
       this.updateGrid();
