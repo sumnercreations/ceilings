@@ -838,6 +838,9 @@ export class Feature {
 
   toggleGuide() {
     this.showGuide = !this.showGuide;
+    if(this.feature_type == 'velo') {
+      this.onBuildVeloGrid.emit();
+    }
   }
 
   view3d() {
