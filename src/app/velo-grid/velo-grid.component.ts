@@ -203,7 +203,6 @@ export class VeloGridComponent implements OnInit {
   }
 
   private tileAbbreviation(tile) {
-    this.debug.log('tile-abbreviation', tile);
     let abbreviation: string;
     switch (tile) {
       case "concave":
