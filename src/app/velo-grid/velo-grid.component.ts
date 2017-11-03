@@ -86,7 +86,11 @@ export class VeloGridComponent implements OnInit {
           foundTile = true;
         }else{
           // set the texture for the 3D view.
-          this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
+          if(this.feature.materialType == 'varia') {
+            this.feature.gridData[el].texture = this.feature.materialHex;
+          }else{
+            this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
+          }
           // set the tile
           this.feature.gridData[el].tile = this.feature.selectedTile;
           // set material
@@ -101,6 +105,7 @@ export class VeloGridComponent implements OnInit {
         }
         // render the canvas again
         this.renderGrid();
+        this.feature.updateEstimatedAmount();
       }
     }
   }

@@ -766,6 +766,39 @@ export class Feature {
       this.estimated_amount = this.services_amount + products_amount;
     } // END CLARIO
 
+    // VELO - felt is the same as Tetria - everything in services
+    if(this.feature_type == 'velo') {
+      // PRODUCTS AMOUNT
+      let veloFeltTiles: number = 0;
+      let veloVariaTiles: number = 0;
+      let products_amount: number = 0.00;
+      let sheetsNeeded: number = 0;
+      let variaSheetCost: number = 473.92;
+
+      console.log(tilesArray);
+      for(let tile in tilesArray) {
+        currentTile = tilesArray[tile];
+        if(currentTile.materialType == 'felt') {
+          veloFeltTiles += currentTile.purchased;
+        }else{
+          veloVariaTiles += currentTile.purchased;
+        }
+      }
+      console.log('velo-varia-tiles: ' + veloVariaTiles);
+      sheetsNeeded = Math.ceil(veloVariaTiles / 8);
+      products_amount = sheetsNeeded * variaSheetCost;
+
+      // SERVICES AMOUNT
+      let veloFeltCost: number = 75.00;
+      let veloVariaServiceCost = 75.00;
+      this.services_amount = (veloFeltTiles * veloFeltCost) + (veloVariaTiles * veloVariaServiceCost);
+      console.log('=== SERVICES AMOUNT ===');
+      console.log(this.services_amount);
+
+      this.estimated_amount = this.services_amount + products_amount;
+    }
+    // END VELO
+
     return this.estimated_amount;
   }
 
@@ -922,6 +955,7 @@ export class Feature {
 
       case "concave":
       case "convex":
+      case "velo":
         qty = 8;
         break;
 
@@ -949,31 +983,56 @@ export class Feature {
   }
 
   public getTilesPurchasedArray() {
-    // Determine the number of unique tiles (color and tile)
-    var pkgQty: number;
-    var tileType = this.getTileType('plural');
-    var tiles = [];
-    if(this.gridData) {
-      for (var i = this.gridData.length - 1; i >= 0; i--) {
-        for (var j = this.gridData[i].length - 1; j >= 0; j--) {
-          if(this.gridData[i][j].tile) {
-            var key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
-            var pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
-            if(tiles[key]) {
-              tiles[key].used += 1;
-              tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
-            }else{
-              if(this.gridData[i][j]['tile'] == "00") {
-                tileType = "tiles";
+    let tiles = [];
+    if(this.feature_type == 'velo') {
+      let pkgQty: number = this.getPackageQty('velo');
+      let gridTiles = this.veloTiles();
+      let purchasedTiles = [];
+
+      for (let tile in gridTiles) {
+        console.log(gridTiles[tile]);
+        let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material;
+        if(purchasedTiles[key]) {
+          purchasedTiles[key].used += 1;
+          purchasedTiles[key].purchased = pkgQty * Math.ceil(purchasedTiles[key].used / pkgQty);
+        }else{
+          purchasedTiles[key] = {
+            "purchased": pkgQty,
+            "image": gridTiles[tile].materialType == 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '',
+            "hex": gridTiles[tile].materialType == 'varia' ? gridTiles[tile].hex : '',
+            "used": 1,
+            "material": gridTiles[tile].material,
+            "tile": gridTiles[tile].tile
+          }
+        }
+      }
+      tiles = purchasedTiles;
+    }else{
+      // Determine the number of unique tiles (color and tile)
+      var pkgQty: number;
+      var tileType = this.getTileType('plural');
+      if(this.gridData) {
+        for (var i = this.gridData.length - 1; i >= 0; i--) {
+          for (var j = this.gridData[i].length - 1; j >= 0; j--) {
+            if(this.gridData[i][j].tile) {
+              var key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
+              var pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
+              if(tiles[key]) {
+                tiles[key].used += 1;
+                tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
               }else{
-                tileType = this.getTileType('plural');
-              }
-              tiles[key] = {
-                "purchased": pkgQty,
-                "image": "/assets/images/" + tileType + "/" + this.gridData[i][j]['tile'] + "/" + this.gridData[i][j]['material'] + ".png",
-                "used": 1,
-                "material": this.gridData[i][j]['material'],
-                "tile": this.gridData[i][j]['tile']
+                if(this.gridData[i][j]['tile'] == "00") {
+                  tileType = "tiles";
+                }else{
+                  tileType = this.getTileType('plural');
+                }
+                tiles[key] = {
+                  "purchased": pkgQty,
+                  "image": "/assets/images/" + tileType + "/" + this.gridData[i][j]['tile'] + "/" + this.gridData[i][j]['material'] + ".png",
+                  "used": 1,
+                  "material": this.gridData[i][j]['material'],
+                  "tile": this.gridData[i][j]['tile']
+                }
               }
             }
           }
@@ -981,12 +1040,14 @@ export class Feature {
       }
     }
 
+    // this.tiles is an array of the purchased tiles.
     let tilesArray = [];
     for(var tile in tiles) {
       var currentTile = tiles[tile];
       tilesArray.push(currentTile);
     }
     this.tiles = tilesArray;
+
     return tiles;
   }
 
