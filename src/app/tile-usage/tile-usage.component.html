@@ -8,7 +8,8 @@
     <th>Unused</th>
   </tr>
   <tr *ngFor="let tile of feature.getTilesPurchasedArray() | keys">
-    <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
+    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}"></td>
+    <td *ngIf="tile.hex" ><div class="tile" [style.background-color]="tile.hex"></div></td>
     <td>{{tile.used}}</td>
     <td>{{tile.purchased}}</td>
     <td>{{tile.purchased - tile.used}}</td>
