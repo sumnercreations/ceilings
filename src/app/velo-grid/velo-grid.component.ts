@@ -127,6 +127,10 @@ export class VeloGridComponent implements OnInit {
   }
 
   private drawPentagon(ctx, x, y, rotateAngle, row, column, index) {
+    // console.log("=== x ===");
+    // console.log(index % 10);
+    // console.log("==== y ====");
+    // console.log(Math.floor(index/9));
     // pentagon points
     let xcoords = [0, -23.9, -15.95, 15.95, 23.9];
     let ycoords = [15.94, 7.96, -15.94, -15.94, 7.96];
@@ -147,7 +151,7 @@ export class VeloGridComponent implements OnInit {
         "y": y,
         "pentagon": pentagon,
         "texture": '',
-        "rotation": rotateAngle,
+        "rotation": this.toDegrees(rotateAngle),
         "material": '',
         "tile": ''
       });
@@ -196,6 +200,11 @@ export class VeloGridComponent implements OnInit {
 
   private toRadians(angle) {
     return angle * (Math.PI / 180);
+  }
+
+  private toDegrees(radians) {
+    this.debug.log('velo-grid', radians);
+    return radians * (180 / Math.PI);
   }
 
   private isOdd(column: number) {
@@ -247,6 +256,10 @@ export class VeloGridComponent implements OnInit {
     ctx.fillText(this.materialTypeAbbreviation(this.feature.gridData[index].materialType), -5, 0);
     ctx.font = '10px Arial';
     ctx.fillText(this.tileAbbreviation(this.feature.gridData[index].tile), -8, 10);
+  }
+
+  private checkAdjacentTiles() {
+
   }
 
 }
