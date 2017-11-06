@@ -881,7 +881,7 @@ export class Feature {
 
     // velo has a static grid
     if(this.feature_type == 'velo') {
-      rows = 10;
+      rows = 500;
     }else if(this.units == 'inches') {
       rows = Math.ceil(this.length / 12 / 2);
     }else{
@@ -895,7 +895,7 @@ export class Feature {
 
     // velo has a static grid
     if(this.feature_type == 'velo') {
-      columns = 9;
+      columns = 820;
     }else if(this.units == 'inches') {
       columns = Math.ceil(this.width / 12 / 2);
     }else{
