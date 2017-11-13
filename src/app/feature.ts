@@ -775,7 +775,6 @@ export class Feature {
       let sheetsNeeded: number = 0;
       let variaSheetCost: number = 473.92;
 
-      console.log(tilesArray);
       for(let tile in tilesArray) {
         currentTile = tilesArray[tile];
         if(currentTile.materialType == 'felt') {
@@ -784,7 +783,7 @@ export class Feature {
           veloVariaTiles += currentTile.purchased;
         }
       }
-      console.log('velo-varia-tiles: ' + veloVariaTiles);
+
       sheetsNeeded = Math.ceil(veloVariaTiles / 8);
       products_amount = sheetsNeeded * variaSheetCost;
 
@@ -795,7 +794,27 @@ export class Feature {
       console.log('=== SERVICES AMOUNT ===');
       console.log(this.services_amount);
 
-      this.estimated_amount = this.services_amount + products_amount;
+      // HARDWARE AMOUNT
+      let veloCableKit = '3-15-1677-K';
+      let variaConnectionKit = '3-15-8899-K';
+      let feltConnectionKit = '3-85-105-K';
+      let hardware_amount: number = 0.00;
+      let cableCount: number = 0;
+      let cableKitCost = 12.10;
+      let variaConnectionKitCost = 6.65;
+      let feltConnectionKitCost = .45;
+      let veloHardware = this.getVeloHardware();
+      console.log(veloHardware);
+      // 2 cables for every 4 tiles. Minimum of 2 cables. Added in quantities of 2. (round up cables to nearest multiple of 2.)
+      cableCount = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
+      console.log("cable count: " + cableCount);
+      let cableCost = cableCount * cableKitCost;
+      console.log("Cable Cost: " + cableCost);
+      let hardwareCost = (veloHardware['variaToVaria'] * variaConnectionKitCost) + ((veloHardware['feltToFelt'] + veloHardware['variaToFelt']) * feltConnectionKitCost);
+      hardware_amount = cableCost + hardwareCost;
+      console.log("hardware amount: " + hardware_amount);
+
+      this.estimated_amount = this.services_amount + products_amount + hardware_amount;
     }
     // END VELO
 
@@ -1077,5 +1096,63 @@ export class Feature {
       }
     }
     return veloTiles;
+  }
+
+  public findVeloTileAt(x,y) {
+    for (let el in this.gridData) {
+      if(this.gridData[el].x == x && this.gridData[el].y == y) {
+        return this.gridData[el];
+      }
+    }
+  }
+
+  public getVeloHardware() {
+    // get the tiles of the design
+    let veloTiles = this.veloTiles();
+    let veloHardware: any;
+    let variaToVariaCount: number = 0;
+    let variaToFeltCount: number = 0;
+    let feltToFeltCount: number = 0;
+    let matches: any = [];
+    // loop through the tiles and count
+    for (let i in veloTiles) {
+      let thisMaterialType = veloTiles[i]['materialType'];
+      for (let j in veloTiles[i].neighbors) {
+        let neighbor = this.findVeloTileAt(veloTiles[i].neighbors[j][0],veloTiles[i].neighbors[j][1]);
+        // determine if this seam has already been matched and therefore counted.
+        let thisIndex = veloTiles[i].index;
+        let neighborIndex = neighbor.index;
+        let a = Math.min(thisIndex, neighborIndex);
+        let b = Math.max(thisIndex, neighborIndex);
+        let mappedIndex = (a + b) * (a + b + 1) / 2 + a;
+        if(typeof neighbor.materialType != 'undefined' && !matches[mappedIndex]) {
+          // felt to felt seams
+          if(thisMaterialType == 'felt' && neighbor.materialType == 'felt') {
+            feltToFeltCount++;
+          }
+          // felt to varia seams or varia to felt seams
+          if(thisMaterialType == 'felt' && neighbor.materialType == 'varia') {
+            variaToFeltCount++;
+          }
+          if(thisMaterialType == 'varia' && neighbor.materialType == 'felt') {
+            variaToFeltCount++;
+          }
+          // varia to varia seams
+          if(thisMaterialType == 'varia' && neighbor.materialType == 'varia') {
+            variaToVariaCount++;
+          }
+
+          // add this mappedIndex to matches array
+          matches[mappedIndex] = true;
+        }
+      }
+    }
+
+    veloHardware = {
+      "variaToVaria": variaToVariaCount,
+      "variaToFelt": variaToFeltCount,
+      "feltToFelt": feltToFeltCount
+    };
+    return veloHardware;
   }
 }
