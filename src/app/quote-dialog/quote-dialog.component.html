@@ -54,7 +54,7 @@
         <th>Unused</th>
       </tr>
       <tr *ngFor="let tile of tilesArray | keys">
-        <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
+        <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}"></td>
         <td>{{tile.used}}</td>
         <td>{{tile.purchased}}</td>
         <td>{{tile.purchased - tile.used}}</td>

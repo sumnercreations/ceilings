@@ -26,6 +26,7 @@ export class Feature {
   public tile_size: number = 24;
   public tiles: any;
   public design_data_url: any;
+  public hardware: any;
   public estimated_amount: number = 0.00;
   public services_amount: number = 0.00;
   public quoted: boolean = false; // boolean
@@ -691,6 +692,7 @@ export class Feature {
     this.tile_size = design.tile_size;
     this.design_data_url = design.design_data_url;
     this.tiles = JSON.parse(design.tiles);
+    this.hardware = JSON.parse(design.hardware);
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;
     this.gridData = JSON.parse(design.grid_data);
@@ -791,33 +793,51 @@ export class Feature {
       let veloFeltCost: number = 75.00;
       let veloVariaServiceCost = 75.00;
       this.services_amount = (veloFeltTiles * veloFeltCost) + (veloVariaTiles * veloVariaServiceCost);
-      console.log('=== SERVICES AMOUNT ===');
-      console.log(this.services_amount);
+      // console.log('=== SERVICES AMOUNT ===');
+      // console.log(this.services_amount);
 
       // HARDWARE AMOUNT
       let veloCableKit = '3-15-1677-K';
       let variaConnectionKit = '3-15-8899-K';
       let feltConnectionKit = '3-85-105-K';
+      let drillBitHwId = '3-15-8812';
+      let variaPunchToolId = '3-15-8813';
       let hardware_amount: number = 0.00;
       let cableCount: number = 0;
       let cableKitCost = 12.10;
       let variaConnectionKitCost = 6.65;
       let feltConnectionKitCost = .45;
+      let drillBitCost = 9.93;
+      let variaPunchToolCost = 16.98;
       let veloHardware = this.getVeloHardware();
-      console.log(veloHardware);
+      // console.log(veloHardware);
       // 2 cables for every 4 tiles. Minimum of 2 cables. Added in quantities of 2. (round up cables to nearest multiple of 2.)
       cableCount = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
-      console.log("cable count: " + cableCount);
+      // console.log("cable count: " + cableCount);
       let cableCost = cableCount * cableKitCost;
-      console.log("Cable Cost: " + cableCost);
+      // console.log("Cable Cost: " + cableCost);
       let hardwareCost = (veloHardware['variaToVaria'] * variaConnectionKitCost) + ((veloHardware['feltToFelt'] + veloHardware['variaToFelt']) * feltConnectionKitCost);
-      hardware_amount = cableCost + hardwareCost;
-      console.log("hardware amount: " + hardware_amount);
+      hardware_amount = cableCost + hardwareCost + drillBitCost;
+      if(this.veloHasVaria()) {
+        // console.log("this has varia so add the hardware amount");
+        hardware_amount += variaPunchToolCost;
+      }
+      // console.log("hardware amount: " + hardware_amount);
 
       this.estimated_amount = this.services_amount + products_amount + hardware_amount;
+      // save the hardware amounts
+      this.hardware = {
+        "3-15-8812": 1,
+        "3-15-1677-K": cableCount,
+        "3-15-8899-K": veloHardware['variaToVaria'],
+        "3-85-105-K": veloHardware['feltToFelt'] + veloHardware['variaToFelt'],
+        "3-15-8813": this.veloHasVaria() ? 1 : 0
+      }
     }
     // END VELO
-
+    // console.log('===== HARDWARE ARRAY =====');
+    // console.log(this.hardware);
+    // console.log('===== END HARDWARE ARRAY =====');
     return this.estimated_amount;
   }
 
@@ -1009,7 +1029,6 @@ export class Feature {
       let purchasedTiles = [];
 
       for (let tile in gridTiles) {
-        console.log(gridTiles[tile]);
         let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material;
         if(purchasedTiles[key]) {
           purchasedTiles[key].used += 1;
@@ -1017,10 +1036,11 @@ export class Feature {
         }else{
           purchasedTiles[key] = {
             "purchased": pkgQty,
-            "image": gridTiles[tile].materialType == 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '',
+            "image": gridTiles[tile].materialType == 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
             "hex": gridTiles[tile].materialType == 'varia' ? gridTiles[tile].hex : '',
             "used": 1,
             "material": gridTiles[tile].material,
+            "materialType": gridTiles[tile].materialType,
             "tile": gridTiles[tile].tile
           }
         }
@@ -1154,5 +1174,37 @@ export class Feature {
       "feltToFelt": feltToFeltCount
     };
     return veloHardware;
+  }
+
+  public veloHasVaria() {
+    let hasVaria = false;
+    let veloTiles = this.veloTiles();
+    for (let i in veloTiles) {
+      if(!hasVaria && veloTiles[i].materialType == 'varia') {
+        hasVaria = true;
+      }
+    }
+    return hasVaria;
+  }
+
+  public packageInformation() {
+    let info: string = "";
+    if(this.feature_type == "tetria") {
+      info = "Tiles are sold in quanties of 4.";
+    }
+
+    if(this.feature_type == "clario" && this.tile_size == 24) {
+      info = "Baffles are sold in quantities of 4.";
+    }
+
+    if(this.feature_type == "clario" && this.tile_size == 48) {
+      info = "24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.";
+    }
+
+    if(this.feature_type == "velo") {
+      info = "Tiles are sold in quanties of 8.";
+    }
+
+    return info;
   }
 }

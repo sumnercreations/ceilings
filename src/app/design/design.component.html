@@ -114,8 +114,7 @@
   </div>
   <div class="col-sm-7">
     <p class="tile-package-information">
-      <!-- how to do I get this to say " sold in quantities of 4 for 24x24 and 2 for 24x48" -->
-      {{feature.getTileType('plural') | capitalize}} are sold in quantities of {{feature.getPackageQty()}}. <a id="tile-usage-details" (click)="tileUsage()">View Tile Usage</a>
+      {{feature.packageInformation()}} <a id="tile-usage-details" (click)="tileUsage()">View Tile Usage</a>
     </p>
   </div>
 </div>

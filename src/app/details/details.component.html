@@ -36,7 +36,7 @@
 <div class="row">
   <div class="col-sm-6">
     <p class="sm">Dimensions: <span class="md info">{{feature.width}} W x {{feature.length}} L ({{feature.units}})</span></p>
-    <img class="grid-guide" src="{{this.feature.design_data_url}}" alt="Grid Guide Image">
+    <img class="grid-guide img-responsive" src="{{this.feature.design_data_url}}" alt="Grid Guide Image">
   </div>
   <div class="col-sm-6">
     <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_size=='24')">24" x 24" {{feature.getTileType('plural') | capitalize}} <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span></p>
@@ -70,7 +70,9 @@
       <div *ngFor="let tile of tilesArray | keys">
         <div class="col-sm-3">
           <div class="row tile-info">
-            <div class="col-sm-6"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></div>
+            <div class="col-sm-6">
+              <img *ngIf="tile.image" src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}">
+            </div>
             <div class="col-sm-6">{{tile.purchased}}</div>
           </div>
         </div>

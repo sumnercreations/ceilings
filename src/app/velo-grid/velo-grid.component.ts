@@ -86,11 +86,11 @@ export class VeloGridComponent implements OnInit {
           foundTile = true;
         }else{
           // set the texture for the 3D view.
-          if(this.feature.materialType == 'varia') {
-            this.feature.gridData[el].texture = this.feature.materialHex;
-          }else{
+          // if(this.feature.materialType == 'varia') {
+          //   this.feature.gridData[el].texture = this.feature.materialHex;
+          // }else{
             this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
-          }
+          // }
           // set the tile
           this.feature.gridData[el].tile = this.feature.selectedTile;
           // set material
@@ -199,10 +199,10 @@ export class VeloGridComponent implements OnInit {
       }
 
       // DEBUGGING
-      ctx.rotate(-rotateAngle);
-      ctx.fillStyle = '#00E1E1';
-      ctx.font = '10px Arial';
-      ctx.fillText(index, -5, -5);
+      // ctx.rotate(-rotateAngle);
+      // ctx.fillStyle = '#00E1E1';
+      // ctx.font = '10px Arial';
+      // ctx.fillText(index, -5, -5);
       // ctx.font = '8px Arial';
       // ctx.fillText(x + ', ' + y, -15, 5);
 
@@ -330,6 +330,35 @@ export class VeloGridComponent implements OnInit {
       neighbors.push(neighbor5);
     }
     return neighbors;
+  }
+
+  getRoomGuideWidth() {
+    var guideWidth: number;
+    if(this.feature.units == 'inches') {
+      guideWidth = ( this.feature.width / 12 / 2 ) * 48;
+    }else{
+      guideWidth = ( this.feature.convertCMtoIN(this.feature.width) / 12 / 2 ) * 48;
+    }
+    return guideWidth;
+  }
+
+  getRoomGuideHeight() {
+    var guideHeight: number;
+    if(this.feature.units == 'inches') {
+      guideHeight = ( this.feature.length / 12 / 2 ) * 48;
+    }else{
+      guideHeight = ( this.feature.convertCMtoIN(this.feature.length) / 12 / 2 ) * 48;
+    }
+
+    return guideHeight;
+  }
+
+  getRoomGuideLeftAdjustment() {
+    return ( this.canvasWidth - this.getRoomGuideWidth() ) / 2;
+  }
+
+  getRoomGuideTopAdjustment() {
+    return ( this.canvasHeight - this.getRoomGuideHeight() ) / 2;
   }
 
 }
