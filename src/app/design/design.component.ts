@@ -211,7 +211,13 @@ export class DesignComponent implements OnInit {
     // get the grid with guides
     // make sure the guide is set to true
     this.feature.showGuide = true;
-    this.downloadGridGuide();
+    if(this.feature.feature_type == 'velo') {
+      let veloCanvas = document.querySelector("canvas");
+      let dataURL = veloCanvas.toDataURL();
+      this.feature.design_data_url = dataURL;
+    }else{
+      this.downloadGridGuide();
+    }
     // load the dialog to confirm the design we will be sending
     let config = new MdDialogConfig();
     // config.height = '700px';

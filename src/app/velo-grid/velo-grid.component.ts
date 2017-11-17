@@ -55,8 +55,8 @@ export class VeloGridComponent implements OnInit {
     }else{
       this.newDesign = false;
     }
-    for (var r = 0; r < rows; ++r) {
-      for (var c = 0; c < columns; ++c) {
+    for (let r = 0; r < rows; ++r) {
+      for (let c = 0; c < columns; ++c) {
         this.createPentagonSection(ctx, c * adjustmentX, r * adjustmentY, this.isOdd(r), r, c);
       }
     }
@@ -67,7 +67,7 @@ export class VeloGridComponent implements OnInit {
     let y = event.layerY;
     let foundTile: boolean = false;
     this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
-    for (var el in this.feature.gridData) {
+    for (let el in this.feature.gridData) {
       if(!foundTile && pip([x, y], this.feature.gridData[el].pentagon)) {
         // removing a tile
         if(this.feature.selectedTool == 'remove') {
@@ -86,11 +86,11 @@ export class VeloGridComponent implements OnInit {
           foundTile = true;
         }else{
           // set the texture for the 3D view.
-          if(this.feature.materialType == 'varia') {
-            this.feature.gridData[el].texture = this.feature.materialHex;
-          }else{
+          // if(this.feature.materialType == 'varia') {
+          //   this.feature.gridData[el].texture = this.feature.materialHex;
+          // }else{
             this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
-          }
+          // }
           // set the tile
           this.feature.gridData[el].tile = this.feature.selectedTile;
           // set material
@@ -99,12 +99,16 @@ export class VeloGridComponent implements OnInit {
           this.feature.gridData[el].materialType = this.feature.materialType;
           // set hex color value
           this.feature.gridData[el].hex = this.feature.materialHex;
-          this.debug.log('velo-grid', this.feature.gridData[el]);
           // set the tile found true so we don't "find" another one that's close
           foundTile = true;
+          for (let neighbor in this.feature.gridData[el].neighbors) {
+            let index = this.feature.findVeloTileAt(this.feature.gridData[el].neighbors[neighbor][0],this.feature.gridData[el].neighbors[neighbor][1]);
+            this.debug.log('neighbors', index);
+          }
         }
         // render the canvas again
         this.renderGrid();
+        // update the estimated amount
         this.feature.updateEstimatedAmount();
       }
     }
@@ -127,13 +131,14 @@ export class VeloGridComponent implements OnInit {
   }
 
   private drawPentagon(ctx, x, y, rotateAngle, row, column, index) {
-    // console.log("=== x ===");
+    // console.log("=== column ===");
     // console.log(index % 10);
-    // console.log("==== y ====");
+    // console.log("==== row ====");
     // console.log(Math.floor(index/9));
     // pentagon points
     let xcoords = [0, -23.9, -15.95, 15.95, 23.9];
     let ycoords = [15.94, 7.96, -15.94, -15.94, 7.96];
+    let tilesOutsideBoundary = [1,2,69,70,73,74,145,146,213,141,142,214,217,218,285,286,289,290,357,358];
 
     // set the grid section information
     // add x,y to all the pentagon points
@@ -153,47 +158,57 @@ export class VeloGridComponent implements OnInit {
         "texture": '',
         "rotation": this.toDegrees(rotateAngle),
         "material": '',
-        "tile": ''
+        "tile": '',
+        "neighbors": this.getNeighbors(x, y, index, this.toDegrees(rotateAngle))
       });
     }
 
     // save the current canvas state
     ctx.save();
-    // start drawing
-    ctx.beginPath();
-    // move to the new x,y coordinates (setting a new 0,0 at x,y)
-    ctx.translate(x,y);
-    // rotate to fit in the tesselation
-    ctx.rotate(rotateAngle);
-    // move to the start of the pentagon and then set the lines
-    ctx.moveTo(xcoords[0], ycoords[0]);
-    ctx.lineTo(xcoords[1], ycoords[1]);
-    ctx.lineTo(xcoords[2], ycoords[2]);
-    ctx.lineTo(xcoords[3], ycoords[3]);
-    ctx.lineTo(xcoords[4], ycoords[4]);
-    // close the path
-    ctx.closePath();
-    // set the strokestyle
-    ctx.strokeStyle = this.strokeStyle;
+    if(!tilesOutsideBoundary.includes(index)) {
+      // start drawing
+      ctx.beginPath();
+      // move to the new x,y coordinates (setting a new 0,0 at x,y)
+      ctx.translate(x,y);
+      // rotate to fit in the tesselation
+      ctx.rotate(rotateAngle);
+      // move to the start of the pentagon and then set the lines
+      ctx.moveTo(xcoords[0], ycoords[0]);
+      ctx.lineTo(xcoords[1], ycoords[1]);
+      ctx.lineTo(xcoords[2], ycoords[2]);
+      ctx.lineTo(xcoords[3], ycoords[3]);
+      ctx.lineTo(xcoords[4], ycoords[4]);
+      // close the path
+      ctx.closePath();
+      // set the strokestyle
+      ctx.strokeStyle = this.strokeStyle;
 
-    // if the design is not new, then we can set fill style from gridData
-    if(!this.newDesign && this.feature.gridData[index].texture != '') {
-      // set the fillstyle
-      // ctx.fillStyle = '#ff9933';
-      ctx.fillStyle = this.feature.gridData[index].hex;
-      // fill the pentagon
-      ctx.fill();
-      if(this.feature.showGuide) {
-        this.labelTiles(ctx, rotateAngle, index);
+      // if the design is not new, then we can set fill style from gridData
+      if(!this.newDesign && this.feature.gridData[index].texture != '') {
+        // set the fillstyle
+        ctx.fillStyle = this.feature.gridData[index].hex;
+        // fill the pentagon
+        ctx.fill();
+        if(this.feature.showGuide) {
+          this.labelTiles(ctx, rotateAngle, index);
+        }
+      }else{
+        ctx.fillStyle = this.fillStyle;
+        // fill the pentagon
+        ctx.fill();
       }
-    }else{
-      ctx.fillStyle = this.fillStyle;
-      // fill the pentagon
-      ctx.fill();
-    }
 
-    // stroke all the pentagon lines
-    ctx.stroke();
+      // DEBUGGING
+      // ctx.rotate(-rotateAngle);
+      // ctx.fillStyle = '#00E1E1';
+      // ctx.font = '10px Arial';
+      // ctx.fillText(index, -5, -5);
+      // ctx.font = '8px Arial';
+      // ctx.fillText(x + ', ' + y, -15, 5);
+
+      // stroke all the pentagon lines
+      ctx.stroke();
+    }
     // restore the context so that we can draw the next pentagon.
     ctx.restore();
   }
@@ -258,8 +273,92 @@ export class VeloGridComponent implements OnInit {
     ctx.fillText(this.tileAbbreviation(this.feature.gridData[index].tile), -8, 10);
   }
 
-  private checkAdjacentTiles() {
+  private getNeighbors(x, y, index, rotateAngle) {
+    let neighbors:any = [];
+    let neighbor1:any = [];
+    let neighbor2:any = [];
+    let neighbor3:any = [];
+    let neighbor4:any = [];
+    let neighbor5:any = [];
 
+    if(rotateAngle == -90) {
+      neighbor1 = [x+32,y-16];
+      neighbors.push(neighbor1);
+      neighbor2 = [x+32,y+16];
+      neighbors.push(neighbor2);
+      neighbor3 = [x-16,y+32];
+      neighbors.push(neighbor3);
+      neighbor4 = [x-32,y];
+      neighbors.push(neighbor4);
+      neighbor5 = [x-16,y-32];
+      neighbors.push(neighbor5);
+    }
+    if(rotateAngle == 180) {
+      neighbor1 = [x-16,y-32];
+      neighbors.push(neighbor1);
+      neighbor2 = [x+16,y-32];
+      neighbors.push(neighbor2);
+      neighbor3 = [x+32,y+16];
+      neighbors.push(neighbor3);
+      neighbor4 = [x,y+32];
+      neighbors.push(neighbor4);
+      neighbor5 = [x-32,y+16];
+      neighbors.push(neighbor5);
+    }
+    if(rotateAngle == 360) {
+      neighbor1 = [x+16,y+32];
+      neighbors.push(neighbor1);
+      neighbor2 = [x-16,y+32];
+      neighbors.push(neighbor2);
+      neighbor3 = [x-32,y-16];
+      neighbors.push(neighbor3);
+      neighbor4 = [x,y-32];
+      neighbors.push(neighbor4);
+      neighbor5 = [x+32,y-16];
+      neighbors.push(neighbor5);
+    }
+    if(rotateAngle == 90) {
+      neighbor1 = [x-32,y+16];
+      neighbors.push(neighbor1);
+      neighbor2 = [x-32,y-16];
+      neighbors.push(neighbor2);
+      neighbor3 = [x+16,y-32];
+      neighbors.push(neighbor3);
+      neighbor4 = [x+32,y];
+      neighbors.push(neighbor4);
+      neighbor5 = [x+16,y+32];
+      neighbors.push(neighbor5);
+    }
+    return neighbors;
+  }
+
+  getRoomGuideWidth() {
+    var guideWidth: number;
+    if(this.feature.units == 'inches') {
+      guideWidth = ( this.feature.width / 12 / 2 ) * 48;
+    }else{
+      guideWidth = ( this.feature.convertCMtoIN(this.feature.width) / 12 / 2 ) * 48;
+    }
+    return guideWidth;
+  }
+
+  getRoomGuideHeight() {
+    var guideHeight: number;
+    if(this.feature.units == 'inches') {
+      guideHeight = ( this.feature.length / 12 / 2 ) * 48;
+    }else{
+      guideHeight = ( this.feature.convertCMtoIN(this.feature.length) / 12 / 2 ) * 48;
+    }
+
+    return guideHeight;
+  }
+
+  getRoomGuideLeftAdjustment() {
+    return ( this.canvasWidth - this.getRoomGuideWidth() ) / 2;
+  }
+
+  getRoomGuideTopAdjustment() {
+    return ( this.canvasHeight - this.getRoomGuideHeight() ) / 2;
   }
 
 }

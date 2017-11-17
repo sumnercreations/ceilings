@@ -54,6 +54,11 @@ span.sm {
   width: 48px;
 }
 
+.tile-info div.tile {
+  width: 48px;
+  height: 48px;
+}
+
 .pagebreak {
   page-break-before: always;
 }
@@ -74,9 +79,17 @@ img.grid-guide {
  For Printing
  */
 @media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .tile-info div.tile {
+    width: 45px;
+    height: 45px;
+    background-color: red !important;
+  }
   .orange {
     color: #ff9933 !important;
-    -webkit-print-color-adjust: exact;
   }
   .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
     float: left;
