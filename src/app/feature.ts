@@ -798,9 +798,9 @@ export class Feature {
       products_amount = sheetsNeeded * variaSheetCost;
 
       // SERVICES AMOUNT
-      let veloFeltCost: number = 75.00;
-      let veloVariaServiceCost = 75.00;
-      this.services_amount = (veloFeltTiles * veloFeltCost) + (veloVariaTiles * veloVariaServiceCost);
+      let veloFeltServiceCost: number = 75.00;
+      let veloVariaServiceCost: number = 75.00;
+      this.services_amount = (veloFeltTiles * veloFeltServiceCost) + (veloVariaTiles * veloVariaServiceCost);
       // console.log('=== SERVICES AMOUNT ===');
       // console.log(this.services_amount);
 
@@ -819,17 +819,30 @@ export class Feature {
       let variaPunchToolCost = 16.98;
       let veloHardware = this.getVeloHardware();
       // console.log(veloHardware);
-      // Cable calculation
-      // ratio = (number_of_shared_edges / number of tiles)
+
+      // CABLE COST CALCULATION
+      // ratio = (number_of_shared_edges / number_of_tiles)
       // if ratio < 1 then cableCount = Math.ceil(cables * .75)
       // if ratio > 1 then cableCount = Math.ceil(cables * .5)
-      let cables = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
-      let ratio = (veloHardware['variaToVaria'] + veloHardware['variaToFelt'] + veloHardware['feltToFelt']) / (veloFeltTiles + veloVariaTiles);
+      let sharedEdges = veloHardware['variaToVaria'] + veloHardware['variaToFelt'] + veloHardware['feltToFelt'];
+      // this is the total number of purchased tiles
+      // let numberOfTiles = veloFeltTiles + veloVariaTiles;
+      // this is the number of tiles in the design
+      let numberOfTiles = this.veloTiles().length;
+      // let cables = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
+      let ratio = (sharedEdges) / (numberOfTiles);
       let factor = ratio < 1 ? .75 : .5;
-      cableCount = Math.ceil(cables * factor);
+      cableCount = Math.ceil(numberOfTiles * factor);
+
+      // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
+      if(sharedEdges + 1 == numberOfTiles) {
+        cableCount = sharedEdges;
+      }
       // Minimum of 2 cables.
       cableCount = cableCount < 2 ? 2 : cableCount;
       let cableCost = cableCount * cableKitCost;
+      // END CABLE COST CALCULATION
+
       let hardwareCost = (veloHardware['variaToVaria'] * variaConnectionKitCost) + ((veloHardware['feltToFelt'] + veloHardware['variaToFelt']) * feltConnectionKitCost);
       hardware_amount = cableCost + hardwareCost + drillBitCost;
       if(this.veloHasVaria()) {
@@ -838,11 +851,15 @@ export class Feature {
 
       this.estimated_amount = this.services_amount + products_amount + hardware_amount;
 
-      console.log("cables: " + cables);
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+      console.log("shared edges: " + sharedEdges);
+      console.log("total tiles: " + numberOfTiles);
       console.log("ratio: " + ratio);
       console.log("factor: " + factor);
+      console.log("==============================");
       console.log("cable count: " + cableCount);
-      // console.log("Cable Cost: " + cableCost);
+      console.log("Cable Cost: " + cableCost);
+      console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
       // console.log("hardware amount: " + hardware_amount);
 
       // save the hardware amounts
@@ -1205,6 +1222,28 @@ export class Feature {
       }
     }
     return hasVaria;
+  }
+
+  public veloWidth() {
+    let veloTiles = this.veloTiles();
+    let calculatedWidth = 0;
+    for (let i in veloTiles) {
+      // we need to determine if the tile actually adds width or not...
+      calculatedWidth += veloTiles[i].width;
+    }
+
+    return calculatedWidth;
+  }
+
+  public veloHeight() {
+    let veloTiles = this.veloTiles();
+    let calculatedHeight = 0;
+    for (let i in veloTiles) {
+      // we need to determine if the tile actually adds height or not...
+      calculatedHeight += veloTiles[i].height;
+    }
+
+    return calculatedHeight;
   }
 
   public packageInformation() {

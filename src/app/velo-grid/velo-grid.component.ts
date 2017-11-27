@@ -106,6 +106,7 @@ export class VeloGridComponent implements OnInit {
             this.debug.log('neighbors', index);
           }
         }
+        this.debug.log('velo-grid', this.feature.gridData[el]);
         // render the canvas again
         this.renderGrid();
         // update the estimated amount
@@ -159,7 +160,9 @@ export class VeloGridComponent implements OnInit {
         "rotation": this.toDegrees(rotateAngle),
         "material": '',
         "tile": '',
-        "neighbors": this.getNeighbors(x, y, index, this.toDegrees(rotateAngle))
+        "neighbors": this.getNeighbors(x, y, index, this.toDegrees(rotateAngle)),
+        "width": this.getTileWidth(this.toDegrees(rotateAngle)),
+        "height": this.getTileHeight(this.toDegrees(rotateAngle))
       });
     }
 
@@ -330,6 +333,26 @@ export class VeloGridComponent implements OnInit {
       neighbors.push(neighbor5);
     }
     return neighbors;
+  }
+
+  getTileWidth(rotateAngle) {
+    this.debug.log('velo-grid', rotateAngle);
+    if(rotateAngle == -90 || rotateAngle == 90) {
+      return 15.5;
+    }
+    if(rotateAngle == 180 || rotateAngle == 360) {
+      return 23.5;
+    }
+  }
+
+  getTileHeight(rotateAngle) {
+    this.debug.log('velo-grid', rotateAngle);
+    if(rotateAngle == -90 || rotateAngle == 90) {
+      return 23.5;
+    }
+    if(rotateAngle == 180 || rotateAngle == 360) {
+      return 15.5;
+    }
   }
 
   getRoomGuideWidth() {
