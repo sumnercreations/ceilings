@@ -428,11 +428,11 @@ export class Feature {
         19: {material: 'gladiola_r29', hex: '#CB7177'},
         20: {material: 'peony_r30', hex: '#E4C1BB'},
         21: {material: 'petal_r31', hex: '#EAD2D3'},
-        22: {material: 'powder puff_r32', hex: '#F0E5E2'},
+        22: {material: 'powder-puff_r32', hex: '#F0E5E2'},
         23: {material: 'azalea_r33', hex: '#EAD4C8'},
         24: {material: 'begonia_r34', hex: '#E8B6B0'},
         25: {material: 'watermelon_r35', hex: '#DC8B8F'},
-        26: {material: 'dragon fruit_r36', hex: '#D46C74'},
+        26: {material: 'dragonfruit_r36', hex: '#D46C74'},
         27: {material: 'pomegranate_r37', hex: '#A1382E'},
         28: {material: 'beet_r38', hex: '#67242A'},
         29: {material: 'merlot_r39', hex: '#451A2E'},
@@ -449,7 +449,7 @@ export class Feature {
         40: {material: 'curry_o17', hex: '#CE8827'},
         41: {material: 'marmalade_o18', hex: '#D5994A'},
         42: {material: 'shrimp_o19', hex: '#EDC28D'},
-        43: {material: 'mai tai_o20', hex: '#DB8549'},
+        43: {material: 'mai-tai_o20', hex: '#DB8549'},
         44: {material: 'punch_o21', hex: '#D67242'},
         45: {material: 'paprika_o22', hex: '#B3381D'},
         46: {material: 'butterscotch_y06', hex: '#CFAE61'},
@@ -457,7 +457,7 @@ export class Feature {
         48: {material: 'gardenia_y08', hex: '#EEDB9F'},
         49: {material: 'morning_y09', hex: '#F9EFC0'},
         50: {material: 'daffodil_y10', hex: '#F3E6A4'},
-        51: {material: 'vitamin c_y11', hex: '#F4E088'},
+        51: {material: 'vitamin-c_y11', hex: '#F4E088'},
         52: {material: 'taxicab_y12', hex: '#F0D059'},
         53: {material: 'golden_y13', hex: '#DEC046'},
         54: {material: 'squash_y14', hex: '#EDC742'},
@@ -490,7 +490,7 @@ export class Feature {
         81: {material: 'guacamole_g29', hex: '#DDE187'},
         82: {material: 'minnow_g30', hex: '#D9E3C3'},
         83: {material: 'garden_g31', hex: '#E8EAA1'},
-        84: {material: 'sweet pea_g32', hex: '#E6E99D'},
+        84: {material: 'sweet-pea_g32', hex: '#E6E99D'},
         85: {material: 'moss_g33', hex: '#CBD58A'},
         86: {material: 'marsh_g34', hex: '#B9C583'},
         87: {material: 'rainforest_g35', hex: '#9AA26A'},
@@ -527,7 +527,7 @@ export class Feature {
         118: {material: 'venice_b13', hex: '#4DABB2'},
         119: {material: 'sea_b14', hex: '#9AC9C1'},
         120: {material: 'cayman_b15', hex: '#B0D5D5'},
-        121: {material: 'swan dive_b16', hex: '#BCDAD6'},
+        121: {material: 'swan-dive_b16', hex: '#BCDAD6'},
         122: {material: 'heron_b17', hex: '#D2E5E6'},
         123: {material: 'reef_b18', hex: '#DDE9E6'},
         124: {material: 'seahorse_b19', hex: '#E9F2EC'},
@@ -819,20 +819,32 @@ export class Feature {
       let variaPunchToolCost = 16.98;
       let veloHardware = this.getVeloHardware();
       // console.log(veloHardware);
-      // 2 cables for every 4 tiles. Minimum of 2 cables. Added in quantities of 2. (round up cables to nearest multiple of 2.)
-      cableCount = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
-      // console.log("cable count: " + cableCount);
+      // Cable calculation
+      // ratio = (number_of_shared_edges / number of tiles)
+      // if ratio < 1 then cableCount = Math.ceil(cables * .75)
+      // if ratio > 1 then cableCount = Math.ceil(cables * .5)
+      let cables = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
+      let ratio = (veloHardware['variaToVaria'] + veloHardware['variaToFelt'] + veloHardware['feltToFelt']) / (veloFeltTiles + veloVariaTiles);
+      let factor = ratio < 1 ? .75 : .5;
+      cableCount = Math.ceil(cables * factor);
+      // Minimum of 2 cables.
+      cableCount = cableCount < 2 ? 2 : cableCount;
       let cableCost = cableCount * cableKitCost;
-      // console.log("Cable Cost: " + cableCost);
       let hardwareCost = (veloHardware['variaToVaria'] * variaConnectionKitCost) + ((veloHardware['feltToFelt'] + veloHardware['variaToFelt']) * feltConnectionKitCost);
       hardware_amount = cableCost + hardwareCost + drillBitCost;
       if(this.veloHasVaria()) {
-        // console.log("this has varia so add the hardware amount");
         hardware_amount += variaPunchToolCost;
       }
-      // console.log("hardware amount: " + hardware_amount);
 
       this.estimated_amount = this.services_amount + products_amount + hardware_amount;
+
+      console.log("cables: " + cables);
+      console.log("ratio: " + ratio);
+      console.log("factor: " + factor);
+      console.log("cable count: " + cableCount);
+      // console.log("Cable Cost: " + cableCost);
+      // console.log("hardware amount: " + hardware_amount);
+
       // save the hardware amounts
       this.hardware = {
         "3-15-8812": 1,

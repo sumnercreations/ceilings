@@ -14,6 +14,7 @@ import { User } from '../_models/user';
 })
 export class QuoteDialogComponent implements OnInit {
   public tilesArray: any;
+  public tileType: string;
 
   constructor(
     private router: Router,
@@ -29,6 +30,7 @@ export class QuoteDialogComponent implements OnInit {
   ngOnInit() {
     this.debug.log('quote-dialog', 'init quote-dialog');
     this.tilesArray = this.feature.getTilesPurchasedArray();
+    this.tileType = this.feature.getTileType('plural');
   }
 
   public quoteConfirmed() {
