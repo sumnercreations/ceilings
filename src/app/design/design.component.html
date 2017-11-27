@@ -24,7 +24,8 @@
       <div class="grid-wrapper col-sm-12">
         <div class="row grid-header">
           <div class="col-sm-5">
-            <p>{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            <p *ngIf="feature.feature_type=='velo'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            <p *ngIf="feature.feature_type!='velo'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
           <div class="col-sm-3">
             <p>

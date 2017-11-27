@@ -811,20 +811,32 @@ export class Feature {
       let variaPunchToolCost = 16.98;
       let veloHardware = this.getVeloHardware();
       // console.log(veloHardware);
-      // 2 cables for every 4 tiles. Minimum of 2 cables. Added in quantities of 2. (round up cables to nearest multiple of 2.)
-      cableCount = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
-      // console.log("cable count: " + cableCount);
+      // Cable calculation
+      // ratio = (number_of_shared_edges / number of tiles)
+      // if ratio < 1 then cableCount = Math.ceil(cables * .75)
+      // if ratio > 1 then cableCount = Math.ceil(cables * .5)
+      let cables = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
+      let ratio = (veloHardware['variaToVaria'] + veloHardware['variaToFelt'] + veloHardware['feltToFelt']) / (veloFeltTiles + veloVariaTiles);
+      let factor = ratio < 1 ? .75 : .5;
+      cableCount = Math.ceil(cables * factor);
+      // Minimum of 2 cables.
+      cableCount = cableCount < 2 ? 2 : cableCount;
       let cableCost = cableCount * cableKitCost;
-      // console.log("Cable Cost: " + cableCost);
       let hardwareCost = (veloHardware['variaToVaria'] * variaConnectionKitCost) + ((veloHardware['feltToFelt'] + veloHardware['variaToFelt']) * feltConnectionKitCost);
       hardware_amount = cableCost + hardwareCost + drillBitCost;
       if(this.veloHasVaria()) {
-        // console.log("this has varia so add the hardware amount");
         hardware_amount += variaPunchToolCost;
       }
-      // console.log("hardware amount: " + hardware_amount);
 
       this.estimated_amount = this.services_amount + products_amount + hardware_amount;
+
+      console.log("cables: " + cables);
+      console.log("ratio: " + ratio);
+      console.log("factor: " + factor);
+      console.log("cable count: " + cableCount);
+      // console.log("Cable Cost: " + cableCost);
+      // console.log("hardware amount: " + hardware_amount);
+
       // save the hardware amounts
       this.hardware = {
         "3-15-8812": 1,
