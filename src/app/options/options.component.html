@@ -121,13 +121,13 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label for="width">Width</label>
-            <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Width" name="width" id="width">
+            <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Width" name="width" id="width" [readonly]="feature.feature_type=='velo'">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
             <label for="length">Length</label>
-            <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Length" name="length" id="length">
+            <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Length" name="length" id="length" [readonly]="feature.feature_type=='velo'">
           </div>
         </div>
         <div class="col-sm-4">

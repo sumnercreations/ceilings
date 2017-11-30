@@ -1145,6 +1145,13 @@ export class Feature {
     return Math.ceil(inches);
   }
 
+  public convertINtoCM(inches: number) {
+    // 1 cm = 0.393701 in
+    var conversion: number = 2.54;
+    var cm = inches * conversion;
+    return Math.ceil(cm);
+  }
+
   public veloTiles() {
     let veloTiles = [];
     for( var tile in this.gridData) {
@@ -1235,7 +1242,7 @@ export class Feature {
     return calculatedWidth;
   }
 
-  public veloHeight() {
+  public veloLength() {
     let veloTiles = this.veloTiles();
     let calculatedHeight = 0;
     for (let i in veloTiles) {

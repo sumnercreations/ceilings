@@ -1,2 +1,3 @@
-<div class="grid-room-guide" [class.hide]="!feature.showGuide" [style.width]="getRoomGuideWidth() + 'px'" [style.height]="getRoomGuideHeight() + 'px'" [style.top]="getRoomGuideTopAdjustment() + 'px'" [style.left]="getRoomGuideLeftAdjustment() + 'px'"></div>
+<div class="ruler horizontal"></div>
+<div class="ruler vertical"></div>
 <canvas #veloCanvas (click)="gridClick($event)"></canvas>

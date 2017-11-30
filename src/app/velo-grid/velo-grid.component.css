@@ -1,9 +1,41 @@
-.grid-room-guide {
-  border: 2px dashed cyan;
+.ruler {
   position: absolute;
+  background-color: #e7e7e7;
+  background-image:
+    linear-gradient(to left, #808080 1px, transparent 1px),
+    linear-gradient(to left, #808080 1px, transparent 1px),
+    linear-gradient(to left, #808080 1px, transparent 1px);
+  background-size:
+    50px 50px,
+    10px 50px,
+    5px 50px;
+  background-position:
+    0 0,
+    0px 10px,
+    0 12px;
+  background-repeat: repeat-x;
+  border-bottom: 1px solid #808080;
+}
+
+.ruler.horizontal {
+  left: 15px;
   top: 0;
-  left: 0;
-  margin: 0 auto;
-  z-index: 10;
-  pointer-events: none;
+  width: 820px;
+  height: 15px;
+  box-shadow: -16px 0 0 0 #e7e7e7;
+}
+
+.ruler.vertical {
+  top: 0px;
+  left: 15px;
+  width: 500px;
+  height: 15px;
+  transform: rotateZ(90deg) rotateX(180deg);
+  transform-origin: 0% 100%;
+}
+
+canvas {
+  position: absolute;
+  top: 15px;
+  left: 15px;
 }
