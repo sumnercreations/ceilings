@@ -32,7 +32,7 @@
     "point-in-polygon": "^1.0.1",
     "rxjs": "^5.1.0",
     "syd-tiling": "0.0.13",
-    "syd-visualization": "0.0.73",
+    "syd-visualization": "0.0.74",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
