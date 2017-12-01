@@ -1,3 +1,34 @@
-<div class="ruler horizontal"></div>
-<div class="ruler vertical"></div>
-<canvas #veloCanvas (click)="gridClick($event)"></canvas>
+<div class="ruler horizontal">
+  <label>0</label>
+  <label>24</label>
+  <label>48</label>
+  <label>72</label>
+  <label>96</label>
+  <label>120</label>
+  <label>144</label>
+  <label>168</label>
+  <label>192</label>
+  <label>216</label>
+  <label>240</label>
+  <label>264</label>
+  <label>288</label>
+  <label>312</label>
+  <label>336</label>
+  <label>360</label>
+  <label>384</label>
+</div>
+<div class="ruler vertical">
+  <label>0</label>
+  <label>24</label>
+  <label>48</label>
+  <label>72</label>
+  <label>96</label>
+  <label>120</label>
+  <label>144</label>
+  <label>168</label>
+  <label>192</label>
+  <label>216</label>
+</div>
+<div class="guide horizontal" [style.top.px]="guide.top"></div>
+<div class="guide vertical" [style.left.px]="guide.left"></div>
+<canvas #veloCanvas (click)="gridClick($event)" (mousemove)="moveGuide($event)"></canvas>

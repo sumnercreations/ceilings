@@ -3,6 +3,7 @@ import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { AlertService } from '../_services/alert.service';
 import * as pip from 'point-in-polygon';
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-velo-grid',
@@ -16,12 +17,17 @@ export class VeloGridComponent implements OnInit {
   canvasWidth: number = 820;
   canvasHeight: number = 500;
   newDesign: boolean = true;
+  guide: any = {
+    "top": this.sanitizer.bypassSecurityTrustStyle("10"),
+    "left": this.sanitizer.bypassSecurityTrustStyle("10")
+  };
 
   @ViewChild("veloCanvas") canvas;
 
   constructor(
     private debug: DebugService,
     private alert: AlertService,
+    private sanitizer: DomSanitizer,
     public feature: Feature
   ) { }
 
@@ -112,6 +118,16 @@ export class VeloGridComponent implements OnInit {
         // update the estimated amount
         this.feature.updateEstimatedAmount();
       }
+    }
+  }
+
+  moveGuide(event: any) {
+    let x = event.layerX;
+    let y = event.layerY;
+
+    this.guide = {
+      "top": this.sanitizer.bypassSecurityTrustStyle(y + 10),
+      "left": this.sanitizer.bypassSecurityTrustStyle(x + 10)
     }
   }
 
