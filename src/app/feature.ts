@@ -783,7 +783,7 @@ export class Feature {
       let veloVariaTiles: number = 0;
       let products_amount: number = 0.00;
       let sheetsNeeded: number = 0;
-      let variaSheetCost: number = 473.92;
+      let variaSheetCost: number = 488.14;
 
       for(let tile in tilesArray) {
         currentTile = tilesArray[tile];
@@ -798,8 +798,8 @@ export class Feature {
       products_amount = sheetsNeeded * variaSheetCost;
 
       // SERVICES AMOUNT
-      let veloFeltServiceCost: number = 75.00;
-      let veloVariaServiceCost: number = 140.60;
+      let veloFeltServiceCost: number = 77.25;
+      let veloVariaServiceCost: number = 144.82;
       this.services_amount = (veloFeltTiles * veloFeltServiceCost) + (veloVariaTiles * veloVariaServiceCost);
       // console.log('=== SERVICES AMOUNT ===');
       // console.log(this.services_amount);
@@ -812,11 +812,11 @@ export class Feature {
       let variaPunchToolId = '3-15-8813';
       let hardware_amount: number = 0.00;
       let cableCount: number = 0;
-      let cableKitCost = 12.10;
-      let variaConnectionKitCost = 6.65;
-      let feltConnectionKitCost = .45;
-      let drillBitCost = 9.93;
-      let variaPunchToolCost = 16.98;
+      let cableKitCost = 12.46;
+      let variaConnectionKitCost = 6.85;
+      let feltConnectionKitCost = .46;
+      let drillBitCost = 10.23;
+      let variaPunchToolCost = 17.49;
       let veloHardware = this.getVeloHardware();
       // console.log(veloHardware);
 
