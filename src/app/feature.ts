@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
+import *  as _ from 'lodash';
 
 @Injectable()
 export class Feature {
@@ -868,6 +869,10 @@ export class Feature {
         "3-85-105-K": veloHardware['feltToFelt'] + veloHardware['variaToFelt'],
         "3-15-8813": this.veloHasVaria() ? 1 : 0
       }
+
+
+      let islands = this.getIslands();
+      console.log('islands', islands);
     }
     // END VELO
     // console.log('===== HARDWARE ARRAY =====');
@@ -1219,38 +1224,41 @@ export class Feature {
   }
 
   public getIslands() {
-    for (let tile in this.gridData) {
-      let tileObject = this.gridData[tile];
-      // we only need to look for islands if the tile has a texture.
-      if(tileObject.texture != '') {
-        this._getIsland(tileObject.index)
-      }
+    let islands: any = [];
+    let indices = this.gridData.map(e => e.index);
+    for (let i = 0; i < indices.length; i++) {
+      let index = indices[i];
+      let island = this._getIsland(+index);
+
+      if (island.length <= 0) continue;
+
+      indices = _.difference(indices, island);
+      islands.push(island);
     }
+    return islands;
   }
 
-  private _getIsland(index: number): any [] {
-    let tileAddedToIsland: boolean = false;
-    // if the tile is not already a member of an island
-    // check to see if any neighbors are in an island
-    while(!tileAddedToIsland) {
-      for( let neighbor in this.gridData[index].neighbors ) {
-        // if the neighbor is in an island
-        // add this tile to the same island
-        tileAddedToIsland = true;
-      }
-      // we checked all neighbors and found no island, so we need to create a new island
+  private _getIsland(index: number, members: any = []): any [] {
+    let tileObject = this.gridData[index];
+    if(tileObject.texture === '') {
+      return members;
     }
 
-    return [];
-  }
+    if(!members.includes(index)) {
+      members.push(index);
+      for(let neighborIndex in tileObject.neighbors) {
+        let neighbor = tileObject.neighbors[neighborIndex];
+        let island = this._getIsland(this.findVeloTileAt(neighbor[0], neighbor[1]).index, members);
+        for (let tile in island) {
+          if(!members.includes(island[tile])) {
+            members.push(island[tile]);
+          }
+        }
+      }
+    }
 
-  // private _getIsland(index: number, members: any []): any [] {
-  //   // every tile not already a member add to the island
-  //   for () {
-  //
-  //   }
-  //   return
-  // }
+    return members;
+  }
 
   public veloHasVaria() {
     let hasVaria = false;
