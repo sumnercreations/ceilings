@@ -783,7 +783,7 @@ export class Feature {
       let veloVariaTiles: number = 0;
       let products_amount: number = 0.00;
       let sheetsNeeded: number = 0;
-      let variaSheetCost: number = 473.92;
+      let variaSheetCost: number = 488.14;
 
       for(let tile in tilesArray) {
         currentTile = tilesArray[tile];
@@ -798,8 +798,8 @@ export class Feature {
       products_amount = sheetsNeeded * variaSheetCost;
 
       // SERVICES AMOUNT
-      let veloFeltServiceCost: number = 75.00;
-      let veloVariaServiceCost: number = 140.60;
+      let veloFeltServiceCost: number = 77.25;
+      let veloVariaServiceCost: number = 144.82;
       this.services_amount = (veloFeltTiles * veloFeltServiceCost) + (veloVariaTiles * veloVariaServiceCost);
       // console.log('=== SERVICES AMOUNT ===');
       // console.log(this.services_amount);
@@ -812,11 +812,11 @@ export class Feature {
       let variaPunchToolId = '3-15-8813';
       let hardware_amount: number = 0.00;
       let cableCount: number = 0;
-      let cableKitCost = 12.10;
-      let variaConnectionKitCost = 6.65;
-      let feltConnectionKitCost = .45;
-      let drillBitCost = 9.93;
-      let variaPunchToolCost = 16.98;
+      let cableKitCost = 12.46;
+      let variaConnectionKitCost = 6.85;
+      let feltConnectionKitCost = .46;
+      let drillBitCost = 10.23;
+      let variaPunchToolCost = 17.49;
       let veloHardware = this.getVeloHardware();
       // console.log(veloHardware);
 
@@ -826,10 +826,8 @@ export class Feature {
       // if ratio > 1 then cableCount = Math.ceil(cables * .5)
       let sharedEdges = veloHardware['variaToVaria'] + veloHardware['variaToFelt'] + veloHardware['feltToFelt'];
       // this is the total number of purchased tiles
-      // let numberOfTiles = veloFeltTiles + veloVariaTiles;
       // this is the number of tiles in the design
       let numberOfTiles = this.veloTiles().length;
-      // let cables = Math.ceil(((veloFeltTiles + veloVariaTiles) / 4 ));
       let ratio = (sharedEdges) / (numberOfTiles);
       let factor = ratio < 1 ? .75 : .5;
       cableCount = Math.ceil(numberOfTiles * factor);
@@ -1219,6 +1217,40 @@ export class Feature {
     };
     return veloHardware;
   }
+
+  public getIslands() {
+    for (let tile in this.gridData) {
+      let tileObject = this.gridData[tile];
+      // we only need to look for islands if the tile has a texture.
+      if(tileObject.texture != '') {
+        this._getIsland(tileObject.index)
+      }
+    }
+  }
+
+  private _getIsland(index: number): any [] {
+    let tileAddedToIsland: boolean = false;
+    // if the tile is not already a member of an island
+    // check to see if any neighbors are in an island
+    while(!tileAddedToIsland) {
+      for( let neighbor in this.gridData[index].neighbors ) {
+        // if the neighbor is in an island
+        // add this tile to the same island
+        tileAddedToIsland = true;
+      }
+      // we checked all neighbors and found no island, so we need to create a new island
+    }
+
+    return [];
+  }
+
+  // private _getIsland(index: number, members: any []): any [] {
+  //   // every tile not already a member add to the island
+  //   for () {
+  //
+  //   }
+  //   return
+  // }
 
   public veloHasVaria() {
     let hasVaria = false;
