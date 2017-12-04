@@ -463,8 +463,8 @@ export class Feature {
 
     // TETRIA
     if(this.feature_type == 'tetria') {
-      var flatTilePrice = 15.00;
-      var tetriaTilePrice = 80;
+      var flatTilePrice = 15.45;
+      var tetriaTilePrice = 82.40;
       var tileWeight = 1.55;
       var flatTileCount = 0;
       var tetriaTileCount = 0;
@@ -511,13 +511,13 @@ export class Feature {
         }
 
         // calculate the sheet cost and add it to the products_amount
-        sheetCost = sheetsNeeded * 47.50;
+        sheetCost = sheetsNeeded * 48.93;
         products_amount += sheetCost;
       }
 
       // SERVICES AMOUNT
-      let clarioBaffleServiceCost = 44.79;
-      let clarioFlatTileServiceCost = 23.12;
+      let clarioBaffleServiceCost = 46.13;
+      let clarioFlatTileServiceCost = 23.81;
       let totalClarioBaffles = clario24TileCount + clario48TileCount;
 
       this.services_amount = (totalClarioBaffles * clarioBaffleServiceCost) + (clario00TileCount * clarioFlatTileServiceCost);
