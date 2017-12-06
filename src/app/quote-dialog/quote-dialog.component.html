@@ -42,7 +42,7 @@
       </div>
       <div class="text-center">
         <button md-button type="submit" class="button button-gray" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
-        <button md-button (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
+        <button md-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
     <h3>{{tileType | capitalize}}</h3>
