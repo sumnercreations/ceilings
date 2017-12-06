@@ -109,7 +109,6 @@ export class VeloGridComponent implements OnInit {
           foundTile = true;
           for (let neighbor in this.feature.gridData[el].neighbors) {
             let index = this.feature.findVeloTileAt(this.feature.gridData[el].neighbors[neighbor][0],this.feature.gridData[el].neighbors[neighbor][1]);
-            this.debug.log('neighbors', index);
           }
         }
         this.debug.log('velo-grid', this.feature.gridData[el]);
@@ -237,7 +236,6 @@ export class VeloGridComponent implements OnInit {
   }
 
   private toDegrees(radians) {
-    this.debug.log('velo-grid', radians);
     return radians * (180 / Math.PI);
   }
 
@@ -352,7 +350,6 @@ export class VeloGridComponent implements OnInit {
   }
 
   getTileWidth(rotateAngle) {
-    this.debug.log('velo-grid', rotateAngle);
     if(rotateAngle == -90 || rotateAngle == 90) {
       return 15.5;
     }
@@ -362,7 +359,6 @@ export class VeloGridComponent implements OnInit {
   }
 
   getTileHeight(rotateAngle) {
-    this.debug.log('velo-grid', rotateAngle);
     if(rotateAngle == -90 || rotateAngle == 90) {
       return 23.5;
     }

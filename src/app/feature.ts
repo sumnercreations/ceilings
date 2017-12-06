@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
+import *  as _ from 'lodash';
 
 @Injectable()
 export class Feature {
@@ -805,74 +806,95 @@ export class Feature {
       // console.log(this.services_amount);
 
       // HARDWARE AMOUNT
-      let veloCableKit = '3-15-1677-K';
-      let variaConnectionKit = '3-15-8899-K';
-      let feltConnectionKit = '3-85-105-K';
-      let drillBitHwId = '3-15-8812';
-      let variaPunchToolId = '3-15-8813';
-      let hardware_amount: number = 0.00;
-      let cableCount: number = 0;
+      let hardware_amount: number;
+      let hardwareCost: number = 0.00;
+      let cableCount: number;
+      let cableCost: number = 0.00;
       let cableKitCost = 12.46;
       let variaConnectionKitCost = 6.85;
       let feltConnectionKitCost = .46;
       let drillBitCost = 10.23;
       let variaPunchToolCost = 17.49;
-      let veloHardware = this.getVeloHardware();
-      // console.log(veloHardware);
+      let variaConnectionKitsNeeded: number = 0;
+      let feltConnectionKitsNeeded: number = 0;
+      let cablesNeeded: number = 0;
+      let variaPunchToolNeeded: boolean = false;
 
       // CABLE COST CALCULATION
-      // ratio = (number_of_shared_edges / number_of_tiles)
-      // if ratio < 1 then cableCount = Math.ceil(cables * .75)
-      // if ratio > 1 then cableCount = Math.ceil(cables * .5)
-      let sharedEdges = veloHardware['variaToVaria'] + veloHardware['variaToFelt'] + veloHardware['feltToFelt'];
-      // this is the total number of purchased tiles
-      // this is the number of tiles in the design
-      let numberOfTiles = this.veloTiles().length;
-      let ratio = (sharedEdges) / (numberOfTiles);
-      let factor = ratio < 1 ? .75 : .5;
-      cableCount = Math.ceil(numberOfTiles * factor);
+      // we need to calculate the cable hardware for each individual island
+      // and then add them together at the end for a total amount.
+      let islands = this.getIslands();
+      console.log('islands', islands);
+      for (let i in islands) {
+        let island = islands[i];
+        let tilesInIsland = island.length;
+        let islandConnections = this.getVeloConnections(island);
+        let sharedEdges = islandConnections['totalConnections'];
 
-      // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
-      if(sharedEdges + 1 == numberOfTiles) {
-        cableCount = sharedEdges;
+        // ratio = (number_of_shared_edges / number_of_tiles)
+        // if ratio < 1 then cableCount = Math.ceil(cables * .75)
+        // if ratio > 1 then cableCount = Math.ceil(cables * .5)
+        // this is the total number of purchased tiles
+        // this is the number of tiles in the design
+        let ratio = (sharedEdges) / (tilesInIsland);
+        let factor = ratio < 1 ? .75 : .5;
+        cableCount = Math.ceil(tilesInIsland * factor);
+
+        // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
+        if(sharedEdges + 1 == tilesInIsland) {
+          cableCount = sharedEdges;
+        }
+        // Minimum of 2 cables.
+        cableCount = cableCount < 2 ? 2 : cableCount;
+        cableCost += cableCount * cableKitCost;
+
+        // Add the cables for this island to the total cables needed
+        cablesNeeded += cableCount;
+
+        // Calculate the hardware cost for connections and add to the hardware cost
+        hardwareCost += (islandConnections['variaToVaria'] * variaConnectionKitCost) + ((islandConnections['feltToFelt'] + islandConnections['variaToFelt']) * feltConnectionKitCost);
+
+        // Add the connections to the running total
+        variaConnectionKitsNeeded += islandConnections['variaToVaria'];
+        feltConnectionKitsNeeded += islandConnections['variaToFelt'] + islandConnections['feltToFelt'];
+
+        console.log('=======================');
+        console.log('shared edges:', sharedEdges);
+        console.log('total tiles:', tilesInIsland);
+        console.log('connections', islandConnections);
+        console.log('ratio:', ratio);
+        console.log('factor:', factor);
+        console.log('cables: ', cableCount);
+        console.log('///////////////////////');
       }
-      // Minimum of 2 cables.
-      cableCount = cableCount < 2 ? 2 : cableCount;
-      let cableCost = cableCount * cableKitCost;
       // END CABLE COST CALCULATION
 
-      let hardwareCost = (veloHardware['variaToVaria'] * variaConnectionKitCost) + ((veloHardware['feltToFelt'] + veloHardware['variaToFelt']) * feltConnectionKitCost);
+      console.log('Total Cable cost: ', cableCost);
+      console.log('Total hardware cost: ', hardwareCost);
+      console.log('Varia Kits needed: ', variaConnectionKitsNeeded);
+      console.log('Felt Kits needed: ', feltConnectionKitsNeeded);
+      console.log('Total cables needed: ', cablesNeeded);
       hardware_amount = cableCost + hardwareCost + drillBitCost;
       if(this.veloHasVaria()) {
         hardware_amount += variaPunchToolCost;
+        variaPunchToolNeeded = true;
       }
 
       this.estimated_amount = this.services_amount + products_amount + hardware_amount;
 
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-      console.log("shared edges: " + sharedEdges);
-      console.log("total tiles: " + numberOfTiles);
-      console.log("ratio: " + ratio);
-      console.log("factor: " + factor);
-      console.log("==============================");
-      console.log("cable count: " + cableCount);
-      console.log("Cable Cost: " + cableCost);
-      console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-      // console.log("hardware amount: " + hardware_amount);
-
       // save the hardware amounts
       this.hardware = {
-        "3-15-8812": 1,
-        "3-15-1677-K": cableCount,
-        "3-15-8899-K": veloHardware['variaToVaria'],
-        "3-85-105-K": veloHardware['feltToFelt'] + veloHardware['variaToFelt'],
-        "3-15-8813": this.veloHasVaria() ? 1 : 0
+        "3-15-8812": 1, // drillBit
+        "3-15-1677-K": cablesNeeded,
+        "3-15-8899-K": variaConnectionKitsNeeded,
+        "3-85-105-K": feltConnectionKitsNeeded,
+        "3-15-8813": variaPunchToolNeeded ? 1 : 0
       }
     }
     // END VELO
-    // console.log('===== HARDWARE ARRAY =====');
-    // console.log(this.hardware);
-    // console.log('===== END HARDWARE ARRAY =====');
+    console.log('===== HARDWARE ARRAY =====');
+    console.log(this.hardware);
+    console.log('===== END HARDWARE ARRAY =====');
     return this.estimated_amount;
   }
 
@@ -1168,14 +1190,17 @@ export class Feature {
     }
   }
 
-  public getVeloHardware() {
-    // get the tiles of the design
-    let veloTiles = this.veloTiles();
-    let veloHardware: any;
+  public getVeloConnections(island: any): any [] {
+    let veloTiles = [];
+    let veloConnections: any;
     let variaToVariaCount: number = 0;
     let variaToFeltCount: number = 0;
     let feltToFeltCount: number = 0;
     let matches: any = [];
+
+    for (let i in island) {
+      veloTiles.push(this.gridData[island[i]]);
+    }
     // loop through the tiles and count
     for (let i in veloTiles) {
       let thisMaterialType = veloTiles[i]['materialType'];
@@ -1210,47 +1235,51 @@ export class Feature {
       }
     }
 
-    veloHardware = {
+    veloConnections = {
       "variaToVaria": variaToVariaCount,
       "variaToFelt": variaToFeltCount,
-      "feltToFelt": feltToFeltCount
+      "feltToFelt": feltToFeltCount,
+      "totalConnections": variaToVariaCount + variaToFeltCount + feltToFeltCount
     };
-    return veloHardware;
+    return veloConnections;
   }
 
   public getIslands() {
-    for (let tile in this.gridData) {
-      let tileObject = this.gridData[tile];
-      // we only need to look for islands if the tile has a texture.
-      if(tileObject.texture != '') {
-        this._getIsland(tileObject.index)
-      }
+    let islands: any = [];
+    let indices = this.gridData.map(e => e.index);
+    for (let i = 0; i < indices.length; i++) {
+      let index = indices[i];
+      let island = this._getIsland(+index);
+
+      if (island.length <= 0) continue;
+
+      indices = _.difference(indices, island);
+      islands.push(island);
     }
+    return islands;
   }
 
-  private _getIsland(index: number): any [] {
-    let tileAddedToIsland: boolean = false;
-    // if the tile is not already a member of an island
-    // check to see if any neighbors are in an island
-    while(!tileAddedToIsland) {
-      for( let neighbor in this.gridData[index].neighbors ) {
-        // if the neighbor is in an island
-        // add this tile to the same island
-        tileAddedToIsland = true;
-      }
-      // we checked all neighbors and found no island, so we need to create a new island
+  private _getIsland(index: number, members: any = []): any [] {
+    let tileObject = this.gridData[index];
+    if(tileObject.texture === '') {
+      return members;
     }
 
-    return [];
-  }
+    if(!members.includes(index)) {
+      members.push(index);
+      for(let neighborIndex in tileObject.neighbors) {
+        let neighbor = tileObject.neighbors[neighborIndex];
+        let island = this._getIsland(this.findVeloTileAt(neighbor[0], neighbor[1]).index, members);
+        for (let tile in island) {
+          if(!members.includes(island[tile])) {
+            members.push(island[tile]);
+          }
+        }
+      }
+    }
 
-  // private _getIsland(index: number, members: any []): any [] {
-  //   // every tile not already a member add to the island
-  //   for () {
-  //
-  //   }
-  //   return
-  // }
+    return members;
+  }
 
   public veloHasVaria() {
     let hasVaria = false;
