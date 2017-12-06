@@ -806,11 +806,6 @@ export class Feature {
       // console.log(this.services_amount);
 
       // HARDWARE AMOUNT
-      let veloCableKit = '3-15-1677-K';
-      let variaConnectionKit = '3-15-8899-K';
-      let feltConnectionKit = '3-85-105-K';
-      let drillBitHwId = '3-15-8812';
-      let variaPunchToolId = '3-15-8813';
       let hardware_amount: number;
       let hardwareCost: number = 0.00;
       let cableCount: number;
@@ -889,7 +884,7 @@ export class Feature {
 
       // save the hardware amounts
       this.hardware = {
-        "3-15-8812": 1,
+        "3-15-8812": 1, // drillBit
         "3-15-1677-K": cablesNeeded,
         "3-15-8899-K": variaConnectionKitsNeeded,
         "3-85-105-K": feltConnectionKitsNeeded,
