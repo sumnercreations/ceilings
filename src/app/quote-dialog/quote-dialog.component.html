@@ -15,7 +15,7 @@
       <dt>Length</dt>
       <dd>{{feature.length}}"</dd>
       <dt>Estimated Amount</dt>
-      <!-- <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd> -->
+      <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd>
       <dt *ngIf="feature.quoted">Project Name</dt>
       <dd *ngIf="feature.quoted">{{feature.project_name}}</dd>
       <dt *ngIf="feature.quoted">Specifier</dt>
