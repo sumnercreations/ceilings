@@ -17,8 +17,8 @@ export class VeloTileUsageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.feltTiles = this.feature.getTilesPurchasedArray('felt');
-    this.variaTiles = this.feature.getTilesPurchasedArray('varia');
+    this.feltTiles = this.feature.getPurchasedVeloTiles('felt');
+    this.variaTiles = this.feature.getPurchasedVeloTiles('varia');
   }
 
 }

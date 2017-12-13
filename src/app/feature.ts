@@ -1078,7 +1078,7 @@ export class Feature {
     }
   }
 
-  public getTilesPurchasedArray(materialType: string = '') {
+  public getTilesPurchasedArray() {
     let tiles = [];
     if(this.feature_type == 'velo') {
       let pkgQty: number = this.getPackageQty('velo');
@@ -1086,22 +1086,20 @@ export class Feature {
       let purchasedTiles = [];
 
       for (let tile in gridTiles) {
-        if(gridTiles[tile].materialType == '' || gridTiles[tile].materialType == materialType) {
-          let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material;
-          if(purchasedTiles[key]) {
-            purchasedTiles[key][gridTiles[tile].tile] += 1;
-            purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
-          }else{
-            purchasedTiles[key] = {
-              "purchased": pkgQty,
-              "image": gridTiles[tile].materialType == 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
-              "hex": gridTiles[tile].materialType == 'varia' ? gridTiles[tile].hex : '',
-              "convex": gridTiles[tile].tile == 'convex' ? 1 : 0,
-              "concave": gridTiles[tile].tile == 'concave' ? 1 : 0,
-              "material": gridTiles[tile].material,
-              "materialType": gridTiles[tile].materialType,
-              "tile": gridTiles[tile].tile
-            }
+        let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material;
+        if(purchasedTiles[key]) {
+          purchasedTiles[key][gridTiles[tile].tile] += 1;
+          purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
+        }else{
+          purchasedTiles[key] = {
+            "purchased": pkgQty,
+            "image": gridTiles[tile].materialType == 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
+            "hex": gridTiles[tile].materialType == 'varia' ? gridTiles[tile].hex : '',
+            "convex": gridTiles[tile].tile == 'convex' ? 1 : 0,
+            "concave": gridTiles[tile].tile == 'concave' ? 1 : 0,
+            "material": gridTiles[tile].material,
+            "materialType": gridTiles[tile].materialType,
+            "tile": gridTiles[tile].tile
           }
         }
       }
@@ -1145,9 +1143,22 @@ export class Feature {
       var currentTile = tiles[tile];
       tilesArray.push(currentTile);
     }
+    console.log(tilesArray);
     this.tiles = tilesArray;
 
     return tiles;
+  }
+
+  public getPurchasedVeloTiles(materialType: string) {
+    let tilesArray = [];
+    let veloTiles = this.tiles;
+    for (let tile in veloTiles) {
+      if(veloTiles[tile].materialType == materialType) {
+        tilesArray.push(veloTiles[tile]);
+      }
+    }
+
+    return veloTiles;
   }
 
   public getUserInputs() {
