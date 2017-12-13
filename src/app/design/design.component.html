@@ -23,8 +23,7 @@
     <div class="col-sm-9 full-height">
       <div class="grid-wrapper col-sm-12">
         <div class="row grid-header">
-          <div class="col-sm-5">
-            <p *ngIf="feature.feature_type=='velo'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+          <div class="col-sm-5" *ngIf="feature.feature_type!='velo'">
             <p *ngIf="feature.feature_type!='velo'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
           <div class="col-sm-3">
@@ -35,11 +34,20 @@
                 </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
             </p>
           </div>
-          <div class="col-sm-4">
-            <p>
-              <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
-              <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
-            </p>
+          <div *ngIf="feature.feature_type=='velo'" class="col-sm-5 pull-right">
+            <div class="toggle-button-form-wrapper">
+              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)"
+                                      value="{{feature.units}}">
+                <md-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</md-button-toggle>
+                <md-button-toggle value="centimeters" id="cm-toggle" class="small-toggle">CM</md-button-toggle>
+              </md-button-toggle-group>
+            </div>
+            <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
+            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
+          </div>
+          <div *ngIf="feature.feature_type!='velo'" class="col-sm-4">
+            <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
+            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
           </div>
         </div>
         <div class="row">

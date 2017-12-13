@@ -53,7 +53,7 @@ span.sm {
 }
 
 .grid-header {
-  padding-top: 2px;
+  padding: 2px 0 5px 0;
 }
 
 .full-height{
@@ -132,6 +132,11 @@ span.sm {
 .tile-package-information {
   text-align: right;
   margin: 3px 30px 0 0;
+}
+
+.toggle-button-form-wrapper {
+  display: inline-block;
+  padding-right: 15px;
 }
 
 /* Keep below other borders so it will override the default border */
