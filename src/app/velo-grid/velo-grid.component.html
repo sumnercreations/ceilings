@@ -1,4 +1,4 @@
-<div class="ruler horizontal">
+<div *ngIf="feature.units == 'inches'" class="ruler horizontal">
   <label>0</label>
   <label>24</label>
   <label>48</label>
@@ -17,7 +17,7 @@
   <label>360</label>
   <label>384</label>
 </div>
-<div class="ruler vertical">
+<div *ngIf="feature.units == 'inches'" class="ruler vertical">
   <label>0</label>
   <label>24</label>
   <label>48</label>
@@ -28,6 +28,38 @@
   <label>168</label>
   <label>192</label>
   <label>216</label>
+</div>
+
+<div *ngIf="feature.units == 'centimeters'" class="ruler horizontal">
+  <label>0</label>
+  <label>61</label>
+  <label>122</label>
+  <label>183</label>
+  <label>244</label>
+  <label>304</label>
+  <label>365</label>
+  <label>427</label>
+  <label>488</label>
+  <label>548</label>
+  <label>610</label>
+  <label>670</label>
+  <label>732</label>
+  <label>732</label>
+  <label>792</label>
+  <label>914</label>
+  <label>975</label>
+</div>
+<div *ngIf="feature.units == 'centimeters'" class="ruler vertical">
+  <label>0</label>
+  <label>61</label>
+  <label>122</label>
+  <label>183</label>
+  <label>244</label>
+  <label>304</label>
+  <label>365</label>
+  <label>427</label>
+  <label>488</label>
+  <label>548</label>
 </div>
 <div class="guide horizontal" [style.top.px]="guide.top"></div>
 <div class="guide vertical" [style.left.px]="guide.left"></div>

@@ -9,6 +9,7 @@ import { SaveDesignComponent } from '../save-design/save-design.component';
 import { LoginComponent } from '../login/login.component';
 import { VisualizationComponent } from '../visualization/visualization.component';
 import { TileUsageComponent } from '../tile-usage/tile-usage.component';
+import { VeloTileUsageComponent } from '../velo-tile-usage/velo-tile-usage.component';
 import { QuoteDialogComponent } from '../quote-dialog/quote-dialog.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
@@ -133,7 +134,8 @@ export class DesignComponent implements OnInit {
     // load a dialog to edit the options
     let config = new MdDialogConfig();
     config.disableClose = true;
-    config.height = "700px";
+    config.height = "90%";
+    config.width = "80%";
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
     this.optionsDialogRef.afterClosed().subscribe(result => {
       this.feature.buildGrid();
@@ -191,7 +193,11 @@ export class DesignComponent implements OnInit {
   public tileUsage() {
     let config = new MdDialogConfig();
     config.height = '700px';
-    this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
+    if(this.feature.feature_type == 'velo') {
+      this.tileUsageDialogRef = this.dialog.open(VeloTileUsageComponent, config);
+    }else{
+      this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
+    }
   }
 
   public downloadGridGuide() {

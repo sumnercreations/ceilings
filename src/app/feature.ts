@@ -1088,14 +1088,15 @@ export class Feature {
       for (let tile in gridTiles) {
         let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material;
         if(purchasedTiles[key]) {
-          purchasedTiles[key].used += 1;
-          purchasedTiles[key].purchased = pkgQty * Math.ceil(purchasedTiles[key].used / pkgQty);
+          purchasedTiles[key][gridTiles[tile].tile] += 1;
+          purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
         }else{
           purchasedTiles[key] = {
             "purchased": pkgQty,
             "image": gridTiles[tile].materialType == 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
             "hex": gridTiles[tile].materialType == 'varia' ? gridTiles[tile].hex : '',
-            "used": 1,
+            "convex": gridTiles[tile].tile == 'convex' ? 1 : 0,
+            "concave": gridTiles[tile].tile == 'concave' ? 1 : 0,
             "material": gridTiles[tile].material,
             "materialType": gridTiles[tile].materialType,
             "tile": gridTiles[tile].tile
@@ -1142,9 +1143,22 @@ export class Feature {
       var currentTile = tiles[tile];
       tilesArray.push(currentTile);
     }
+    console.log(tilesArray);
     this.tiles = tilesArray;
 
     return tiles;
+  }
+
+  public getPurchasedVeloTiles(materialType: string) {
+    let tilesArray = [];
+    let veloTiles = this.tiles;
+    for (let tile in veloTiles) {
+      if(veloTiles[tile].materialType == materialType) {
+        tilesArray.push(veloTiles[tile]);
+      }
+    }
+
+    return veloTiles;
   }
 
   public getUserInputs() {
@@ -1292,6 +1306,17 @@ export class Feature {
     return hasVaria;
   }
 
+  public veloHasFelt() {
+    let hasFelt = false;
+    let veloTiles = this.veloTiles();
+    for (let i in veloTiles) {
+      if(!hasFelt && veloTiles[i].materialType == 'felt') {
+        hasFelt = true;
+      }
+    }
+    return hasFelt;
+  }
+
   public veloWidth() {
     let veloTiles = this.veloTiles();
     let calculatedWidth = 0;
@@ -1329,9 +1354,25 @@ export class Feature {
     }
 
     if(this.feature_type == "velo") {
-      info = "Tiles are sold in quanties of 8.";
+      info = "Velo tiles are sold in quanties of 8.";
     }
 
     return info;
+  }
+
+  public updateGridUnits(units: string) {
+    if ( this.feature_type == 'velo' ) {
+      if(units == 'centimeters' && this.units != units ) {
+        // convert measurements to cm
+        this.width = 976;
+        this.length = 610;
+      }else if(units == 'inches' && this.units != units) {
+        // convert measurement to inches
+        this.width = 384;
+        this.length = 240;
+      }
+    }
+    // update the units.
+    this.units = units;
   }
 }

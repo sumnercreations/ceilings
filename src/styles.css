@@ -244,3 +244,7 @@ div.mat-tab-label {
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   background-color: #ff9933;
 }
+
+.small-toggle .mat-button-toggle-label-content {
+  line-height: 24px;
+}

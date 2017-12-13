@@ -58,19 +58,20 @@ export class OptionsComponent implements OnInit {
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
-    if ( this.feature.feature_type == 'velo' ) {
-      if(units == 'centimeters' && this.feature.units != units ) {
-        // convert measurements to cm
-        this.feature.width = 976;
-        this.feature.length = 610;
-      }else if(units == 'inches' && this.feature.units != units) {
-        // convert measurement to inches
-        this.feature.width = 384;
-        this.feature.length = 240;
-      }
-    }
-    // update the units.
-    this.feature.units = units;
+    this.feature.updateGridUnits(units);
+    // if ( this.feature.feature_type == 'velo' ) {
+    //   if(units == 'centimeters' && this.feature.units != units ) {
+    //     // convert measurements to cm
+    //     this.feature.width = 976;
+    //     this.feature.length = 610;
+    //   }else if(units == 'inches' && this.feature.units != units) {
+    //     // convert measurement to inches
+    //     this.feature.width = 384;
+    //     this.feature.length = 240;
+    //   }
+    // }
+    // // update the units.
+    // this.feature.units = units;
   }
 
   private validateOptions() {
