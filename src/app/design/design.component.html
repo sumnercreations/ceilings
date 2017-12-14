@@ -36,8 +36,7 @@
           </div>
           <div *ngIf="feature.feature_type=='velo'" class="col-sm-5 pull-right">
             <div class="toggle-button-form-wrapper">
-              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)"
-                                      value="{{feature.units}}">
+              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
                 <md-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</md-button-toggle>
                 <md-button-toggle value="centimeters" id="cm-toggle" class="small-toggle">CM</md-button-toggle>
               </md-button-toggle-group>

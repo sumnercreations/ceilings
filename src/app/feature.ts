@@ -1158,7 +1158,7 @@ export class Feature {
       }
     }
 
-    return veloTiles;
+    return tilesArray;
   }
 
   public getUserInputs() {
