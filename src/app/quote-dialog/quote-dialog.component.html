@@ -45,20 +45,10 @@
         <button md-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
-    <h3>{{tileType | capitalize}}</h3>
-    <table class="table table-striped">
-      <tr>
-        <th>{{tileType | capitalize}}</th>
-        <th>Used</th>
-        <th>Receiving</th>
-        <th>Unused</th>
-      </tr>
-      <tr *ngFor="let tile of tilesArray | keys">
-        <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}"></td>
-        <td>{{tile.used}}</td>
-        <td>{{tile.purchased}}</td>
-        <td>{{tile.purchased - tile.used}}</td>
-      </tr>
-    </table>
+    <!--TETRIA & CLARIO-->
+    <app-tile-usage *ngIf="feature.feature_type !='velo'"></app-tile-usage>
+
+    <!--VELO-->
+    <app-velo-tile-usage *ngIf="feature.feature_type == 'velo'"></app-velo-tile-usage>
   </div>
 </div>
