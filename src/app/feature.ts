@@ -800,7 +800,7 @@ export class Feature {
 
       // SERVICES AMOUNT
       let veloFeltServiceCost: number = 77.25;
-      let veloVariaServiceCost: number = 144.82;
+      let veloVariaServiceCost: number = 78.75;
       this.services_amount = (veloFeltTiles * veloFeltServiceCost) + (veloVariaTiles * veloVariaServiceCost);
       // console.log('=== SERVICES AMOUNT ===');
       // console.log(this.services_amount);
