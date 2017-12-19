@@ -78,3 +78,8 @@ aside.note {
 .options-dialog-container {
   padding: 0 25px 0 25px;
 }
+
+.velo-diffusion {
+  padding: 0;
+  border-right: 2px solid #e7e7e7;
+}

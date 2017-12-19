@@ -41,6 +41,7 @@ export class Feature {
   public showGuide: boolean = true;
   public materialHex: string;
   public materialType: string;
+  public diffusion: string;
 
   public tilesArray = {
     tetria: {
@@ -933,6 +934,16 @@ export class Feature {
       this.selectedTool = '';
     }else{
       this.selectedTool = tool;
+    }
+  }
+
+  updateSelectedDiffusion(diffusion: string) {
+    // if the diffusion they clicked on is already selected,
+    // deselect it so they have a way to remove the diffusion
+    if (this.diffusion == diffusion) {
+      this.diffusion = '';
+    }else{
+      this.diffusion = diffusion;
     }
   }
 
