@@ -161,6 +161,21 @@
             <li class="material"><img src="/assets/images/materials/felt/merino/black.png" alt="Black" class="img-responsive"></li>
           </ul>
         </div>
+        <div class="diffusions" *ngIf="feature.feature_type == 'velo'">
+          <p>Add either Avalanche D01 or Vapor W05 diffusion layer.</p>
+          <ul class="list-inline">
+            <li *ngIf="feature.feature_type == 'velo'" class="tool-container" (click)="feature.updateSelectedTool('avalanche_d01')">
+              <div class="tool velo-diffusion" [class.selected]="feature.selectedTool=='avalanche_d01'">
+                <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01">
+              </div>
+            </li>
+            <li *ngIf="feature.feature_type == 'velo'" class="tool-container" (click)="feature.updateSelectedTool('vapor_w05')">
+              <div class="tool velo-diffusion" [class.selected]="feature.selectedTool=='vapor_w05'">
+                <img class="img-responsive" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05">
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
       <div id="modify">
         <h3>Modify</h3>

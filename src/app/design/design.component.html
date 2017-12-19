@@ -83,6 +83,24 @@
                 <!-- <img src="{{varia.image}}" alt="{{varia.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==varia.material"> -->
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <ul class="list-inline velo-diffusion-list">
+                  <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('avalanche_d01')">
+                    <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='avalanche_d01'">
+                      <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01">
+                    </div>
+                    <p class="text-center diffusion">Avalanche D01</p>
+                  </li>
+                  <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('vapor_w05')">
+                    <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='vapor_w05'">
+                      <img class="img-responsive" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05">
+                    </div>
+                    <p class="text-center diffusion">Vapor W05</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </md-tab>
         </md-tab-group>
       </div>
@@ -97,10 +115,10 @@
           <button class="button button-gray return-ceilings orange" (click)="feature.clearAll()">Clear All</button>
         </div>
       </div>
-      <hr>
+      <hr class="nine-pixels">
       <div class="row">
         <div class="col-sm-12 tools-header">
-          <p class="md">Modify</p>
+          <p class="md no-bottom-margin">Modify</p>
         </div>
       </div>
       <ul class="row tools list-inline">
@@ -108,7 +126,7 @@
           <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
             <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
           </div>
-          <p class="text-center">{{tool | capitalize}}</p>
+          <p class="text-center no-bottom-margin">{{tool | capitalize}}</p>
         </li>
       </ul>
     </div>
