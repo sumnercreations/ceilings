@@ -12,7 +12,7 @@
     <th class="border-left">Receiving</th>
   </tr>
   <tr *ngFor="let tile of feltTiles | keys">
-    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" class="circle"></td>
+    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" class="circle" mdTooltip="{{tile.material | capitalize}}" [mdTooltipPosition]="position"></td>
     <td>{{tile.convex}}</td>
     <td>{{tile.concave}}</td>
     <td>{{tile.purchased - (tile.convex + tile.concave)}}</td>
@@ -23,13 +23,15 @@
 <table class="table table-striped" *ngIf="this.feature.veloHasVaria()">
   <tr>
     <th width="92px">Varia</th>
+    <th>Diffusion</th>
     <th>Convex</th>
     <th>Concave</th>
     <th>Unused</th>
     <th class="border-left">Receiving</th>
   </tr>
   <tr *ngFor="let tile of variaTiles | keys">
-    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" class="circle"></td>
+    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" class="circle" mdTooltip="{{variaTooltip(tile) | capitalize}}" [mdTooltipPosition]="position"></td>
+    <td>{{diffusionString(tile.diffusion)}}</td>
     <td>{{tile.convex}}</td>
     <td>{{tile.concave}}</td>
     <td>{{tile.purchased - (tile.convex + tile.concave)}}</td>
