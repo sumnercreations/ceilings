@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
-import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-velo-tile-usage',
@@ -15,7 +14,6 @@ export class VeloTileUsageComponent implements OnInit {
 
   constructor(
     private debug: DebugService,
-    private alert: AlertService,
     public feature: Feature
   ) { }
 
