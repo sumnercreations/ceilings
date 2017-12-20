@@ -1097,7 +1097,7 @@ export class Feature {
       let purchasedTiles = [];
 
       for (let tile in gridTiles) {
-        let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material;
+        let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material + '-' + gridTiles[tile].diffusion;
         if(purchasedTiles[key]) {
           purchasedTiles[key][gridTiles[tile].tile] += 1;
           purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
@@ -1110,7 +1110,8 @@ export class Feature {
             "concave": gridTiles[tile].tile == 'concave' ? 1 : 0,
             "material": gridTiles[tile].material,
             "materialType": gridTiles[tile].materialType,
-            "tile": gridTiles[tile].tile
+            "tile": gridTiles[tile].tile,
+            "diffusion": gridTiles[tile].diffusion
           }
         }
       }

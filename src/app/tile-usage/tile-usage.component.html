@@ -7,8 +7,8 @@
     <th>Receiving</th>
     <th>Unused</th>
   </tr>
-  <tr *ngFor="let tile of feature.getTilesPurchasedArray() | keys">
-    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}"></td>
+  <tr *ngFor="let tile of purchasedTiles | keys">
+    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" mdTooltip="{{tooltip(tile)}}" [mdTooltipPosition]="position"></td>
     <td>{{tile.used}}</td>
     <td>{{tile.purchased}}</td>
     <td>{{tile.purchased - tile.used}}</td>
