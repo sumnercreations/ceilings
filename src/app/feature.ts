@@ -783,26 +783,36 @@ export class Feature {
       // PRODUCTS AMOUNT
       let veloFeltTiles: number = 0;
       let veloVariaTiles: number = 0;
-      let products_amount: number = 0.00;
-      let sheetsNeeded: number = 0;
+      let veloVariaDiffusionTiles: number = 0;
+      let products_amount: number;
+      let variaSheetsNeeded: number;
+      let variaDiffusionSheetsNeeded: number;
       let variaSheetCost: number = 488.14;
+      let variaDiffusionSheetCost: number = variaSheetCost + 100.00;
 
       for(let tile in tilesArray) {
         currentTile = tilesArray[tile];
         if(currentTile.materialType == 'felt') {
           veloFeltTiles += currentTile.purchased;
         }else{
-          veloVariaTiles += currentTile.purchased;
+          if(typeof currentTile.diffusion == 'undefined') {
+            veloVariaTiles += currentTile.purchased;
+          }else{
+            veloVariaDiffusionTiles += currentTile.purchased;
+          }
         }
       }
 
-      sheetsNeeded = Math.ceil(veloVariaTiles / 8);
-      products_amount = sheetsNeeded * variaSheetCost;
+      variaSheetsNeeded = Math.ceil(veloVariaTiles / 8);
+      variaDiffusionSheetsNeeded = Math.ceil(veloVariaDiffusionTiles / 8);
+      console.log("varia sheets needed", variaSheetsNeeded);
+      console.log("varia diffusion sheets needed", variaDiffusionSheetsNeeded);
+      products_amount = (variaSheetsNeeded * variaSheetCost) + (variaDiffusionSheetsNeeded * variaDiffusionSheetCost);
 
       // SERVICES AMOUNT
       let veloFeltServiceCost: number = 77.25;
       let veloVariaServiceCost: number = 78.75;
-      this.services_amount = (veloFeltTiles * veloFeltServiceCost) + (veloVariaTiles * veloVariaServiceCost);
+      this.services_amount = (veloFeltTiles * veloFeltServiceCost) + ((veloVariaTiles + veloVariaDiffusionTiles) * veloVariaServiceCost);
       // console.log('=== SERVICES AMOUNT ===');
       // console.log(this.services_amount);
 
