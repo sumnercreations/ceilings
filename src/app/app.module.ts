@@ -13,7 +13,8 @@ import {
   MdSnackBarModule,
   MdDialogModule,
   MdInputModule,
-  MdProgressSpinnerModule
+  MdProgressSpinnerModule,
+  MdTabsModule
 } from '@angular/material';
 
 // routing
@@ -39,6 +40,8 @@ import { VisualizationComponent } from './visualization/visualization.component'
 import { TileUsageComponent } from './tile-usage/tile-usage.component';
 import { QuoteDialogComponent } from './quote-dialog/quote-dialog.component';
 import { DetailsComponent } from './details/details.component';
+import { VeloGridComponent } from './velo-grid/velo-grid.component';
+import { VeloTileUsageComponent } from './velo-tile-usage/velo-tile-usage.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -68,7 +71,9 @@ import { KeysPipe } from './_pipes/keys.pipe';
     TileUsageComponent,
     KeysPipe,
     QuoteDialogComponent,
-    DetailsComponent
+    DetailsComponent,
+    VeloGridComponent,
+    VeloTileUsageComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +87,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     MdSnackBarModule,
     MdDialogModule,
     MdInputModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    MdTabsModule
   ],
   providers: [
     Feature,
@@ -102,6 +108,7 @@ import { KeysPipe } from './_pipes/keys.pipe';
     ConfirmDeleteComponent,
     VisualizationComponent,
     TileUsageComponent,
+    VeloTileUsageComponent,
     QuoteDialogComponent
   ]
 })

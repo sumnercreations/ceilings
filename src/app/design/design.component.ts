@@ -9,6 +9,7 @@ import { SaveDesignComponent } from '../save-design/save-design.component';
 import { LoginComponent } from '../login/login.component';
 import { VisualizationComponent } from '../visualization/visualization.component';
 import { TileUsageComponent } from '../tile-usage/tile-usage.component';
+import { VeloTileUsageComponent } from '../velo-tile-usage/velo-tile-usage.component';
 import { QuoteDialogComponent } from '../quote-dialog/quote-dialog.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
@@ -43,19 +44,29 @@ export class DesignComponent implements OnInit {
   ngOnInit() {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
+      // default the feature type
+      if(params['type']) {
+        this.feature.feature_type = params['type'];
+      }
       if(params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
           if(design == null) {
+            this.debug.log('design-component', 'design not found');
             // design not found redirect to the design url
             this.router.navigate([params['type'], 'design']);
           }else{
             // design was found so load it.
             if(design.feature_type === params['type']) {
+              this.debug.log('design-component', 'setting the design.');
               this.feature.setDesign(design);
               if(this.feature.feature_type == 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if(this.feature.feature_type == 'velo') {
                 // velo defaults
+                this.feature.selectedTile = 'concave';
+                this.feature.material = 'milky-white';
+                this.feature.materialHex = '#dfdee0';
+                this.feature.materialType = 'felt';
               }
             }else{
               this.router.navigate([design.feature_type, 'design', design.id]);
@@ -72,6 +83,11 @@ export class DesignComponent implements OnInit {
           }else if(this.feature.feature_type == 'clario') {
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';
+          }else if(this.feature.feature_type == 'velo') {
+            this.feature.selectedTile = 'concave';
+            this.feature.material = 'milky-white';
+            this.feature.materialHex = '#dfdee0';
+            this.feature.materialType = 'felt';
           }
           this.editOptions();
         }, 500);
@@ -118,7 +134,8 @@ export class DesignComponent implements OnInit {
     // load a dialog to edit the options
     let config = new MdDialogConfig();
     config.disableClose = true;
-    config.height = "700px";
+    config.height = "90%";
+    config.width = "80%";
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
     this.optionsDialogRef.afterClosed().subscribe(result => {
       this.feature.buildGrid();
@@ -176,7 +193,11 @@ export class DesignComponent implements OnInit {
   public tileUsage() {
     let config = new MdDialogConfig();
     config.height = '700px';
-    this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
+    if(this.feature.feature_type == 'velo') {
+      this.tileUsageDialogRef = this.dialog.open(VeloTileUsageComponent, config);
+    }else{
+      this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
+    }
   }
 
   public downloadGridGuide() {
@@ -196,7 +217,13 @@ export class DesignComponent implements OnInit {
     // get the grid with guides
     // make sure the guide is set to true
     this.feature.showGuide = true;
-    this.downloadGridGuide();
+    if(this.feature.feature_type == 'velo') {
+      let veloCanvas = document.querySelector("canvas");
+      let dataURL = veloCanvas.toDataURL();
+      this.feature.design_data_url = dataURL;
+    }else{
+      this.downloadGridGuide();
+    }
     // load the dialog to confirm the design we will be sending
     let config = new MdDialogConfig();
     // config.height = '700px';

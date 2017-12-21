@@ -16,12 +16,12 @@
       <dd>{{feature.length}}"</dd>
       <dt>Estimated Amount</dt>
       <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd>
-      <dt [ngClass]="{'hidden': !feature.quoted}">Project Name</dt>
-      <dd [ngClass]="{'hidden': !feature.quoted}">{{feature.project_name}}</dd>
-      <dt [ngClass]="{'hidden': !feature.quoted}">Specifier</dt>
-      <dd [ngClass]="{'hidden': !feature.quoted}">{{feature.specifier}}</dd>
+      <dt *ngIf="feature.quoted">Project Name</dt>
+      <dd *ngIf="feature.quoted">{{feature.project_name}}</dd>
+      <dt *ngIf="feature.quoted">Specifier</dt>
+      <dd *ngIf="feature.quoted">{{feature.specifier}}</dd>
     </dl>
-    <form (ngSubmit)="quoteConfirmed()" #confirmQuote="ngForm" [ngClass]="{'hidden': feature.quoted}">
+    <form (ngSubmit)="quoteConfirmed()" #confirmQuote="ngForm" *ngIf="!feature.quoted">
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
@@ -42,23 +42,13 @@
       </div>
       <div class="text-center">
         <button md-button type="submit" class="button button-gray" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
-        <button md-button (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
+        <button md-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
-    <h3>{{feature.getTileType('plural') | capitalize}}</h3>
-    <table class="table table-striped">
-      <tr>
-        <th>{{feature.getTileType('plural') | capitalize}}</th>
-        <th>Used</th>
-        <th>Receiving</th>
-        <th>Unused</th>
-      </tr>
-      <tr *ngFor="let tile of tilesArray | keys">
-        <td><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.type}}"></td>
-        <td>{{tile.used}}</td>
-        <td>{{tile.purchased}}</td>
-        <td>{{tile.purchased - tile.used}}</td>
-      </tr>
-    </table>
+    <!--TETRIA & CLARIO-->
+    <app-tile-usage *ngIf="feature.feature_type !='velo'"></app-tile-usage>
+
+    <!--VELO-->
+    <app-velo-tile-usage *ngIf="feature.feature_type == 'velo'"></app-velo-tile-usage>
   </div>
 </div>

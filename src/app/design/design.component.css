@@ -1,3 +1,8 @@
+.velo-grid-container {
+  position: relative;
+  margin-left: -15px;
+}
+
 hr {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -48,7 +53,7 @@ span.sm {
 }
 
 .grid-header {
-  padding-top: 2px;
+  padding: 2px 0 5px 0;
 }
 
 .full-height{
@@ -90,6 +95,17 @@ span.sm {
   border-radius: 19px;
 }
 
+.varia-materials {
+  max-height: 196px;
+  overflow: auto;
+}
+
+.velo-materials .circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 19px;
+}
+
 /* Actions */
 .actions {
   padding: 2px;
@@ -113,9 +129,36 @@ span.sm {
   width: 52px;
 }
 
+.velo-diffusion {
+  padding: 0;
+  border-right: 2px solid #e7e7e7;
+}
+
+.velo-diffusion-list {
+  margin: 0;
+}
+
+ .velo-diffusion-list p {
+  font-size: 10px;
+}
+
 .tile-package-information {
   text-align: right;
   margin: 3px 30px 0 0;
+}
+
+.toggle-button-form-wrapper {
+  display: inline-block;
+  padding-right: 15px;
+}
+
+.no-bottom-margin {
+  margin-bottom: 0;
+}
+
+hr.nine-pixels {
+  margin-top: 9px;
+  margin-bottom: 9px;
 }
 
 /* Keep below other borders so it will override the default border */

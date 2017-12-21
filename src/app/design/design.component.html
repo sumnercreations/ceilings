@@ -23,8 +23,8 @@
     <div class="col-sm-9 full-height">
       <div class="grid-wrapper col-sm-12">
         <div class="row grid-header">
-          <div class="col-sm-5">
-            <p>{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+          <div class="col-sm-5" *ngIf="feature.feature_type!='velo'">
+            <p *ngIf="feature.feature_type!='velo'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
           <div class="col-sm-3">
             <p>
@@ -34,16 +34,25 @@
                 </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
             </p>
           </div>
-          <div class="col-sm-4">
-            <p>
-              <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
-              <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
-            </p>
+          <div *ngIf="feature.feature_type=='velo'" class="col-sm-5 pull-right">
+            <div class="toggle-button-form-wrapper">
+              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
+                <md-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</md-button-toggle>
+                <md-button-toggle value="centimeters" id="cm-toggle" class="small-toggle">CM</md-button-toggle>
+              </md-button-toggle-group>
+            </div>
+            <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
+            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
+          </div>
+          <div *ngIf="feature.feature_type!='velo'" class="col-sm-4">
+            <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
+            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <app-grid></app-grid>
+            <app-grid *ngIf="feature.feature_type!='velo'"></app-grid>
+            <app-velo-grid *ngIf="feature.feature_type=='velo'" class="velo-grid-container"></app-velo-grid>
           </div>
         </div>
       </div>
@@ -55,32 +64,69 @@
           <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
             <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
           </div>
-          <p class="text-center">{{tile.name | capitalize}}</p>
+          <p class="text-center xs">{{tile.name | capitalize}}</p>
         </div>
       </div>
-      <div class="row materials">
+      <div class="row velo-materials" *ngIf="feature.feature_type == 'velo'">
+        <md-tab-group class="velo-materials-tab-group" mat-stretch-tabs>
+          <md-tab label="Merino">
+            <div class="merino-felt-materials">
+              <div *ngFor="let felt of feature.newMaterialsArray[feature.feature_type]['felt'] | keys" mdTooltip="{{felt.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')" [attr.data-hex]="felt.hex" class="col-sm-2 material tooltip-host">
+                <img src="{{felt.image}}" alt="{{felt.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==felt.material">
+              </div>
+            </div>
+          </md-tab>
+          <md-tab label="Varia">
+            <div class="varia-materials">
+              <div *ngFor="let varia of feature.newMaterialsArray[feature.feature_type]['varia'] | keys" mdTooltip="{{varia.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')" class="col-sm-2 material tooltip-host">
+                <div class="circle" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex"></div>
+                <!-- <img src="{{varia.image}}" alt="{{varia.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==varia.material"> -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <ul class="list-inline velo-diffusion-list">
+                  <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('avalanche_d01')">
+                    <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='avalanche_d01'">
+                      <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01">
+                    </div>
+                    <p class="text-center diffusion">Avalanche D01</p>
+                  </li>
+                  <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('vapor_w05')">
+                    <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='vapor_w05'">
+                      <img class="img-responsive" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05">
+                    </div>
+                    <p class="text-center diffusion">Vapor W05</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </md-tab>
+        </md-tab-group>
+      </div>
+      <div class="row materials" *ngIf="feature.feature_type != 'velo'">
         <div *ngFor="let material of feature.newMaterialsArray[feature.feature_type] | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
           <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12 actions">
-          <button class="button button-gray return-ceilings orange" (click)="feature.applyAll()">Apply All</button>
+          <button *ngIf="feature.feature_type!='velo'" class="button button-gray return-ceilings orange" (click)="feature.applyAll()">Apply All</button>
           <button class="button button-gray return-ceilings orange" (click)="feature.clearAll()">Clear All</button>
         </div>
       </div>
-      <hr>
+      <hr class="nine-pixels">
       <div class="row">
         <div class="col-sm-12 tools-header">
-          <p class="md">Modify</p>
+          <p class="md no-bottom-margin">Modify</p>
         </div>
       </div>
       <ul class="row tools list-inline">
-        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'">
+        <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'" [class.hide]="feature.feature_type=='velo' && tool !='remove'">
           <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
             <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
           </div>
-          <p class="text-center">{{tool | capitalize}}</p>
+          <p class="text-center no-bottom-margin">{{tool | capitalize}}</p>
         </li>
       </ul>
     </div>
@@ -94,8 +140,7 @@
   </div>
   <div class="col-sm-7">
     <p class="tile-package-information">
-      <!-- how to do I get this to say " sold in quantities of 4 for 24x24 and 2 for 24x48" -->
-      {{feature.getTileType('plural') | capitalize}} are sold in quantities of {{feature.getPackageQty()}}. <a id="tile-usage-details" (click)="tileUsage()">View Tile Usage</a>
+      {{feature.packageInformation()}} <a id="tile-usage-details" (click)="tileUsage()">View Tile Usage</a>
     </p>
   </div>
 </div>

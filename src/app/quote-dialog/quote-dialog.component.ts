@@ -14,6 +14,7 @@ import { User } from '../_models/user';
 })
 export class QuoteDialogComponent implements OnInit {
   public tilesArray: any;
+  public tileType: string;
 
   constructor(
     private router: Router,
@@ -27,7 +28,9 @@ export class QuoteDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.debug.log('quote-dialog', 'init quote-dialog');
     this.tilesArray = this.feature.getTilesPurchasedArray();
+    this.tileType = this.feature.getTileType('plural');
   }
 
   public quoteConfirmed() {
@@ -37,7 +40,7 @@ export class QuoteDialogComponent implements OnInit {
       this.api.updateDesign().subscribe(feature => {
         // send ceilings design email after we have saved.
         this.api.sendEmail().subscribe(response => {
-          console.log(response);
+          this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
         var url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
@@ -56,7 +59,7 @@ export class QuoteDialogComponent implements OnInit {
         this.feature.id = feature.ceiling.id;
         this.feature = feature.ceiling;
         this.api.sendEmail().subscribe(response => {
-          console.log(response);
+          this.debug.log('quote-dialog', response);
         });
         // redirect to the URL of the saved design.
         this.alert.success("We saved your design so we can quote it and you can load it later.");

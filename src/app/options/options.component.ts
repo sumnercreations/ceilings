@@ -37,6 +37,16 @@ export class OptionsComponent implements OnInit {
 
     this.debug.log('options-component', this.feature.feature_type);
     this.title =  this.feature.feature_type + ' Design Tool';
+
+    if(this.feature.feature_type == 'velo') {
+      // set default width and length for now.
+      setTimeout(() => {
+        if(!this.feature.quoted) {
+          this.feature.width = this.feature.units == 'inches' ? 384 : 976;
+          this.feature.length = this.feature.units == 'inches' ? 240 : 610;
+        }
+      }, 500);
+    }
   }
 
   public goToLanding() {
@@ -48,13 +58,7 @@ export class OptionsComponent implements OnInit {
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
-    // if ( units == 'centimeters' && this.feature.units != units ) {
-    //   // convert measurements to inches
-    //   this.feature.length = this.convertCMtoIN(this.feature.length);
-    //   this.feature.width = this.convertCMtoIN(this.feature.width);
-    // }
-    // update the units.
-    this.feature.units = units;
+    this.feature.updateGridUnits(units);
   }
 
   private validateOptions() {
