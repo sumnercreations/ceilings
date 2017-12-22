@@ -710,6 +710,14 @@ export class Feature {
     this.buildGrid();
   }
 
+  public reset() {
+    this.design_name = undefined;
+    this.width = undefined;
+    this.length = undefined;
+    this.gridData = undefined;
+    this.estimated_amount = 0.00;
+  }
+
   updateEstimatedAmount() {
     var tilesArray = this.getTilesPurchasedArray();
 

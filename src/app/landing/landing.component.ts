@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { DebugService } from './../_services/debug.service';
 import { AlertService } from './../_services/alert.service';
+import { Feature } from '../feature';
 
 @Component({
   selector: 'app-landing',
@@ -15,10 +16,12 @@ export class LandingComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private debug: DebugService,
-    private alert: AlertService
+    private alert: AlertService,
+    public feature: Feature
   ) { }
 
   ngOnInit() {
+    this.feature.reset();
   }
 
   public goTo(where: string) {
