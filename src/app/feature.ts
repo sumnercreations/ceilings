@@ -1250,31 +1250,33 @@ export class Feature {
       let thisMaterialType = veloTiles[i]['materialType'];
       for (let j in veloTiles[i].neighbors) {
         let neighbor = this.findVeloTileAt(veloTiles[i].neighbors[j][0],veloTiles[i].neighbors[j][1]);
-        // determine if this seam has already been matched and therefore counted.
-        let thisIndex = veloTiles[i].index;
-        let neighborIndex = neighbor.index;
-        let a = Math.min(thisIndex, neighborIndex);
-        let b = Math.max(thisIndex, neighborIndex);
-        let mappedIndex = (a + b) * (a + b + 1) / 2 + a;
-        if(typeof neighbor.materialType != 'undefined' && !matches[mappedIndex]) {
-          // felt to felt seams
-          if(thisMaterialType == 'felt' && neighbor.materialType == 'felt') {
-            feltToFeltCount++;
-          }
-          // felt to varia seams or varia to felt seams
-          if(thisMaterialType == 'felt' && neighbor.materialType == 'varia') {
-            variaToFeltCount++;
-          }
-          if(thisMaterialType == 'varia' && neighbor.materialType == 'felt') {
-            variaToFeltCount++;
-          }
-          // varia to varia seams
-          if(thisMaterialType == 'varia' && neighbor.materialType == 'varia') {
-            variaToVariaCount++;
-          }
+        if(neighbor) {
+          // determine if this seam has already been matched and therefore counted.
+          let thisIndex = veloTiles[i].index;
+          let neighborIndex = neighbor.index;
+          let a = Math.min(thisIndex, neighborIndex);
+          let b = Math.max(thisIndex, neighborIndex);
+          let mappedIndex = (a + b) * (a + b + 1) / 2 + a;
+          if(typeof neighbor.materialType != 'undefined' && !matches[mappedIndex]) {
+            // felt to felt seams
+            if(thisMaterialType == 'felt' && neighbor.materialType == 'felt') {
+              feltToFeltCount++;
+            }
+            // felt to varia seams or varia to felt seams
+            if(thisMaterialType == 'felt' && neighbor.materialType == 'varia') {
+              variaToFeltCount++;
+            }
+            if(thisMaterialType == 'varia' && neighbor.materialType == 'felt') {
+              variaToFeltCount++;
+            }
+            // varia to varia seams
+            if(thisMaterialType == 'varia' && neighbor.materialType == 'varia') {
+              variaToVariaCount++;
+            }
 
-          // add this mappedIndex to matches array
-          matches[mappedIndex] = true;
+            // add this mappedIndex to matches array
+            matches[mappedIndex] = true;
+          }
         }
       }
     }
@@ -1291,6 +1293,7 @@ export class Feature {
   public getIslands() {
     let islands: any = [];
     let indices = this.gridData.map(e => e.index);
+
     for (let i = 0; i < indices.length; i++) {
       let index = indices[i];
       let island = this._getIsland(+index);
@@ -1313,10 +1316,13 @@ export class Feature {
       members.push(index);
       for(let neighborIndex in tileObject.neighbors) {
         let neighbor = tileObject.neighbors[neighborIndex];
-        let island = this._getIsland(this.findVeloTileAt(neighbor[0], neighbor[1]).index, members);
-        for (let tile in island) {
-          if(!members.includes(island[tile])) {
-            members.push(island[tile]);
+        let neighborTile = this.findVeloTileAt(neighbor[0], neighbor[1]);
+        if(neighborTile) {
+          let island = this._getIsland(neighborTile.index, members);
+          for (let tile in island) {
+            if(!members.includes(island[tile])) {
+              members.push(island[tile]);
+            }
           }
         }
       }
