@@ -23,8 +23,6 @@ describe('DetailsComponent', () => {
     fixture.detectChanges();
   });
 
-
-  // RESTORE
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
