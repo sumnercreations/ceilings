@@ -69,8 +69,9 @@ export class VeloGridComponent implements OnInit {
   }
 
   gridClick(event: any) {
-    let x = event.layerX;
-    let y = event.layerY;
+    this.debug.log('velo-grid', event);
+    const x = event.offsetX;
+    const y = event.offsetY;
     let foundTile: boolean = false;
     this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
     for (let el in this.feature.gridData) {
@@ -125,8 +126,8 @@ export class VeloGridComponent implements OnInit {
   }
 
   moveGuide(event: any) {
-    let x = event.layerX;
-    let y = event.layerY;
+    let x = event.offsetX;
+    let y = event.offsetY;
 
     this.guide = {
       "top": this.sanitizer.bypassSecurityTrustStyle(y + 10),
