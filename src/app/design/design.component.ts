@@ -30,6 +30,7 @@ export class DesignComponent implements OnInit {
   tileUsageDialogRef: MdDialogRef<any>;
   position = 'above';
   FileSaver = FileSaver;
+  featureTiles: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -75,9 +76,13 @@ export class DesignComponent implements OnInit {
         });
       }else{
         setTimeout(() => {
-          this.feature.feature_type = params['type'];
+          this.feature.feature_type = params['type'] == 'hush-block' ? 'hush' : params['type'];
           // set the default values for tile and material
+          this.debug.log('design-component', `feature_type: ${this.feature.feature_type}`);
           if (this.feature.feature_type == 'tetria') {
+            this.feature.selectedTile = '01';
+            this.feature.material = 'milky-white';
+          }else if(this.feature.feature_type == 'hush') {
             this.feature.selectedTile = '01';
             this.feature.material = 'milky-white';
           }else if(this.feature.feature_type == 'clario') {
@@ -89,6 +94,7 @@ export class DesignComponent implements OnInit {
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
           }
+          this.featureTiles = this.feature.newMaterialsArray[this.feature.feature_type];
           this.editOptions();
         }, 500);
       }
@@ -128,7 +134,8 @@ export class DesignComponent implements OnInit {
       this.debug.log('design-component', 'view 3d event');
       this.view3d();
     });
-  }
+
+  }  // end ngOnInit()
 
   public editOptions() {
     // load a dialog to edit the options

@@ -31,7 +31,7 @@
         </div>
       </div>
       <hr>
-      <div id="grid-dimensions" *ngIf="feature.feature_type!='velo'">
+      <div id="grid-dimensions" *ngIf="feature.feature_type!='velo' && feature.feature_type!='hush'">
         <h3>Design Dimensions</h3>
         <p>A 15/16 grid system is required for this product.</p>
         <div class="row">
@@ -57,10 +57,35 @@
           </div>
         </div>
       </div>
+      <!-- Hush-Block -->
+      <div id="grid-dimensions" *ngIf="feature.feature_type=='hush'">
+        <h3>Design Dimensions</h3>
+        <p>Each column and row is 24"</p>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="width">Columns</label>
+              <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Columns" name="width" id="width">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="length">Rows</label>
+              <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Rows" name="length" id="length">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="grid-size" [class.hide]="feature.feature_type!='tetria'">
         <hr>
         <h3>Tile Size</h3>
         <p>24" x 24" Qty. 4 per package</p>
+      </div>
+      <div class="grid-size" [class.hide]="feature.feature_type!='hush'">
+        <hr>
+        <h3>Tile Size</h3>
+        <p>24" x 24" x 2"</p>
       </div>
       <div id="grid-size" [class.hide]="feature.feature_type!='clario'">
         <hr>
@@ -89,7 +114,7 @@
       </div>
     </div>
     <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
-      <div *ngIf="feature.feature_type!='velo'" class="grid-guides clearfix">
+      <div *ngIf="feature.feature_type !== 'velo' && feature.feature_type !== 'hush'" class="grid-guides clearfix">
         <h3>Grid and Guides</h3>
         <p>Design dimensions are shown by a blue guide.</p>
         <img src="/assets/images/grid-and-guide.png" alt="Grid with Blue Guides"

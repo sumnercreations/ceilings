@@ -43,6 +43,10 @@ export class LandingComponent implements OnInit {
         this.router.navigate(['/velo/']);
         break;
 
+      case "hush-block":
+        this.router.navigate(['/hush-block/']);
+        break;
+
       default:
         this.alert.error("Sorry we don't recognize the path: '" + where + "'");
         break;
