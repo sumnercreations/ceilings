@@ -75,17 +75,11 @@
             </div>
           </div>
         </div>
-      </div>
-
+      </div> <!-- End Hush-Block -->
       <div class="grid-size" [class.hide]="feature.feature_type!='tetria'">
         <hr>
         <h3>Tile Size</h3>
         <p>24" x 24" Qty. 4 per package</p>
-      </div>
-      <div class="grid-size" [class.hide]="feature.feature_type!='hush'">
-        <hr>
-        <h3>Tile Size</h3>
-        <p>24" x 24" x 2"</p>
       </div>
       <div id="grid-size" [class.hide]="feature.feature_type!='clario'">
         <hr>
@@ -125,6 +119,11 @@
         <h3>Tile Size</h3>
         <p>Tile dimensions are 24" x 16" (60.96cm x 40.64cm)</p>
         <img src="/assets/images/velo-tile-size.png" alt="Velo Tile Size. 24 inches by 16 inches.">
+      </div>
+      <div *ngIf="feature.feature_type=='hush'" class="velo-tile-size">
+        <h3>Tile Size</h3>
+        <p>Tile dimensions are 24" x 24" (60.96cm x 60.96cm)</p>
+        <img src="/assets/images/velo-tile-size.png" alt="Hush Block Size. 24 inches by 24 inches.">
       </div>
       <div id="design">
         <h3>Design</h3>
@@ -178,6 +177,16 @@
           <ul class="list-inline">
             <li class="velo-tile"><img src="/assets/images/velo/concave.png" alt="Concave" class="img-responsive"></li>
             <li class="velo-tile"><img src="/assets/images/velo/convex.png" alt="Convex" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/merino/milky-white.png" alt="Milky White" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/merino/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/merino/charcoal.png" alt="Charcoal" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/merino/heather-charcoal.png" alt="Heather Charcoal" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/merino/heather-black.png" alt="Heather Black" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/merino/black.png" alt="Black" class="img-responsive"></li>
+          </ul>
+        </div>
+        <div id="tiles" *ngIf="feature.feature_type=='hush'">
+          <ul class="list-inline">
             <li class="material"><img src="/assets/images/materials/felt/merino/milky-white.png" alt="Milky White" class="img-responsive"></li>
             <li class="material"><img src="/assets/images/materials/felt/merino/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
             <li class="material"><img src="/assets/images/materials/felt/merino/charcoal.png" alt="Charcoal" class="img-responsive"></li>

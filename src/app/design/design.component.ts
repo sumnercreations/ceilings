@@ -31,6 +31,7 @@ export class DesignComponent implements OnInit {
   position = 'above';
   FileSaver = FileSaver;
   featureTiles: any;
+  materials: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -95,7 +96,8 @@ export class DesignComponent implements OnInit {
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
           }
-          this.featureTiles = this.feature.newMaterialsArray[this.feature.feature_type];
+          this.materials = this.feature.newMaterialsArray[this.feature.feature_type];
+          this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
         }, 500);
       }
