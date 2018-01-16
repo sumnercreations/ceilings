@@ -65,13 +65,13 @@
           <div class="col-sm-4">
             <div class="form-group">
               <label for="width">Columns</label>
-              <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Columns" name="width" id="width">
+              <input [(ngModel)]="feature.columns" (keyup)="colRowToInches()" type="text" class="form-control number-input square" placeholder="Columns" name="width" id="width">
             </div>
           </div>
           <div class="col-sm-4">
             <div class="form-group">
               <label for="length">Rows</label>
-              <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Rows" name="length" id="length">
+              <input [(ngModel)]="feature.rows" (keyup)="colRowToInches()" type="text" class="form-control number-input square" placeholder="Rows" name="length" id="length">
             </div>
           </div>
         </div>
@@ -204,8 +204,8 @@
       </div>
       <div id="modify">
         <h3>Modify</h3>
-        <p *ngIf="feature.feature_type=='velo'">Remove tiles as needed.</p>
-        <p *ngIf="feature.feature_type!='velo'">Rotate or remove {{feature.getTileType('plural')}}.</p>
+        <p *ngIf="feature.feature_type=='velo' || feature.feature_type=='hush'">Remove tiles as needed.</p>
+        <p *ngIf="feature.feature_type!='velo' && feature.feature_type!='hush'">Rotate or remove {{feature.getTileType('plural')}}.</p>
         <ul class="list-inline tools">
           <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.feature_type=='velo' && tool != 'remove'">
             <div class="tool" [class.add-border-right]="isLast">
@@ -214,7 +214,7 @@
           </li>
         </ul>
       </div>
-      <div id="fixtures" *ngIf="feature.feature_type !='velo'">
+      <div id="fixtures" *ngIf="feature.feature_type !='velo' && feature.feature_type !='hush'">
         <h3>Fixtures</h3>
         <p>Accomodate ceiling fixtures with flat tiles.</p>
         <ul class="list-inline tools">

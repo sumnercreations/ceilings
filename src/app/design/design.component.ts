@@ -85,6 +85,7 @@ export class DesignComponent implements OnInit {
           }else if(this.feature.feature_type == 'hush') {
             this.feature.selectedTile = '01';
             this.feature.material = 'milky-white';
+            this.feature.toolsArray = ['remove'];
           }else if(this.feature.feature_type == 'clario') {
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';

@@ -49,8 +49,9 @@ export class OptionsComponent implements OnInit {
       }, 500);
     }
 
-    if(this.feature.feature_type == 'hush') {
+    if(this.feature.feature_type === 'hush') {
       this.fixturesToolsArray = [];
+      this.modifyToolsArray = ['remove'];
     }
   }
 
@@ -75,4 +76,8 @@ export class OptionsComponent implements OnInit {
     }
   }
 
+  private colRowToInches() {
+    this.feature.width = (this.feature.columns * 24);
+    this.feature.length = (this.feature.rows * 24);
+  }
 }

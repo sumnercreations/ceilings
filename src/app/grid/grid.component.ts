@@ -14,6 +14,7 @@ export class GridComponent implements OnInit {
   public rows: any;
   public columns: any;
   public mouseIsDown: boolean = false;
+  showGridRoomGuide: boolean = true;
 
   constructor(
     private debug: DebugService,
@@ -35,6 +36,10 @@ export class GridComponent implements OnInit {
       this.debug.log('grid-component', 'applying all');
       this.updateGrid(true);
     });
+
+    if (this.feature.feature_type === 'hush-block') {
+      this.showGridRoomGuide = false;
+    }
   }
 
   updateGrid(applyAll: boolean = false) {

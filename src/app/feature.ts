@@ -42,128 +42,42 @@ export class Feature {
   public materialHex: string;
   public materialType: string;
   public diffusion: string;
+  public columns: number;
+  public rows: number;
 
   public newMaterialsArray = {
     hush: {
       0: {
-        material: 'milky-white',
-        image: '/assets/images/materials/felt/merino/milky-white.png'
+        material: 'zinc',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
       },
       1: {
-        material: 'heather-gray',
-        image: '/assets/images/materials/felt/merino/heather-gray.png'
+        material: 'nickel',
+        image: '/assets/images/materials/felt/sola/nickel.jpg'
       },
       2: {
-        material: 'charcoal',
-        image: '/assets/images/materials/felt/merino/charcoal.png'
+        material: 'cashmere',
+        image: '/assets/images/materials/felt/sola/cashmere.jpg'
       },
       3: {
-        material: 'heather-charcoal',
-        image: '/assets/images/materials/felt/merino/heather-charcoal.png'
+        material: 'burnt_umber',
+        image: '/assets/images/materials/felt/sola/burnt_umber.jpg'
       },
       4: {
-        material: 'heather-black',
-        image: '/assets/images/materials/felt/merino/heather-black.png'
+        material: 'ore',
+        image: '/assets/images/materials/felt/sola/ore.jpg'
       },
       5: {
-        material: 'black',
-        image: '/assets/images/materials/felt/merino/black.png'
+        material: 'dark_gray',
+        image: '/assets/images/materials/felt/sola/dark_gray.jpg'
       },
       6: {
-        material: 'taupe',
-        image: '/assets/images/materials/felt/merino/taupe.png'
+        material: 'cast',
+        image: '/assets/images/materials/felt/sola/cast.jpg'
       },
       7: {
-        material: 'heather-taupe',
-        image: '/assets/images/materials/felt/merino/heather-taupe.png'
-      },
-      8: {
-        material: 'putty',
-        image: '/assets/images/materials/felt/merino/putty.png'
-      },
-      9: {
-        material: 'latte',
-        image: '/assets/images/materials/felt/merino/latte.png'
-      },
-      10: {
-        material: 'heather-dark-brown',
-        image: '/assets/images/materials/felt/merino/heather-dark-brown.png'
-      },
-      11: {
-        material: 'dark-brown',
-        image: '/assets/images/materials/felt/merino/dark-brown.png'
-      },
-      12: {
-        material: 'red',
-        image: '/assets/images/materials/felt/merino/red.png'
-      },
-      13: {
-        material: 'crimson',
-        image: '/assets/images/materials/felt/merino/crimson.png'
-      },
-      14: {
-        material: 'bordeaux',
-        image: '/assets/images/materials/felt/merino/bordeaux.png'
-      },
-      15: {
-        material: 'raspberry-jam',
-        image: '/assets/images/materials/felt/merino/raspberry-jam.png'
-      },
-      16: {
-        material: 'royal-purple',
-        image: '/assets/images/materials/felt/merino/royal-purple.png'
-      },
-      17: {
-        material: 'midnight-blue',
-        image: '/assets/images/materials/felt/merino/midnight-blue.png'
-      },
-      18: {
-        material: 'peacock',
-        image: '/assets/images/materials/felt/merino/peacock.png'
-      },
-      19: {
-        material: 'liberty-blue',
-        image: '/assets/images/materials/felt/merino/liberty-blue.png'
-      },
-      20: {
-        material: 'deep-turquoise',
-        image: '/assets/images/materials/felt/merino/deep-turquoise.png'
-      },
-      21: {
-        material: 'platinum',
-        image: '/assets/images/materials/felt/merino/platinum.png'
-      },
-      22: {
-        material: 'sky-blue',
-        image: '/assets/images/materials/felt/merino/sky-blue.png'
-      },
-      23: {
-        material: 'teal',
-        image: '/assets/images/materials/felt/merino/teal.png'
-      },
-      24: {
-        material: 'hunter-green',
-        image: '/assets/images/materials/felt/merino/hunter-green.png'
-      },
-      25: {
-        material: 'avocado',
-        image: '/assets/images/materials/felt/merino/avocado.png'
-      },
-      26: {
-        material: 'clover-green',
-        image: '/assets/images/materials/felt/merino/clover-green.png'
-      },
-      27: {
-        material: 'goldenrod',
-        image: '/assets/images/materials/felt/merino/goldenrod.png'
-      },
-      28: {
-        material: 'camel',
-        image: '/assets/images/materials/felt/merino/camel.png'
-      },
-      29: {
-        material: 'orange',
-        image: '/assets/images/materials/felt/merino/orange.png'
+        material: 'ebony',
+        image: '/assets/images/materials/felt/sola/ebony.jpg'
       }
     },
     tetria: {
