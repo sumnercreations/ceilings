@@ -52,6 +52,7 @@ import { ApiService } from './_services/api.service';
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
+import { HushOptionsComponent } from './options/hush-options/hush-options.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     QuoteDialogComponent,
     DetailsComponent,
     VeloGridComponent,
-    VeloTileUsageComponent
+    VeloTileUsageComponent,
+    HushOptionsComponent
   ],
   imports: [
     BrowserModule,

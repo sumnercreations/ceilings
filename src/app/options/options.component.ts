@@ -34,10 +34,8 @@ export class OptionsComponent implements OnInit {
 
   ngOnInit() {
     this.debug.log('options-component', 'init');
-
     this.debug.log('options-component', this.feature.feature_type);
-    const featureType = this.feature.feature_type;
-    this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Block Design Tool`;
+    this.title =  `${this.feature.feature_type} Design Tool`;
 
     if(this.feature.feature_type == 'velo') {
       // set default width and length for now.
@@ -47,10 +45,6 @@ export class OptionsComponent implements OnInit {
           this.feature.length = this.feature.units == 'inches' ? 240 : 610;
         }
       }, 500);
-    }
-
-    if(this.feature.feature_type === 'hush') {
-      this.modifyToolsArray = ['remove'];
     }
   }
 
