@@ -15,6 +15,11 @@
             groupings within a single canvas.</p>
         </div>
       </div>
+      <div class="row" *ngIf="feature.feature_type=='hush'">
+          <div class="col-sm-12">
+            <p>Spicy jalapeno bacon ipsum dolor amet sunt sint nulla, irure alcatra short loin nisi esse. In strip steak t-bone ground round qui pork nisi ut, pastrami boudin pork belly. Ut aute tri-tip, ullamco spare ribs ball tip alcatra corned beef. Sausage nisi et veniam in dolor consectetur mollit.</p>
+          </div>
+        </div>
       <div class="row">
         <div class="col-sm-12">
           <h3>Design Name</h3>
@@ -127,7 +132,8 @@
       </div>
       <div id="design">
         <h3>Design</h3>
-        <p>Choose your {{feature.getTileType()}} design and color.</p>
+        <p *ngIf="feature.feature_type!=='hush'">Choose your {{feature.getTileType()}} design and color.</p>
+        <p *ngIf="feature.feature_type==='hush'">Choose your {{feature.getTileType()}} color.</p>
         <div id="tiles" *ngIf="feature.feature_type=='tetria'">
           <ul class="list-inline">
             <li class="tile"><img src="/assets/images/tiles/01.png" alt="Tile 01" class="img-responsive"></li>
@@ -187,12 +193,14 @@
         </div>
         <div id="tiles" *ngIf="feature.feature_type=='hush'">
           <ul class="list-inline">
-            <li class="material"><img src="/assets/images/materials/felt/merino/milky-white.png" alt="Milky White" class="img-responsive"></li>
-            <li class="material"><img src="/assets/images/materials/felt/merino/heather-gray.png" alt="Heather Gray" class="img-responsive"></li>
-            <li class="material"><img src="/assets/images/materials/felt/merino/charcoal.png" alt="Charcoal" class="img-responsive"></li>
-            <li class="material"><img src="/assets/images/materials/felt/merino/heather-charcoal.png" alt="Heather Charcoal" class="img-responsive"></li>
-            <li class="material"><img src="/assets/images/materials/felt/merino/heather-black.png" alt="Heather Black" class="img-responsive"></li>
-            <li class="material"><img src="/assets/images/materials/felt/merino/black.png" alt="Black" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/burnt_umber.jpg" alt="Burnt Umber" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/cashmere.jpg" alt="Cashmere" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/cast.jpg" alt="Cast" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/dark_gray.jpg" alt="Dark Gray" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ebony.jpg" alt="Ebony" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/nickel.jpg" alt="Nickel" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ore.jpg" alt="Ore" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/zinc.jpg" alt="Zinc" class="img-responsive"></li>
           </ul>
         </div>
         <div class="diffusions" *ngIf="feature.feature_type == 'velo'">
