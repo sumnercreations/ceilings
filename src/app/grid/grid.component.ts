@@ -206,6 +206,7 @@ export class GridComponent implements OnInit {
               this.debug.log('grid-component', this.feature.gridData[row][column]);
             }else if(this.feature.feature_type === 'hush'){
               // TODO: get the accurate data in here
+              // this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/velo/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
               this.feature.gridData[row][column].setBackgroundImage(`url(${this.feature.newMaterialsArray.hush[0].image})`);
               this.feature.gridData[row][column].setTile(this.feature.selectedTile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);

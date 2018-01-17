@@ -50,7 +50,6 @@ export class OptionsComponent implements OnInit {
     }
 
     if(this.feature.feature_type === 'hush') {
-      this.fixturesToolsArray = [];
       this.modifyToolsArray = ['remove'];
     }
   }
@@ -69,15 +68,14 @@ export class OptionsComponent implements OnInit {
 
   private validateOptions() {
     // name, width, and length are required
-    if((this.feature.width == 0 || typeof this.feature.width == 'undefined') || (this.feature.length == 0 || typeof this.feature.length == 'undefined') || (typeof this.feature.design_name == 'undefined')) {
-      return true;
-    }else{
-      return false;
+    let valid = (this.feature.width == 0 || typeof this.feature.width == 'undefined')
+            || (this.feature.length == 0 || typeof this.feature.length == 'undefined')
+            || (typeof this.feature.design_name == 'undefined') ? true : false;
+    if (this.feature.feature_type === 'hush') {
+      // let width
     }
+
+    return valid;
   }
 
-  private colRowToInches() {
-    this.feature.width = (this.feature.columns * 24);
-    this.feature.length = (this.feature.rows * 24);
-  }
 }

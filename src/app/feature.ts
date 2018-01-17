@@ -101,7 +101,7 @@ export class Feature {
     hush: {
       0: {
         image: '',
-        title: '24',
+        tile: '24',
         name: '24x24'
       }
     }
