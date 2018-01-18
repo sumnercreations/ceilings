@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { OptionsComponent } from 'app/options/options.component';
 
 
@@ -7,9 +7,8 @@ import { OptionsComponent } from 'app/options/options.component';
   templateUrl: './hush-options.component.html',
   styleUrls: ['../../options/options.component.css', './hush-options.component.css']
 })
-export class HushOptionsComponent extends OptionsComponent {
-  @Input() modifyToolsArray = ['remove'];
-  @Input() title = 'Hush Block Design Tool';
-
+export class HushOptionsComponent extends OptionsComponent implements OnInit {
+  modifyToolsArray = ['remove'];
+  title = 'Hush Block Design Tool';
 
 }

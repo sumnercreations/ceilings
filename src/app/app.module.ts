@@ -53,6 +53,9 @@ import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
 import { HushOptionsComponent } from './options/hush-options/hush-options.component';
+import { VeloOptionsComponent } from './options/velo-options/velo-options.component';
+import { ClarioOptionsComponent } from './options/clario-options/clario-options.component';
+import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +78,10 @@ import { HushOptionsComponent } from './options/hush-options/hush-options.compon
     DetailsComponent,
     VeloGridComponent,
     VeloTileUsageComponent,
-    HushOptionsComponent
+    HushOptionsComponent,
+    VeloOptionsComponent,
+    ClarioOptionsComponent,
+    TetriaOptionsComponent
   ],
   imports: [
     BrowserModule,
