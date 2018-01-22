@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { GridSection } from './../_models/grid-section';
 import { AlertService } from '../_services/alert.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.css']
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
   public rows: any;
   public columns: any;
-  public mouseIsDown: boolean = false;
-  showGridRoomGuide: boolean = true;
+  public mouseIsDown = false;
+  showGridRoomGuide = true;
 
   constructor(
     private debug: DebugService,
@@ -26,20 +30,29 @@ export class GridComponent implements OnInit {
   ngOnInit() {
     // subscribe to the buildGrid event
     this.debug.log('grid-component', 'setting grid Subscription');
-    this.feature.onBuildGrid.subscribe( result => {
-      this.debug.log('grid-component', 'building the grid');
-      this.updateGrid();
+    this.feature.onBuildGrid
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe( result => {
+        this.debug.log('grid-component', 'building the grid');
+        this.updateGrid();
     });
 
     // subscribe to the applyAll event
-    this.feature.onApplyAll.subscribe( result => {
-      this.debug.log('grid-component', 'applying all');
-      this.updateGrid(true);
+    this.feature.onApplyAll
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe( result => {
+        this.debug.log('grid-component', 'applying all');
+        this.updateGrid(true);
     });
 
     if (this.feature.feature_type === 'hush-block') {
       this.showGridRoomGuide = false;
     }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   updateGrid(applyAll: boolean = false) {
@@ -204,10 +217,8 @@ export class GridComponent implements OnInit {
               this.feature.gridData[row][column].setTile(this.feature.selectedTile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
               this.debug.log('grid-component', this.feature.gridData[row][column]);
-            }else if(this.feature.feature_type === 'hush'){
-              // TODO: get the accurate data in here
-              // this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/velo/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
-              this.feature.gridData[row][column].setBackgroundImage(`url(${this.feature.newMaterialsArray.hush[0].image})`);
+            }else if(this.feature.feature_type === 'hush') {
+              this.feature.gridData[row][column].setBackgroundImage(`url(/assets/images/materials/felt/sola/${this.feature.material}.jpg)`);
               this.feature.gridData[row][column].setTile(this.feature.selectedTile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
               this.debug.log('grid-component', this.feature.gridData[row][column]);

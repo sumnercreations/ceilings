@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DebugService } from './../_services/debug.service';
@@ -13,6 +13,8 @@ import { VeloTileUsageComponent } from '../velo-tile-usage/velo-tile-usage.compo
 import { QuoteDialogComponent } from '../quote-dialog/quote-dialog.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 import * as FileSaver from 'file-saver';
 import * as html2canvas from 'html2canvas';
 
@@ -21,7 +23,8 @@ import * as html2canvas from 'html2canvas';
   templateUrl: './design.component.html',
   styleUrls: ['./design.component.css']
 })
-export class DesignComponent implements OnInit {
+export class DesignComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
   optionsDialogRef: MdDialogRef<any>;
   loadDesignDialogRef: MdDialogRef<any>;
   saveDesignDialogRef: MdDialogRef<any>;
@@ -104,21 +107,27 @@ export class DesignComponent implements OnInit {
     });
 
     // subscribe to the saved event to close the save dialog
-    this.api.onSaved.subscribe(success => {
-      this.saveDesignDialogRef? this.saveDesignDialogRef.close() : null;
+    this.api.onSaved
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(success => {
+        this.saveDesignDialogRef ? this.saveDesignDialogRef.close() : null;
     });
 
     // subscribe to the loadDesigns event to handle it all here.
     // this will come from the options component
-    this.feature.onLoadDesigns.subscribe(success => {
+    this.feature.onLoadDesigns
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(success => {
       this.debug.log('design-component', 'loading design event subscription');
       this.loadDesigns();
     });
 
     // subscribe to the loaded event to close the load dialog
-    this.api.onLoaded.subscribe(success => {
-      this.loadDesignDialogRef? this.loadDesignDialogRef.close() : null;
-      this.optionsDialogRef? this.optionsDialogRef.close() : null;
+    this.api.onLoaded
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(success => {
+        this.loadDesignDialogRef ? this.loadDesignDialogRef.close() : null;
+        this.optionsDialogRef ? this.optionsDialogRef.close() : null;
     });
 
     // subscribe to the loggedIn event and set the user attributes
@@ -133,32 +142,43 @@ export class DesignComponent implements OnInit {
     });
 
     // subscribe to the onView3d event and build the dialog
-    this.feature.onView3d.subscribe( result => {
+    this.feature.onView3d
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe( result => {
       this.debug.log('design-component', 'view 3d event');
       this.view3d();
     });
 
   }  // end ngOnInit()
 
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   public editOptions() {
     // load a dialog to edit the options
-    let config = new MdDialogConfig();
+    const config = new MdDialogConfig();
     config.disableClose = true;
-    config.height = "90%";
-    config.width = "80%";
+    config.height = '90%';
+    config.width = '80%';
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
-    this.optionsDialogRef.afterClosed().subscribe(result => {
+    this.optionsDialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(result => {
       this.feature.buildGrid();
     });
   }
 
   public loadDesigns() {
     // If the user is not logged in then present the login dialog
-    if(!this.user.isLoggedIn()) {
+    if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
-    }else{
+    } else {
       let loadDialog: MdDialog;
-      this.api.getMyDesigns().subscribe(designs => {
+      this.api.getMyDesigns()
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe(designs => {
         this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
         this.loadDesignDialogRef.componentInstance.designs = designs;
       });
@@ -175,14 +195,16 @@ export class DesignComponent implements OnInit {
 
   public loginDialog(load: boolean = false) {
     this.debug.log('design-component', 'displaying login dialog');
-    let config = new MdDialogConfig();
+    const config = new MdDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
-    this.loginDialogRef.afterClosed().subscribe(result => {
-      if(result == 'cancel') {
+    this.loginDialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(result => {
+        if (result === 'cancel') {
         // we need to close the savedDialog too if it's open.
-        this.saveDesignDialogRef? this.saveDesignDialogRef.close() : null;
-      }else if(load) {
+          this.saveDesignDialogRef ? this.saveDesignDialogRef.close() : null;
+        }else if (load) {
         // the user should be logged in now, so show the load dialog
         this.loadDesigns();
       }
@@ -201,9 +223,9 @@ export class DesignComponent implements OnInit {
   }
 
   public tileUsage() {
-    let config = new MdDialogConfig();
+    const config = new MdDialogConfig();
     config.height = '700px';
-    if(this.feature.feature_type == 'velo') {
+    if (this.feature.feature_type === 'velo') {
       this.tileUsageDialogRef = this.dialog.open(VeloTileUsageComponent, config);
     }else{
       this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
@@ -212,11 +234,11 @@ export class DesignComponent implements OnInit {
 
   public downloadGridGuide() {
     this.debug.log('design-component', 'generating grid guide');
-    let _this = this;
-    html2canvas(document.getElementById("grid"), {
+    const _this = this;
+    html2canvas(document.getElementById('grid'), {
       onrendered: function(canvas) {
-        let theCanvas = canvas;
-        let dataURL = theCanvas.toDataURL();
+        const theCanvas = canvas;
+        const dataURL = theCanvas.toDataURL();
         _this.debug.log('design-guide-data-url', dataURL);
         _this.feature.design_data_url = dataURL;
       }
@@ -227,17 +249,17 @@ export class DesignComponent implements OnInit {
     // get the grid with guides
     // make sure the guide is set to true
     this.feature.showGuide = true;
-    if(this.feature.feature_type == 'velo') {
-      let veloCanvas = document.querySelector("canvas");
-      let dataURL = veloCanvas.toDataURL();
+    if (this.feature.feature_type === 'velo') {
+      const veloCanvas = document.querySelector('canvas');
+      const dataURL = veloCanvas.toDataURL();
       this.feature.design_data_url = dataURL;
     }else{
       this.downloadGridGuide();
     }
     // load the dialog to confirm the design we will be sending
-    let config = new MdDialogConfig();
+    const config = new MdDialogConfig();
     // config.height = '700px';
-    let dialogRef = this.dialog.open(QuoteDialogComponent, config);
+    const dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
 }
