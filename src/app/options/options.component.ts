@@ -35,17 +35,8 @@ export class OptionsComponent implements OnInit {
   ngOnInit() {
     this.debug.log('options-component', 'init');
     this.debug.log('options-component', this.feature.feature_type);
-    this.title =  `${this.feature.feature_type} Design Tool`;
-
-    if(this.feature.feature_type == 'velo') {
-      // set default width and length for now.
-      setTimeout(() => {
-        if(!this.feature.quoted) {
-          this.feature.width = this.feature.units == 'inches' ? 384 : 976;
-          this.feature.length = this.feature.units == 'inches' ? 240 : 610;
-        }
-      }, 500);
-    }
+    const featureType = this.feature.feature_type;
+    this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Block Design Tool`;
   }
 
   public goToLanding() {
@@ -60,14 +51,12 @@ export class OptionsComponent implements OnInit {
     this.feature.updateGridUnits(units);
   }
 
-  private validateOptions() {
+  validateOptions() {
     // name, width, and length are required
-    let valid = (this.feature.width == 0 || typeof this.feature.width == 'undefined')
-            || (this.feature.length == 0 || typeof this.feature.length == 'undefined')
-            || (typeof this.feature.design_name == 'undefined') ? true : false;
-    if (this.feature.feature_type === 'hush') {
-      // let width
-    }
+    const valid = (this.feature.width === 0 || typeof this.feature.width === 'undefined')
+             || (this.feature.length === 0 || typeof this.feature.length === 'undefined')
+             || (typeof this.feature.design_name === 'undefined')
+              ? true : false;
 
     return valid;
   }

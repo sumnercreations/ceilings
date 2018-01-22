@@ -1,7 +1,7 @@
 // core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // material.angular.io
@@ -86,6 +86,7 @@ import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     Routing,
     BrowserAnimationsModule,

@@ -9,6 +9,14 @@ import { OptionsComponent } from 'app/options/options.component';
 })
 export class HushOptionsComponent extends OptionsComponent implements OnInit {
   modifyToolsArray = ['remove'];
-  title = 'Hush Block Design Tool';
 
+  hushValidateOptions() {
+    const validValues = !this.validateOptions();
+    const validWidthLength = this.validWidthLength();
+    return (validValues && validWidthLength);
+  }
+
+  validWidthLength() {
+    return ((this.feature.width % 24 === 0) && (this.feature.length % 24 === 0 ));
+  }
 }
