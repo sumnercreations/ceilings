@@ -48,6 +48,7 @@
           </div>
         </div>
       <p *ngIf="!validWidthLength()">Width and Length must be a multiple of 24"</p>
+      <p *ngIf="validWidthLength()">&#8203;</p>
       <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="!hushValidateOptions()">start designing</button>
       <div class="back">
         <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
