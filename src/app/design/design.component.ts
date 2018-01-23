@@ -64,6 +64,8 @@ export class DesignComponent implements OnInit, OnDestroy {
             if(design.feature_type === params['type']) {
               this.debug.log('design-component', 'setting the design.');
               this.feature.setDesign(design);
+              this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
+              this.materials = this.feature.newMaterialsArray[this.feature.feature_type];
               if(this.feature.feature_type == 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if(this.feature.feature_type == 'velo') {
@@ -72,6 +74,8 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.feature.material = 'milky-white';
                 this.feature.materialHex = '#dfdee0';
                 this.feature.materialType = 'felt';
+              }else if(this.feature.feature_type == 'hush') {
+                this.feature.toolsArray = ['remove'];
               }
             }else{
               this.router.navigate([design.feature_type, 'design', design.id]);
@@ -87,7 +91,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.selectedTile = '01';
             this.feature.material = 'milky-white';
           }else if(this.feature.feature_type == 'hush') {
-            this.feature.selectedTile = '01';
+            this.feature.selectedTile = '00';
             this.feature.material = 'zinc';
             this.feature.toolsArray = ['remove'];
           }else if(this.feature.feature_type == 'clario') {
