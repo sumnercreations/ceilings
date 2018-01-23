@@ -1,7 +1,7 @@
 // core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 // material.angular.io
@@ -52,6 +52,10 @@ import { ApiService } from './_services/api.service';
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
+import { HushOptionsComponent } from './options/hush-options/hush-options.component';
+import { VeloOptionsComponent } from './options/velo-options/velo-options.component';
+import { ClarioOptionsComponent } from './options/clario-options/clario-options.component';
+import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.component';
 
 @NgModule({
   declarations: [
@@ -73,11 +77,16 @@ import { KeysPipe } from './_pipes/keys.pipe';
     QuoteDialogComponent,
     DetailsComponent,
     VeloGridComponent,
-    VeloTileUsageComponent
+    VeloTileUsageComponent,
+    HushOptionsComponent,
+    VeloOptionsComponent,
+    ClarioOptionsComponent,
+    TetriaOptionsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     Routing,
     BrowserAnimationsModule,

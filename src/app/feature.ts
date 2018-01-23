@@ -42,6 +42,9 @@ export class Feature {
   public materialHex: string;
   public materialType: string;
   public diffusion: string;
+  public columns: number;
+  public rows: number;
+
 
   public tilesArray = {
     tetria: {
@@ -94,10 +97,51 @@ export class Feature {
         tile: 'convex',
         name: 'convex'
       }
+    },
+    hush: {
+      0: {
+        image: '',
+        tile: '24',
+        name: '24x24'
+      }
     }
   };
 
   public newMaterialsArray = {
+    hush: {
+      0: {
+        material: 'zinc',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      1: {
+        material: 'nickel',
+        image: '/assets/images/materials/felt/sola/nickel.jpg'
+      },
+      2: {
+        material: 'cashmere',
+        image: '/assets/images/materials/felt/sola/cashmere.jpg'
+      },
+      3: {
+        material: 'burnt_umber',
+        image: '/assets/images/materials/felt/sola/burnt_umber.jpg'
+      },
+      4: {
+        material: 'ore',
+        image: '/assets/images/materials/felt/sola/ore.jpg'
+      },
+      5: {
+        material: 'dark_gray',
+        image: '/assets/images/materials/felt/sola/dark_gray.jpg'
+      },
+      6: {
+        material: 'cast',
+        image: '/assets/images/materials/felt/sola/cast.jpg'
+      },
+      7: {
+        material: 'ebony',
+        image: '/assets/images/materials/felt/sola/ebony.jpg'
+      }
+    },
     tetria: {
       0: {
         material: 'milky-white',
@@ -744,6 +788,21 @@ export class Feature {
       this.estimated_amount = this.services_amount;
     } // END TETRIA
 
+    // HUSH
+    if(this.feature_type === 'hush') {
+      const hushTilePrice = 15.45;
+      let hushTileCount = 0;
+
+      for (const hushTile in tilesArray) {
+        if (tilesArray.hasOwnProperty(hushTile)) {
+          const hushCurrentTile = tilesArray[hushTile];
+          hushTileCount += hushCurrentTile.purchased;
+        }
+      }
+      this.services_amount = (hushTilePrice * hushTileCount);
+      this.estimated_amount = this.services_amount;
+    } // END HUSH
+
     // CLARIO
     if(this.feature_type == 'clario') {
       let products_amount: number = 0.00;
@@ -799,7 +858,8 @@ export class Feature {
       let variaDiffusionSheetCost: number = variaSheetCost + 100.00;
 
       for(let tile in tilesArray) {
-        currentTile = tilesArray[tile];
+        if(tilesArray.hasOwnProperty(tile)){
+          const currentTile = tilesArray[tile];
         if(currentTile.materialType == 'felt') {
           veloFeltTiles += currentTile.purchased;
         }else{
@@ -809,6 +869,7 @@ export class Feature {
             veloVariaDiffusionTiles += currentTile.purchased;
           }
         }
+      }
       }
 
       variaSheetsNeeded = Math.ceil(veloVariaTiles / 8);
@@ -1030,7 +1091,7 @@ export class Feature {
   }
 
   public getFeatureTypeInteger() {
-    var type: number;
+    let type: number;
     switch (this.feature_type) {
       case "tetria":
         type = 100;
@@ -1042,6 +1103,10 @@ export class Feature {
 
       case "velo":
         type = 300;
+        break;
+
+      case "hush":
+        type = 400;
         break;
 
       // default to tetria
@@ -1064,7 +1129,8 @@ export class Feature {
   }
 
   public getPackageQty(tile: string) {
-    var qty: number = 0;
+    let qty: number;
+    if (this.feature_type === 'hush') { return 1; }
     switch (tile) {
       case "00":
       case "01":
@@ -1136,14 +1202,14 @@ export class Feature {
       tiles = purchasedTiles;
     }else{
       // Determine the number of unique tiles (color and tile)
-      var pkgQty: number;
-      var tileType = this.getTileType('plural');
+      let pkgQty: number;
+      let tileType = this.getTileType('plural');
       if(this.gridData) {
-        for (var i = this.gridData.length - 1; i >= 0; i--) {
-          for (var j = this.gridData[i].length - 1; j >= 0; j--) {
+        for (let i = this.gridData.length - 1; i >= 0; i--) {
+          for (let j = this.gridData[i].length - 1; j >= 0; j--) {
             if(this.gridData[i][j].tile) {
-              var key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
-              var pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
+              let key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
+                pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
               if(tiles[key]) {
                 tiles[key].used += 1;
                 tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);

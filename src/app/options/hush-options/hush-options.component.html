@@ -1,0 +1,92 @@
+<div class="options-dialog-container">
+  <div class="row">
+    <div class="col-xs-11">
+      <div class="intro">
+        <h2>{{title | capitalize}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 left-pane">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>Spicy jalapeno bacon ipsum dolor amet sunt sint nulla, irure alcatra short loin nisi esse. In strip steak t-bone ground round qui pork nisi ut, pastrami boudin pork belly. Ut aute tri-tip, ullamco spare ribs ball tip alcatra corned beef. Sausage nisi et veniam in dolor consectetur mollit.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Design Name</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group">
+            <input [(ngModel)]="feature.design_name" #designNameInput="ngModel" required type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+          </div>
+        </div>
+        <div class="col-sm-3 options-load">
+          <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+        </div>
+      </div>
+      <hr>
+      <div id="grid-dimensions" *ngIf="feature.feature_type=='hush'">
+        <h3>Design Dimensions</h3>
+        <p>Spicy jalapeno bacon ipsum dolor amet sunt sint nulla</p>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="width">Width</label>
+              <input [(ngModel)]="feature.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="length">Length</label>
+              <input [(ngModel)]="feature.length" #lengthInput="ngModel" type="number" class="form-control number-input square" placeholder="Length" name="length" id="length" required>
+              </div>
+            </div>
+          </div>
+        </div>
+      <p *ngIf="!validWidthLength()">Width and Length must be a multiple of 24"</p>
+      <p *ngIf="validWidthLength()">&#8203;</p>
+      <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="!hushValidateOptions()">start designing</button>
+      <div class="back">
+        <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
+      <div class="velo-tile-size">
+        <h3>Tile Size</h3>
+        <p>Tile dimensions are 24" x 24" (60.96cm x 60.96cm)</p>
+        <img src="/assets/images/velo-tile-size.png" alt="Hush Block Size. 24 inches by 24 inches.">
+      </div>
+      <div id="design">
+        <h3>Design</h3>
+        <p>Choose your {{feature.getTileType()}} color.</p>
+        <div id="tiles">
+          <ul class="list-inline">
+            <li class="material"><img src="/assets/images/materials/felt/sola/burnt_umber.jpg" alt="Burnt Umber" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/cashmere.jpg" alt="Cashmere" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/cast.jpg" alt="Cast" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/dark_gray.jpg" alt="Dark Gray" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ebony.jpg" alt="Ebony" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/nickel.jpg" alt="Nickel" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ore.jpg" alt="Ore" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/zinc.jpg" alt="Zinc" class="img-responsive"></li>
+          </ul>
+        </div>
+      </div>
+      <div id="modify">
+        <h3>Modify</h3>
+        <p>Remove tiles as needed.</p>
+        <ul class="list-inline tools">
+          <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.feature_type=='velo' && tool != 'remove'">
+            <div class="tool" [class.add-border-right]="isLast">
+              <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

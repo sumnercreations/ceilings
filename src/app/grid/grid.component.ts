@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { GridSection } from './../_models/grid-section';
 import { AlertService } from '../_services/alert.service';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.css']
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
   public rows: any;
   public columns: any;
-  public mouseIsDown: boolean = false;
+  public mouseIsDown = false;
+  showGridRoomGuide = true;
 
   constructor(
     private debug: DebugService,
@@ -25,16 +30,29 @@ export class GridComponent implements OnInit {
   ngOnInit() {
     // subscribe to the buildGrid event
     this.debug.log('grid-component', 'setting grid Subscription');
-    this.feature.onBuildGrid.subscribe( result => {
-      this.debug.log('grid-component', 'building the grid');
-      this.updateGrid();
+    this.feature.onBuildGrid
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe( result => {
+        this.debug.log('grid-component', 'building the grid');
+        this.updateGrid();
     });
 
     // subscribe to the applyAll event
-    this.feature.onApplyAll.subscribe( result => {
-      this.debug.log('grid-component', 'applying all');
-      this.updateGrid(true);
+    this.feature.onApplyAll
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe( result => {
+        this.debug.log('grid-component', 'applying all');
+        this.updateGrid(true);
     });
+
+    if (this.feature.feature_type === 'hush-block') {
+      this.showGridRoomGuide = false;
+    }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   updateGrid(applyAll: boolean = false) {
@@ -45,20 +63,20 @@ export class GridComponent implements OnInit {
     if(typeof this.feature.gridData == 'undefined') {
       this.feature.gridData = [];
       this.debug.log('grid-component', 'gridData is undefined');
-      for(var r: number = 0; r < this.rows.length; r++) {
+      for(let r: number = 0; r < this.rows.length; r++) {
         this.feature.gridData[r] = [];
-        for(var c: number = 0; c < this.columns.length; c++) {
+        for(let c: number = 0; c < this.columns.length; c++) {
           this.feature.gridData[r][c] = new GridSection(r, c);
         }
       }
     }else{
       // Loaded design or design with gridData already set.
-      for(var r: number = 0; r < this.rows.length; r++) {
+      for(let r: number = 0; r < this.rows.length; r++) {
         if(typeof this.feature.gridData[r] == 'undefined') {
           // create new row
           this.feature.gridData[r] = [];
         }
-        for(var c: number = 0; c < this.columns.length; c++) {
+        for(let c: number = 0; c < this.columns.length; c++) {
           if(applyAll) {
             // de-select any tools just in case
             this.feature.selectedTool = '';
@@ -193,10 +211,14 @@ export class GridComponent implements OnInit {
                   this.set48TileRight(row, column);
                 }
               }
-            }else{
-              // must be velo
+            }else if(this.feature.feature_type === 'velo'){
               this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/velo/'+ this.feature.selectedTile + '/'+ this.feature.material + '.png)');
               this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+              this.feature.gridData[row][column].setTile(this.feature.selectedTile);
+              this.feature.gridData[row][column].setMaterial(this.feature.material);
+              this.debug.log('grid-component', this.feature.gridData[row][column]);
+            }else if(this.feature.feature_type === 'hush') {
+              this.feature.gridData[row][column].setBackgroundImage(`url(/assets/images/materials/felt/sola/${this.feature.material}.jpg)`);
               this.feature.gridData[row][column].setTile(this.feature.selectedTile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
               this.debug.log('grid-component', this.feature.gridData[row][column]);
@@ -238,7 +260,7 @@ export class GridComponent implements OnInit {
   }
 
   getRoomGuideWidth() {
-    var guideWidth: number;
+    let guideWidth: number;
     if(this.feature.units == 'inches') {
       guideWidth = ( this.feature.width / 12 / 2 ) * 48;
     }else{
@@ -248,7 +270,7 @@ export class GridComponent implements OnInit {
   }
 
   getRoomGuideHeight() {
-    var guideHeight: number;
+    let guideHeight: number;
     if(this.feature.units == 'inches') {
       guideHeight = ( this.feature.length / 12 / 2 ) * 48;
     }else{
