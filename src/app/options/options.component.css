@@ -84,14 +84,6 @@ aside.note {
   border-right: 2px solid #e7e7e7;
 }
 
-.invalid-input {
-  /* color: red;
-  text-align: right;
-  font-size: 0.9em;
-  height: 17px;
-  margin: 0; */
-}
-
 input.ng-invalid.ng-touched {
   border: 1px solid red;
 }

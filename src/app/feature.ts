@@ -1105,6 +1105,10 @@ export class Feature {
         type = 300;
         break;
 
+      case "hush":
+        type = 400;
+        break;
+
       // default to tetria
       default:
         type = 100;
