@@ -26,15 +26,15 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      if(params['id']) {
+      if (params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
-          if(design == null) {
+          if (design == null) {
             // design not found
             this.router.navigate([params['type'], 'design']);
-          }else if(!design.quoted) {
+          }else if (!design.quoted) {
             // not quoted
             this.router.navigate([design.feature_type, 'design', design.id]);
-          }else{
+          } else {
             // load the quoted design
             this.api.getUserRep(design.uid).subscribe(rep => {
               this.rep = rep;

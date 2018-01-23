@@ -1,16 +1,17 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
-import *  as _ from 'lodash';
+import * as _ from 'lodash';
 
 @Injectable()
 export class Feature {
+  static _instance: Feature = new Feature();
+
   onBuildGrid = new EventEmitter();
   onBuildVeloGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
 
-  private static _instance: Feature = new Feature();
   private debug: DebugService;
 
   // attributes saved in DB
@@ -22,23 +23,23 @@ export class Feature {
   public specifier: string;
   public width: number;
   public length: number;
-  public units: string = "inches";
+  public units = 'inches';
   public material: string;
-  public tile_size: number = 24;
+  public tile_size = 24;
   public tiles: any;
   public design_data_url: any;
   public hardware: any;
-  public estimated_amount: number = 0.00;
-  public services_amount: number = 0.00;
-  public quoted: boolean = false; // boolean
-  public archived: boolean = false; // boolean
+  public estimated_amount = 0.00;
+  public services_amount = 0.00;
+  public quoted = false; // boolean
+  public archived = false; // boolean
   public updated_at: string;
 
   // attributes for the tool
-  public tile_type: string = 'tile';
-  public selectedTile: string = "01";
+  public tile_type = 'tile';
+  public selectedTile = '01';
   public selectedTool: string;
-  public showGuide: boolean = true;
+  public showGuide = true;
   public materialHex: string;
   public materialType: string;
   public diffusion: string;
@@ -748,7 +749,7 @@ export class Feature {
 
     // after it's been loaded, recalculate the price if the design
     // hasn't been quoted. In the event that the prices have changed.
-    if(!this.quoted) {
+    if (!this.quoted) {
       this.updateEstimatedAmount();
     }
     this.buildGrid();
@@ -763,25 +764,27 @@ export class Feature {
   }
 
   updateEstimatedAmount() {
-    var tilesArray = this.getTilesPurchasedArray();
+    const tilesArray = this.getTilesPurchasedArray();
 
     // TETRIA
-    if(this.feature_type == 'tetria') {
-      var flatTilePrice = 15.45;
-      var tetriaTilePrice = 82.40;
-      var tileWeight = 1.55;
-      var flatTileCount = 0;
-      var tetriaTileCount = 0;
-      var tetriaTiles = ["01","02","03"];
+    if (this.feature_type === 'tetria') {
+      const flatTilePrice = 15.45;
+      const tetriaTilePrice = 82.40;
+      const tileWeight = 1.55;
+      let flatTileCount = 0;
+      let tetriaTileCount = 0;
+      const tetriaTiles = ['01', '02', '03'];
 
-      for (var tile in tilesArray) {
-        var currentTile = tilesArray[tile];
-        if(tetriaTiles.indexOf(currentTile.tile) != -1) {
-          // add the purchased amount to the tetria tile count
-          tetriaTileCount += currentTile.purchased;
-        }else if(currentTile.tile == "00"){
-          // add the purchased amount to the flat tile count
-          flatTileCount += currentTile.purchased;
+      for (const tile in tilesArray) {
+        if (tilesArray.hasOwnProperty(tile)) {
+          const currentTile = tilesArray[tile];
+          if (tetriaTiles.indexOf(currentTile.tile) !== -1) {
+            // add the purchased amount to the tetria tile count
+            tetriaTileCount += currentTile.purchased;
+          }else if (currentTile.tile === '00') {
+            // add the purchased amount to the flat tile count
+            flatTileCount += currentTile.purchased;
+          }
         }
       }
       this.services_amount = (tetriaTileCount * tetriaTilePrice) + (flatTileCount * flatTilePrice);
@@ -789,7 +792,7 @@ export class Feature {
     } // END TETRIA
 
     // HUSH
-    if(this.feature_type === 'hush') {
+    if (this.feature_type === 'hush') {
       const hushTilePrice = 15.45;
       let hushTileCount = 0;
 
@@ -804,40 +807,42 @@ export class Feature {
     } // END HUSH
 
     // CLARIO
-    if(this.feature_type == 'clario') {
-      let products_amount: number = 0.00;
+    if (this.feature_type === 'clario') {
+      let products_amount = 0.00;
       let clario24TileCount = 0;
       let clario48TileCount = 0;
       let clario00TileCount = 0;
-      let sheetsNeeded: number = 0;
-      let sheetCost: number = 0.00;
-      for (let tile in tilesArray) {
-        let currentTile = tilesArray[tile];
-        if(currentTile.tile == "24") {
-          // 24x24 prices
-          clario24TileCount += currentTile.purchased;
-          // what part_id is the material?
-          // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
-          sheetsNeeded = currentTile.purchased / 4;
-        }else if(currentTile.tile == "48") {
-          // 24x48 prices
-          clario48TileCount += currentTile.purchased;
-          sheetsNeeded = currentTile.purchased / 2;
-        } else if(currentTile.tile == "00") {
-          // 00 flat tiles
-          clario00TileCount += currentTile.purchased;
-          sheetsNeeded = currentTile.purchased / 4;
-        }
+      let sheetsNeeded = 0;
+      let sheetCost = 0.00;
+      for (const tile in tilesArray) {
+        if (tilesArray.hasOwnProperty(tile)) {
+          const currentTile = tilesArray[tile];
+          if (currentTile.tile === '24') {
+            // 24x24 prices
+            clario24TileCount += currentTile.purchased;
+            // what part_id is the material?
+            // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
+            sheetsNeeded = currentTile.purchased / 4;
+          }else if (currentTile.tile === '48') {
+            // 24x48 prices
+            clario48TileCount += currentTile.purchased;
+            sheetsNeeded = currentTile.purchased / 2;
+          } else if (currentTile.tile === '00') {
+            // 00 flat tiles
+            clario00TileCount += currentTile.purchased;
+            sheetsNeeded = currentTile.purchased / 4;
+          }
 
-        // calculate the sheet cost and add it to the products_amount
-        sheetCost = sheetsNeeded * 48.93;
-        products_amount += sheetCost;
+          // calculate the sheet cost and add it to the products_amount
+          sheetCost = sheetsNeeded * 48.93;
+          products_amount += sheetCost;
+        }
       }
 
       // SERVICES AMOUNT
-      let clarioBaffleServiceCost = 46.13;
-      let clarioFlatTileServiceCost = 23.81;
-      let totalClarioBaffles = clario24TileCount + clario48TileCount;
+      const clarioBaffleServiceCost = 46.13;
+      const clarioFlatTileServiceCost = 23.81;
+      const totalClarioBaffles = clario24TileCount + clario48TileCount;
 
       this.services_amount = (totalClarioBaffles * clarioBaffleServiceCost) + (clario00TileCount * clarioFlatTileServiceCost);
       // END SERVICES AMOUNT
@@ -846,26 +851,26 @@ export class Feature {
     } // END CLARIO
 
     // VELO - felt is the same as Tetria - everything in services
-    if(this.feature_type == 'velo') {
+    if (this.feature_type === 'velo') {
       // PRODUCTS AMOUNT
-      let veloFeltTiles: number = 0;
-      let veloVariaTiles: number = 0;
-      let veloVariaDiffusionTiles: number = 0;
+      let veloFeltTiles = 0;
+      let veloVariaTiles = 0;
+      let veloVariaDiffusionTiles = 0;
       let products_amount: number;
       let variaSheetsNeeded: number;
       let variaDiffusionSheetsNeeded: number;
-      let variaSheetCost: number = 488.14;
-      let variaDiffusionSheetCost: number = variaSheetCost + 100.00;
+      const variaSheetCost = 488.14;
+      const variaDiffusionSheetCost: number = variaSheetCost + 100.00;
 
-      for(let tile in tilesArray) {
-        if(tilesArray.hasOwnProperty(tile)){
+      for (const tile in tilesArray) {
+        if (tilesArray.hasOwnProperty(tile)) {
           const currentTile = tilesArray[tile];
-        if(currentTile.materialType == 'felt') {
+        if (currentTile.materialType === 'felt') {
           veloFeltTiles += currentTile.purchased;
-        }else{
-          if(typeof currentTile.diffusion == 'undefined') {
+        } else {
+          if (typeof currentTile.diffusion === 'undefined') {
             veloVariaTiles += currentTile.purchased;
-          }else{
+          } else {
             veloVariaDiffusionTiles += currentTile.purchased;
           }
         }
@@ -874,78 +879,80 @@ export class Feature {
 
       variaSheetsNeeded = Math.ceil(veloVariaTiles / 8);
       variaDiffusionSheetsNeeded = Math.ceil(veloVariaDiffusionTiles / 8);
-      console.log("varia sheets needed", variaSheetsNeeded);
-      console.log("varia diffusion sheets needed", variaDiffusionSheetsNeeded);
+      console.log('varia sheets needed', variaSheetsNeeded);
+      console.log('varia diffusion sheets needed', variaDiffusionSheetsNeeded);
       products_amount = (variaSheetsNeeded * variaSheetCost) + (variaDiffusionSheetsNeeded * variaDiffusionSheetCost);
 
       // SERVICES AMOUNT
-      let veloFeltServiceCost: number = 77.25;
-      let veloVariaServiceCost: number = 78.75;
+      const veloFeltServiceCost = 77.25;
+      const veloVariaServiceCost = 78.75;
       this.services_amount = (veloFeltTiles * veloFeltServiceCost) + ((veloVariaTiles + veloVariaDiffusionTiles) * veloVariaServiceCost);
       // console.log('=== SERVICES AMOUNT ===');
       // console.log(this.services_amount);
 
       // HARDWARE AMOUNT
       let hardware_amount: number;
-      let hardwareCost: number = 0.00;
+      let hardwareCost = 0.00;
       let cableCount: number;
-      let cableCost: number = 0.00;
-      let cableKitCost = 12.46;
-      let variaConnectionKitCost = 6.85;
-      let feltConnectionKitCost = .46;
-      let drillBitCost = 10.23;
-      let variaPunchToolCost = 17.49;
-      let variaConnectionKitsNeeded: number = 0;
-      let feltConnectionKitsNeeded: number = 0;
-      let cablesNeeded: number = 0;
-      let variaPunchToolNeeded: boolean = false;
+      let cableCost = 0.00;
+      const cableKitCost = 12.46;
+      const variaConnectionKitCost = 6.85;
+      const feltConnectionKitCost = .46;
+      const drillBitCost = 10.23;
+      const variaPunchToolCost = 17.49;
+      let variaConnectionKitsNeeded = 0;
+      let feltConnectionKitsNeeded = 0;
+      let cablesNeeded = 0;
+      let variaPunchToolNeeded = false;
 
       // CABLE COST CALCULATION
       // we need to calculate the cable hardware for each individual island
       // and then add them together at the end for a total amount.
-      let islands = this.getIslands();
+      const islands = this.getIslands();
       console.log('islands', islands);
-      for (let i in islands) {
-        let island = islands[i];
-        let tilesInIsland = island.length;
-        let islandConnections = this.getVeloConnections(island);
-        let sharedEdges = islandConnections['totalConnections'];
+      for (const i in islands) {
+        if (islands.hasOwnProperty(i)) {
+          const island = islands[i];
+          const tilesInIsland = island.length;
+          const islandConnections = this.getVeloConnections(island);
+          const sharedEdges = islandConnections['totalConnections'];
 
-        // ratio = (number_of_shared_edges / number_of_tiles)
-        // if ratio < 1 then cableCount = Math.ceil(cables * .75)
-        // if ratio > 1 then cableCount = Math.ceil(cables * .5)
-        // this is the total number of purchased tiles
-        // this is the number of tiles in the design
-        let ratio = (sharedEdges) / (tilesInIsland);
-        let factor = ratio < 1 ? .75 : .5;
-        cableCount = Math.ceil(tilesInIsland * factor);
+          // ratio = (number_of_shared_edges / number_of_tiles)
+          // if ratio < 1 then cableCount = Math.ceil(cables * .75)
+          // if ratio > 1 then cableCount = Math.ceil(cables * .5)
+          // this is the total number of purchased tiles
+          // this is the number of tiles in the design
+          const ratio = (sharedEdges) / (tilesInIsland);
+          const factor = ratio < 1 ? .75 : .5;
+          cableCount = Math.ceil(tilesInIsland * factor);
 
-        // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
-        if(sharedEdges + 1 == tilesInIsland) {
-          cableCount = sharedEdges;
+          // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
+          if (sharedEdges + 1 === tilesInIsland) {
+            cableCount = sharedEdges;
+          }
+          // Minimum of 2 cables.
+          cableCount = cableCount < 2 ? 2 : cableCount;
+          cableCost += cableCount * cableKitCost;
+
+          // Add the cables for this island to the total cables needed
+          cablesNeeded += cableCount;
+
+          // Calculate the hardware cost for connections and add to the hardware cost
+          hardwareCost += (islandConnections['variaToVaria'] * variaConnectionKitCost) + ((islandConnections['feltToFelt'] + islandConnections['variaToFelt']) * feltConnectionKitCost);
+
+          // Add the connections to the running total
+          variaConnectionKitsNeeded += islandConnections['variaToVaria'];
+          feltConnectionKitsNeeded += islandConnections['variaToFelt'] + islandConnections['feltToFelt'];
+
+          console.log('=======================');
+          console.log('shared edges:', sharedEdges);
+          console.log('total tiles:', tilesInIsland);
+          console.log('connections', islandConnections);
+          console.log('ratio:', ratio);
+          console.log('factor:', factor);
+          console.log('cables: ', cableCount);
+          console.log('///////////////////////');
         }
-        // Minimum of 2 cables.
-        cableCount = cableCount < 2 ? 2 : cableCount;
-        cableCost += cableCount * cableKitCost;
-
-        // Add the cables for this island to the total cables needed
-        cablesNeeded += cableCount;
-
-        // Calculate the hardware cost for connections and add to the hardware cost
-        hardwareCost += (islandConnections['variaToVaria'] * variaConnectionKitCost) + ((islandConnections['feltToFelt'] + islandConnections['variaToFelt']) * feltConnectionKitCost);
-
-        // Add the connections to the running total
-        variaConnectionKitsNeeded += islandConnections['variaToVaria'];
-        feltConnectionKitsNeeded += islandConnections['variaToFelt'] + islandConnections['feltToFelt'];
-
-        console.log('=======================');
-        console.log('shared edges:', sharedEdges);
-        console.log('total tiles:', tilesInIsland);
-        console.log('connections', islandConnections);
-        console.log('ratio:', ratio);
-        console.log('factor:', factor);
-        console.log('cables: ', cableCount);
-        console.log('///////////////////////');
       }
       // END CABLE COST CALCULATION
 
@@ -955,7 +962,7 @@ export class Feature {
       console.log('Felt Kits needed: ', feltConnectionKitsNeeded);
       console.log('Total cables needed: ', cablesNeeded);
       hardware_amount = cableCost + hardwareCost + drillBitCost;
-      if(this.veloHasVaria()) {
+      if (this.veloHasVaria()) {
         hardware_amount += variaPunchToolCost;
         variaPunchToolNeeded = true;
       }
@@ -964,11 +971,11 @@ export class Feature {
 
       // save the hardware amounts
       this.hardware = {
-        "3-15-8812": 1, // drillBit
-        "3-15-1677-K": cablesNeeded,
-        "3-15-8899-K": variaConnectionKitsNeeded,
-        "3-85-105-K": feltConnectionKitsNeeded,
-        "3-15-8813": variaPunchToolNeeded ? 1 : 0
+        '3-15-8812': 1, // drillBit
+        '3-15-1677-K': cablesNeeded,
+        '3-15-8899-K': variaConnectionKitsNeeded,
+        '3-85-105-K': feltConnectionKitsNeeded,
+        '3-15-8813': variaPunchToolNeeded ? 1 : 0
       }
     }
     // END VELO
@@ -982,16 +989,16 @@ export class Feature {
     this.selectedTile = tile;
 
     // if a tool is selected then remove it
-    if(this.selectedTool != '') {
+    if (this.selectedTool !== '') {
       this.selectedTool = '';
     }
   }
 
-  updateSelectedMaterial(material: string, hex: string = "", materialType: string = "felt") {
+  updateSelectedMaterial(material: string, hex: string = '', materialType: string = 'felt') {
     this.material = material;
 
     // set the hex value as well if not blank
-    if(hex != "") {
+    if (hex !== '') {
       this.materialHex = hex;
     }
 
@@ -999,19 +1006,19 @@ export class Feature {
     this.materialType = materialType;
 
     // if a tool is selected then remove it
-    if(this.selectedTool != '') {
+    if (this.selectedTool !== '') {
       this.selectedTool = '';
     }
   }
 
   updateSelectedTool(tool: string) {
-    var oldTool = this.selectedTool;
-    var newTool = tool;
+    const oldTool = this.selectedTool;
+    const newTool = tool;
     // if the tool they clicked on is already selected,
     // deselect it so they have a way to add tiles again.
-    if (this.selectedTool == tool) {
+    if (this.selectedTool === tool) {
       this.selectedTool = '';
-    }else{
+    } else {
       this.selectedTool = tool;
     }
   }
@@ -1019,18 +1026,18 @@ export class Feature {
   updateSelectedDiffusion(diffusion: string) {
     // if the diffusion they clicked on is already selected,
     // deselect it so they have a way to remove the diffusion
-    if (this.diffusion == diffusion) {
+    if (this.diffusion === diffusion) {
       this.diffusion = '';
-    }else{
+    } else {
       this.diffusion = diffusion;
     }
   }
 
   buildGrid() {
     // If the feature type is velo build that grid
-    if(this.feature_type == 'velo') {
+    if (this.feature_type === 'velo') {
       this.onBuildVeloGrid.emit();
-    }else{
+    } else {
       // emit an event to build a new grid
       this.onBuildGrid.emit();
     }
@@ -1049,7 +1056,7 @@ export class Feature {
 
   toggleGuide() {
     this.showGuide = !this.showGuide;
-    if(this.feature_type == 'velo') {
+    if (this.feature_type === 'velo') {
       this.onBuildVeloGrid.emit();
     }
   }
@@ -1063,28 +1070,28 @@ export class Feature {
   }
 
   public getRows() {
-    var rows: number;
+    let rows: number;
 
     // velo has a static grid
-    if(this.feature_type == 'velo') {
+    if (this.feature_type === 'velo') {
       rows = 500;
-    }else if(this.units == 'inches') {
+    }else if (this.units === 'inches') {
       rows = Math.ceil(this.length / 12 / 2);
-    }else{
+    } else {
       rows = Math.ceil(this.convertCMtoIN(this.length) / 12 / 2);
     }
     return rows;
   }
 
   public getColumns() {
-    var columns: number;
+    let columns: number;
 
     // velo has a static grid
-    if(this.feature_type == 'velo') {
+    if (this.feature_type === 'velo') {
       columns = 820;
-    }else if(this.units == 'inches') {
+    }else if (this.units === 'inches') {
       columns = Math.ceil(this.width / 12 / 2);
-    }else{
+    } else {
       columns = Math.ceil(this.convertCMtoIN(this.width) / 12 / 2);
     }
     return columns;
@@ -1093,19 +1100,19 @@ export class Feature {
   public getFeatureTypeInteger() {
     let type: number;
     switch (this.feature_type) {
-      case "tetria":
+      case 'tetria':
         type = 100;
         break;
 
-      case "clario":
+      case 'clario':
         type = 200;
         break;
 
-      case "velo":
+      case 'velo':
         type = 300;
         break;
 
-      case "hush":
+      case 'hush':
         type = 400;
         break;
 
@@ -1119,11 +1126,11 @@ export class Feature {
   }
 
   public getTileType(grammar: string = 'singular') {
-    var type: string = '';
-    if(grammar == 'plural') {
-      type = this.feature_type == 'clario' ? 'baffles' : 'tiles';
-    }else{
-      type = this.feature_type == 'clario' ? 'baffle' : 'tile';
+    let type = '';
+    if (grammar === 'plural') {
+      type = this.feature_type === 'clario' ? 'baffles' : 'tiles';
+    } else {
+      type = this.feature_type === 'clario' ? 'baffle' : 'tile';
     }
     return type;
   }
@@ -1132,21 +1139,21 @@ export class Feature {
     let qty: number;
     if (this.feature_type === 'hush') { return 1; }
     switch (tile) {
-      case "00":
-      case "01":
-      case "02":
-      case "03":
-      case "24":
+      case '00':
+      case '01':
+      case '02':
+      case '03':
+      case '24':
         qty = 4;
         break;
 
-      case "48":
+      case '48':
         qty = 2;
         break;
 
-      case "concave":
-      case "convex":
-      case "velo":
+      case 'concave':
+      case 'convex':
+      case 'velo':
         qty = 8;
         break;
 
@@ -1158,73 +1165,75 @@ export class Feature {
   }
 
   public getTilesUsed() {
-    if(this.gridData) {
-      var totalTiles = 0;
-      for (var i = this.gridData.length - 1; i >= 0; i--) {
-        for (var j = this.gridData[i].length - 1; j >= 0; j--) {
-          if(this.gridData[i][j].tile) {
+    if (this.gridData) {
+      let totalTiles = 0;
+      for (let i = this.gridData.length - 1; i >= 0; i--) {
+        for (let j = this.gridData[i].length - 1; j >= 0; j--) {
+          if (this.gridData[i][j].tile) {
             totalTiles++;
           }
         }
       }
       return totalTiles;
-    }else{
+    } else {
       return 0;
     }
   }
 
   public getTilesPurchasedArray() {
     let tiles = [];
-    if(this.feature_type == 'velo') {
-      let pkgQty: number = this.getPackageQty('velo');
-      let gridTiles = this.veloTiles();
-      let purchasedTiles = [];
+    if (this.feature_type === 'velo') {
+      const pkgQty: number = this.getPackageQty('velo');
+      const gridTiles = this.veloTiles();
+      const purchasedTiles = [];
 
-      for (let tile in gridTiles) {
-        let key = gridTiles[tile].materialType + '-' + gridTiles[tile].material + '-' + gridTiles[tile].diffusion;
-        if(purchasedTiles[key]) {
-          purchasedTiles[key][gridTiles[tile].tile] += 1;
-          purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
-        }else{
-          purchasedTiles[key] = {
-            "purchased": pkgQty,
-            "image": gridTiles[tile].materialType == 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
-            "hex": gridTiles[tile].materialType == 'varia' ? gridTiles[tile].hex : '',
-            "convex": gridTiles[tile].tile == 'convex' ? 1 : 0,
-            "concave": gridTiles[tile].tile == 'concave' ? 1 : 0,
-            "material": gridTiles[tile].material,
-            "materialType": gridTiles[tile].materialType,
-            "tile": gridTiles[tile].tile,
-            "diffusion": gridTiles[tile].diffusion
+      for (const tile in gridTiles) {
+        if (gridTiles.hasOwnProperty(tile)) {
+          const key = gridTiles[tile].materialType + '-' + gridTiles[tile].material + '-' + gridTiles[tile].diffusion;
+          if (purchasedTiles[key]) {
+            purchasedTiles[key][gridTiles[tile].tile] += 1;
+            purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
+          } else {
+            purchasedTiles[key] = {
+              'purchased': pkgQty,
+              'image': gridTiles[tile].materialType === 'felt' ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png' : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
+              'hex': gridTiles[tile].materialType === 'varia' ? gridTiles[tile].hex : '',
+              'convex': gridTiles[tile].tile === 'convex' ? 1 : 0,
+              'concave': gridTiles[tile].tile === 'concave' ? 1 : 0,
+              'material': gridTiles[tile].material,
+              'materialType': gridTiles[tile].materialType,
+              'tile': gridTiles[tile].tile,
+              'diffusion': gridTiles[tile].diffusion
+            }
           }
         }
       }
       tiles = purchasedTiles;
-    }else{
+    } else {
       // Determine the number of unique tiles (color and tile)
       let pkgQty: number;
       let tileType = this.getTileType('plural');
-      if(this.gridData) {
+      if (this.gridData) {
         for (let i = this.gridData.length - 1; i >= 0; i--) {
           for (let j = this.gridData[i].length - 1; j >= 0; j--) {
-            if(this.gridData[i][j].tile) {
-              let key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
+            if (this.gridData[i][j].tile) {
+              const key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
                 pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
-              if(tiles[key]) {
+              if (tiles[key]) {
                 tiles[key].used += 1;
                 tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
-              }else{
-                if(this.gridData[i][j]['tile'] == "00") {
-                  tileType = "tiles";
-                }else{
+              } else {
+                if (this.gridData[i][j]['tile'] === '00') {
+                  tileType = 'tiles';
+                } else {
                   tileType = this.getTileType('plural');
                 }
                 tiles[key] = {
-                  "purchased": pkgQty,
-                  "image": "/assets/images/" + tileType + "/" + this.gridData[i][j]['tile'] + "/" + this.gridData[i][j]['material'] + ".png",
-                  "used": 1,
-                  "material": this.gridData[i][j]['material'],
-                  "tile": this.gridData[i][j]['tile']
+                  'purchased': pkgQty,
+                  'image': '/assets/images/' + tileType + '/' + this.gridData[i][j]['tile'] + '/' + this.gridData[i][j]['material'] + '.png',
+                  'used': 1,
+                  'material': this.gridData[i][j]['material'],
+                  'tile': this.gridData[i][j]['tile']
                 }
               }
             }
@@ -1234,10 +1243,12 @@ export class Feature {
     }
 
     // this.tiles is an array of the purchased tiles.
-    let tilesArray = [];
-    for(var tile in tiles) {
-      var currentTile = tiles[tile];
-      tilesArray.push(currentTile);
+    const tilesArray = [];
+    for (const tile in tiles) {
+      if (tiles.hasOwnProperty(tile)) {
+        const currentTile = tiles[tile];
+        tilesArray.push(currentTile);
+      }
     }
     console.log(tilesArray);
     this.tiles = tilesArray;
@@ -1246,10 +1257,10 @@ export class Feature {
   }
 
   public getPurchasedVeloTiles(materialType: string) {
-    let tilesArray = [];
-    let veloTiles = this.tiles;
-    for (let tile in veloTiles) {
-      if(veloTiles[tile].materialType == materialType) {
+    const tilesArray = [];
+    const veloTiles = this.tiles;
+    for (const tile in veloTiles) {
+      if (veloTiles[tile].materialType === materialType) {
         tilesArray.push(veloTiles[tile]);
       }
     }
@@ -1259,112 +1270,118 @@ export class Feature {
 
   public getUserInputs() {
     return {
-      "UserInputs": {
-        "Type": this.getFeatureTypeInteger(),
-        "NumX": this.getRows(),
-        "NumY": this.getColumns(),
-        "Tiles": this.feature_type == 'velo' ? this.veloTiles() : this.gridData
+      'UserInputs': {
+        'Type': this.getFeatureTypeInteger(),
+        'NumX': this.getRows(),
+        'NumY': this.getColumns(),
+        'Tiles': this.feature_type === 'velo' ? this.veloTiles() : this.gridData
       }
     }
   }
 
   public convertCMtoIN(cm: number) {
     // 1 cm = 0.393701 in
-    var conversion: number = 0.393701;
-    var inches = cm * conversion;
+    const conversion = 0.393701;
+    const inches = cm * conversion;
     return Math.ceil(inches);
   }
 
   public convertINtoCM(inches: number) {
     // 1 cm = 0.393701 in
-    var conversion: number = 2.54;
-    var cm = inches * conversion;
+    const conversion = 2.54;
+    const cm = inches * conversion;
     return Math.ceil(cm);
   }
 
   public veloTiles() {
-    let veloTiles = [];
-    for( var tile in this.gridData) {
-      if(this.gridData[tile].texture != '') {
+    const veloTiles = [];
+    for ( const tile in this.gridData) {
+      if (this.gridData[tile].texture !== '') {
         veloTiles.push(this.gridData[tile]);
       }
     }
     return veloTiles;
   }
 
-  public findVeloTileAt(x,y) {
-    for (let el in this.gridData) {
-      if(this.gridData[el].x == x && this.gridData[el].y == y) {
+  public findVeloTileAt(x, y) {
+    for (const el in this.gridData) {
+      if (this.gridData[el].x === x && this.gridData[el].y === y) {
         return this.gridData[el];
       }
     }
   }
 
   public getVeloConnections(island: any): any [] {
-    let veloTiles = [];
+    const veloTiles = [];
     let veloConnections: any;
-    let variaToVariaCount: number = 0;
-    let variaToFeltCount: number = 0;
-    let feltToFeltCount: number = 0;
-    let matches: any = [];
+    let variaToVariaCount = 0;
+    let variaToFeltCount = 0;
+    let feltToFeltCount = 0;
+    const matches: any = [];
 
-    for (let i in island) {
-      veloTiles.push(this.gridData[island[i]]);
+    for (const i in island) {
+      if (island.hasOwnProperty(i)) {
+        veloTiles.push(this.gridData[island[i]]);
+      }
     }
     // loop through the tiles and count
-    for (let i in veloTiles) {
-      let thisMaterialType = veloTiles[i]['materialType'];
-      for (let j in veloTiles[i].neighbors) {
-        let neighbor = this.findVeloTileAt(veloTiles[i].neighbors[j][0],veloTiles[i].neighbors[j][1]);
-        if(neighbor) {
-          // determine if this seam has already been matched and therefore counted.
-          let thisIndex = veloTiles[i].index;
-          let neighborIndex = neighbor.index;
-          let a = Math.min(thisIndex, neighborIndex);
-          let b = Math.max(thisIndex, neighborIndex);
-          let mappedIndex = (a + b) * (a + b + 1) / 2 + a;
-          if(typeof neighbor.materialType != 'undefined' && !matches[mappedIndex]) {
-            // felt to felt seams
-            if(thisMaterialType == 'felt' && neighbor.materialType == 'felt') {
-              feltToFeltCount++;
-            }
-            // felt to varia seams or varia to felt seams
-            if(thisMaterialType == 'felt' && neighbor.materialType == 'varia') {
-              variaToFeltCount++;
-            }
-            if(thisMaterialType == 'varia' && neighbor.materialType == 'felt') {
-              variaToFeltCount++;
-            }
-            // varia to varia seams
-            if(thisMaterialType == 'varia' && neighbor.materialType == 'varia') {
-              variaToVariaCount++;
-            }
+    for (const i in veloTiles) {
+      if (veloTiles.hasOwnProperty(i)) {
+        const thisMaterialType = veloTiles[i]['materialType'];
+        for (const j in veloTiles[i].neighbors) {
+          if (veloTiles[i].neighbors.hasOwnProperty(j)) {
+            const neighbor = this.findVeloTileAt(veloTiles[i].neighbors[j][0], veloTiles[i].neighbors[j][1]);
+            if (neighbor) {
+              // determine if this seam has already been matched and therefore counted.
+              const thisIndex = veloTiles[i].index;
+              const neighborIndex = neighbor.index;
+              const a = Math.min(thisIndex, neighborIndex);
+              const b = Math.max(thisIndex, neighborIndex);
+              const mappedIndex = (a + b) * (a + b + 1) / 2 + a;
+              if (typeof neighbor.materialType !== 'undefined' && !matches[mappedIndex]) {
+                // felt to felt seams
+                if (thisMaterialType === 'felt' && neighbor.materialType === 'felt') {
+                  feltToFeltCount++;
+                }
+                // felt to varia seams or varia to felt seams
+                if (thisMaterialType === 'felt' && neighbor.materialType === 'varia') {
+                  variaToFeltCount++;
+                }
+                if (thisMaterialType === 'varia' && neighbor.materialType === 'felt') {
+                  variaToFeltCount++;
+                }
+                // varia to varia seams
+                if (thisMaterialType === 'varia' && neighbor.materialType === 'varia') {
+                  variaToVariaCount++;
+                }
 
-            // add this mappedIndex to matches array
-            matches[mappedIndex] = true;
+                // add this mappedIndex to matches array
+                matches[mappedIndex] = true;
+              }
+            }
           }
         }
       }
     }
 
     veloConnections = {
-      "variaToVaria": variaToVariaCount,
-      "variaToFelt": variaToFeltCount,
-      "feltToFelt": feltToFeltCount,
-      "totalConnections": variaToVariaCount + variaToFeltCount + feltToFeltCount
+      'variaToVaria': variaToVariaCount,
+      'variaToFelt': variaToFeltCount,
+      'feltToFelt': feltToFeltCount,
+      'totalConnections': variaToVariaCount + variaToFeltCount + feltToFeltCount
     };
     return veloConnections;
   }
 
   public getIslands() {
-    let islands: any = [];
+    const islands: any = [];
     let indices = this.gridData.map(e => e.index);
 
     for (let i = 0; i < indices.length; i++) {
-      let index = indices[i];
-      let island = this._getIsland(+index);
+      const index = indices[i];
+      const island = this._getIsland(+index);
 
-      if (island.length <= 0) continue;
+      if (island.length <= 0) { continue };
 
       indices = _.difference(indices, island);
       islands.push(island);
@@ -1373,21 +1390,23 @@ export class Feature {
   }
 
   private _getIsland(index: number, members: any = []): any [] {
-    let tileObject = this.gridData[index];
-    if(tileObject.texture === '') {
+    const tileObject = this.gridData[index];
+    if (tileObject.texture === '') {
       return members;
     }
 
-    if(!members.includes(index)) {
+    if (!members.includes(index)) {
       members.push(index);
-      for(let neighborIndex in tileObject.neighbors) {
-        let neighbor = tileObject.neighbors[neighborIndex];
-        let neighborTile = this.findVeloTileAt(neighbor[0], neighbor[1]);
-        if(neighborTile) {
-          let island = this._getIsland(neighborTile.index, members);
-          for (let tile in island) {
-            if(!members.includes(island[tile])) {
-              members.push(island[tile]);
+      for (const neighborIndex in tileObject.neighbors) {
+        if (tileObject.neighbors.hasOwnProperty(neighborIndex)) {
+          const neighbor = tileObject.neighbors[neighborIndex];
+          const neighborTile = this.findVeloTileAt(neighbor[0], neighbor[1]);
+          if (neighborTile) {
+            const island = this._getIsland(neighborTile.index, members);
+            for (const tile in island) {
+              if (!members.includes(island[tile])) {
+                members.push(island[tile]);
+              }
             }
           }
         }
@@ -1399,9 +1418,9 @@ export class Feature {
 
   public veloHasVaria() {
     let hasVaria = false;
-    let veloTiles = this.veloTiles();
-    for (let i in veloTiles) {
-      if(!hasVaria && veloTiles[i].materialType == 'varia') {
+    const veloTiles = this.veloTiles();
+    for (const i in veloTiles) {
+      if (!hasVaria && veloTiles[i].materialType === 'varia') {
         hasVaria = true;
       }
     }
@@ -1410,9 +1429,9 @@ export class Feature {
 
   public veloHasFelt() {
     let hasFelt = false;
-    let veloTiles = this.veloTiles();
-    for (let i in veloTiles) {
-      if(!hasFelt && veloTiles[i].materialType == 'felt') {
+    const veloTiles = this.veloTiles();
+    for (const i in veloTiles) {
+      if (!hasFelt && veloTiles[i].materialType === 'felt') {
         hasFelt = true;
       }
     }
@@ -1420,55 +1439,59 @@ export class Feature {
   }
 
   public veloWidth() {
-    let veloTiles = this.veloTiles();
+    const veloTiles = this.veloTiles();
     let calculatedWidth = 0;
-    for (let i in veloTiles) {
-      // we need to determine if the tile actually adds width or not...
-      calculatedWidth += veloTiles[i].width;
+    for (const i in veloTiles) {
+      if (veloTiles.hasOwnProperty(i)) {
+        // we need to determine if the tile actually adds width or not...
+        calculatedWidth += veloTiles[i].width;
+      }
     }
 
     return calculatedWidth;
   }
 
   public veloLength() {
-    let veloTiles = this.veloTiles();
+    const veloTiles = this.veloTiles();
     let calculatedHeight = 0;
-    for (let i in veloTiles) {
-      // we need to determine if the tile actually adds height or not...
-      calculatedHeight += veloTiles[i].height;
+    for (const i in veloTiles) {
+      if (veloTiles.hasOwnProperty(i)) {
+        // we need to determine if the tile actually adds height or not...
+        calculatedHeight += veloTiles[i].height;
+      }
     }
 
     return calculatedHeight;
   }
 
   public packageInformation() {
-    let info: string = "";
-    if(this.feature_type == "tetria") {
-      info = "Tiles are sold in quanties of 4.";
+    let info = '';
+    if (this.feature_type === 'tetria') {
+      info = 'Tiles are sold in quanties of 4.';
     }
 
-    if(this.feature_type == "clario" && this.tile_size == 24) {
-      info = "Baffles are sold in quantities of 4.";
+    if (this.feature_type === 'clario' && this.tile_size === 24) {
+      info = 'Baffles are sold in quantities of 4.';
     }
 
-    if(this.feature_type == "clario" && this.tile_size == 48) {
-      info = "24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.";
+    if (this.feature_type === 'clario' && this.tile_size === 48) {
+      info = '24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.';
     }
 
-    if(this.feature_type == "velo") {
-      info = "Velo tiles are sold in quanties of 8.";
+    if (this.feature_type === 'velo') {
+      info = 'Velo tiles are sold in quanties of 8.';
     }
 
     return info;
   }
 
   public updateGridUnits(units: string) {
-    if ( this.feature_type == 'velo' ) {
-      if(units == 'centimeters' && this.units != units ) {
+    if ( this.feature_type === 'velo' ) {
+      if (units === 'centimeters' && this.units !== units ) {
         // convert measurements to cm
         this.width = 976;
         this.length = 610;
-      }else if(units == 'inches' && this.units != units) {
+      }else if (units === 'inches' && this.units !== units) {
         // convert measurement to inches
         this.width = 384;
         this.length = 240;

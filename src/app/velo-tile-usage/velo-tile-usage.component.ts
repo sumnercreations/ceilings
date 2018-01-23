@@ -23,8 +23,8 @@ export class VeloTileUsageComponent implements OnInit {
   }
 
   public variaTooltip(tile) {
-    if(tile.diffusion) {
-      return tile.material + " + " + tile.diffusion;
+    if (tile.diffusion) {
+      return tile.material + ' + ' + tile.diffusion;
     }else {
       return tile.material;
     }
@@ -33,11 +33,11 @@ export class VeloTileUsageComponent implements OnInit {
   public diffusionString(diffusion: string) {
     let humanString: string;
     switch (diffusion) {
-      case "avalanche_d01":
+      case 'avalanche_d01':
         humanString = 'Avalanche D01';
         break;
 
-      case "vapor_w05":
+      case 'vapor_w05':
         humanString = 'Vapor W05';
         break;
 

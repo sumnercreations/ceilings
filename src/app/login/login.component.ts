@@ -14,7 +14,7 @@ import { DebugService } from './../_services/debug.service';
 export class LoginComponent implements OnInit {
   public email: string;
   public password: string;
-  public loading: boolean = false;
+  public loading = false;
 
   constructor(
     private alert: AlertService,
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         },
         error => {
-          if(error) {
+          if (error) {
             this.alert.apiAlert(error);
           }
           this.loading = false;
