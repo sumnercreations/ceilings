@@ -765,224 +765,234 @@ export class Feature {
 
   updateEstimatedAmount() {
     const tilesArray = this.getTilesPurchasedArray();
+    switch (this.feature_type) {
+      case 'tetria':
+        this.getTetriaEstimate(tilesArray);
+        break;
+      case 'hush':
+        this.getHushEstimate(tilesArray);
+        break;
+      case 'clario':
+        this.getClarioEstimate(tilesArray);
+        break;
+      case 'velo':
+        this.getVeloEstimate(tilesArray);
+        break;
+    }
+    return this.estimated_amount;
+  }
 
-    // TETRIA
-    if (this.feature_type === 'tetria') {
-      const flatTilePrice = 15.45;
-      const tetriaTilePrice = 82.40;
-      const tileWeight = 1.55;
-      let flatTileCount = 0;
-      let tetriaTileCount = 0;
-      const tetriaTiles = ['01', '02', '03'];
+  getTetriaEstimate(tilesArray) {
+    const flatTilePrice = 15.45;
+    const tetriaTilePrice = 82.40;
+    const tileWeight = 1.55;
+    let flatTileCount = 0;
+    let tetriaTileCount = 0;
+    const tetriaTiles = ['01', '02', '03'];
 
-      for (const tile in tilesArray) {
-        if (tilesArray.hasOwnProperty(tile)) {
-          const currentTile = tilesArray[tile];
-          if (tetriaTiles.indexOf(currentTile.tile) !== -1) {
-            // add the purchased amount to the tetria tile count
-            tetriaTileCount += currentTile.purchased;
-          }else if (currentTile.tile === '00') {
-            // add the purchased amount to the flat tile count
-            flatTileCount += currentTile.purchased;
-          }
+    for (const tile in tilesArray) {
+      if (tilesArray.hasOwnProperty(tile)) {
+        const currentTile = tilesArray[tile];
+        if (tetriaTiles.indexOf(currentTile.tile) !== -1) {
+          // add the purchased amount to the tetria tile count
+          tetriaTileCount += currentTile.purchased;
+        }else if (currentTile.tile === '00') {
+          // add the purchased amount to the flat tile count
+          flatTileCount += currentTile.purchased;
         }
-      }
-      this.services_amount = (tetriaTileCount * tetriaTilePrice) + (flatTileCount * flatTilePrice);
-      this.estimated_amount = this.services_amount;
-    } // END TETRIA
-
-    // HUSH
-    if (this.feature_type === 'hush') {
-      const hushTilePrice = 15.45;
-      let hushTileCount = 0;
-
-      for (const hushTile in tilesArray) {
-        if (tilesArray.hasOwnProperty(hushTile)) {
-          const hushCurrentTile = tilesArray[hushTile];
-          hushTileCount += hushCurrentTile.purchased;
-        }
-      }
-      this.services_amount = (hushTilePrice * hushTileCount);
-      this.estimated_amount = this.services_amount;
-    } // END HUSH
-
-    // CLARIO
-    if (this.feature_type === 'clario') {
-      let products_amount = 0.00;
-      let clario24TileCount = 0;
-      let clario48TileCount = 0;
-      let clario00TileCount = 0;
-      let sheetsNeeded = 0;
-      let sheetCost = 0.00;
-      for (const tile in tilesArray) {
-        if (tilesArray.hasOwnProperty(tile)) {
-          const currentTile = tilesArray[tile];
-          if (currentTile.tile === '24') {
-            // 24x24 prices
-            clario24TileCount += currentTile.purchased;
-            // what part_id is the material?
-            // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
-            sheetsNeeded = currentTile.purchased / 4;
-          }else if (currentTile.tile === '48') {
-            // 24x48 prices
-            clario48TileCount += currentTile.purchased;
-            sheetsNeeded = currentTile.purchased / 2;
-          } else if (currentTile.tile === '00') {
-            // 00 flat tiles
-            clario00TileCount += currentTile.purchased;
-            sheetsNeeded = currentTile.purchased / 4;
-          }
-
-          // calculate the sheet cost and add it to the products_amount
-          sheetCost = sheetsNeeded * 48.93;
-          products_amount += sheetCost;
-        }
-      }
-
-      // SERVICES AMOUNT
-      const clarioBaffleServiceCost = 46.13;
-      const clarioFlatTileServiceCost = 23.81;
-      const totalClarioBaffles = clario24TileCount + clario48TileCount;
-
-      this.services_amount = (totalClarioBaffles * clarioBaffleServiceCost) + (clario00TileCount * clarioFlatTileServiceCost);
-      // END SERVICES AMOUNT
-
-      this.estimated_amount = this.services_amount + products_amount;
-    } // END CLARIO
-
-    // VELO - felt is the same as Tetria - everything in services
-    if (this.feature_type === 'velo') {
-      // PRODUCTS AMOUNT
-      let veloFeltTiles = 0;
-      let veloVariaTiles = 0;
-      let veloVariaDiffusionTiles = 0;
-      let products_amount: number;
-      let variaSheetsNeeded: number;
-      let variaDiffusionSheetsNeeded: number;
-      const variaSheetCost = 488.14;
-      const variaDiffusionSheetCost: number = variaSheetCost + 100.00;
-
-      for (const tile in tilesArray) {
-        if (tilesArray.hasOwnProperty(tile)) {
-          const currentTile = tilesArray[tile];
-        if (currentTile.materialType === 'felt') {
-          veloFeltTiles += currentTile.purchased;
-        } else {
-          if (typeof currentTile.diffusion === 'undefined') {
-            veloVariaTiles += currentTile.purchased;
-          } else {
-            veloVariaDiffusionTiles += currentTile.purchased;
-          }
-        }
-      }
-      }
-
-      variaSheetsNeeded = Math.ceil(veloVariaTiles / 8);
-      variaDiffusionSheetsNeeded = Math.ceil(veloVariaDiffusionTiles / 8);
-      console.log('varia sheets needed', variaSheetsNeeded);
-      console.log('varia diffusion sheets needed', variaDiffusionSheetsNeeded);
-      products_amount = (variaSheetsNeeded * variaSheetCost) + (variaDiffusionSheetsNeeded * variaDiffusionSheetCost);
-
-      // SERVICES AMOUNT
-      const veloFeltServiceCost = 77.25;
-      const veloVariaServiceCost = 78.75;
-      this.services_amount = (veloFeltTiles * veloFeltServiceCost) + ((veloVariaTiles + veloVariaDiffusionTiles) * veloVariaServiceCost);
-      // console.log('=== SERVICES AMOUNT ===');
-      // console.log(this.services_amount);
-
-      // HARDWARE AMOUNT
-      let hardware_amount: number;
-      let hardwareCost = 0.00;
-      let cableCount: number;
-      let cableCost = 0.00;
-      const cableKitCost = 12.46;
-      const variaConnectionKitCost = 6.85;
-      const feltConnectionKitCost = .46;
-      const drillBitCost = 10.23;
-      const variaPunchToolCost = 17.49;
-      let variaConnectionKitsNeeded = 0;
-      let feltConnectionKitsNeeded = 0;
-      let cablesNeeded = 0;
-      let variaPunchToolNeeded = false;
-
-      // CABLE COST CALCULATION
-      // we need to calculate the cable hardware for each individual island
-      // and then add them together at the end for a total amount.
-      const islands = this.getIslands();
-      console.log('islands', islands);
-      for (const i in islands) {
-        if (islands.hasOwnProperty(i)) {
-          const island = islands[i];
-          const tilesInIsland = island.length;
-          const islandConnections = this.getVeloConnections(island);
-          const sharedEdges = islandConnections['totalConnections'];
-
-          // ratio = (number_of_shared_edges / number_of_tiles)
-          // if ratio < 1 then cableCount = Math.ceil(cables * .75)
-          // if ratio > 1 then cableCount = Math.ceil(cables * .5)
-          // this is the total number of purchased tiles
-          // this is the number of tiles in the design
-          const ratio = (sharedEdges) / (tilesInIsland);
-          const factor = ratio < 1 ? .75 : .5;
-          cableCount = Math.ceil(tilesInIsland * factor);
-
-          // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
-          if (sharedEdges + 1 === tilesInIsland) {
-            cableCount = sharedEdges;
-          }
-          // Minimum of 2 cables.
-          cableCount = cableCount < 2 ? 2 : cableCount;
-          cableCost += cableCount * cableKitCost;
-
-          // Add the cables for this island to the total cables needed
-          cablesNeeded += cableCount;
-
-          // Calculate the hardware cost for connections and add to the hardware cost
-          hardwareCost += (islandConnections['variaToVaria'] * variaConnectionKitCost) + ((islandConnections['feltToFelt'] + islandConnections['variaToFelt']) * feltConnectionKitCost);
-
-          // Add the connections to the running total
-          variaConnectionKitsNeeded += islandConnections['variaToVaria'];
-          feltConnectionKitsNeeded += islandConnections['variaToFelt'] + islandConnections['feltToFelt'];
-
-          console.log('=======================');
-          console.log('shared edges:', sharedEdges);
-          console.log('total tiles:', tilesInIsland);
-          console.log('connections', islandConnections);
-          console.log('ratio:', ratio);
-          console.log('factor:', factor);
-          console.log('cables: ', cableCount);
-          console.log('///////////////////////');
-        }
-      }
-      // END CABLE COST CALCULATION
-
-      console.log('Total Cable cost: ', cableCost);
-      console.log('Total hardware cost: ', hardwareCost);
-      console.log('Varia Kits needed: ', variaConnectionKitsNeeded);
-      console.log('Felt Kits needed: ', feltConnectionKitsNeeded);
-      console.log('Total cables needed: ', cablesNeeded);
-      hardware_amount = cableCost + hardwareCost + drillBitCost;
-      if (this.veloHasVaria()) {
-        hardware_amount += variaPunchToolCost;
-        variaPunchToolNeeded = true;
-      }
-
-      this.estimated_amount = this.services_amount + products_amount + hardware_amount;
-
-      // save the hardware amounts
-      this.hardware = {
-        '3-15-8812': 1, // drillBit
-        '3-15-1677-K': cablesNeeded,
-        '3-15-8899-K': variaConnectionKitsNeeded,
-        '3-85-105-K': feltConnectionKitsNeeded,
-        '3-15-8813': variaPunchToolNeeded ? 1 : 0
       }
     }
-    // END VELO
-    console.log('===== HARDWARE ARRAY =====');
+    this.services_amount = (tetriaTileCount * tetriaTilePrice) + (flatTileCount * flatTilePrice);
+    this.estimated_amount = this.services_amount;
+  }
+
+  getHushEstimate(tilesArray) {
+    const hushTilePrice = 15.45;
+    let hushTileCount = 0;
+
+    for (const hushTile in tilesArray) {
+      if (tilesArray.hasOwnProperty(hushTile)) {
+        const hushCurrentTile = tilesArray[hushTile];
+        hushTileCount += hushCurrentTile.purchased;
+      }
+    }
+    this.services_amount = (hushTilePrice * hushTileCount);
+    this.estimated_amount = this.services_amount;
+  }
+
+  getClarioEstimate(tilesArray) {
+    let products_amount = 0.00;
+    let clario24TileCount = 0;
+    let clario48TileCount = 0;
+    let clario00TileCount = 0;
+    let sheetsNeeded = 0;
+    let sheetCost = 0.00;
+    for (const tile in tilesArray) {
+      if (tilesArray.hasOwnProperty(tile)) {
+        const currentTile = tilesArray[tile];
+        if (currentTile.tile === '24') {
+          // 24x24 prices
+          clario24TileCount += currentTile.purchased;
+          // what part_id is the material?
+          // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
+          sheetsNeeded = currentTile.purchased / 4;
+        }else if (currentTile.tile === '48') {
+          // 24x48 prices
+          clario48TileCount += currentTile.purchased;
+          sheetsNeeded = currentTile.purchased / 2;
+        } else if (currentTile.tile === '00') {
+          // 00 flat tiles
+          clario00TileCount += currentTile.purchased;
+          sheetsNeeded = currentTile.purchased / 4;
+        }
+
+        // calculate the sheet cost and add it to the products_amount
+        sheetCost = sheetsNeeded * 48.93;
+        products_amount += sheetCost;
+      }
+    }
+
+    // SERVICES AMOUNT
+    const clarioBaffleServiceCost = 46.13;
+    const clarioFlatTileServiceCost = 23.81;
+    const totalClarioBaffles = clario24TileCount + clario48TileCount;
+
+    this.services_amount = (totalClarioBaffles * clarioBaffleServiceCost) + (clario00TileCount * clarioFlatTileServiceCost);
+    // END SERVICES AMOUNT
+
+    this.estimated_amount = this.services_amount + products_amount;
+  }
+
+  getVeloEstimate(tilesArray) {
+    // PRODUCTS AMOUNT
+    let veloFeltTiles = 0;
+    let veloVariaTiles = 0;
+    let veloVariaDiffusionTiles = 0;
+    let products_amount: number;
+    let variaSheetsNeeded: number;
+    let variaDiffusionSheetsNeeded: number;
+    const variaSheetCost = 488.14;
+    const variaDiffusionSheetCost: number = variaSheetCost + 100.00;
+
+    for (const tile in tilesArray) {
+      if (tilesArray.hasOwnProperty(tile)) {
+        const currentTile = tilesArray[tile];
+      if (currentTile.materialType === 'felt') {
+        veloFeltTiles += currentTile.purchased;
+      } else {
+        if (typeof currentTile.diffusion === 'undefined') {
+          veloVariaTiles += currentTile.purchased;
+        } else {
+          veloVariaDiffusionTiles += currentTile.purchased;
+        }
+      }
+    }
+    }
+
+    variaSheetsNeeded = Math.ceil(veloVariaTiles / 8);
+    variaDiffusionSheetsNeeded = Math.ceil(veloVariaDiffusionTiles / 8);
+    console.log('varia sheets needed', variaSheetsNeeded);
+    console.log('varia diffusion sheets needed', variaDiffusionSheetsNeeded);
+    products_amount = (variaSheetsNeeded * variaSheetCost) + (variaDiffusionSheetsNeeded * variaDiffusionSheetCost);
+
+    // SERVICES AMOUNT
+    const veloFeltServiceCost = 77.25;
+    const veloVariaServiceCost = 78.75;
+    this.services_amount = (veloFeltTiles * veloFeltServiceCost) + ((veloVariaTiles + veloVariaDiffusionTiles) * veloVariaServiceCost);
+    // console.log('=== SERVICES AMOUNT ===');
+    // console.log(this.services_amount);
+
+    // HARDWARE AMOUNT
+    let hardware_amount: number;
+    let hardwareCost = 0.00;
+    let cableCount: number;
+    let cableCost = 0.00;
+    const cableKitCost = 12.46;
+    const variaConnectionKitCost = 6.85;
+    const feltConnectionKitCost = .46;
+    const drillBitCost = 10.23;
+    const variaPunchToolCost = 17.49;
+    let variaConnectionKitsNeeded = 0;
+    let feltConnectionKitsNeeded = 0;
+    let cablesNeeded = 0;
+    let variaPunchToolNeeded = false;
+
+    // CABLE COST CALCULATION
+    // we need to calculate the cable hardware for each individual island
+    // and then add them together at the end for a total amount.
+    const islands = this.getIslands();
+    console.log('islands', islands);
+    for (const i in islands) {
+      if (islands.hasOwnProperty(i)) {
+        const island = islands[i];
+        const tilesInIsland = island.length;
+        const islandConnections = this.getVeloConnections(island);
+        const sharedEdges = islandConnections['totalConnections'];
+
+        // ratio = (number_of_shared_edges / number_of_tiles)
+        // if ratio < 1 then cableCount = Math.ceil(cables * .75)
+        // if ratio > 1 then cableCount = Math.ceil(cables * .5)
+        // this is the total number of purchased tiles
+        // this is the number of tiles in the design
+        const ratio = (sharedEdges) / (tilesInIsland);
+        const factor = ratio < 1 ? .75 : .5;
+        cableCount = Math.ceil(tilesInIsland * factor);
+
+        // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
+        if (sharedEdges + 1 === tilesInIsland) {
+          cableCount = sharedEdges;
+        }
+        // Minimum of 2 cables.
+        cableCount = cableCount < 2 ? 2 : cableCount;
+        cableCost += cableCount * cableKitCost;
+
+        // Add the cables for this island to the total cables needed
+        cablesNeeded += cableCount;
+
+        // Calculate the hardware cost for connections and add to the hardware cost
+        hardwareCost += (islandConnections['variaToVaria'] * variaConnectionKitCost) + ((islandConnections['feltToFelt'] + islandConnections['variaToFelt']) * feltConnectionKitCost);
+
+        // Add the connections to the running total
+        variaConnectionKitsNeeded += islandConnections['variaToVaria'];
+        feltConnectionKitsNeeded += islandConnections['variaToFelt'] + islandConnections['feltToFelt'];
+
+        console.log('=======================');
+        console.log('shared edges:', sharedEdges);
+        console.log('total tiles:', tilesInIsland);
+        console.log('connections', islandConnections);
+        console.log('ratio:', ratio);
+        console.log('factor:', factor);
+        console.log('cables: ', cableCount);
+        console.log('///////////////////////');
+      }
+    }
+    // END CABLE COST CALCULATION
+
+    console.log('Total Cable cost: ', cableCost);
+    console.log('Total hardware cost: ', hardwareCost);
+    console.log('Varia Kits needed: ', variaConnectionKitsNeeded);
+    console.log('Felt Kits needed: ', feltConnectionKitsNeeded);
+    console.log('Total cables needed: ', cablesNeeded);
+    hardware_amount = cableCost + hardwareCost + drillBitCost;
+    if (this.veloHasVaria()) {
+      hardware_amount += variaPunchToolCost;
+      variaPunchToolNeeded = true;
+    }
+
+    this.estimated_amount = this.services_amount + products_amount + hardware_amount;
+
+    // save the hardware amounts
+    this.hardware = {
+      '3-15-8812': 1, // drillBit
+      '3-15-1677-K': cablesNeeded,
+      '3-15-8899-K': variaConnectionKitsNeeded,
+      '3-85-105-K': feltConnectionKitsNeeded,
+      '3-15-8813': variaPunchToolNeeded ? 1 : 0
+    }
+
+    console.log('===== HARDWARE =====');
     console.log(this.hardware);
-    console.log('===== END HARDWARE ARRAY =====');
-    return this.estimated_amount;
+    console.log('===== END HARDWARE =====');
   }
 
   updateSelectedTile(tile: string) {
