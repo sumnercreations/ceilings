@@ -10,11 +10,6 @@
     <div class="col-xs-12 col-sm-6 left-pane">
       <div class="row">
         <div class="col-sm-12">
-          <p>Spicy jalapeno bacon ipsum dolor amet sunt sint nulla, irure alcatra short loin nisi esse. In strip steak t-bone ground round qui pork nisi ut, pastrami boudin pork belly. Ut aute tri-tip, ullamco spare ribs ball tip alcatra corned beef. Sausage nisi et veniam in dolor consectetur mollit.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
           <h3>Design Name</h3>
         </div>
       </div>
@@ -29,9 +24,9 @@
         </div>
       </div>
       <hr>
-      <div id="grid-dimensions" *ngIf="feature.feature_type=='hush'">
+      <div id="grid-dimensions">
         <h3>Design Dimensions</h3>
-        <p>Spicy jalapeno bacon ipsum dolor amet sunt sint nulla</p>
+        <p>Blocks come in 24"x24". Your measurements must be divisble by 24.</p>
         <div class="row">
           <div class="col-sm-4">
             <div class="form-group">
@@ -41,14 +36,14 @@
           </div>
           <div class="col-sm-4">
             <div class="form-group">
-              <label for="length">Length</label>
-              <input [(ngModel)]="feature.length" #lengthInput="ngModel" type="number" class="form-control number-input square" placeholder="Length" name="length" id="length" required>
+              <label for="length">Height</label>
+              <input [(ngModel)]="feature.length" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
               </div>
             </div>
           </div>
         </div>
-      <p *ngIf="!validWidthLength()">Width and Length must be a multiple of 24"</p>
-      <p *ngIf="validWidthLength()">&#8203;</p>
+      <p *ngIf="setValidateMessage()" class="alert alert-danger">{{validateMessage}}</p>
+      <div *ngIf="!setValidateMessage()" class='alert-placeholder'></div>
       <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="!hushValidateOptions()">start designing</button>
       <div class="back">
         <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>

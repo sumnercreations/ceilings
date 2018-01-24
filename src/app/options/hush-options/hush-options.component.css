@@ -1,3 +1,7 @@
 .start-designing {
-  margin-top: 30px !important;
+  margin-top: 0px !important;
+}
+
+.alert-placeholder {
+  height: 72px;
 }
