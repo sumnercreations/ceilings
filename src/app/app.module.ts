@@ -47,6 +47,7 @@ import { VeloTileUsageComponent } from './velo-tile-usage/velo-tile-usage.compon
 import { DebugService } from './_services/debug.service';
 import { AlertService } from './_services/alert.service';
 import { ApiService } from './_services/api.service';
+import { MaterialsService } from './_services/materials.service';
 
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
@@ -107,7 +108,8 @@ import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-optio
     GridSection,
     DebugService,
     AlertService,
-    ApiService
+    ApiService,
+    MaterialsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
