@@ -56,6 +56,7 @@ import { HushOptionsComponent } from './options/hush-options/hush-options.compon
 import { VeloOptionsComponent } from './options/velo-options/velo-options.component';
 import { ClarioOptionsComponent } from './options/clario-options/clario-options.component';
 import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.component';
+import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-options.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.
     HushOptionsComponent,
     VeloOptionsComponent,
     ClarioOptionsComponent,
-    TetriaOptionsComponent
+    TetriaOptionsComponent,
+    SeeyondOptionsComponent
   ],
   imports: [
     BrowserModule,
