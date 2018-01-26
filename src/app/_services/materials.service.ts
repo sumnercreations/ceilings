@@ -3,6 +3,15 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class MaterialsService {
 
+  public columnAdjustArray = [
+    'addColumn',
+    'removeColumn'
+  ]
+  public rowAdjustArray = [
+    'addRow',
+    'removeRow'
+  ]
+
   public toolsArray = [
     'rotate',
     'remove',

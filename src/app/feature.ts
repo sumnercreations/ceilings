@@ -45,6 +45,8 @@ export class Feature {
   public toolsArray = this.materialsService.toolsArray;
   public tilesArray = this.materialsService.tilesArray;
   public newMaterialsArray = this.materialsService.newMaterialsArray;
+  public columnAdjustArray = this.materialsService.columnAdjustArray;
+  public rowAdjustArray = this.materialsService.rowAdjustArray;
 
 
   constructor(
@@ -343,6 +345,10 @@ export class Feature {
     if (this.selectedTool !== '') {
       this.selectedTool = '';
     }
+  }
+
+  adjustDimensions(adjust) {
+    console.log(adjust);
   }
 
   updateSelectedTool(tool: string) {
