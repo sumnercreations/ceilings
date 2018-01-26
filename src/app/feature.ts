@@ -112,7 +112,6 @@ export class Feature {
   getTetriaEstimate(tilesArray) {
     const flatTilePrice = 15.45;
     const tetriaTilePrice = 82.40;
-    const tileWeight = 1.55;
     let flatTileCount = 0;
     let tetriaTileCount = 0;
     const tetriaTiles = ['01', '02', '03'];
