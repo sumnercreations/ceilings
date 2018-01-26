@@ -91,21 +91,49 @@ export class MaterialsService {
         image: '/assets/images/materials/felt/sola/burnt_umber.jpg'
       },
       4: {
-        material: 'ore',
-        image: '/assets/images/materials/felt/sola/ore.jpg'
-      },
-      5: {
-        material: 'dark_gray',
-        image: '/assets/images/materials/felt/sola/dark_gray.jpg'
-      },
-      6: {
         material: 'cast',
         image: '/assets/images/materials/felt/sola/cast.jpg'
       },
-      7: {
+      5: {
         material: 'ebony',
         image: '/assets/images/materials/felt/sola/ebony.jpg'
-      }
+      },
+      6: {
+        material: 'ruby',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      7: {
+        material: 'aries',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      8: {
+        material: 'citrine',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      9: {
+        material: 'oxford',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      10: {
+        material: 'admiral',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      11: {
+        material: 'hunter',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      12: {
+        material: 'moon',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      13: {
+        material: 'mineral',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
+      14: {
+        material: 'armor',
+        image: '/assets/images/materials/felt/sola/zinc.jpg'
+      },
     },
     tetria: {
       0: {

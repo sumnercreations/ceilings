@@ -134,7 +134,7 @@ export class Feature {
   }
 
   getHushEstimate(tilesArray) {
-    const hushTilePrice = 15.45;
+    const hushTilePrice = 25.00;
     let hushTileCount = 0;
 
     for (const hushTile in tilesArray) {
