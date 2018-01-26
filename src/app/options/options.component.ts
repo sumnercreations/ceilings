@@ -22,6 +22,9 @@ export class OptionsComponent implements OnInit {
     'sprinkler'
   ];
 
+  public columnAdjustArray = this.feature.columnAdjustArray;
+  public rowAdjustArray = this.feature.rowAdjustArray;
+
   // debugging
   public params: any;
 
