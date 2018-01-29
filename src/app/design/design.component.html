@@ -133,26 +133,40 @@
           <p class="text-center no-bottom-margin">{{tool | capitalize}}</p>
         </li>
       </ul>
-      <hr class="nine-pixels" *ngIf="feature.feature_type=='hush'">
-      <div class="row">
-        <div class="col-sm-12 tools-header">
-          <p class="md no-bottom-margin">Modify Grid</p>
+      <div  *ngIf="feature.feature_type=='hush'"> <!-- begin Hush adjustGridDimensions() -->
+        <hr class="nine-pixels">
+        <div class="row">
+          <div class="col-sm-12 tools-header">
+            <p class="md no-bottom-margin">Modify Grid</p>
+          </div>
         </div>
-      </div>
-      <ul class="row tools list-inline">
-        <li *ngFor="let tool of feature.columnAdjustArray last as isLast; index as i" (click)="feature.adjustDimensions(tool)" class="tool-container">
-            <p class="text-center no-bottom-margin">Column</p>
-          <div class="tool" [class.add-border-right]="isLast || i === 1">
-            <img src="/assets/icons/tools/remove.png" alt="{{tool | capitalize}}" class="img-responsive">
-          </div>
-        </li>
-        <li *ngFor="let tool of feature.rowAdjustArray last as isLast; index as i" (click)="feature.adjustDimensions(tool)" class="tool-container">
-          <p class="text-center no-bottom-margin">Row</p>
-          <div class="tool" [class.add-border-right]="isLast || i === 1">
-            <img src="/assets/icons/tools/remove.png" alt="{{tool | capitalize}}" class="img-responsive">
-          </div>
-        </li>
-      </ul>
+        <ul class="row tools list-inline">
+          <li class="tool-container">
+              <p class="no-bottom-margin">Column</p>
+            <div class="grid-tool" (click)="adjustGridDimensions('addColumn')">
+              <span class="glyphicon glyphicon-plus img-responsive"></span>
+            </div>
+          </li>
+          <li class="tool-container">
+              <p class="no-bottom-margin">&#8203;</p>
+            <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeColumn')">
+              <span class="glyphicon glyphicon-minus img-responsive"></span>
+            </div>
+          </li>
+          <li class="tool-container grid-tool-spacer">
+              <p class="no-bottom-margin">Row</p>
+            <div class="grid-tool" (click)="adjustGridDimensions('addRow')">
+              <span class="glyphicon glyphicon-plus img-responsive"></span>
+            </div>
+          </li>
+          <li class="tool-container">
+              <p class="no-bottom-margin">&#8203;</p>
+            <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeRow')">
+              <span class="glyphicon glyphicon-minus img-responsive"></span>
+            </div>
+          </li>
+        </ul>
+      </div> <!-- end Hush adjustGridDimensions() -->
     </div>
   </div>
 </div>
