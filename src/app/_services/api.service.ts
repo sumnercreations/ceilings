@@ -51,30 +51,30 @@ export class ApiService {
     this.debug.log('api', 'updating design');
     // we can't forget about the hardware...
     this.debug.log('api', this.feature.tiles);
-    let patchData = {
-      "id": this.feature.id,
-      "uid": this.user.uid,
-      "feature_type": this.feature.feature_type,
-      "design_name": this.feature.design_name,
-      "project_name": this.feature.project_name,
-      "specifier": this.feature.specifier,
-      "width": this.feature.width,
-      "length": this.feature.length,
-      "units": this.feature.units,
-      "material": this.feature.material,
-      "tile_size": this.feature.tile_size,
-      "tiles": JSON.stringify(this.feature.tiles),
-      "design_data_url": this.feature.design_data_url,
-      "hardware": JSON.stringify(this.feature.hardware),
-      "estimated_amount": this.feature.estimated_amount,
-      "services_amount": this.feature.services_amount,
-      "grid_data": JSON.stringify(this.feature.gridData),
-      "quoted": this.feature.quoted,
-      "archived": this.feature.archived
+    const patchData = {
+      'id': this.feature.id,
+      'uid': this.user.uid,
+      'feature_type': this.feature.feature_type,
+      'design_name': this.feature.design_name,
+      'project_name': this.feature.project_name,
+      'specifier': this.feature.specifier,
+      'width': this.feature.width,
+      'length': this.feature.length,
+      'units': this.feature.units,
+      'material': this.feature.material,
+      'tile_size': this.feature.tile_size,
+      'tiles': JSON.stringify(this.feature.tiles),
+      'design_data_url': this.feature.design_data_url,
+      'hardware': JSON.stringify(this.feature.hardware),
+      'estimated_amount': this.feature.estimated_amount,
+      'services_amount': this.feature.services_amount,
+      'grid_data': JSON.stringify(this.feature.gridData),
+      'quoted': this.feature.quoted,
+      'archived': this.feature.archived
     };
 
-    let headers = new Headers({"Content-Type": "application/json"});
-    let options = new RequestOptions({headers: headers});
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
 
     return this.http.patch(this.apiUrl + this.feature.id, patchData, options)
       .map((res: Response) => {
@@ -87,25 +87,25 @@ export class ApiService {
 
   saveDesign() {
     this.debug.log('api', 'saving design');
-    let patchData = {
-      "uid": this.user.uid,
-      "feature_type": this.feature.feature_type,
-      "design_name": this.feature.design_name,
-      "project_name": this.feature.project_name,
-      "specifier": this.feature.specifier,
-      "width": this.feature.width,
-      "length": this.feature.length,
-      "units": this.feature.units,
-      "material": this.feature.material,
-      "tile_size": this.feature.tile_size,
-      "tiles": JSON.stringify(this.feature.tiles),
-      "design_data_url": this.feature.design_data_url,
-      "hardware": JSON.stringify(this.feature.hardware),
-      "estimated_amount": this.feature.estimated_amount,
-      "services_amount": this.feature.services_amount,
-      "grid_data": JSON.stringify(this.feature.gridData),
-      "quoted": this.feature.quoted,
-      "archived": this.feature.archived
+    const patchData = {
+      'uid': this.user.uid,
+      'feature_type': this.feature.feature_type,
+      'design_name': this.feature.design_name,
+      'project_name': this.feature.project_name,
+      'specifier': this.feature.specifier,
+      'width': this.feature.width,
+      'length': this.feature.length,
+      'units': this.feature.units,
+      'material': this.feature.material,
+      'tile_size': this.feature.tile_size,
+      'tiles': JSON.stringify(this.feature.tiles),
+      'design_data_url': this.feature.design_data_url,
+      'hardware': JSON.stringify(this.feature.hardware),
+      'estimated_amount': this.feature.estimated_amount,
+      'services_amount': this.feature.services_amount,
+      'grid_data': JSON.stringify(this.feature.gridData),
+      'quoted': this.feature.quoted,
+      'archived': this.feature.archived
     }
 
     return this.http.post(this.apiUrl, patchData)
@@ -135,15 +135,15 @@ export class ApiService {
 
   login(email: string, password: string) {
     this.debug.log('api', 'api login');
-    var formData = {
-      "email": email,
-      "password": password
+    const formData = {
+      'email': email,
+      'password': password
     }
 
     return this.http.post(this.loginUrl, formData)
       .map((res: Response) => {
-        let api = res.json();
-        if(api && !api.result.error) {
+        const api = res.json();
+        if (api && !api.result.error) {
           localStorage.setItem('3formUser', JSON.stringify(api.result.user));
           this.user = api.result.user;
           this.onUserLoggedIn.emit(this.user);
@@ -158,8 +158,8 @@ export class ApiService {
   }
 
   private handleError(error: any) {
-    let errorJson = error.json();
-    if(errorJson) {
+    const errorJson = error.json();
+    if (errorJson) {
       return Observable.throw(errorJson.message || 'Server Error');
     }
 

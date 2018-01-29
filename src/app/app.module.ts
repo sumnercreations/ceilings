@@ -47,6 +47,7 @@ import { VeloTileUsageComponent } from './velo-tile-usage/velo-tile-usage.compon
 import { DebugService } from './_services/debug.service';
 import { AlertService } from './_services/alert.service';
 import { ApiService } from './_services/api.service';
+import { MaterialsService } from './_services/materials.service';
 
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
@@ -56,6 +57,7 @@ import { HushOptionsComponent } from './options/hush-options/hush-options.compon
 import { VeloOptionsComponent } from './options/velo-options/velo-options.component';
 import { ClarioOptionsComponent } from './options/clario-options/clario-options.component';
 import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.component';
+import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-options.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,8 @@ import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.
     HushOptionsComponent,
     VeloOptionsComponent,
     ClarioOptionsComponent,
-    TetriaOptionsComponent
+    TetriaOptionsComponent,
+    SeeyondOptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -105,7 +108,8 @@ import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.
     GridSection,
     DebugService,
     AlertService,
-    ApiService
+    ApiService,
+    MaterialsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

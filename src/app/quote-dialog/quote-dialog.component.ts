@@ -35,7 +35,7 @@ export class QuoteDialogComponent implements OnInit {
 
   public quoteConfirmed() {
     // mark the design as quoted and save
-    if(this.feature.id) {
+    if (this.feature.id) {
       this.feature.quoted = true;
       this.api.updateDesign().subscribe(feature => {
         // send ceilings design email after we have saved.
@@ -43,11 +43,11 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
-        var url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
-        if(url != this.router.url) {
+        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        if (url !== this.router.url) {
           this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
         }
-        this.alert.success("Your quote request has been sent.");
+        this.alert.success('Your quote request has been sent.');
       });
     } else {
       // set the design name to something simple
@@ -62,28 +62,28 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // redirect to the URL of the saved design.
-        this.alert.success("We saved your design so we can quote it and you can load it later.");
+        this.alert.success('We saved your design so we can quote it and you can load it later.');
         this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
       });
     }
   }
 
   private getToday() {
-    var today = new Date();
-    var todayString: string;
-    var dd: any = today.getDate();
-    var mm: any = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
+    const today = new Date();
+    let todayString: string;
+    let dd: any = today.getDate();
+    let mm: any = today.getMonth() + 1; // January is 0!
+    const yyyy = today.getFullYear();
 
-    if(dd<10) {
-        dd='0'+dd
+    if (dd < 10) {
+        dd = '0' + dd
     }
 
-    if(mm<10) {
-        mm='0'+mm
+    if (mm < 10) {
+        mm = '0' + mm
     }
 
-    todayString = mm+'/'+dd+'/'+yyyy;
+    todayString = mm + '/' + dd + '/' + yyyy;
     return todayString;
   }
 

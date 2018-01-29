@@ -6,7 +6,7 @@ import { User } from '../_models/user';
 import { AlertService } from '../_services/alert.service';
 import { ApiService } from '../_services/api.service';
 import { DebugService } from '../_services/debug.service';
-import { ConfirmDeleteComponent } from "../confirm-delete/confirm-delete.component";
+import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.component';
 
 @Component({
   selector: 'app-load-design',
@@ -35,12 +35,12 @@ export class LoadDesignComponent implements OnInit {
   }
 
   delete(id: number, target: any) {
-    let dialogRef = this.dialog.open(ConfirmDeleteComponent, new MdDialogConfig);
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent, new MdDialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      if(result == 'confirm') {
+      if (result === 'confirm') {
         this.debug.log('load-design', 'User has confirmed delete');
         this.api.deleteDesign(id).subscribe(response => {
-          if(this.feature.id === id) {
+          if (this.feature.id === id) {
             this.debug.log('load-design', 'Deleting the design we are currently on');
             this.router.navigate([this.feature.feature_type, 'design']);
           }
@@ -48,7 +48,7 @@ export class LoadDesignComponent implements OnInit {
           this.alert.success('Design ID: ' + id + ' has been deleted');
         },
         error => {
-          if(error) {
+          if (error) {
             this.alert.apiAlert(error);
           }
         });

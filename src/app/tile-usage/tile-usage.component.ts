@@ -21,7 +21,7 @@ export class TileUsageComponent implements OnInit {
   }
 
   public tooltip(tile) {
-    return tile.material + " - " + tile.tile;
+    return tile.material + ' - ' + tile.tile;
   }
 
 }

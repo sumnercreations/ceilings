@@ -50,54 +50,54 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
       // default the feature type
-      if(params['type']) {
+      if (params['type']) {
         this.feature.feature_type = params['type'];
       }
-      if(params['id']) {
+      if (params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
-          if(design == null) {
+          if (design == null) {
             this.debug.log('design-component', 'design not found');
             // design not found redirect to the design url
             this.router.navigate([params['type'], 'design']);
-          }else{
+          } else {
             // design was found so load it.
-            if(design.feature_type === params['type']) {
+            if (design.feature_type === params['type']) {
               this.debug.log('design-component', 'setting the design.');
               this.feature.setDesign(design);
               this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
               this.materials = this.feature.newMaterialsArray[this.feature.feature_type];
-              if(this.feature.feature_type == 'clario') {
+              if (this.feature.feature_type === 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
-              }else if(this.feature.feature_type == 'velo') {
+              }else if (this.feature.feature_type === 'velo') {
                 // velo defaults
                 this.feature.selectedTile = 'concave';
                 this.feature.material = 'milky-white';
                 this.feature.materialHex = '#dfdee0';
                 this.feature.materialType = 'felt';
-              }else if(this.feature.feature_type == 'hush') {
+              }else if (this.feature.feature_type === 'hush') {
                 this.feature.toolsArray = ['remove'];
               }
-            }else{
+            } else {
               this.router.navigate([design.feature_type, 'design', design.id]);
             }
           }
         });
-      }else{
+      } else {
         setTimeout(() => {
-          this.feature.feature_type = params['type'] == 'hush-block' ? 'hush' : params['type'];
+          this.feature.feature_type = params['type'] === 'hush-block' ? 'hush' : params['type'];
           // set the default values for tile and material
           this.debug.log('design-component', `feature_type: ${this.feature.feature_type}`);
-          if (this.feature.feature_type == 'tetria') {
+          if (this.feature.feature_type === 'tetria') {
             this.feature.selectedTile = '01';
             this.feature.material = 'milky-white';
-          }else if(this.feature.feature_type == 'hush') {
+          }else if (this.feature.feature_type === 'hush') {
             this.feature.selectedTile = '00';
             this.feature.material = 'zinc';
             this.feature.toolsArray = ['remove'];
-          }else if(this.feature.feature_type == 'clario') {
+          }else if (this.feature.feature_type === 'clario') {
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';
-          }else if(this.feature.feature_type == 'velo') {
+          }else if (this.feature.feature_type === 'velo') {
             this.feature.selectedTile = 'concave';
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
@@ -114,7 +114,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.api.onSaved
       .takeUntil(this.ngUnsubscribe)
       .subscribe(success => {
-        this.saveDesignDialogRef ? this.saveDesignDialogRef.close() : null;
+        if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close(); }
     });
 
     // subscribe to the loadDesigns event to handle it all here.
@@ -130,8 +130,8 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.api.onLoaded
       .takeUntil(this.ngUnsubscribe)
       .subscribe(success => {
-        this.loadDesignDialogRef ? this.loadDesignDialogRef.close() : null;
-        this.optionsDialogRef ? this.optionsDialogRef.close() : null;
+        if (this.loadDesignDialogRef) { this.loadDesignDialogRef.close(); }
+        if (this.optionsDialogRef) { this.optionsDialogRef.close(); }
     });
 
     // subscribe to the loggedIn event and set the user attributes
@@ -179,7 +179,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      let loadDialog: MdDialog;
+      // let loadDialog: MdDialog;
       this.api.getMyDesigns()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
@@ -190,7 +190,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   public saveDesign() {
-    let saveDialog: MdDialog;
+    // let saveDialog: MdDialog;
     this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MdDialogConfig);
     if (!this.user.isLoggedIn()) {
       this.loginDialog();
@@ -207,7 +207,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (result === 'cancel') {
         // we need to close the savedDialog too if it's open.
-          this.saveDesignDialogRef ? this.saveDesignDialogRef.close() : null;
+          if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close() }
         }else if (load) {
         // the user should be logged in now, so show the load dialog
         this.loadDesigns();
@@ -231,7 +231,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     config.height = '700px';
     if (this.feature.feature_type === 'velo') {
       this.tileUsageDialogRef = this.dialog.open(VeloTileUsageComponent, config);
-    }else{
+    } else {
       this.tileUsageDialogRef = this.dialog.open(TileUsageComponent, config);
     }
   }
@@ -257,7 +257,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       const veloCanvas = document.querySelector('canvas');
       const dataURL = veloCanvas.toDataURL();
       this.feature.design_data_url = dataURL;
-    }else{
+    } else {
       this.downloadGridGuide();
     }
     // load the dialog to confirm the design we will be sending
@@ -266,4 +266,14 @@ export class DesignComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
+  adjustGridDimensions(tool) {
+    switch (tool) {
+      case 'addColumn': this.feature.width = this.feature.width + 24; break;
+      case 'removeColumn': this.feature.width = this.feature.width - 24; break;
+      case 'addRow': this.feature.length = this.feature.length + 24; break;
+      case 'removeRow': this.feature.length = this.feature.length - 24; break;
+      default: break;
+    }
+    this.feature.buildGrid();
+  }
 }

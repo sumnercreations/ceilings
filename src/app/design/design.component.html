@@ -24,7 +24,8 @@
       <div class="grid-wrapper col-sm-12">
         <div class="row grid-header">
           <div class="col-sm-5" *ngIf="feature.feature_type!='velo'">
-            <p *ngIf="feature.feature_type!='velo'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            <p *ngIf="feature.feature_type!='hush'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            <p *ngIf="feature.feature_type=='hush'">{{feature.width}} W x {{feature.length}} H ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} Block &nbsp;<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
           <div class="col-sm-3">
             <p>
@@ -120,7 +121,8 @@
       <hr class="nine-pixels">
       <div class="row">
         <div class="col-sm-12 tools-header">
-          <p class="md no-bottom-margin">Modify</p>
+          <p class="md no-bottom-margin" *ngIf="feature.feature_type!='hush'">Modify</p>
+          <p class="md no-bottom-margin" *ngIf="feature.feature_type=='hush'">Modify Tiles</p>
         </div>
       </div>
       <ul class="row tools list-inline">
@@ -131,6 +133,40 @@
           <p class="text-center no-bottom-margin">{{tool | capitalize}}</p>
         </li>
       </ul>
+      <div  *ngIf="feature.feature_type=='hush'"> <!-- begin Hush adjustGridDimensions() -->
+        <hr class="nine-pixels">
+        <div class="row">
+          <div class="col-sm-12 tools-header">
+            <p class="md no-bottom-margin">Modify Grid</p>
+          </div>
+        </div>
+        <ul class="row tools list-inline">
+          <li class="tool-container">
+              <p class="no-bottom-margin">Column</p>
+            <div class="grid-tool" (click)="adjustGridDimensions('addColumn')">
+              <span class="glyphicon glyphicon-plus img-responsive"></span>
+            </div>
+          </li>
+          <li class="tool-container">
+              <p class="no-bottom-margin">&#8203;</p>
+            <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeColumn')">
+              <span class="glyphicon glyphicon-minus img-responsive"></span>
+            </div>
+          </li>
+          <li class="tool-container grid-tool-spacer">
+              <p class="no-bottom-margin">Row</p>
+            <div class="grid-tool" (click)="adjustGridDimensions('addRow')">
+              <span class="glyphicon glyphicon-plus img-responsive"></span>
+            </div>
+          </li>
+          <li class="tool-container">
+              <p class="no-bottom-margin">&#8203;</p>
+            <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeRow')">
+              <span class="glyphicon glyphicon-minus img-responsive"></span>
+            </div>
+          </li>
+        </ul>
+      </div> <!-- end Hush adjustGridDimensions() -->
     </div>
   </div>
 </div>

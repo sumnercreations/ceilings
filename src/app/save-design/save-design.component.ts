@@ -12,7 +12,7 @@ import { ApiService } from '../_services/api.service';
 })
 export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;
-  public newButton: boolean = false;
+  public newButton = false;
 
   constructor(
     private router: Router,
@@ -32,17 +32,17 @@ export class SaveDesignComponent implements OnInit {
   }
 
   saveFeature() {
-    if(this.newDesign || this.newButton) {
+    if (this.newDesign || this.newButton) {
       this.saveNew();
-    }else{
+    } else {
       this.api.updateDesign().subscribe(feature => {
         // notify the user that we have saved their design
-        this.alert.success("Successfully saved your design");
+        this.alert.success('Successfully saved your design');
         // set the feature to what was returned from the API.
         this.feature = feature.ceiling;
         // navigate if the current path isn't already right
-        var url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
-        if(url != this.router.url) {
+        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        if (url !== this.router.url) {
           this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
         }
       });
@@ -54,7 +54,7 @@ export class SaveDesignComponent implements OnInit {
     this.feature.quoted = false;
     this.api.saveDesign().subscribe(feature => {
       // notify the user that we have saved their design
-      this.alert.success("Successfully saved your design");
+      this.alert.success('Successfully saved your design');
       // set the feature to what was returned from the API.
       this.feature = feature.ceiling;
       // redirect to the new design

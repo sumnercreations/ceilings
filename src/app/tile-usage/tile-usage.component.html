@@ -3,14 +3,14 @@
 <table class="table table-striped">
   <tr>
     <th>{{feature.getTileType() | capitalize}}</th>
-    <th>Used</th>
+    <th *ngIf="feature.feature_type!='hush'">Used</th>
     <th>Receiving</th>
-    <th>Unused</th>
+    <th *ngIf="feature.feature_type!='hush'">Unused</th>
   </tr>
   <tr *ngFor="let tile of purchasedTiles | keys">
     <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" mdTooltip="{{tooltip(tile)}}" [mdTooltipPosition]="position"></td>
-    <td>{{tile.used}}</td>
+    <td *ngIf="feature.feature_type!='hush'">{{tile.used}}</td>
     <td>{{tile.purchased}}</td>
-    <td>{{tile.purchased - tile.used}}</td>
+    <td *ngIf="feature.feature_type!='hush'">{{tile.purchased - tile.used}}</td>
   </tr>
 </table>
