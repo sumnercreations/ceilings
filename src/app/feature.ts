@@ -609,12 +609,19 @@ export class Feature {
   }
 
   public getUserInputs() {
+    let tiles;
+    switch (this.feature_type) {
+      case 'velo': tiles = this.veloTiles(); break;
+      case 'hush': tiles = this.hushTiles(); break;
+      default: tiles = this.gridData; break;
+    }
+
     return {
       'UserInputs': {
         'Type': this.getFeatureTypeInteger(),
         'NumX': this.getRows(),
         'NumY': this.getColumns(),
-        'Tiles': this.feature_type === 'velo' ? this.veloTiles() : this.gridData
+        'Tiles': tiles
       }
     }
   }
@@ -641,6 +648,18 @@ export class Feature {
       }
     }
     return veloTiles;
+  }
+
+  public hushTiles() {
+    const hushTiles = [];
+    for (let i = 0; i < this.gridData.length; i++) {
+      for (let j = 0; j < this.gridData[i].length; j++) {
+        if (this.gridData[i][j].texture !== '') {
+          hushTiles.push(this.gridData[i][j]);
+        }
+      }
+    }
+    return hushTiles;
   }
 
   public findVeloTileAt(x, y) {
