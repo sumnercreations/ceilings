@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MdDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
+import { AlertService } from 'app/_services/alert.service';
 
 @Component({
   selector: 'app-options',
@@ -32,7 +33,8 @@ export class OptionsComponent implements OnInit {
     private router: Router,
     private debug: DebugService,
     public feature: Feature,
-    public dialogRef: MdDialogRef<OptionsComponent>
+    public dialogRef: MdDialogRef<OptionsComponent>,
+    public alert: AlertService
   ) { }
 
   ngOnInit() {
