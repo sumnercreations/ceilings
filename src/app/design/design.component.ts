@@ -266,4 +266,14 @@ export class DesignComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
+  adjustGridDimensions(tool) {
+    switch (tool) {
+      case 'addColumn': this.feature.width = this.feature.width + 24; break;
+      case 'removeColumn': this.feature.width = this.feature.width - 24; break;
+      case 'addRow': this.feature.length = this.feature.length + 24; break;
+      case 'removeRow': this.feature.length = this.feature.length - 24; break;
+      default: break;
+    }
+    this.feature.buildGrid();
+  }
 }

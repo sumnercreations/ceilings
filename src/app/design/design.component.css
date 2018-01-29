@@ -129,6 +129,23 @@ span.sm {
   width: 52px;
 }
 
+.grid-tool {
+  border: 2px solid #e7e7e7;
+  border-right: none;
+  cursor: pointer;
+  padding: 15px;
+  width: 52px;
+  margin: 0px -2px;
+}
+
+.grid-tool span {
+  font-size: 36px;
+  line-height: 20px;
+}
+
+.grid-tool-spacer {
+  margin-left: 15px;
+}
 .velo-diffusion {
   padding: 0;
   border-right: 2px solid #e7e7e7;
