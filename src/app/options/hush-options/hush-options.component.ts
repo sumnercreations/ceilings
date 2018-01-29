@@ -14,28 +14,27 @@ export class HushOptionsComponent extends OptionsComponent implements OnInit {
 
   hushValidateOptions() {
     let isValid = false;
-    if ((this.feature.length % 24 === 0)
-      && (this.feature.length % 24 === 0)
+    if ((!!this.feature.width)
+      && (!!this.feature.length)
       && (!!this.feature.design_name)) { isValid = true; }
     return isValid;
   }
 
-  setValidateMessage() {
-    let showMessage = false;
-    const length = this.feature.length;
-    const width = this.feature.width;
-    const hasL = !!length;
-    const hasW = !!width
-    const validL = length % 24 === 0;
-    const validW = width % 24 === 0;
-
-    this.showMessage = (hasL || hasW) ? false : true;
-
-    if (!validL && hasL) { showMessage = true; }
-    if (!validW && hasW) { showMessage = true; }
-    if (!validL && validW) { this.validateMessage = 'Height is not divisible by 24'; }
-    if (validL && !validW) { this.validateMessage = 'Width is not divisible by 24'; }
-    if (!validL && !validW) { this.validateMessage = 'Width and Height are not divisible by 24'; }
-    return showMessage;
+  closeDialog() {
+    const newWidth = Math.floor(this.feature.width / 24) * 24;
+    const newLength = Math.floor(this.feature.length / 24) * 24;
+    if ((this.feature.width % 24 !== 0) && (this.feature.length % 24 !== 0)) {
+      this.feature.width = newWidth;
+      this.feature.length = newLength;
+      this.alert.error(`Width and Height rounded down to ${newWidth}x${newLength}`);
+    } else if (this.feature.width % 24 !== 0) {
+      this.feature.width = newWidth;
+      this.alert.error(`Width rounded down ${newWidth}`);
+    } else if (this.feature.length % 24 !== 0) {
+      this.feature.length = newLength;
+      this.alert.error(`Height rounded down to ${newLength}`);
+    }
+    this.dialogRef.close('start designing')
   }
+
 }
