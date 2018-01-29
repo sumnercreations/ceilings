@@ -69,7 +69,13 @@ export class GridComponent implements OnInit, OnDestroy {
           this.feature.gridData[r][c] = new GridSection(r, c);
         }
       }
-    } else {
+    } else { // existing data
+      // Remove extra rows or columns from grid
+      this.feature.gridData.splice(this.feature.getRows());
+      for (let i = 0; i < this.feature.gridData.length; i++) {
+        this.feature.gridData[i].splice(this.feature.getColumns());
+      }
+
       // Loaded design or design with gridData already set.
       for (let r = 0; r < this.rows.length; r++) {
         if (typeof this.feature.gridData[r] === 'undefined') {
@@ -102,7 +108,8 @@ export class GridComponent implements OnInit, OnDestroy {
           }
         }
       }
-    }
+      this.feature.updateEstimatedAmount();
+    } // end existing data
   }
 
   setFlag(row, column) {
