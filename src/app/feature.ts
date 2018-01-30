@@ -45,13 +45,12 @@ export class Feature {
   public toolsArray = this.materialsService.toolsArray;
   public tilesArray = this.materialsService.tilesArray;
   public newMaterialsArray = this.materialsService.newMaterialsArray;
-  public columnAdjustArray = this.materialsService.columnAdjustArray;
-  public rowAdjustArray = this.materialsService.rowAdjustArray;
-
+  public seeyond_felt_sheet_mapping = this.materialsService.seeyond_felt_sheet_mapping;
+  public seeyond_features = this.materialsService.seeyond_features;
 
   constructor(
-    private materialsService: MaterialsService,
-    private debug: DebugService
+    public materialsService: MaterialsService,
+    public debug: DebugService
   ) {}
 
   setDesign(design: any) {

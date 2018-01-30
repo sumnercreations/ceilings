@@ -1,8 +1,10 @@
+import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
+import { SeeyondFeature } from '../seeyond-feature';
 import { AlertService } from 'app/_services/alert.service';
 
 @Component({
@@ -23,9 +25,6 @@ export class OptionsComponent implements OnInit {
     'sprinkler'
   ];
 
-  public columnAdjustArray = this.feature.columnAdjustArray;
-  public rowAdjustArray = this.feature.rowAdjustArray;
-
   // debugging
   public params: any;
 
@@ -34,7 +33,9 @@ export class OptionsComponent implements OnInit {
     private debug: DebugService,
     public feature: Feature,
     public dialogRef: MdDialogRef<OptionsComponent>,
-    public alert: AlertService
+    public alert: AlertService,
+    public seeyond: SeeyondService,
+    public seeyondFeature: SeeyondFeature
   ) { }
 
   ngOnInit() {

@@ -22,6 +22,7 @@ import {Routing} from './app.routes';
 
 // classes
 import { Feature } from './feature';
+import { SeeyondFeature } from './seeyond-feature';
 import { User } from './_models/user';
 import { GridSection } from './_models/grid-section';
 
@@ -42,22 +43,23 @@ import { QuoteDialogComponent } from './quote-dialog/quote-dialog.component';
 import { DetailsComponent } from './details/details.component';
 import { VeloGridComponent } from './velo-grid/velo-grid.component';
 import { VeloTileUsageComponent } from './velo-tile-usage/velo-tile-usage.component';
+import { HushOptionsComponent } from './options/hush-options/hush-options.component';
+import { VeloOptionsComponent } from './options/velo-options/velo-options.component';
+import { ClarioOptionsComponent } from './options/clario-options/clario-options.component';
+import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.component';
+import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-options.component';
 
 // services
 import { DebugService } from './_services/debug.service';
 import { AlertService } from './_services/alert.service';
 import { ApiService } from './_services/api.service';
 import { MaterialsService } from './_services/materials.service';
+import { SeeyondService } from './_services/seeyond.service';
 
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
-import { HushOptionsComponent } from './options/hush-options/hush-options.component';
-import { VeloOptionsComponent } from './options/velo-options/velo-options.component';
-import { ClarioOptionsComponent } from './options/clario-options/clario-options.component';
-import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.component';
-import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-options.component';
 
 @NgModule({
   declarations: [
@@ -104,12 +106,14 @@ import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-optio
   ],
   providers: [
     Feature,
+    SeeyondFeature,
     User,
     GridSection,
     DebugService,
     AlertService,
     ApiService,
-    MaterialsService
+    MaterialsService,
+    SeeyondService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

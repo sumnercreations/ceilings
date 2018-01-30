@@ -1,3 +1,4 @@
+import { SeeyondFeature } from './../seeyond-feature';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -43,7 +44,8 @@ export class DesignComponent implements OnInit, OnDestroy {
     private api: ApiService,
     public feature: Feature,
     public dialog: MdDialog,
-    public user: User
+    public user: User,
+    public seeyond: SeeyondFeature
   ) { }
 
   ngOnInit() {
@@ -94,6 +96,8 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.selectedTile = '00';
             this.feature.material = 'zinc';
             this.feature.toolsArray = ['remove'];
+          }else if (this.feature.feature_type === 'seeyond') {
+            this.seeyond.updateFeature('unknown'); // TODO, static for now
           }else if (this.feature.feature_type === 'clario') {
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';

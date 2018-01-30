@@ -3,14 +3,100 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class MaterialsService {
 
-  public columnAdjustArray = [
-    'addColumn',
-    'removeColumn'
-  ]
-  public rowAdjustArray = [
-    'addRow',
-    'removeRow'
-  ]
+  public seeyond_features: any = {
+    '0': {
+      'feature_type': 0,
+      'name': 'linear-partition',
+      'title': 'Freestanding Linear Partition',
+      'image': '/assets/images/renderings/freestanding_linear_partition.png',
+      'width': 96,
+      'height': 72,
+      'hardware': {
+        '3-15-0842': {},
+        '3-85-105': {},
+        '3-85-106': {},
+        '3-85-102': {} // zipties
+      }
+    },
+   '1': {
+      'feature_type': 1,
+      'name': 'curved-partition',
+      'title': 'Freestanding Curved Partition',
+      'image': '/assets/images/renderings/freestanding_curved_partition.png',
+      'width': 96,
+      'height': 72,
+      'radius': 60,
+      'hardware': {
+        '3-15-0842': {},
+        '3-85-105': {},
+        '3-85-106': {},
+        '3-85-102': {} // zipties
+      }
+    },
+   '2': {
+      'feature_type': 2,
+      'name': 'wall',
+      'title': 'Wall Feature',
+      'image': '/assets/images/renderings/wall.png',
+      'width': 50,
+      'height': 50,
+      'hardware': {
+        '3-15-1606': {},
+        '3-85-104': {},
+        '3-85-109': {}
+      }
+    },
+   '3': {
+      'feature_type': 3,
+      'name': 'wall-to-ceiling',
+      'title': 'Wall-to-Ceiling Feature',
+      'image': '/assets/images/renderings/wall_to_ceiling.png',
+      'width': 72,
+      'height': 96,
+      'angle': 90,
+      'ceiling_length': 72,
+      'hardware': {
+        '3-15-1606': {},
+        '3-85-104': {},
+        '3-85-109': {},
+        '3-85-107': {},
+        '3-85-108': {},
+        '3-85-105': {},
+        '3-15-1674': {},
+        '3-15-1675': {},
+        '3-15-0842': {},
+        '3-85-102': {} // zipties
+      }
+    },
+    '4': {
+      'feature_type': 4,
+      'name': 'ceiling',
+      'title': 'Ceiling Feature',
+      'image': '/assets/images/renderings/ceiling.png',
+      'width': 50,
+      'height': 50,
+      'hardware': {
+        '3-85-107': {},
+        '3-85-108': {},
+        '3-85-105': {},
+        '3-15-1674': {},
+        '3-15-1675': {},
+        '3-15-0842': {},
+        '3-85-102': {} // zipties
+      }
+    },
+  };
+
+  public seeyond_felt_sheet_mapping: any = {
+    'ebony': '0-51-800',
+    'dark_gray': '0-51-801',
+    'ore': '0-51-802',
+    'nickel': '0-51-803',
+    'zinc': '0-51-804',
+    'burnt_umber': '0-51-805',
+    'cashmere': '0-51-806',
+    'cast': '0-51-807'
+  }
 
   public toolsArray = [
     'rotate',

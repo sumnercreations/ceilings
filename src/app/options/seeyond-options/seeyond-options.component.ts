@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OptionsComponent } from './../options.component';
+import { SeeyondFeature } from './../../seeyond-feature';
 
 @Component({
   selector: 'app-seeyond-options',
@@ -9,4 +10,7 @@ import { OptionsComponent } from './../options.component';
 
 export class SeeyondOptionsComponent extends OptionsComponent {
 
+  updateSelectedFeature(feature) {
+    this.seeyondFeature.updateFeature(feature);
+  }
 }
