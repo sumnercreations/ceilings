@@ -84,13 +84,18 @@
       <div id="modify">
         <h3>Modify Grid</h3>
         <p>Add and remove columns and rows as needed.</p>
-        <!-- <ul class="list-inline tools">
-          <li *ngFor="let tool of gridAdjustArray last as isLast; index as i" class="tool-container">
-            <div class="tool" [class.add-border-right]="isLast">
-              <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+        <ul class="tools list-inline">
+          <li class="options-container">
+            <div class="grid-tool-options">
+              <span class="glyphicon glyphicon-plus img-responsive"></span>
             </div>
           </li>
-        </ul> -->
+          <li class="options-container">
+            <div class="grid-tool-options add-border-right">
+              <span class="glyphicon glyphicon-minus img-responsive"></span>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
