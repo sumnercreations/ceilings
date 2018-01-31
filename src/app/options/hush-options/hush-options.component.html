@@ -38,10 +38,10 @@
             <div class="form-group">
               <label for="length">Height</label>
               <input [(ngModel)]="feature.length" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
-              </div>
             </div>
           </div>
         </div>
+      </div>
       <button class="button button-orange start-designing" (click)="closeDialog()" [disabled]="!hushValidateOptions()">start designing</button>
       <div class="back">
         <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
@@ -75,7 +75,6 @@
         <ul class="list-inline tools">
           <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container">
             <div class="tool" [class.add-border-right]="isLast">
-              <!-- <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive"> -->
               <img src="/assets/icons/tools/remove.png" alt="{{tool | capitalize}}" class="img-responsive">
             </div>
           </li>

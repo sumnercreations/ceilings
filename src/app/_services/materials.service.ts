@@ -11,6 +11,9 @@ export class MaterialsService {
       'image': '/assets/images/renderings/freestanding_linear_partition.png',
       'width': 96,
       'height': 72,
+      'angle': '',
+      'radius': '',
+      'ceiling_length': '',
       'hardware': {
         '3-15-0842': {},
         '3-85-105': {},
@@ -26,6 +29,8 @@ export class MaterialsService {
       'width': 96,
       'height': 72,
       'radius': 60,
+      'angle': '',
+      'ceiling_length': '',
       'hardware': {
         '3-15-0842': {},
         '3-85-105': {},
@@ -40,6 +45,9 @@ export class MaterialsService {
       'image': '/assets/images/renderings/wall.png',
       'width': 50,
       'height': 50,
+      'radius': '',
+      'angle': '',
+      'ceiling_length': '',
       'hardware': {
         '3-15-1606': {},
         '3-85-104': {},
@@ -54,6 +62,7 @@ export class MaterialsService {
       'width': 72,
       'height': 96,
       'angle': 90,
+      'radius': '',
       'ceiling_length': 72,
       'hardware': {
         '3-15-1606': {},
@@ -75,6 +84,9 @@ export class MaterialsService {
       'image': '/assets/images/renderings/ceiling.png',
       'width': 50,
       'height': 50,
+      'radius': '',
+      'angle': '',
+      'ceiling_length': '',
       'hardware': {
         '3-85-107': {},
         '3-85-108': {},
@@ -97,6 +109,14 @@ export class MaterialsService {
     'cashmere': '0-51-806',
     'cast': '0-51-807'
   }
+
+  public seeyondPatternsArray = [
+    'court',
+    'tilt',
+    'cusp',
+    'billow',
+    'kink'
+  ]
 
   public toolsArray = [
     'rotate',

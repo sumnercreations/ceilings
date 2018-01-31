@@ -10,47 +10,58 @@
     <div class="col-xs-12 col-sm-6 left-pane">
       <div class="row">
         <div class="col-sm-12">
-          <h3>Design Name</h3>
+          <h3>Feature Name</h3>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-9">
           <div class="form-group">
-            <input [(ngModel)]="feature.design_name" #designNameInput="ngModel" required type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+            <input [(ngModel)]="seeyondFeature.design_name" #designNameInput="ngModel" required type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
           </div>
         </div>
         <div class="col-sm-3 options-load">
-          <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+          <a id="load-btn" title="load saved designs" (click)="seeyondFeature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
         </div>
       </div>
-      <hr class="col-sm-10">
       <div id="grid-dimensions">
         <h3>Feature Selection</h3>
         <div class="form-group">
           <div class="col-sm-10 feature-select">
             <select class="form-control" (change)="updateSelectedFeature($event.target.value)">
-              <option *ngFor="let featureOption of this.feature.seeyond_features | keys;" [value]="featureOption.name" [selected]="this.seeyond == featureOption.name ? true : null">{{featureOption.title}}</option>
+              <option *ngFor="let featureOption of seeyondFeature.seeyond_features | keys;" [value]="featureOption.name" [selected]="this.seeyond == featureOption.name ? true : null">{{featureOption.title}}</option>
             </select>
           </div>
         </div>
         <hr class="col-sm-10">
         <div>
-          <h3>Feature Dimensions</h3>
+          <h3>Dimensions</h3>
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="width">Width</label>
-                <input [(ngModel)]="feature.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+                <input [(ngModel)]="seeyondFeature.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="length">Height</label>
-                <input [(ngModel)]="feature.length" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <input [(ngModel)]="seeyondFeature.height" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
               </div>
             </div>
-            <div class="col-sm-4">
-              <div class="toggle-button-form-wrapper">
+            <div class="col-sm-4" *ngIf="seeyondFeature.seeyond_feature_type === 'curved-partition'">
+              <div class="form-group">
+                <label for="length">Radius</label>
+                <input [(ngModel)]="seeyondFeature.radius" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              </div>
+            </div>
+            <div class="col-sm-4" *ngIf="seeyondFeature.seeyond_feature_type === 'wall-to-ceiling'">
+              <div class="form-group">
+                <label for="length">Ceiling Length</label>
+                <input [(ngModel)]="seeyondFeature.ceiling_length" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="toggle-button-form-wrapper no-margin">
                 <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
                   <md-button-toggle value="inches">IN</md-button-toggle>
                   <md-button-toggle value="centimeters">CM</md-button-toggle>
@@ -60,20 +71,20 @@
           </div>
         </div>
       </div>
-      <!-- <button class="button button-orange start-designing" [disabled]="!hushValidateOptions()">start designing</button> -->
-      <button class="button button-orange start-designing">start designing</button>
+      <button class="button button-orange start-designing" [disabled]="!seeyondValidateOptions()">start designing</button>
+      <!-- <button class="button button-orange start-designing">start designing</button> -->
       <div class="back">
         <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
       </div>
     </div>
     <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
       <div class="">
-        <h3>Feature</h3>
+        <h3>Feature Configuration</h3>
         <img class="seeyond-feature-img" src="{{seeyondFeature.image}}" alt="{{seeyondFeature.title}} line drawing">
       </div>
       <div id="design">
         <h3>Design</h3>
-        <p>Choose your {{feature.getTileType()}} color.</p>
+        <p>Choose your feature color</p>
         <div id="tiles">
           <ul class="list-inline">
             <li class="material"><img src="/assets/images/materials/felt/sola/zinc.png" alt="Zinc" class="img-responsive"></li>
@@ -88,13 +99,12 @@
         </div>
       </div>
       <div id="modify">
-        <h3>Modify Feature</h3>
-        <p>Remove tiles as needed.</p>
+        <h3>Modify</h3>
+        <p>Select pattern and pattern strength</p>
         <ul class="list-inline tools">
-          <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container">
-            <div class="tool" [class.add-border-right]="isLast">
-              <!-- <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive"> -->
-              <img src="/assets/icons/tools/remove.png" alt="{{tool | capitalize}}" class="img-responsive">
+          <li *ngFor="let pattern of seeyondFeature.patterns last as isLast; index as i" class="pattern-container">
+            <div class="pattern" [class.add-border-right]="isLast">
+              <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
             </div>
           </li>
         </ul>

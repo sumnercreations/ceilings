@@ -10,3 +10,21 @@ hr {
 .seeyond-feature-img {
   max-height: 250px;
 }
+
+.no-margin {
+  margin: 0px;
+}
+
+.pattern-container {
+  padding: 0;
+  font-size: 12px;
+  width: 50px;
+  height: 50px;
+}
+
+.pattern {
+  border: 2px solid #E7E7E7;
+  border-right: none;
+  padding: 5px;
+  width: 50px;
+}
