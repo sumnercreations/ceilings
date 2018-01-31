@@ -1,3 +1,25 @@
 .alert-placeholder {
   height: 72px;
 }
+
+.grid-tool-options {
+  border: 2px solid #e7e7e7;
+  border-right: none;
+  padding: 10px;
+  margin: 0px -2px;
+  text-align: center;
+}
+
+.grid-tool-options span {
+  font-size: 36px;
+  line-height: 20px;
+}
+
+.options-container {
+  font-size: 12px;
+  padding: 0px;
+}
+
+.tools {
+  margin: 0px;
+}
