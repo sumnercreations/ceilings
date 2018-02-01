@@ -188,6 +188,68 @@ export class MaterialsService {
   };
 
   public newMaterialsArray = {
+    seeyond: {
+      0: {
+        material: 'zinc',
+        image: '/assets/images/materials/felt/sola/zinc.png'
+      },
+      1: {
+        material: 'nickel',
+        image: '/assets/images/materials/felt/sola/nickel.png'
+      },
+      2: {
+        material: 'cashmere',
+        image: '/assets/images/materials/felt/sola/cashmere.png'
+      },
+      3: {
+        material: 'burnt_umber',
+        image: '/assets/images/materials/felt/sola/burnt_umber.png'
+      },
+      4: {
+        material: 'cast',
+        image: '/assets/images/materials/felt/sola/cast.png'
+      },
+      5: {
+        material: 'ebony',
+        image: '/assets/images/materials/felt/sola/ebony.png'
+      },
+      6: {
+        material: 'ruby',
+        image: '/assets/images/materials/felt/sola/ruby.png'
+      },
+      7: {
+        material: 'aries',
+        image: '/assets/images/materials/felt/sola/aries.png'
+      },
+      8: {
+        material: 'citrine',
+        image: '/assets/images/materials/felt/sola/citrine.png'
+      },
+      9: {
+        material: 'oxford',
+        image: '/assets/images/materials/felt/sola/oxford.png'
+      },
+      10: {
+        material: 'admiral',
+        image: '/assets/images/materials/felt/sola/admiral.png'
+      },
+      11: {
+        material: 'hunter',
+        image: '/assets/images/materials/felt/sola/hunter.png'
+      },
+      12: {
+        material: 'moon',
+        image: '/assets/images/materials/felt/sola/moon.png'
+      },
+      13: {
+        material: 'mineral',
+        image: '/assets/images/materials/felt/sola/mineral.png'
+      },
+      14: {
+        material: 'armor',
+        image: '/assets/images/materials/felt/sola/armor.png'
+      },
+    },
     hush: {
       0: {
         material: 'zinc',

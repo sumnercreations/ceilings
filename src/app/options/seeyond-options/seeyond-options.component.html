@@ -71,8 +71,7 @@
           </div>
         </div>
       </div>
-      <button class="button button-orange start-designing" [disabled]="!seeyondValidateOptions()">start designing</button>
-      <!-- <button class="button button-orange start-designing">start designing</button> -->
+      <button class="button button-orange start-designing" (click)="startDesigning()" [disabled]="!seeyondValidateOptions()">start designing</button>
       <div class="back">
         <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
       </div>

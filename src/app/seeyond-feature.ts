@@ -60,7 +60,7 @@ export class SeeyondFeature extends Feature {
     this.angle = seeyondFeature.angle;
     this.ceiling_length = seeyondFeature.ceiling_length;
 
-    // this.reloadVisualization();  // TODO: bring this back
+    this.reloadVisualization();
   }
 
   loadFeature(feature: Feature) {
@@ -460,7 +460,7 @@ export class SeeyondFeature extends Feature {
   }
 
   getMaterialImage(material: string) {
-    return '/assets/images/materials/' + material + '.jpg';
+    return '/assets/images/materials/felt/sola/' + material + '.png';
   }
 
   getMaterialName(material: string) {

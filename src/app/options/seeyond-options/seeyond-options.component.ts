@@ -19,4 +19,8 @@ export class SeeyondOptionsComponent extends OptionsComponent {
     if (!!this.seeyondFeature.design_name) { isValid = true; }
     return isValid;
   }
+
+  startDesigning() {
+    this.dialogRef.close('start designing');
+  }
 }

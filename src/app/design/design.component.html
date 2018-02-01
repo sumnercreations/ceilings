@@ -1,3 +1,5 @@
+<app-seeyond-design *ngIf="feature.feature_type=='seeyond'"></app-seeyond-design>
+<ng-container *ngIf="feature.feature_type!='seeyond'">
 <div class="design-header">
   <div class="row">
     <div class="col-sm-4">
@@ -182,3 +184,4 @@
     </p>
   </div>
 </div>
+</ng-container>

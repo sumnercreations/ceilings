@@ -48,6 +48,8 @@ import { VeloOptionsComponent } from './options/velo-options/velo-options.compon
 import { ClarioOptionsComponent } from './options/clario-options/clario-options.component';
 import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.component';
 import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-options.component';
+import { SeeyondDesignComponent } from './design/seeyond-design/seeyond-design.component';
+import { SeeyondVisualizationComponent } from './visualization/seeyond-visualization/seeyond-visualization.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -86,7 +88,9 @@ import { KeysPipe } from './_pipes/keys.pipe';
     VeloOptionsComponent,
     ClarioOptionsComponent,
     TetriaOptionsComponent,
-    SeeyondOptionsComponent
+    SeeyondOptionsComponent,
+    SeeyondDesignComponent,
+    SeeyondVisualizationComponent
   ],
   imports: [
     BrowserModule,

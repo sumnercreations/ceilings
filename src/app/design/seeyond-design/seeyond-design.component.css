@@ -1,0 +1,12 @@
+.align-patterns {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pattern {
+  padding: 0px;
+  max-width: 65px;
+  margin: 3px;
+  border: 2px solid #e7e7e7;
+  cursor: pointer;
+}

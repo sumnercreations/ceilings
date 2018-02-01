@@ -1,0 +1,105 @@
+<div class="design-header">
+    <div class="row">
+      <div class="col-sm-4">
+        <p class="md project-name">{{seeyond.design_name | capitalize}} <a id="edit-project-name" class="edit-link" title="Edit Project Name" (click)="editOptions()">Edit</a></p>
+      </div>
+      <div class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-8">
+            <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
+          </div>
+          <div class="col-sm-4">
+            <button class="button button-orange design-quote pull-right" (click)="requestQuote()">Request Quote</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white">
+    <div class="separator"></div>
+  </div>
+  <div class="design-ui">
+    <div class="row full-height">
+      <div class="col-sm-9 full-height">
+        <div class="grid-wrapper col-sm-12">
+          <div class="row grid-header">
+            <div class="col-sm-5">
+              <p>{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            </div>
+            <div class="col-sm-3">
+              <p>
+                <a id="save-btn" title="save design" (click)="saveDesign()"><span class="icomoon-folder orange"></span>
+                  <span *ngIf="user.isLoggedIn()">Save</span>
+                  <span *ngIf="!user.isLoggedIn()">Login to save</span>
+                </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
+              </p>
+            </div>
+            <div class="col-sm-5 pull-right">
+              <div class="toggle-button-form-wrapper">
+                <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
+                  <md-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</md-button-toggle>
+                  <md-button-toggle value="centimeters" id="cm-toggle" class="small-toggle">CM</md-button-toggle>
+                </md-button-toggle-group>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <app-seeyond-visualization></app-seeyond-visualization>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 full-height">
+        <p class="md row">Pattern</p>
+        <div class="row tiles align-patterns">
+          <div *ngFor="let pattern of seeyond.patterns | keys" mdTooltip="{{pattern | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(pattern)" class="pattern-container tooltip-host">
+            <div class="pattern" [class.selected]="feature.selectedTile==pattern">
+              <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
+            </div>
+            <p class="text-center xs">{{pattern | capitalize}}</p>
+          </div>
+        <!-- </div>
+        <div class="row"> -->
+            <div class="col-sm-4 design-column-padding-adjust">
+              <label for="pattern-strength">Pattern Strength</label>
+              <select name="pattern-strength" id="pattern-strength" [value]="pattern_strength" (change)="updatePatternStrength($event.target.value)" class="form-control">
+                <option *ngFor="let strength of strengths" [value]="strength">{{strength}}</option>
+              </select>
+            </div>
+          </div>
+        <div class="row materials">
+            <p class="md">Colors</p>
+          <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
+            <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
+          </div>
+        </div>
+        <hr class="nine-pixels">
+        <div class="row">
+          <div class="col-sm-12 tools-header">
+            <p class="md no-bottom-margin">Modify</p>
+          </div>
+        </div>
+        <ul class="row tools list-inline">
+          <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'" [class.hide]="feature.feature_type=='velo' && tool !='remove'">
+            <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
+              <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+            </div>
+            <p class="text-center no-bottom-margin">{{tool | capitalize}}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="logo">
+        <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <p class="tile-package-information">
+        {{feature.packageInformation()}} <a id="tile-usage-details" (click)="tileUsage()">View Tile Usage</a>
+      </p>
+    </div>
+  </div>
