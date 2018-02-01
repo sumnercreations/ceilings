@@ -19,6 +19,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit {
   public updateSelectedTessellation(tessellationName: string) {
     const tessellation = this.seeyond.getTesslationNumber(tessellationName);
     this.selectedTessellation = this.seeyond.tessellation = tessellation;
+
     // update the visualization
     this.seeyond.reloadVisualization();
   }
@@ -26,6 +27,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit {
   public updateSelectedMaterial(material: string) {
     this.selectedMaterial = this.seeyond.material = material;
     this.seeyond.sheet_part_id = this.seeyond.seeyond_felt_sheet_mapping[material];
+
     // update the visualization
     this.seeyond.redrawVisualization();
   }

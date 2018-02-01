@@ -83,10 +83,10 @@
       </div>
       <div id="design">
         <h3>Design</h3>
-        <p>Choose your feature color</p>
+        <p>Choose your feature color and pattern</p>
         <div id="tiles">
-          <ul class="list-inline">
-            <li class="material"><img src="/assets/images/materials/felt/sola/zinc.png" alt="Zinc" class="img-responsive"></li>
+          <ul class="list-inline no-margin">
+            <li class="material"><img src="/assets/images/materials/felt/sola/nickel.png" alt="Nickel" class="img-responsive"></li>
             <li class="material"><img src="/assets/images/materials/felt/sola/citrine.png" alt="Citrine" class="img-responsive"></li>
             <li class="material"><img src="/assets/images/materials/felt/sola/aries.png" alt="Aries" class="img-responsive"></li>
             <li class="material"><img src="/assets/images/materials/felt/sola/ruby.png" alt="Ruby" class="img-responsive"></li>
@@ -95,18 +95,18 @@
             <li class="material"><img src="/assets/images/materials/felt/sola/burnt_umber.png" alt="Burnt Umber" class="img-responsive"></li>
             <li class="material"><img src="/assets/images/materials/felt/sola/ebony.png" alt="Ebony" class="img-responsive"></li>
           </ul>
+          <ul class="list-inline tools no-margin">
+            <li *ngFor="let pattern of seeyondFeature.patterns last as isLast; index as i" class="pattern-container">
+              <div class="pattern">
+                <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
       <div id="modify">
         <h3>Modify</h3>
-        <p>Select pattern and pattern strength</p>
-        <ul class="list-inline tools">
-          <li *ngFor="let pattern of seeyondFeature.patterns last as isLast; index as i" class="pattern-container">
-            <div class="pattern" [class.add-border-right]="isLast">
-              <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
-            </div>
-          </li>
-        </ul>
+        <p>Dynamically adjust feature dimensions</p>
       </div>
     </div>
   </div>
