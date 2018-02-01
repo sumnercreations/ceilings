@@ -501,6 +501,18 @@ export class SeeyondFeature extends Feature {
     return name;
   }
 
+  getTesslationNumber(tessName: string) {
+    let tessNum: number;
+    switch (tessName) {
+      case 'court': tessNum = 0; break;
+      case 'cusp': tessNum = 1; break;
+      case 'kink': tessNum = 2; break;
+      case 'tilt': tessNum = 3; break;
+      case 'billow': tessNum = 4; break;
+    }
+    return tessNum;
+  }
+
   getFormattedAmount() {
     const accounting = require( 'accounting' );
     return accounting.formatMoney(this.estimated_amount);

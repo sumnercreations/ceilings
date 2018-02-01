@@ -45,7 +45,7 @@
       <div class="col-sm-3 full-height">
         <p class="md row">Pattern</p>
         <div class="row tiles align-patterns">
-          <div *ngFor="let pattern of seeyond.patterns | keys" mdTooltip="{{pattern | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(pattern)" class="pattern-container tooltip-host">
+          <div *ngFor="let pattern of seeyond.patterns | keys" (click)="updateSelectedTessellation(pattern)" class="pattern-container tooltip-host">
             <div class="pattern" [class.selected]="feature.selectedTile==pattern">
               <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
             </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="row materials">
             <p class="md">Colors</p>
-          <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
+          <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
             <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
           </div>
         </div>

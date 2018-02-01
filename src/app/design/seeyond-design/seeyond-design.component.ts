@@ -16,7 +16,8 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit {
   ngOnInit() {
   }
 
-  public updateSelectedTessellation(tessellation: number) {
+  public updateSelectedTessellation(tessellationName: string) {
+    const tessellation = this.seeyond.getTesslationNumber(tessellationName);
     this.selectedTessellation = this.seeyond.tessellation = tessellation;
     // update the visualization
     this.seeyond.reloadVisualization();
