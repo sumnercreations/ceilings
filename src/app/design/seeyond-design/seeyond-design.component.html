@@ -34,14 +34,6 @@
                 </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
               </p>
             </div>
-            <div class="col-sm-5 pull-right">
-              <div class="toggle-button-form-wrapper">
-                <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
-                  <md-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</md-button-toggle>
-                  <md-button-toggle value="centimeters" id="cm-toggle" class="small-toggle">CM</md-button-toggle>
-                </md-button-toggle-group>
-              </div>
-            </div>
           </div>
           <div class="row">
             <div class="col-sm-12">
@@ -59,15 +51,13 @@
             </div>
             <p class="text-center xs">{{pattern | capitalize}}</p>
           </div>
-        <!-- </div>
-        <div class="row"> -->
-            <div class="col-sm-4 design-column-padding-adjust">
-              <label for="pattern-strength">Pattern Strength</label>
-              <select name="pattern-strength" id="pattern-strength" [value]="pattern_strength" (change)="updatePatternStrength($event.target.value)" class="form-control">
-                <option *ngFor="let strength of strengths" [value]="strength">{{strength}}</option>
-              </select>
-            </div>
+          <div class="strength-parent design-column-padding-adjust">
+            <span>Pattern Strength</span>
+            <select name="pattern-strength" id="pattern-strength" [value]="pattern_strength" (change)="updatePatternStrength($event.target.value)" class="form-control">
+              <option *ngFor="let strength of strengths" [value]="strength">{{strength}}</option>
+            </select>
           </div>
+        </div>
         <div class="row materials">
             <p class="md">Colors</p>
           <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
@@ -77,17 +67,41 @@
         <hr class="nine-pixels">
         <div class="row">
           <div class="col-sm-12 tools-header">
-            <p class="md no-bottom-margin">Modify</p>
+            <p class="md no-bottom-margin">Dimensions</p>
           </div>
         </div>
-        <ul class="row tools list-inline">
-          <li *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container" [class.add-margin-left]="i === 2" [class.hide]="feature.tile_size==48 && tool=='rotate'" [class.hide]="feature.feature_type=='velo' && tool !='remove'">
-            <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
-              <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
+        <div class="row dimensions-parent">
+          <div class="form-group col-sm-6">
+            <label for="width">Width</label>
+            <input [(ngModel)]="seeyond.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="length">Height</label>
+              <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
             </div>
-            <p class="text-center no-bottom-margin">{{tool | capitalize}}</p>
-          </li>
-        </ul>
+          </div>
+          <div class="col-sm-6" *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">
+            <div class="form-group">
+              <label for="length">Radius</label>
+              <input [(ngModel)]="seeyond.radius" #radiusInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+            </div>
+          </div>
+          <div class="col-sm-6" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
+            <div class="form-group">
+              <label for="length">Ceiling Length</label>
+              <input [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+            </div>
+          </div>
+          <div class="col-sm-6 vertical-center">
+            <div class="toggle-button-form-wrapper">
+              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
+                <md-button-toggle value="inches">IN</md-button-toggle>
+                <md-button-toggle value="centimeters">CM</md-button-toggle>
+              </md-button-toggle-group>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -96,10 +110,5 @@
       <div class="logo">
         <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
       </div>
-    </div>
-    <div class="col-sm-7">
-      <p class="tile-package-information">
-        {{feature.packageInformation()}} <a id="tile-usage-details" (click)="tileUsage()">View Tile Usage</a>
-      </p>
     </div>
   </div>

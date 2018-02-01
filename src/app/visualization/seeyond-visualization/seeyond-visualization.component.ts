@@ -13,7 +13,7 @@ export class SeeyondVisualizationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.seeyondFeature.syd_v.QT.Visualization.SetCanvasSize(606, 602);
+    this.seeyondFeature.syd_v.QT.Visualization.SetCanvasSize(814, 503);
   }
 
 }

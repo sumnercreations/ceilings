@@ -51,13 +51,13 @@
             <div class="col-sm-4" *ngIf="seeyondFeature.seeyond_feature_type === 'curved-partition'">
               <div class="form-group">
                 <label for="length">Radius</label>
-                <input [(ngModel)]="seeyondFeature.radius" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <input [(ngModel)]="seeyondFeature.radius" #radiusInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
               </div>
             </div>
             <div class="col-sm-4" *ngIf="seeyondFeature.seeyond_feature_type === 'wall-to-ceiling'">
               <div class="form-group">
                 <label for="length">Ceiling Length</label>
-                <input [(ngModel)]="seeyondFeature.ceiling_length" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <input [(ngModel)]="seeyondFeature.ceiling_length" #ceilingLengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
               </div>
             </div>
             <div class="col-sm-12">

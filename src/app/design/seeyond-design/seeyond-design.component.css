@@ -1,3 +1,11 @@
+label {
+  color: #676767;
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
 .align-patterns {
   display: flex;
   flex-wrap: wrap;
@@ -5,8 +13,32 @@
 
 .pattern {
   padding: 0px;
-  max-width: 65px;
+  max-width: 52px;
   margin: 3px;
   border: 2px solid #e7e7e7;
   cursor: pointer;
+}
+
+.strength-parent {
+  display: flex;
+  width: 100%;
+  margin: 15px 0px;
+}
+
+.strength-parent > * {
+  width: 50%;
+  margin: auto 3px;
+}
+
+.dimensions-parent {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dimensions-parent > * {
+  padding-left: 0px;
+}
+
+.vertical-center {
+  margin: auto 0px;
 }
