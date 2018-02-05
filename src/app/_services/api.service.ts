@@ -87,9 +87,10 @@ export class ApiService {
 
   saveDesign() {
     this.debug.log('api', 'saving design');
+    const featureType = (this.feature.feature_type === 'hush') ? 'hush-block' : this.feature.feature_type;
     const patchData = {
       'uid': this.user.uid,
-      'feature_type': this.feature.feature_type,
+      'feature_type': featureType,
       'design_name': this.feature.design_name,
       'project_name': this.feature.project_name,
       'specifier': this.feature.specifier,
