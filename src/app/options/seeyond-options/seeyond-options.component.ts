@@ -11,12 +11,12 @@ import { SeeyondFeature } from './../../seeyond-feature';
 export class SeeyondOptionsComponent extends OptionsComponent {
 
   updateSelectedFeature(feature) {
-    this.seeyondFeature.updateFeature(feature);
+    this.seeyond.updateFeature(feature);
   }
 
   seeyondValidateOptions() {
     let isValid = false;
-    if (!!this.seeyondFeature.design_name) { isValid = true; }
+    if (!!this.seeyond.design_name) { isValid = true; }
     return isValid;
   }
 

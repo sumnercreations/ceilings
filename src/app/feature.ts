@@ -15,7 +15,8 @@ export class Feature {
   public id: number;
   public uid: number;
   public feature_type: string;
-  public design_name: string;
+  // public design_name: string;  // TODO REVERT THIS
+  public design_name = 'Seeyond Testing';
   public project_name: string;
   public specifier: string;
   public width: number;

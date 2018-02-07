@@ -34,8 +34,8 @@ export class OptionsComponent implements OnInit {
     public feature: Feature,
     public dialogRef: MdDialogRef<OptionsComponent>,
     public alert: AlertService,
-    public seeyond: SeeyondService,
-    public seeyondFeature: SeeyondFeature
+    public seeyondService: SeeyondService,
+    public seeyond: SeeyondFeature
   ) { }
 
   ngOnInit() {

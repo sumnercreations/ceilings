@@ -1,3 +1,4 @@
+import { SeeyondService } from './../_services/seeyond.service';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
@@ -18,6 +19,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import * as FileSaver from 'file-saver';
 import * as html2canvas from 'html2canvas';
+import { AlertService } from 'app/_services/alert.service';
 
 @Component({
   // selector: 'app-design',
@@ -25,7 +27,7 @@ import * as html2canvas from 'html2canvas';
   styleUrls: ['./design.component.css']
 })
 export class DesignComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe: Subject<any> = new Subject();
+  ngUnsubscribe: Subject<any> = new Subject();
   optionsDialogRef: MdDialogRef<any>;
   loadDesignDialogRef: MdDialogRef<any>;
   saveDesignDialogRef: MdDialogRef<any>;
@@ -38,25 +40,31 @@ export class DesignComponent implements OnInit, OnDestroy {
   materials: any;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private debug: DebugService,
-    private api: ApiService,
+    public route: ActivatedRoute,
+    public router: Router,
+    public debug: DebugService,
+    public api: ApiService,
     public feature: Feature,
     public dialog: MdDialog,
     public user: User,
-    public seeyond: SeeyondFeature
+    public seeyond: SeeyondFeature,
+    public seeyondService: SeeyondService,
+    public alert: AlertService
   ) { }
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
+      console.log('design onInit params', params);
       // default the feature type
       if (params['type']) {
         this.feature.feature_type = params['type'];
       }
-      if (params['id']) {
-        this.api.loadDesign(params['id']).subscribe(design => {
+      this.setSeeyondFeatureType(params);
+      // if one of the params are an integer we need to load the design
+      const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      if (!!designId) {
+        this.api.loadDesign(designId).subscribe(design => {
           if (design == null) {
             this.debug.log('design-component', 'design not found');
             // design not found redirect to the design url
@@ -64,6 +72,7 @@ export class DesignComponent implements OnInit, OnDestroy {
           } else {
             // design was found so load it.
             if (design.feature_type === params['type']) {
+              design.feature_type = (design.feature_type === 'hush-block') ? 'hush' : design.feature_type;
               this.debug.log('design-component', 'setting the design.');
               this.feature.setDesign(design);
               this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
@@ -279,5 +288,15 @@ export class DesignComponent implements OnInit, OnDestroy {
       default: break;
     }
     this.feature.buildGrid();
+  }
+
+  setSeeyondFeatureType(params) {
+    // If a seeyond feature is requested as a parameter then load that feature
+    const seeyondFeatures = this.seeyond.seeyond_features;
+    Object.keys(seeyondFeatures).forEach(key => {
+      if (Object.keys(params).map(feature => feature[key]).indexOf(seeyondFeatures[key]['name']) > -1) {
+        this.seeyond.updateFeature(seeyondFeatures[key]['name']);
+      }
+    })
   }
 }

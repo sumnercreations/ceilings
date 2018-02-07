@@ -26,8 +26,11 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.api.loadDesign(params['id']).subscribe(design => {
+      console.log('details onInit params:', params);
+      const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      console.log('design id:', designId);
+      if (!!designId) {
+        this.api.loadDesign(designId).subscribe(design => {
           if (design == null) {
             // design not found
             this.router.navigate([params['type'], 'design']);
