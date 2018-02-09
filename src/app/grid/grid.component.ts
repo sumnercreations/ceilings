@@ -45,7 +45,7 @@ export class GridComponent implements OnInit, OnDestroy {
         this.updateGrid(true);
     });
 
-    if (this.feature.feature_type === 'hush-block') {
+    if (this.feature.feature_type === 'hush') {
       this.showGridRoomGuide = false;
     }
   }

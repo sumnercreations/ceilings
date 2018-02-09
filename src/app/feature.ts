@@ -859,4 +859,9 @@ export class Feature {
     // update the units.
     this.units = units;
   }
+
+  public setFeatureType(str: string) {
+    if (str.indexOf('hush') > -1) { str = 'hush'; }
+    return str;
+  }
 }
