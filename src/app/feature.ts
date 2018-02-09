@@ -90,6 +90,7 @@ export class Feature {
     this.length = undefined;
     this.gridData = undefined;
     this.estimated_amount = 0.00;
+    this.id = undefined;
   }
 
   updateEstimatedAmount() {
