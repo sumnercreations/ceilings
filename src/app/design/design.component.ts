@@ -57,8 +57,9 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       console.log('design onInit params', params);
       // default the feature type
+      let featureType;
       if (params['type']) {
-        this.feature.feature_type = params['type'];
+        featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       }
       this.setSeeyondFeatureType(params);
       // if one of the params are an integer we need to load the design
@@ -74,9 +75,10 @@ export class DesignComponent implements OnInit, OnDestroy {
             if (design.feature_type === params['type']) {
               design.feature_type = (design.feature_type === 'hush-block') ? 'hush' : design.feature_type;
               this.debug.log('design-component', 'setting the design.');
+              design.feature_type = this.feature.setFeatureType(design.feature_type);
               this.feature.setDesign(design);
-              this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
-              this.materials = this.feature.newMaterialsArray[this.feature.feature_type];
+              this.featureTiles = this.feature.tilesArray[featureType];
+              this.materials = this.feature.newMaterialsArray[featureType];
               if (this.feature.feature_type === 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if (this.feature.feature_type === 'velo') {
@@ -95,7 +97,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         });
       } else {
         setTimeout(() => {
-          this.feature.feature_type = params['type'] === 'hush-block' ? 'hush' : params['type'];
+          this.feature.feature_type = this.feature.setFeatureType(params['type']);
           // set the default values for tile and material
           this.debug.log('design-component', `feature_type: ${this.feature.feature_type}`);
           if (this.feature.feature_type === 'tetria') {
