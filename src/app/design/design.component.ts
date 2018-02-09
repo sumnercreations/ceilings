@@ -50,8 +50,9 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
       // default the feature type
+      let featureType;
       if (params['type']) {
-        this.feature.feature_type = params['type'];
+        featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       }
       if (params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
@@ -61,12 +62,12 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.router.navigate([params['type'], 'design']);
           } else {
             // design was found so load it.
-            design.feature_type = (design.feature_type === 'hush') ? 'hush-block' : design.feature_type;
             if (design.feature_type === params['type']) {
               this.debug.log('design-component', 'setting the design.');
+              design.feature_type = this.feature.setFeatureType(design.feature_type);
               this.feature.setDesign(design);
-              this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
-              this.materials = this.feature.newMaterialsArray[this.feature.feature_type];
+              this.featureTiles = this.feature.tilesArray[featureType];
+              this.materials = this.feature.newMaterialsArray[featureType];
               if (this.feature.feature_type === 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if (this.feature.feature_type === 'velo') {
@@ -85,7 +86,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         });
       } else {
         setTimeout(() => {
-          this.feature.feature_type = params['type'] === 'hush-block' ? 'hush' : params['type'];
+          this.feature.feature_type = this.feature.setFeatureType(params['type']);
           // set the default values for tile and material
           this.debug.log('design-component', `feature_type: ${this.feature.feature_type}`);
           if (this.feature.feature_type === 'tetria') {
