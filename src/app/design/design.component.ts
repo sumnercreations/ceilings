@@ -61,7 +61,6 @@ export class DesignComponent implements OnInit, OnDestroy {
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       }
-      this.setSeeyondFeatureType(params);
       // if one of the params are an integer we need to load the design
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!designId) {
@@ -89,6 +88,8 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.feature.materialType = 'felt';
               }else if (this.feature.feature_type === 'hush') {
                 this.feature.toolsArray = ['remove'];
+              }else if (this.feature.feature_type === 'seeyond') {
+                this.setSeeyondFeatureType(params);
               }
             } else {
               this.router.navigate([design.feature_type, 'design', design.id]);
@@ -108,7 +109,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.material = 'zinc';
             this.feature.toolsArray = ['remove'];
           }else if (this.feature.feature_type === 'seeyond') {
-            this.seeyond.updateFeature('unknown'); // TODO, static for now
+            this.setSeeyondFeatureType(params);
           }else if (this.feature.feature_type === 'clario') {
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';
@@ -296,7 +297,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     // If a seeyond feature is requested as a parameter then load that feature
     const seeyondFeatures = this.seeyond.seeyond_features;
     Object.keys(seeyondFeatures).forEach(key => {
-      if (Object.keys(params).map(feature => feature[key]).indexOf(seeyondFeatures[key]['name']) > -1) {
+      if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeatures[key]['name']) > -1) {
         this.seeyond.updateFeature(seeyondFeatures[key]['name']);
       }
     })

@@ -46,8 +46,7 @@ export class SeeyondFeature extends Feature {
     }
     this.debug.log('seeyond', 'updateFeature invoked');
     // load the selected feature
-    let seeyondFeature;
-    seeyondFeature = this.seeyond_features[this.seeyond_feature_index];
+    const seeyondFeature = this.seeyond_features[this.seeyond_feature_index];
 
     // set defaults
     this.seeyond_feature_index = this.seeyond_feature_index;
