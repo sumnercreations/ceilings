@@ -58,7 +58,7 @@ export class GridComponent implements OnInit, OnDestroy {
   updateGrid(applyAll: boolean = false) {
     this.rows = new Array(this.feature.getRows());
     this.columns = new Array(this.feature.getColumns());
-
+    this.showGridRoomGuide = (this.feature.feature_type !== 'hush');
     // new design
     if (typeof this.feature.gridData === 'undefined') {
       this.feature.gridData = [];

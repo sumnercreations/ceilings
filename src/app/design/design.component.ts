@@ -135,7 +135,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     // subscribe to the loadDesigns event to handle it all here.
     // this will come from the options component
     this.feature.onLoadDesigns
-      .takeUntil(this.ngUnsubscribe)
+      // .takeUntil(this.ngUnsubscribe)
       .subscribe(success => {
       this.debug.log('design-component', 'loading design event subscription');
       this.loadDesigns();
@@ -143,7 +143,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
     // subscribe to the loaded event to close the load dialog
     this.api.onLoaded
-      .takeUntil(this.ngUnsubscribe)
+      // .takeUntil(this.ngUnsubscribe)
       .subscribe(success => {
         if (this.loadDesignDialogRef) { this.loadDesignDialogRef.close(); }
         if (this.optionsDialogRef) { this.optionsDialogRef.close(); }
