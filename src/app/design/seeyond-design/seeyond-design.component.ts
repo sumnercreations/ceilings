@@ -28,45 +28,6 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       console.log(params);
     })
 
-    // this.router.events
-    // .filter(event => event instanceof NavigationEnd)
-    // .subscribe((event) => {
-    //   this.debug.log('seeyond', event);
-    //   this.params = this.route.params.subscribe(params => {
-    //     this.debug.log('seeyond', params);
-    //   // init the seeyond prices
-    //   this.seeyondService.getPrices().subscribe(response => {
-    //     this.debug.log('seeyond', response);
-    //     this.seeyond.prices = response;
-    //       // feature - default values
-    //       this.selectedFeature = params['feature'];
-
-    //       if (!Number(this.selectedFeature)) {
-    //         this.seeyond.updateFeature(this.selectedFeature)
-    //       }else if (Number(this.selectedFeature)) {
-    //         this.seeyondService.loadFeature(this.selectedFeature).subscribe(
-    //           feature => {
-    //             // if feature was found and is not archived
-    //             if (feature != null && !feature.archived) {
-    //               this.seeyond.loadFeature(feature);
-    //             }else {
-    //               // redirect to default wall feature
-    //               this.router.navigate(['/feature', 'wall']);
-    //             }
-    //           },
-    //           error => {
-    //             if (error) {
-    //               this.alert.apiAlert(error);
-    //             }
-    //           }
-    //         );
-    //       }
-    //     });
-    //   });
-    //     // unsubscribe params
-    //     this.params.unsubscribe();
-    // });
-
     // // Check for a logged in user.
     // const seeyondUser = localStorage.getItem('seeyondUser');
     // if (seeyondUser) {
@@ -89,7 +50,6 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
     .subscribe(
       data => {
         this.seeyond.updateEstimatedAmount();
-        this.estimated_amount = this.seeyond.getFormattedAmount();
       }
     );
   }

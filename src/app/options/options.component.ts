@@ -6,6 +6,7 @@ import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { SeeyondFeature } from '../seeyond-feature';
 import { AlertService } from 'app/_services/alert.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-options',
@@ -35,7 +36,8 @@ export class OptionsComponent implements OnInit {
     public dialogRef: MdDialogRef<OptionsComponent>,
     public alert: AlertService,
     public seeyondService: SeeyondService,
-    public seeyond: SeeyondFeature
+    public seeyond: SeeyondFeature,
+    public location: Location
   ) { }
 
   ngOnInit() {

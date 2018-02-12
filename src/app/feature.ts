@@ -2,6 +2,7 @@ import { MaterialsService } from './_services/materials.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
 import * as _ from 'lodash';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class Feature {
@@ -51,7 +52,8 @@ export class Feature {
 
   constructor(
     public materialsService: MaterialsService,
-    public debug: DebugService
+    public debug: DebugService,
+    public location: Location
   ) {}
 
   setDesign(design: any) {

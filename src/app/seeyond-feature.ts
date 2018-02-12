@@ -1,3 +1,4 @@
+import { SeeyondService } from './_services/seeyond.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
 import { Feature } from 'app/feature';
@@ -33,33 +34,40 @@ export class SeeyondFeature extends Feature {
   public seeyond_feature_type: string;
   public seeyond_feature_index: number;
   public patterns = this.materialsService.seeyondPatternsArray;
+  public seeyondService: SeeyondService;
 
   updateFeature(seeyond_feature_type: string) {
-    this.seeyond_feature_type = seeyond_feature_type;
-    switch (seeyond_feature_type) {
-      case 'linear-partition': this.seeyond_feature_index = 0; break;
-      case 'curved-partition': this.seeyond_feature_index = 1; break;
-      case 'wall': this.seeyond_feature_index = 2; break;
-      case 'wall-to-ceiling': this.seeyond_feature_index = 3; break;
-      case 'ceiling': this.seeyond_feature_index = 4; break;
-      default: this.seeyond_feature_index = 0; break;
+    if (seeyond_feature_type) {
+      this.debug.log('seeyond', `updateFeature: ${this.seeyond_feature_type}`);
+      switch (seeyond_feature_type) {
+        case 'linear-partition': this.seeyond_feature_index = 0; break;
+        case 'curved-partition': this.seeyond_feature_index = 1; break;
+        case 'wall': this.seeyond_feature_index = 2; break;
+        case 'wall-to-ceiling': this.seeyond_feature_index = 3; break;
+        case 'ceiling': this.seeyond_feature_index = 4; break;
+        default: {
+          this.seeyond_feature_index = 2;
+          this.seeyond_feature_type = 'wall';
+        }; break;
+      }
+      this.seeyond_feature_type = seeyond_feature_type;
+      this.location.go(`seeyond/design/${seeyond_feature_type}`);
+      // load the selected feature
+      const seeyondFeature = this.seeyond_features[this.seeyond_feature_index];
+
+      // set defaults
+      this.seeyond_feature_index = this.seeyond_feature_index;
+      this.name = seeyondFeature.name;
+      this.title = seeyondFeature.title;
+      this.image = seeyondFeature.image;
+      this.width = seeyondFeature.width;
+      this.height = seeyondFeature.height;
+      this.radius = seeyondFeature.radius;
+      this.angle = seeyondFeature.angle;
+      this.ceiling_length = seeyondFeature.ceiling_length;
+
+      this.reloadVisualization();
     }
-    this.debug.log('seeyond', 'updateFeature invoked');
-    // load the selected feature
-    const seeyondFeature = this.seeyond_features[this.seeyond_feature_index];
-
-    // set defaults
-    this.seeyond_feature_index = this.seeyond_feature_index;
-    this.name = seeyondFeature.name;
-    this.title = seeyondFeature.title;
-    this.image = seeyondFeature.image;
-    this.width = seeyondFeature.width;
-    this.height = seeyondFeature.height;
-    this.radius = seeyondFeature.radius;
-    this.angle = seeyondFeature.angle;
-    this.ceiling_length = seeyondFeature.ceiling_length;
-
-    this.reloadVisualization();
   }
 
   loadFeature(feature: Feature) {
@@ -188,27 +196,28 @@ export class SeeyondFeature extends Feature {
 
     this.services_amount = (staples * stapleCost) + (magnets * magnetCost) + (backplates * backplateCost) + (baseplates * baseplateCost) + (frames * frameCost) + fabricationCost;
 
-    this.debug.log('seeyond', `Rows: ${rows}`);
-    this.debug.log('seeyond', `Columns: ${columns}`);
-    this.debug.log('seeyond', `boxes: ${this.boxes}`);
-    this.debug.log('seeyond', `sheets: ${this.sheets}`);
-    this.debug.log('seeyond', `magnets: ${magnets}`);
-    this.debug.log('seeyond', `stapleCost: ${stapleCost}`);
-    this.debug.log('seeyond', `Staples cost: ${(staples * stapleCost)}`);
-    // this.debug.log('seeyond', `Zipties cost: ${(zipties * ziptieCost)}`);
-    this.debug.log('seeyond', `Magnets cost: ${(magnets * magnetCost)}`);
-    this.debug.log('seeyond', `Backplates: ${backplates}`);
-    this.debug.log('seeyond', `Backplates cost: ${(backplates * backplateCost)}`);
-    this.debug.log('seeyond', `Baseplates: ${baseplates}`);
-    this.debug.log('seeyond', `Baseplates cost: ${(baseplates * baseplateCost)}`);
-    this.debug.log('seeyond', `Frames: ${frames}`);
-    this.debug.log('seeyond', `Frames cost: ${(frames * frameCost)}`);
-    this.debug.log('seeyond', `Fabrication cost: ${fabricationCost}`);
-    this.debug.log('seeyond', `Products cost: ${totalProductsCost}`);
-    this.debug.log('seeyond', `Hardware cost: ${totalHardwareCost}`);
-    this.debug.log('seeyond', `Services cost: ${this.services_amount}`);
+    // this.debug.log('seeyond', `Rows: ${rows}`);
+    // this.debug.log('seeyond', `Columns: ${columns}`);
+    // this.debug.log('seeyond', `boxes: ${this.boxes}`);
+    // this.debug.log('seeyond', `sheets: ${this.sheets}`);
+    // this.debug.log('seeyond', `magnets: ${magnets}`);
+    // this.debug.log('seeyond', `stapleCost: ${stapleCost}`);
+    // this.debug.log('seeyond', `Staples cost: ${(staples * stapleCost)}`);
+    // // this.debug.log('seeyond', `Zipties cost: ${(zipties * ziptieCost)}`);
+    // this.debug.log('seeyond', `Magnets cost: ${(magnets * magnetCost)}`);
+    // this.debug.log('seeyond', `Backplates: ${backplates}`);
+    // this.debug.log('seeyond', `Backplates cost: ${(backplates * backplateCost)}`);
+    // this.debug.log('seeyond', `Baseplates: ${baseplates}`);
+    // this.debug.log('seeyond', `Baseplates cost: ${(baseplates * baseplateCost)}`);
+    // this.debug.log('seeyond', `Frames: ${frames}`);
+    // this.debug.log('seeyond', `Frames cost: ${(frames * frameCost)}`);
+    // this.debug.log('seeyond', `Fabrication cost: ${fabricationCost}`);
+    // this.debug.log('seeyond', `Products cost: ${totalProductsCost}`);
+    // this.debug.log('seeyond', `Hardware cost: ${totalHardwareCost}`);
+    // this.debug.log('seeyond', `Services cost: ${this.services_amount}`);
 
     this.estimated_amount = totalProductsCost + totalHardwareCost + this.services_amount;
+    this.debug.log('seeyond', `estimated amount: ${this.estimated_amount}`);
     return this.estimated_amount;
   }
 
@@ -358,10 +367,10 @@ export class SeeyondFeature extends Feature {
         qty = this.getHardwareQty(seeyond_feature_index, hardware);
         const hardwareCost = this.prices[hardware] * qty;
         totalHardwareCost += hardwareCost;
-        this.debug.log('seeyond', hardware);
-        this.debug.log('seeyond', `PRICE: ${this.prices[hardware]}`);
-        this.debug.log('seeyond', `QUANTITY: ${qty}`);
-        this.debug.log('seeyond', `HARDWARE COST: ${hardwareCost}`);
+        // this.debug.log('seeyond', hardware);
+        // this.debug.log('seeyond', `PRICE: ${this.prices[hardware]}`);
+        // this.debug.log('seeyond', `QUANTITY: ${qty}`);
+        // this.debug.log('seeyond', `HARDWARE COST: ${hardwareCost}`);
         const hwpart = {
           'part_id': hardware,
           'qty': qty

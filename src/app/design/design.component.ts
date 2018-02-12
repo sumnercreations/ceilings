@@ -55,15 +55,17 @@ export class DesignComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
-      console.log('design onInit params', params);
       // default the feature type
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
+        if (featureType = 'seeyond') {
+          this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response)
+        }
       }
       // if one of the params are an integer we need to load the design
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-      if (!!designId) {
+      if (!!designId) { // if designId evaluates to truthy
         this.api.loadDesign(designId).subscribe(design => {
           if (design == null) {
             this.debug.log('design-component', 'design not found');
@@ -293,7 +295,11 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.feature.buildGrid();
   }
 
-  setSeeyondFeatureType(params) {
+  setSeeyondFeatureType(urlParams) {
+    const params = Object.assign({}, urlParams);
+    if (params['type'] && !(params['param1'] || params['param2'])) {
+      params['param1'] = 'wall';
+    }
     // If a seeyond feature is requested as a parameter then load that feature
     const seeyondFeatures = this.seeyond.seeyond_features;
     Object.keys(seeyondFeatures).forEach(key => {
