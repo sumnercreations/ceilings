@@ -136,17 +136,16 @@ export class Feature {
   }
 
   getHushEstimate(tilesArray) {
-    const hushTilePrice = 25.00;
     let hushTileCount = 0;
-
     for (const hushTile in tilesArray) {
       if (tilesArray.hasOwnProperty(hushTile)) {
         const hushCurrentTile = tilesArray[hushTile];
         hushTileCount += hushCurrentTile.purchased;
       }
     }
-    this.services_amount = (hushTilePrice * hushTileCount);
-    this.estimated_amount = this.services_amount;
+    const hushTilesPrice = (hushTileCount / 3) * 114.88;
+    this.services_amount = (hushTileCount * 10.43);
+    this.estimated_amount = hushTilesPrice + this.services_amount;
   }
 
   getClarioEstimate(tilesArray) {
