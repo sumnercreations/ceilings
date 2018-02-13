@@ -39,7 +39,7 @@
     <img class="grid-guide img-responsive" src="{{this.feature.design_data_url}}" alt="Grid Guide Image">
   </div>
   <div class="col-sm-6">
-    <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_size=='24')">24" x 24" {{feature.getTileType('plural') | capitalize}} <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span></p>
+    <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_size===24)">24" x 24" {{feature.getTileType('plural') | capitalize}} <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span></p>
     <div class="row tile-info-header">
       <div class="col-sm-3">
         <div class="row">

@@ -1,5 +1,6 @@
 import { SeeyondService } from './../_services/seeyond.service';
 import { SeeyondFeature } from './../seeyond-feature';
+import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -49,7 +50,8 @@ export class DesignComponent implements OnInit, OnDestroy {
     public user: User,
     public seeyond: SeeyondFeature,
     public seeyondService: SeeyondService,
-    public alert: AlertService
+    public alert: AlertService,
+    public location: Location
   ) { }
 
   ngOnInit() {
@@ -62,6 +64,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         if (featureType = 'seeyond') {
           this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response)
         }
+        if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-block/design')); }
       }
       // if one of the params are an integer we need to load the design
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
