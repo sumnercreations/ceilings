@@ -82,4 +82,80 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
     this.seeyond.reloadVisualization();
   }
 
+  public updateFeatureMeasurement(measurement: number, name: string) {
+    switch (name) {
+      case 'width':
+        if (measurement < 50) {
+          this.seeyond.width = 50;
+          this.alert.error('The minimum width is 50 inches');
+        } else if ((this.seeyond.seeyond_feature_index === 0 || this.seeyond.seeyond_feature_index === 1) && measurement > 240) {
+          this.seeyond.width = 240;
+          this.alert.error('The maximum width for partitions is 240 inches');
+        }else if (measurement > 480) {
+          this.seeyond.width = 480;
+          this.alert.error('The maximum width for walls and ceilings is 480 inches');
+        } else if (this.seeyond.seeyond_feature_index === 1 && this.seeyond.radius < (measurement * .5) + 1) {
+          this.seeyond.width = measurement;
+          this.seeyond.radius = (this.seeyond.width * .5) + 1;
+          this.alert.error('The radius must be greater than half the width. Radius set to: ' + this.seeyond.radius);
+        } else {
+          this.seeyond.width = measurement;
+        }
+        break;
+
+      case 'height':
+        if (measurement < 50) {
+          this.seeyond.height = 50;
+          this.alert.error('The minimum height is 50 inches');
+        } else if ((this.seeyond.seeyond_feature_index === 0 || this.seeyond.seeyond_feature_index === 1) && measurement > 84) {
+          this.seeyond.height = 84;
+          this.alert.error('The maximum height for partitions is 84 inches');
+        } else if (measurement > 480) {
+          this.seeyond.height = 480;
+          this.alert.error('The maximum height for walls and ceilings is 480 inches');
+        } else {
+          this.seeyond.height = measurement;
+        }
+        break;
+
+      case 'radius':
+        const halfRadius = (this.seeyond.width * .5) + 1;
+        if (measurement < 30) {
+          this.seeyond.radius = (halfRadius < 30 ) ? 30 : halfRadius;
+          this.alert.error('The minimum radius is 30 inches and must be greater than half the width');
+        } else if (measurement > 300) {
+          this.seeyond.radius = (halfRadius < 300 ) ? 300 : halfRadius;
+          this.alert.error('The maximum radius is 300 inches.');
+        } else if (measurement < (this.seeyond.width * .5) + 1) {
+          this.seeyond.radius = (this.seeyond.width * .5) + 1;
+          this.alert.error('The radius must be greater than half the width. Radius set to: ' + this.seeyond.radius);
+        } else {
+          this.seeyond.radius = measurement;
+        }
+        break;
+
+      case 'angle':
+        this.seeyond.angle = measurement;
+        break;
+
+      case 'ceiling_length':
+        if (measurement < 50) {
+          this.seeyond.ceiling_length = 50;
+          this.alert.error('The minimum ceiling length is 50 inches');
+        } else if (measurement > 144) {
+          this.seeyond.ceiling_length = 144;
+          this.alert.error('The maximum ceiling length is 144 inches');
+        } else {
+          this.seeyond.ceiling_length = measurement;
+        }
+        break;
+
+      default:
+        alert(name + ' is not a valid measurement');
+        break;
+    }
+
+    this.seeyond.reloadVisualization();
+  }
+
 }

@@ -73,24 +73,24 @@
         <div class="row dimensions-parent">
           <div class="form-group col-sm-6">
             <label for="width">Width</label>
-            <input [(ngModel)]="seeyond.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+            <input (change)="updateFeatureMeasurement($event.target.value, $event.target.name)" [(ngModel)]="seeyond.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
           </div>
           <div class="col-sm-6">
             <div class="form-group">
               <label for="length">Height</label>
-              <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              <input (change)="updateFeatureMeasurement($event.target.value, $event.target.name)" [(ngModel)]="seeyond.height" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
             </div>
           </div>
           <div class="col-sm-6" *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">
             <div class="form-group">
               <label for="length">Radius</label>
-              <input [(ngModel)]="seeyond.radius" #radiusInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              <input (change)="updateFeatureMeasurement($event.target.value, $event.target.name)" [(ngModel)]="seeyond.radius" #radiusInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
             </div>
           </div>
           <div class="col-sm-6" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
             <div class="form-group">
               <label for="length">Ceiling Length</label>
-              <input [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              <input (change)="updateFeatureMeasurement($event.target.value, $event.target.name)" [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
             </div>
           </div>
           <div class="col-sm-6 vertical-center">

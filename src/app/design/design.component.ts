@@ -297,10 +297,11 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   setSeeyondFeatureType(urlParams) {
     const params = Object.assign({}, urlParams);
-    if (params['type'] && !(params['param1'] || params['param2'])) {
+    // set default param to wall if not specified
+    if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) {
       params['param1'] = 'wall';
     }
-    // If a seeyond feature is requested as a parameter then load that feature
+    // Load seeyond feature requested in param1 or param2
     const seeyondFeatures = this.seeyond.seeyond_features;
     Object.keys(seeyondFeatures).forEach(key => {
       if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeatures[key]['name']) > -1) {
