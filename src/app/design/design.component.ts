@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -43,7 +44,8 @@ export class DesignComponent implements OnInit, OnDestroy {
     private api: ApiService,
     public feature: Feature,
     public dialog: MdDialog,
-    public user: User
+    public user: User,
+    public location: Location
   ) { }
 
   ngOnInit() {
@@ -53,6 +55,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
+        if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-block/design')); }
       }
       if (params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
