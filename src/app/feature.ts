@@ -143,9 +143,16 @@ export class Feature {
         hushTileCount += hushCurrentTile.purchased;
       }
     }
-    const hushTilesPrice = (hushTileCount / 3) * 114.88;
+
+    this.hardware = {
+      '3-85-110': hushTileCount * 6,
+      '3-85-111': hushTileCount * 4,
+      '3-85-112': hushTileCount * 2
+    }
+
+    const allTilesPrice = (hushTileCount / 3) * 114.88;
     this.services_amount = (hushTileCount * 10.43);
-    this.estimated_amount = hushTilesPrice + this.services_amount;
+    this.estimated_amount = allTilesPrice + this.services_amount;
   }
 
   getClarioEstimate(tilesArray) {
