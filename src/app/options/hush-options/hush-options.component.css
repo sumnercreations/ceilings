@@ -11,8 +11,8 @@
 }
 
 .grid-tool-options span {
-  font-size: 36px;
-  line-height: 20px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .options-container {
