@@ -39,25 +39,29 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="width">Width</label>
-                <input [(ngModel)]="seeyond.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+                <input [(ngModel)]="seeyond.width" #widthInput="ngModel" (keyup)="this.seeyond.setMaxMinDimensions()" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.minWidth}}, max: {{this.seeyond.maxWidth}}</span>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="length">Height</label>
-                <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" (keyup)="this.seeyond.setMaxMinDimensions()" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.minHeight}}, max: {{this.seeyond.maxHeight}}</span>
               </div>
             </div>
             <div class="col-sm-4" *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">
               <div class="form-group">
                 <label for="length">Radius</label>
-                <input [(ngModel)]="seeyond.radius" #radiusInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <input [(ngModel)]="seeyond.radius" #radiusInput="ngModel" (keyup)="this.seeyond.setMaxMinDimensions()" type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.minRad}}, max: {{this.seeyond.maxRad}}</span>
               </div>
             </div>
             <div class="col-sm-4" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
               <div class="form-group">
                 <label for="length">Ceiling Length</label>
-                <input [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <input [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" (keyup)="this.seeyond.setMaxMinDimensions()" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.minCeil}}, max: {{this.seeyond.maxCeil}}</span>
               </div>
             </div>
             <div class="col-sm-12">
