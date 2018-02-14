@@ -35,14 +35,14 @@ export class SeeyondFeature extends Feature {
   public seeyond_feature_index: number;
   public patterns = this.materialsService.seeyondPatternsArray;
   public seeyondService: SeeyondService;
-  public maxWidth: number;
-  public minWidth: number;
-  public maxHeight: number;
-  public minHeight: number;
-  public maxCeil: number;
-  public minCeil: number;
-  public maxRad: number;
-  public minRad: number;
+  public widthMin: number;
+  public widthMax: number;
+  public heightMin: number;
+  public heightMax: number;
+  public ceilLengthMin: number;
+  public ceilLengthMax: number;
+  public radiusMin: number;
+  public radiusMax: number;
 
   updateFeature(seeyond_feature_type: string) {
     if (seeyond_feature_type) {
@@ -73,7 +73,7 @@ export class SeeyondFeature extends Feature {
       this.radius = seeyondFeature.radius;
       this.angle = seeyondFeature.angle;
       this.ceiling_length = seeyondFeature.ceiling_length;
-      this.setMaxMinDimensions()
+      this.setMaxMinDimensions();
 
       this.reloadVisualization();
     }
@@ -231,59 +231,22 @@ export class SeeyondFeature extends Feature {
   }
 
   setMaxMinDimensions(units?) {
-    const partitionMaxWidth = 240;
-    const partitionMinWidth = 50;
-    const partitionMaxHeight = 84;
-    const partitionMinHeight = 50;
-    const wallCeilMaxWidth = 480;
-    const wallCeilMinWidth = 50;
-    const wallCeilMaxHeight = 480;
-    const wallCeilMinHeight = 50;
-    const ceilLengthMax = 144;
-    const ceilLengthMin = 50;
-    const radiusMax = 300;
-    let radiusMin = Math.ceil((this.width * .5) + 1);
-    radiusMin = (radiusMin < 30) ? 30 : radiusMin;
+    if (!units) { units = 'inches'; } // if units aren't given, assume inches
+    this.widthMin = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['widthMin'];
+    this.widthMax = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['widthMax'];
+    this.heightMin = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['heightMin'];
+    this.heightMax = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['heightMax'];
+    this.ceilLengthMin = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['ceilLengthMin'];
+    this.ceilLengthMax = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['ceilLengthMax'];
+    this.radiusMin = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['radiusMin'];
+    this.radiusMax = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['radiusMax'];
 
-    switch (this.seeyond_feature_type) {
-      case 'linear-partition':
-      case 'curved-partition':
-        if (units === 'centimeters') {
-          this.maxWidth = this.convertINtoCM(partitionMaxWidth);
-          this.minWidth = this.convertINtoCM(partitionMinWidth);
-          this.maxHeight = this.convertINtoCM(partitionMaxHeight);
-          this.minHeight = this.convertINtoCM(partitionMinHeight);
-        }else {
-          this.maxWidth = partitionMaxWidth;
-          this.minWidth = partitionMinWidth;
-          this.maxHeight = partitionMaxHeight;
-          this.minHeight = partitionMinHeight;
-        }
-      break;
-      case 'wall':
-      case 'wall-to-ceiling':
-      case 'ceiling':
-        if (units === 'centimeters') {
-          this.maxWidth = this.convertINtoCM(wallCeilMaxWidth);
-          this.minWidth = this.convertINtoCM(wallCeilMinWidth);
-          this.maxHeight = this.convertINtoCM(wallCeilMaxHeight);
-          this.minHeight = this.convertINtoCM(wallCeilMinHeight);
-          this.maxCeil = this.convertINtoCM(ceilLengthMax);
-          this.minCeil = this.convertINtoCM(ceilLengthMin);
-          this.maxRad = this.convertINtoCM(radiusMax);
-          this.minRad = this.convertINtoCM(radiusMin);
-        }else {
-          this.maxWidth = wallCeilMaxWidth;
-          this.minWidth = wallCeilMinWidth;
-          this.maxHeight = wallCeilMaxHeight;
-          this.minHeight = wallCeilMinHeight;
-          this.maxCeil = ceilLengthMax;
-          this.minCeil = ceilLengthMin;
-          this.maxRad = radiusMax;
-          this.minRad = radiusMin;
-        }
-      break;
+    if (this.width) { // update radiusMin based off entered width
+      const newRadiusMin = Math.ceil(this.width * .5);
+      this.radiusMin = (newRadiusMin < this.radiusMin) ? this.radiusMin : newRadiusMin;
     }
+
+    // Check Min/Max against entered values
   }
 
   getFabricationCost(seeyond_feature_index: number) {

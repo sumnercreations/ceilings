@@ -118,6 +118,119 @@ export class MaterialsService {
     'kink'
   ]
 
+  public seeyondMinMaxDimensions = {
+    0: {
+      inches: {
+        widthMin: 50,
+        widthMax: 240,
+        heightMin: 50,
+        heightMax: 84,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: null,
+        radiusMax: null
+      },
+      centimeters: {
+        widthMin: 127,
+        widthMax: 610,
+        heightMin: 127,
+        heightMax: 214,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: null,
+        radiusMax: null
+      }
+    },
+    1: {
+      inches: {
+        widthMin: 50,
+        widthMax: 240,
+        heightMin: 50,
+        heightMax: 84,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: 30,
+        radiusMax: 300
+      },
+      centimeters: {
+        widthMin: 127,
+        widthMax: 610,
+        heightMin: 127,
+        heightMax: 214,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: 77,
+        radiusMax: 762
+      }
+    },
+    2: {
+      inches: {
+        widthMin: 50,
+        widthMax: 480,
+        heightMin: 50,
+        heightMax: 480,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: null,
+        radiusMax: null
+      },
+      centimeters: {
+        widthMin: 214,
+        widthMax: 1220,
+        heightMin: 214,
+        heightMax: 1220,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: null,
+        radiusMax: null
+      }
+    },
+    3: {
+      inches: {
+        widthMin: 50,
+        widthMax: 480,
+        heightMin: 50,
+        heightMax: 480,
+        ceilLengthMin: 144,
+        ceilLengthMax: 50,
+        radiusMin: null,
+        radiusMax: null
+      },
+      centimeters: {
+        widthMin: 214,
+        widthMax: 1220,
+        heightMin: 214,
+        heightMax: 1220,
+        ceilLengthMin: 366,
+        ceilLengthMax: 127,
+        radiusMin: null,
+        radiusMax: null
+      }
+    },
+    4: {
+      inches: {
+        widthMin: 50,
+        widthMax: 480,
+        heightMin: 50,
+        heightMax: 480,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: null,
+        radiusMax: null
+      },
+      centimeters: {
+        widthMin: 50,
+        widthMax: 480,
+        heightMin: 50,
+        heightMax: 480,
+        ceilLengthMin: null,
+        ceilLengthMax: null,
+        radiusMin: null,
+        radiusMax: null
+      }
+    }
+  }
+
   public toolsArray = [
     'rotate',
     'remove',
