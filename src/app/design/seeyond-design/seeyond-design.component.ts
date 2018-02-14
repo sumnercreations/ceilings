@@ -21,13 +21,14 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   estimated_amount: any;
   params: any;
   selectedFeature: any;
+  dimensionsString: string;
 
   ngOnInit() {
     // // initialize the feature based on the URL path.
     this.route.params.subscribe(params => {
       console.log(params);
     })
-
+    this.dimensionsString = this.seeyond.getDimensionString();
     // // Check for a logged in user.
     // const seeyondUser = localStorage.getItem('seeyondUser');
     // if (seeyondUser) {
@@ -80,6 +81,11 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
 
     // update the visualization
     this.seeyond.reloadVisualization();
+  }
+
+  public updateUnits(units) {
+    this.feature.updateGridUnits(units);
+    this.dimensionsString = this.seeyond.getDimensionString(units);
   }
 
   public updateFeatureMeasurement(measurement: number, name: string) {

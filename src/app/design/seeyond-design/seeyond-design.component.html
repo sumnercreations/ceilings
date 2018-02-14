@@ -24,7 +24,7 @@
         <div class="grid-wrapper col-sm-12">
           <div class="row grid-header">
             <div class="col-sm-5">
-              <p>{{seeyond.getDimensionString()}}<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">&nbsp; Edit</a></p>
+              <p>{{dimensionsString}}<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">&nbsp; Edit</a></p>
             </div>
             <div class="col-sm-3">
               <p>
@@ -95,7 +95,7 @@
           </div>
           <div class="col-sm-6 vertical-center">
             <div class="toggle-button-form-wrapper">
-              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
+              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateUnits(units.value)" value="{{feature.units}}">
                 <md-button-toggle value="inches">IN</md-button-toggle>
                 <md-button-toggle value="centimeters">CM</md-button-toggle>
               </md-button-toggle-group>

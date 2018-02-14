@@ -300,7 +300,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   setSeeyondFeatureType(urlParams) {
     const params = Object.assign({}, urlParams);
-    // set default param to wall if not specified
+    // Set default param to wall if not specified
     if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) {
       params['param1'] = 'wall';
     }

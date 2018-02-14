@@ -563,18 +563,18 @@ export class SeeyondFeature extends Feature {
     return this.seeyond_features[seeyond_feature_index].image;
   }
 
-  getDimensionString() {
-    let dimensionString: string;
-    dimensionString = this.width + '" W x ' + this.height + '" H x ' + this.depth + '" D';
+  getDimensionString(units?) {
+    // if units come in update this.units
+    if (units) { this.units = units; }
+    let dimensionString = `${this.width} W x ${this.height} H x ${this.depth} D`;
     // curved partition has radius
-    if (this.seeyond_feature_index === 1) {
-      dimensionString += ' x ' + this.radius + ' R';
-    }
-
+    if (this.seeyond_feature_index === 1) { dimensionString += ' x ' + this.radius + ' R'; }
     // wall to ceiling has ceiling_length
-    if (this.seeyond_feature_index === 3) {
-      dimensionString += ' x ' + this.ceiling_length + ' CL';
-    }
+    if (this.seeyond_feature_index === 3) { dimensionString += ' x ' + this.ceiling_length + ' CL'; }
+    // add dimensions
+    if (this.units === 'inches') { dimensionString += ` (inches)`; }
+    if (this.units === 'centimeters') { dimensionString += ` (centimeters)`; }
+
     return dimensionString;
   }
 
