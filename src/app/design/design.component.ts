@@ -61,7 +61,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
-        if (featureType = 'seeyond') {
+        if (featureType === 'seeyond') {
           this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response)
         }
         if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-block/design')); }
