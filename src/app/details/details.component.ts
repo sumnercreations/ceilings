@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
@@ -21,14 +21,14 @@ export class DetailsComponent implements OnInit {
     private router: Router,
     private debug: DebugService,
     private api: ApiService,
-    public feature: Feature
+    public feature: Feature,
+    public location: Location
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log('details onInit params:', params);
+      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-block/design')); }
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-      console.log('design id:', designId);
       if (!!designId) {
         this.api.loadDesign(designId).subscribe(design => {
           if (design == null) {
