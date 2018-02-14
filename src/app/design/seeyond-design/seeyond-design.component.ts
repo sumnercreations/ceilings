@@ -24,11 +24,11 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   dimensionsString: string;
 
   ngOnInit() {
-    // // initialize the feature based on the URL path.
-    this.route.params.subscribe(params => {
-      console.log(params);
-    })
-    this.dimensionsString = this.seeyond.getDimensionString();
+    this.seeyond.onDimensionsChange
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        this.dimensionsString = this.seeyond.getDimensionString();
+      });
     // // Check for a logged in user.
     // const seeyondUser = localStorage.getItem('seeyondUser');
     // if (seeyondUser) {
@@ -47,12 +47,10 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   ngAfterContentInit() {
     // subscribe to the onFeatureUpdated event to update the price.
     this.seeyond.onFeatureUpdated
-    .takeUntil(this.ngUnsubscribe)
-    .subscribe(
-      data => {
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
         this.seeyond.updateEstimatedAmount();
-      }
-    );
+      });
   }
 
   ngOnDestroy() {
@@ -157,10 +155,10 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
         break;
 
       default:
-        alert(name + ' is not a valid measurement');
+        this.alert.error(name + ' is not a valid measurement');
         break;
     }
-
+    this.dimensionsString = this.seeyond.getDimensionString();
     this.seeyond.reloadVisualization();
   }
 

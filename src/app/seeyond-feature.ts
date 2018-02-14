@@ -8,6 +8,7 @@ import { MaterialsService } from 'app/_services/materials.service';
 @Injectable()
 export class SeeyondFeature extends Feature {
   onFeatureUpdated = new EventEmitter();
+  onDimensionsChange = new EventEmitter();
   public syd_t = require('syd-tessellation');
   public syd_v = require('syd-visualization');
   public title: string;
@@ -148,6 +149,7 @@ export class SeeyondFeature extends Feature {
 
     // feature has been updated
     this.onFeatureUpdated.emit();
+    this.onDimensionsChange.emit();
 
     // update the XML
     this.xml = this.getXML();
