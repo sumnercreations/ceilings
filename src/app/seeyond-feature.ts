@@ -232,6 +232,24 @@ export class SeeyondFeature extends Feature {
     return this.estimated_amount;
   }
 
+  convertDimensionsUnits(newUnit) {
+    this.units = newUnit;
+    console.log(this.units);
+    if (this.units === 'inches') {
+      this.height = this.convertCMtoIN(this.height);
+      this.width = this.convertCMtoIN(this.width);
+      this.ceiling_length = this.convertCMtoIN(this.ceiling_length);
+      this.radius = this.convertCMtoIN(this.radius);
+    }
+    if (this.units === 'centimeters') {
+      this.height = this.convertINtoCM(this.height);
+      this.width = this.convertINtoCM(this.width);
+      this.ceiling_length = this.convertINtoCM(this.ceiling_length);
+      this.radius = this.convertINtoCM(this.radius);
+    }
+    // this.updateDimensions();
+  }
+
   setMaxMinDimensions(units?) {
     if (!units) { units = 'inches'; } // if units aren't given, assume inches
     this.widthMin = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['widthMin'];
@@ -247,8 +265,6 @@ export class SeeyondFeature extends Feature {
       const newRadiusMin = Math.ceil((this.width * .5) + 1);
       this.radiusMin = (newRadiusMin < this.radiusMin) ? this.radiusMin : newRadiusMin;
     }
-
-    // Check Min/Max against entered values
   }
 
   public updateDimensions() {
@@ -287,19 +303,19 @@ export class SeeyondFeature extends Feature {
       this.height = heightMax;
       this.alert.error(`The maximum height is ${heightMax} ${units}`);
     }
-    if (currentCeilLength < ceilLengthMin) {
+    if ((currentCeilLength < ceilLengthMin) && (this.seeyond_feature_index === 4)) {
       this.ceiling_length = ceilLengthMin;
       this.alert.error(`The minimum ceilLength is ${ceilLengthMin} ${units}`);
     }
-    if (currentCeilLength > ceilLengthMax) {
+    if ((currentCeilLength > ceilLengthMax) && (this.seeyond_feature_index === 4)) {
       this.ceiling_length = ceilLengthMax;
       this.alert.error(`The maximum ceilLength is ${ceilLengthMax} ${units}`);
     }
-    if (currentRadius < radiusMin) {
+    if ((currentRadius < radiusMin) && (this.seeyond_feature_index === 1)) {
       this.radius = radiusMin;
       this.alert.error(`The minimum radius for your width is ${radiusMin} ${units}`);
     }
-    if (currentRadius > radiusMax) {
+    if ((currentRadius > radiusMax) && (this.seeyond_feature_index === 1)) {
       this.radius = radiusMax;
       this.alert.error(`The maximum radius is ${radiusMax} ${units}`);
     }
@@ -623,9 +639,13 @@ export class SeeyondFeature extends Feature {
   }
 
   getDimensionString(units?) {
-    // if units come in update this.units
-    if (units) { this.units = units; }
-    let dimensionString = `${this.width} W x ${this.height} H x ${this.depth} D`;
+    let depth = this.depth;
+    if (units) {
+      depth = (this.units === 'inches') ? this.depth : this.convertINtoCM(this.depth);
+      // if units come in update this.units
+      this.units = units;
+    }
+    let dimensionString = `${this.width} W x ${this.height} H x ${depth} D`;
     // curved partition has radius
     if (this.seeyond_feature_index === 1) { dimensionString += ' x ' + this.radius + ' R'; }
     // wall to ceiling has ceiling_length
@@ -638,6 +658,16 @@ export class SeeyondFeature extends Feature {
   }
 
   getJsonProperties() {
+    let convertedWidth = this.width;
+    let convertedHeight = this.height;
+    let convertedCeilingLength = this.ceiling_length;
+    let convertedRadius = this.radius;
+    if (this.units === 'centimeters') {
+      convertedWidth = this.convertCMtoIN(convertedWidth);
+      convertedHeight = this.convertCMtoIN(convertedHeight);
+      convertedCeilingLength = this.convertCMtoIN(convertedCeilingLength);
+      convertedRadius = this.convertCMtoIN(convertedRadius);
+    }
     return {
       'UserInputs': {
         // 0 = straight partition, 1 = arc partition, 2 = facing, 3 = transition, 4 = ceiling, 5 = bent partition
@@ -649,15 +679,15 @@ export class SeeyondFeature extends Feature {
         // relative path to rendering material image
         'Material': this.getMaterialImage(this.material),
         // in inches
-        'Width': this.width,
+        'Width': convertedWidth,
         // in inches
-        'Height': this.height,
+        'Height': convertedHeight,
         // in inches
-        'Radius': this.radius,
+        'Radius': convertedRadius,
         // in degrees 0-360
         'Angle':  this.angle,
         // in inches
-        'Ceiling_Length': this.ceiling_length
+        'Ceiling_Length': convertedCeilingLength
       }
     }
   }

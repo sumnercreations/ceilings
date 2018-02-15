@@ -28,7 +28,6 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.dimensionsString = this.seeyond.getDimensionString();
-        this.seeyond.updateDimensions();
       });
     // // Check for a logged in user.
     // const seeyondUser = localStorage.getItem('seeyondUser');
@@ -83,7 +82,8 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   }
 
   public updateUnits(units) {
-    this.feature.updateGridUnits(units);
+    this.seeyond.units = units;
+    this.seeyond.convertDimensionsUnits(units);
     this.dimensionsString = this.seeyond.getDimensionString(units);
   }
 }

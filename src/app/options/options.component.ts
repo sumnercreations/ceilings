@@ -56,6 +56,7 @@ export class OptionsComponent implements OnInit {
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
+    this.seeyond.convertDimensionsUnits(units);
     this.seeyond.setMaxMinDimensions(units);
     this.feature.updateGridUnits(units);
   }

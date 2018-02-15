@@ -175,9 +175,9 @@ export class MaterialsService {
         radiusMax: null
       },
       centimeters: {
-        widthMin: 214,
+        widthMin: 127,
         widthMax: 1220,
-        heightMin: 214,
+        heightMin: 127,
         heightMax: 1220,
         ceilLengthMin: null,
         ceilLengthMax: null,
@@ -197,9 +197,9 @@ export class MaterialsService {
         radiusMax: null
       },
       centimeters: {
-        widthMin: 214,
+        widthMin: 127,
         widthMax: 1220,
-        heightMin: 214,
+        heightMin: 127,
         heightMax: 1220,
         ceilLengthMin: 127,
         ceilLengthMax: 366,
@@ -219,10 +219,10 @@ export class MaterialsService {
         radiusMax: null
       },
       centimeters: {
-        widthMin: 50,
-        widthMax: 480,
-        heightMin: 50,
-        heightMax: 480,
+        widthMin: 127,
+        widthMax: 1220,
+        heightMin: 127,
+        heightMax: 1220,
         ceilLengthMin: null,
         ceilLengthMax: null,
         radiusMin: null,

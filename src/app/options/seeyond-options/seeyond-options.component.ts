@@ -21,8 +21,8 @@ export class SeeyondOptionsComponent extends OptionsComponent {
   }
 
   startDesigning() {
+    // this.seeyond.updateFeature(this.seeyond.seeyond_feature_type);
     this.seeyond.onDimensionsChange.emit();
-    this.seeyond.updateFeature(this.seeyond.seeyond_feature_type);
     this.dialogRef.close('start designing');
   }
 
