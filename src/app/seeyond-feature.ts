@@ -244,7 +244,7 @@ export class SeeyondFeature extends Feature {
     this.radiusMax = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units]['radiusMax'];
 
     if (this.width) { // update radiusMin based off entered width
-      const newRadiusMin = Math.ceil(this.width * .5);
+      const newRadiusMin = Math.ceil((this.width * .5) + 1);
       this.radiusMin = (newRadiusMin < this.radiusMin) ? this.radiusMin : newRadiusMin;
     }
 

@@ -87,6 +87,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   }
 
   public updateFeatureMeasurement(measurement: number, name: string) {
+    this.updateDimensions();
     switch (name) {
       case 'width':
         if (measurement < 50) {
@@ -107,7 +108,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
         }
         break;
 
-      case 'height':
+      case 'length':
         if (measurement < 50) {
           this.seeyond.height = 50;
           this.alert.error('The minimum height is 50 inches');
@@ -138,10 +139,6 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
         }
         break;
 
-      case 'angle':
-        this.seeyond.angle = measurement;
-        break;
-
       case 'ceiling_length':
         if (measurement < 50) {
           this.seeyond.ceiling_length = 50;
@@ -160,6 +157,48 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
     }
     this.dimensionsString = this.seeyond.getDimensionString();
     this.seeyond.reloadVisualization();
+  }
+
+  public updateDimensions() {
+    const currentWidth = this.seeyond.width;
+    const currentHeight = this.seeyond.height;
+    const currentCeilLength = this.seeyond.ceiling_length;
+    const currentRadius = this.seeyond.radius;
+    const units = this.seeyond.units;
+    const max_min = this.seeyond.materialsService.seeyondMinMaxDimensions[this.seeyond.seeyond_feature_index][units];
+    const widthMin = max_min['widthMin'];
+    const widthMax = max_min['widthMax'];
+    const heightMin = max_min['heightMin'];
+    const heightMax = max_min['heightMax'];
+    const ceilLengthMin = max_min['ceilLengthMin'];
+    const ceilLengthMax = max_min['ceilLengthMax'];
+
+    // TODO add radius
+
+    if (currentWidth < widthMin) {
+      this.seeyond.width = widthMin;
+      this.alert.error(`The minimum width is ${widthMin} ${units}`);
+    }
+    if (currentWidth > widthMax) {
+      this.seeyond.width = widthMax;
+      this.alert.error(`The maximum width is ${widthMax} ${units}`);
+    }
+    if (currentHeight < heightMin) {
+      this.seeyond.height = heightMin;
+      this.alert.error(`The minimum height is ${heightMin} ${units}`);
+    }
+    if (currentHeight > heightMax) {
+      this.seeyond.height = heightMax;
+      this.alert.error(`The maximum height is ${heightMax} ${units}`);
+    }
+    if (currentCeilLength < ceilLengthMin) {
+      this.seeyond.ceiling_length = ceilLengthMin;
+      this.alert.error(`The minimum ceilLength is ${ceilLengthMin} ${units}`);
+    }
+    if (currentCeilLength > ceilLengthMax) {
+      this.seeyond.ceiling_length = ceilLengthMax;
+      this.alert.error(`The maximum ceilLength is ${ceilLengthMax} ${units}`);
+    }
   }
 
 }
