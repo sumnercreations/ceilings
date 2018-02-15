@@ -251,6 +251,63 @@ export class SeeyondFeature extends Feature {
     // Check Min/Max against entered values
   }
 
+  public updateDimensions() {
+    const currentWidth = this.width;
+    const currentHeight = this.height;
+    const currentCeilLength = this.ceiling_length;
+    const currentRadius = this.radius;
+    const units = this.units;
+    const max_min = this.materialsService.seeyondMinMaxDimensions[this.seeyond_feature_index][units];
+    const widthMin = max_min['widthMin'];
+    const widthMax = max_min['widthMax'];
+    const heightMin = max_min['heightMin'];
+    const heightMax = max_min['heightMax'];
+    const ceilLengthMin = max_min['ceilLengthMin'];
+    const ceilLengthMax = max_min['ceilLengthMax'];
+    let radiusMin = max_min['radiusMin'];
+    const radiusMax = max_min['radiusMax'];
+    if (this.width) { // update radiusMin based off entered width
+      const newRadiusMin = Math.ceil((this.width * .5) + 1);
+      radiusMin = (newRadiusMin < this.radiusMin) ? this.radiusMin : newRadiusMin;
+    }
+
+    if (currentWidth < widthMin) {
+      this.width = widthMin;
+      this.alert.error(`The minimum width is ${widthMin} ${units}`);
+    }
+    if (currentWidth > widthMax) {
+      this.width = widthMax;
+      this.alert.error(`The maximum width is ${widthMax} ${units}`);
+    }
+    if (currentHeight < heightMin) {
+      this.height = heightMin;
+      this.alert.error(`The minimum height is ${heightMin} ${units}`);
+    }
+    if (currentHeight > heightMax) {
+      this.height = heightMax;
+      this.alert.error(`The maximum height is ${heightMax} ${units}`);
+    }
+    if (currentCeilLength < ceilLengthMin) {
+      this.ceiling_length = ceilLengthMin;
+      this.alert.error(`The minimum ceilLength is ${ceilLengthMin} ${units}`);
+    }
+    if (currentCeilLength > ceilLengthMax) {
+      this.ceiling_length = ceilLengthMax;
+      this.alert.error(`The maximum ceilLength is ${ceilLengthMax} ${units}`);
+    }
+    if (currentRadius < radiusMin) {
+      this.radius = radiusMin;
+      this.alert.error(`The minimum radius for your width is ${radiusMin} ${units}`);
+    }
+    if (currentRadius > radiusMax) {
+      this.radius = radiusMax;
+      this.alert.error(`The maximum radius is ${radiusMax} ${units}`);
+    }
+    this.onDimensionsChange.emit();
+    this.reloadVisualization();
+  }
+
+
   getFabricationCost(seeyond_feature_index: number) {
     const ceilingFab = 48.46;
     const partitionFab = 48.46;

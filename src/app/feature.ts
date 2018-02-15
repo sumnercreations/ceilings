@@ -1,3 +1,4 @@
+import { AlertService } from './_services/alert.service';
 import { MaterialsService } from './_services/materials.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
@@ -53,7 +54,8 @@ export class Feature {
   constructor(
     public materialsService: MaterialsService,
     public debug: DebugService,
-    public location: Location
+    public location: Location,
+    public alert: AlertService
   ) {}
 
   setDesign(design: any) {
