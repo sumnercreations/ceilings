@@ -14,6 +14,11 @@ export class SeeyondOptionsComponent extends OptionsComponent {
     this.seeyond.updateFeature(feature);
   }
 
+  dimensionsDidChange() {
+    this.seeyond.setMaxMinDimensions();
+    this.seeyond.reloadVisualization();
+  }
+
   seeyondValidateOptions() {
     let isValid = false;
     if (!!this.seeyond.design_name) { isValid = true; }
