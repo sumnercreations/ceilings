@@ -64,7 +64,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         if (featureType === 'seeyond') {
           this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response);
         }
-        if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-block/design')); }
+        if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
       }
       // if one of the params are an integer we need to load the design
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
@@ -77,7 +77,7 @@ export class DesignComponent implements OnInit, OnDestroy {
           } else {
             // design was found so load it.
             if (design.feature_type === params['type']) {
-              design.feature_type = (design.feature_type === 'hush-block') ? 'hush' : design.feature_type;
+              design.feature_type = (design.feature_type === 'hush-blocks') ? 'hush' : design.feature_type;
               this.debug.log('design-component', 'setting the design.');
               design.feature_type = this.feature.setFeatureType(design.feature_type);
               this.feature.setDesign(design);

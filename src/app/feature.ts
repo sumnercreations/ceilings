@@ -148,15 +148,23 @@ export class Feature {
       }
     }
 
+    const hardware110 = 0.23;
+    const hardware111 = 1.80;
+    const hardware112 = 2.00;
+    const total110 = hardware110 * hushTileCount * 6;
+    const total111 = hardware111 * hushTileCount * 4;
+    const total112 = hardware112 * hushTileCount * 2;
+
     this.hardware = {
       '3-85-110': hushTileCount * 6,
       '3-85-111': hushTileCount * 4,
       '3-85-112': hushTileCount * 2
     }
 
+    const allHardwareCost = total110 + total111 + total112;
     const allTilesPrice = (hushTileCount / 3) * 114.88;
     this.services_amount = (hushTileCount * 10.43);
-    this.estimated_amount = allTilesPrice + this.services_amount;
+    this.estimated_amount = allTilesPrice + this.services_amount + allHardwareCost;
   }
 
   getClarioEstimate(tilesArray) {

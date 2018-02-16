@@ -27,7 +27,7 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-block/design')); }
+      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!designId) {
         this.api.loadDesign(designId).subscribe(design => {
