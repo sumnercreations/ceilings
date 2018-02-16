@@ -16,7 +16,7 @@ const appRoutes: Routes = [
   { path: 'clario', redirectTo: 'clario/design', pathMatch: 'full'},
   { path: 'tetria', redirectTo: 'tetria/design', pathMatch: 'full' },
   // { path: 'seeyond', redirectTo: 'seeyond/design', pathMatch: 'full' },
-  { path: 'hush-block', redirectTo: 'hush-block/design', pathMatch: 'full' },
+  { path: 'hush-blocks', redirectTo: 'hush-blocks/design', pathMatch: 'full' },
   { path: 'velo', redirectTo: 'velo/design', pathMatch: 'full' },
   { path: 'landing', redirectTo: '', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent }

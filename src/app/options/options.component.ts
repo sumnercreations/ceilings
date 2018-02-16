@@ -41,7 +41,7 @@ export class OptionsComponent implements OnInit {
     this.debug.log('options-component', 'init');
     this.debug.log('options-component', this.feature.feature_type);
     const featureType = this.feature.feature_type;
-    this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Block Design Tool`;
+    this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
   }
 
   public goToLanding() {
