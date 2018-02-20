@@ -182,7 +182,7 @@ export class SeeyondFeature extends Feature {
     facing = facing.replace(/^data:image\/(png|jpg);base64,/, '');
     zip.file('profile.png', profile, {base64: true});
     zip.file('facing.png', facing, {base64: true});
-    zip.generateAsync({type:'blob'})
+    zip.generateAsync({type: 'blob'})
     .then(function (blob) {
         FileSaver.saveAs(blob, filename);
     });
@@ -252,7 +252,6 @@ export class SeeyondFeature extends Feature {
 
   convertDimensionsUnits(newUnit) {
     this.units = newUnit;
-    console.log(this.units);
     if (this.units === 'inches') {
       this.height = this.convertCMtoIN(this.height);
       this.width = this.convertCMtoIN(this.width);
@@ -265,7 +264,6 @@ export class SeeyondFeature extends Feature {
       this.ceiling_length = this.convertINtoCM(this.ceiling_length);
       this.radius = this.convertINtoCM(this.radius);
     }
-    // this.updateDimensions();
   }
 
   setMaxMinDimensions(units?) {
