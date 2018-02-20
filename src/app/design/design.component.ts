@@ -55,7 +55,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
-        if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-block/design')); }
+        if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
       }
       if (params['id']) {
         this.api.loadDesign(params['id']).subscribe(design => {
@@ -66,6 +66,7 @@ export class DesignComponent implements OnInit, OnDestroy {
           } else {
             // design was found so load it.
             if (design.feature_type === params['type']) {
+              design.feature_type = (design.feature_type === 'hush-blocks') ? 'hush' : design.feature_type;
               this.debug.log('design-component', 'setting the design.');
               design.feature_type = this.feature.setFeatureType(design.feature_type);
               this.feature.setDesign(design);

@@ -44,8 +44,8 @@ export class LandingComponent implements OnInit {
         this.router.navigate(['/velo/']);
         break;
 
-      case 'hush-block':
-        this.router.navigate(['/hush-block/']);
+      case 'hush-blocks':
+        this.router.navigate(['/hush-blocks/']);
         break;
 
       default:
