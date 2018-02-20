@@ -23,3 +23,7 @@
 .tools {
   margin: 0px;
 }
+
+.dimensions-img {
+  max-height: 150px;
+}
