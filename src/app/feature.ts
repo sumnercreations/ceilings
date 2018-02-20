@@ -163,7 +163,7 @@ export class Feature {
 
     const allHardwareCost = total110 + total111 + total112;
     const allTilesPrice = (hushTileCount / 3) * 114.88;
-    this.services_amount = (hushTileCount * 10.43);
+    this.services_amount = (hushTileCount * 26.08);
     this.estimated_amount = allTilesPrice + this.services_amount + allHardwareCost;
   }
 
