@@ -22,18 +22,20 @@
     <div class="row full-height">
       <div class="col-sm-9 full-height">
         <div class="grid-wrapper col-sm-12">
-          <div class="row grid-header">
-            <div class="col-sm-5">
-              <p>{{dimensionsString}}<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">&nbsp; Edit</a></p>
-            </div>
-            <div class="col-sm-3">
-              <p>
+          <div class="row grid-header syd-grid-header">
+            <span>
+              {{dimensionsString}}<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">&nbsp; Edit</a>
+            </span>
+            <span>
                 <a id="save-btn" title="save design" (click)="saveDesign()"><span class="icomoon-folder orange"></span>
                   <span *ngIf="user.isLoggedIn()">Save</span>
                   <span *ngIf="!user.isLoggedIn()">Login to save</span>
                 </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
-              </p>
-            </div>
+            </span>
+            <span class="download-icon">
+              <a><span class="icomoon-yc_download orange align-download-icon"></span></a>
+              <span>Download Image</span>
+            </span>
           </div>
           <div class="row">
             <div class="col-sm-12">

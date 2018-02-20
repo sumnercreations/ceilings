@@ -46,3 +46,25 @@ label {
 .selected {
   border: 3px solid #ff9933;
 }
+
+.syd-grid-header {
+  display: flex;
+  margin: 0px;
+}
+
+.syd-grid-header > * {
+  flex-grow: 1
+}
+
+.syd-grid-header :last-child {
+  text-align: right;
+}
+
+.download-icon > a:hover {
+  text-decoration: none;
+}
+
+.align-download-icon {
+  position: relative;
+  top: 4px;
+}
