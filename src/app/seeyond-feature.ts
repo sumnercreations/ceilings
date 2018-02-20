@@ -170,6 +170,24 @@ export class SeeyondFeature extends Feature {
     this.xml = this.getXML();
   }
 
+  downloadImages() {
+    let profile = this.syd_v.QT.Visualization.TakeSnapshot(45);
+    let facing  = this.syd_v.QT.Visualization.TakeSnapshot(0);
+    const filename = this.name + '.zip';
+    const FileSaver = require('file-saver');
+    const JSZip = require('jszip');
+    const zip = new JSZip();
+
+    profile = profile.replace(/^data:image\/(png|jpg);base64,/, '');
+    facing = facing.replace(/^data:image\/(png|jpg);base64,/, '');
+    zip.file('profile.png', profile, {base64: true});
+    zip.file('facing.png', facing, {base64: true});
+    zip.generateAsync({type:'blob'})
+    .then(function (blob) {
+        FileSaver.saveAs(blob, filename);
+    });
+  }
+
   updateEstimatedAmount() {
     const sheetCost = this.prices['felt_sheet'];
     const stapleCost: number = this.prices['staple'];

@@ -33,8 +33,10 @@
                 </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
             </span>
             <span class="download-icon">
-              <a><span class="icomoon-yc_download orange align-download-icon"></span></a>
-              <span>Download Image</span>
+              <a (click)="this.seeyond.downloadImages()">
+                <span class="icomoon-yc_download orange align-download-icon"></span>
+                <span class="base-color">Download Image</span>
+              </a>
             </span>
           </div>
           <div class="row">

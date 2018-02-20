@@ -68,3 +68,7 @@ label {
   position: relative;
   top: 4px;
 }
+
+.base-color {
+  color: #666666;
+}
