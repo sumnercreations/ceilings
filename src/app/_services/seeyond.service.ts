@@ -16,7 +16,7 @@ export class SeeyondService {
 
   constructor(
     private http: Http,
-    private seeyondFeature: SeeyondFeature,
+    private seeyond: SeeyondFeature,
     private user: User,
     private debug: DebugService
   ) {}
@@ -40,46 +40,46 @@ export class SeeyondService {
   }
 
   updateFeature() {
-    this.debug.log('seeyond', this.seeyondFeature.hardware);
-    const hardware = JSON.stringify({hardware: this.seeyondFeature.hardware});
+    this.debug.log('seeyond', this.seeyond.hardware);
+    const hardware = JSON.stringify({hardware: this.seeyond.hardware});
     this.debug.log('seeyond', hardware)
     const patchData = {
-      'id': this.seeyondFeature.id,
+      'id': this.seeyond.id,
       'uid': this.user.uid,
-      'feature_type': this.seeyondFeature.feature_type,
-      'title': this.seeyondFeature.title,
-      'name': this.seeyondFeature.name,
-      'design_name': this.seeyondFeature.design_name,
-      'project_name': this.seeyondFeature.project_name,
-      'specifier': this.seeyondFeature.specifier,
-      'units': this.seeyondFeature.units,
-      'width': this.seeyondFeature.width,
-      'height': this.seeyondFeature.height,
-      'radius': this.seeyondFeature.radius,
-      'angle': this.seeyondFeature.angle,
-      'ceiling_length': this.seeyondFeature.ceiling_length,
-      'depth': this.seeyondFeature.depth,
-      'tessellation': this.seeyondFeature.tessellation,
-      'pattern_strength': this.seeyondFeature.pattern_strength,
-      'material': this.seeyondFeature.material,
-      'sheet_part_id': this.seeyondFeature.sheet_part_id,
-      'boxsize': this.seeyondFeature.boxsize,
-      'boxes': this.seeyondFeature.boxes,
-      'sheets': this.seeyondFeature.sheets,
-      'xml': this.seeyondFeature.xml,
-      'cove_lighting': this.seeyondFeature.cove_lighting,
-      'random_seed': this.seeyondFeature.random_seed,
-      'services_amount': this.seeyondFeature.services_amount,
-      'estimated_amount': this.seeyondFeature.estimated_amount,
-      'quoted': this.seeyondFeature.quoted,
-      'archived': this.seeyondFeature.archived,
-      'hardware': this.seeyondFeature.hardware
+      'feature_type': this.seeyond.feature_type,
+      'title': this.seeyond.title,
+      'name': this.seeyond.name,
+      'design_name': this.seeyond.design_name,
+      'project_name': this.seeyond.project_name,
+      'specifier': this.seeyond.specifier,
+      'units': this.seeyond.units,
+      'width': this.seeyond.width,
+      'height': this.seeyond.height,
+      'radius': this.seeyond.radius,
+      'angle': this.seeyond.angle,
+      'ceiling_length': this.seeyond.ceiling_length,
+      'depth': this.seeyond.depth,
+      'tessellation': this.seeyond.tessellation,
+      'pattern_strength': this.seeyond.pattern_strength,
+      'material': this.seeyond.material,
+      'sheet_part_id': this.seeyond.sheet_part_id,
+      'boxsize': this.seeyond.boxsize,
+      'boxes': this.seeyond.boxes,
+      'sheets': this.seeyond.sheets,
+      'xml': this.seeyond.xml,
+      'cove_lighting': this.seeyond.cove_lighting,
+      'random_seed': this.seeyond.random_seed,
+      'services_amount': this.seeyond.services_amount,
+      'estimated_amount': this.seeyond.estimated_amount,
+      'quoted': this.seeyond.quoted,
+      'archived': this.seeyond.archived,
+      'hardware': this.seeyond.hardware
     };
     this.debug.log('seeyond', patchData);
     const headers = new Headers({'Content-Type': 'application/json'});
     const options = new RequestOptions({headers: headers});
 
-    return this.http.patch(this.apiUrl + this.seeyondFeature.id, patchData, options)
+    return this.http.patch(this.apiUrl + this.seeyond.id, patchData, options)
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('seeyond', 'emitting onSaved');
@@ -91,34 +91,34 @@ export class SeeyondService {
   saveFeature() {
     const patchData = {
       'uid': this.user.uid,
-      'feature_type': this.seeyondFeature.feature_type,
-      'title': this.seeyondFeature.title,
-      'name': this.seeyondFeature.name,
-      'design_name': this.seeyondFeature.design_name,
-      'project_name': this.seeyondFeature.project_name,
-      'specifier': this.seeyondFeature.specifier,
-      'units': this.seeyondFeature.units,
-      'width': this.seeyondFeature.width,
-      'height': this.seeyondFeature.height,
-      'radius': this.seeyondFeature.radius,
-      'angle': this.seeyondFeature.angle,
-      'ceiling_length': this.seeyondFeature.ceiling_length,
-      'depth': this.seeyondFeature.depth,
-      'tessellation': this.seeyondFeature.tessellation,
-      'pattern_strength': this.seeyondFeature.pattern_strength,
-      'material': this.seeyondFeature.material,
-      'sheet_part_id': this.seeyondFeature.sheet_part_id,
-      'boxsize': this.seeyondFeature.boxsize,
-      'boxes': this.seeyondFeature.boxes,
-      'sheets': this.seeyondFeature.sheets,
-      'xml': this.seeyondFeature.xml,
-      'cove_lighting': this.seeyondFeature.cove_lighting,
-      'random_seed': this.seeyondFeature.random_seed,
-      'services_amount': this.seeyondFeature.services_amount,
-      'estimated_amount': this.seeyondFeature.estimated_amount,
-      'quoted': this.seeyondFeature.quoted,
-      'archived': this.seeyondFeature.archived,
-      'hardware': this.seeyondFeature.hardware
+      'feature_type': this.seeyond.seeyond_feature_type,
+      'title': this.seeyond.title,
+      'name': this.seeyond.name,
+      'design_name': this.seeyond.design_name,
+      'project_name': this.seeyond.project_name,
+      'specifier': this.seeyond.specifier,
+      'units': this.seeyond.units,
+      'width': this.seeyond.width,
+      'height': this.seeyond.height,
+      'radius': this.seeyond.radius,
+      'angle': this.seeyond.angle,
+      'ceiling_length': this.seeyond.ceiling_length,
+      'depth': this.seeyond.depth,
+      'tessellation': this.seeyond.tessellation,
+      'pattern_strength': this.seeyond.pattern_strength,
+      'material': this.seeyond.material,
+      'sheet_part_id': this.seeyond.sheet_part_id,
+      'boxsize': this.seeyond.boxsize,
+      'boxes': this.seeyond.boxes,
+      'sheets': this.seeyond.sheets,
+      'xml': this.seeyond.xml,
+      'cove_lighting': this.seeyond.cove_lighting,
+      'random_seed': this.seeyond.random_seed,
+      'services_amount': this.seeyond.services_amount,
+      'estimated_amount': this.seeyond.estimated_amount,
+      'quoted': this.seeyond.quoted,
+      'archived': this.seeyond.archived,
+      'hardware': this.seeyond.hardware
     };
 
     return this.http.post(this.apiUrl, patchData)
@@ -135,7 +135,7 @@ export class SeeyondService {
   }
 
   sendEmail() {
-    return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/feature/' + this.seeyondFeature.id)
+    return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/feature/' + this.seeyond.id)
       .map((res: Response) => res.json())
       .catch(this.handleError)
   }

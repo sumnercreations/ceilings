@@ -80,31 +80,32 @@ export class SeeyondFeature extends Feature {
     }
   }
 
-  loadFeature(feature: Feature) {
+  loadSeeyondFeature(feature) {
     this.id = feature.id;
     this.uid = feature.uid;
-    this.seeyond_feature_index = this.seeyond_feature_index;
-    this.title = this.title;
-    this.name = this.name;
+    this.seeyond_feature_index = feature.feature_type;
+    this.seeyond_feature_type = feature.name;
+    this.title = feature.title;
+    this.name = feature.name;
     this.design_name = feature.design_name;
     this.project_name = feature.project_name;
     this.specifier = feature.specifier;
     this.units = feature.units;
     this.width = feature.width;
-    this.height = this.height;
-    this.radius = this.radius;
-    this.angle = this.angle;
-    this.ceiling_length = this.ceiling_length;
-    this.depth = this.depth;
-    this.tessellation = this.tessellation;
-    this.pattern_strength = this.pattern_strength;
+    this.height = feature.height;
+    this.radius = feature.radius;
+    this.angle = feature.angle;
+    this.ceiling_length = feature.ceiling_length;
+    this.depth = feature.depth;
+    this.tessellation = feature.tessellation;
+    this.pattern_strength = feature.pattern_strength;
     this.material = feature.material;
-    this.sheet_part_id = this.sheet_part_id;
-    this.boxes = this.boxes;
-    this.sheets = this.sheets;
-    this.xml = this.xml;
-    this.cove_lighting = this.cove_lighting;
-    this.random_seed = this.random_seed;
+    this.sheet_part_id = feature.sheet_part_id;
+    this.boxes = feature.boxes;
+    this.sheets = feature.sheets;
+    this.xml = feature.xml;
+    this.cove_lighting = feature.cove_lighting;
+    this.random_seed = feature.random_seed;
     this.services_amount = feature.services_amount;
     this.estimated_amount = feature.estimated_amount;
     this.quoted = feature.quoted;
@@ -189,6 +190,12 @@ export class SeeyondFeature extends Feature {
   }
 
   updateEstimatedAmount() {
+    if (!this.prices) {
+      this.seeyondService.getPrices().subscribe(response => {
+        this.prices = response;
+        this.updateEstimatedAmount();
+      });
+    }
     const sheetCost = this.prices['felt_sheet'];
     const stapleCost: number = this.prices['staple'];
     const ziptieCost: number = this.prices['ziptie'];

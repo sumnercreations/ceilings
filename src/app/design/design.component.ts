@@ -68,7 +68,8 @@ export class DesignComponent implements OnInit, OnDestroy {
       }
       // if one of the params are an integer we need to load the design
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-      if (!!designId) { // if designId evaluates to truthy
+      if (!!designId) { // if designId is truthy
+        if (featureType === 'seeyond') { this.setSeeyondFeature(params); return; }
         this.api.loadDesign(designId).subscribe(design => {
           if (design == null) {
             this.debug.log('design-component', 'design not found');
@@ -93,8 +94,6 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.feature.materialType = 'felt';
               }else if (this.feature.feature_type === 'hush') {
                 this.feature.toolsArray = ['remove'];
-              }else if (this.feature.feature_type === 'seeyond') {
-                this.setSeeyondFeatureType(params);
               }
             } else {
               this.router.navigate([design.feature_type, 'design', design.id]);
@@ -114,7 +113,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.material = 'zinc';
             this.feature.toolsArray = ['remove'];
           }else if (this.feature.feature_type === 'seeyond') {
-            this.setSeeyondFeatureType(params);
+            this.setSeeyondFeature(params);
           }else if (this.feature.feature_type === 'clario') {
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';
@@ -298,18 +297,27 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.feature.buildGrid();
   }
 
-  setSeeyondFeatureType(urlParams) {
+  setSeeyondFeature(urlParams) {
     const params = Object.assign({}, urlParams);
-    // Set default param to wall if not specified
-    if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) {
-      params['param1'] = 'wall';
+    const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+    if (!!designId) { this.seeyondService.loadFeature(designId).subscribe(design => {
+      console.log(design);
+      this.seeyond.loadSeeyondFeature(design);
+      // this.feature.feature_type = design.seeyond.feature_type;
+      });
     }
-    // Load seeyond feature requested in param1 or param2
+    let seeyondFeature;
+    // Set default param to wall if not specified
+    if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
+
+    // Determine the seeyond feature to load
     const seeyondFeatures = this.seeyond.seeyond_features;
     Object.keys(seeyondFeatures).forEach(key => {
       if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeatures[key]['name']) > -1) {
-        this.seeyond.updateFeature(seeyondFeatures[key]['name']);
+        seeyondFeature = seeyondFeatures[key]['name'];
       }
     })
+
+    this.seeyond.updateFeature(seeyondFeature);
   }
 }

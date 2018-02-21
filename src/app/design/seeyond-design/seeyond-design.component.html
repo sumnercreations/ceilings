@@ -24,7 +24,7 @@
         <div class="grid-wrapper col-sm-12">
           <div class="row grid-header syd-grid-header">
             <span>
-              {{dimensionsString}}<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">&nbsp; Edit</a>
+              {{dimensionsString}} &nbsp;<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a>
             </span>
             <span>
                 <a id="save-btn" title="save design" (click)="saveDesign()"><span class="icomoon-folder orange"></span>
@@ -50,7 +50,8 @@
         <p class="md row">Pattern</p>
         <div class="row tiles align-patterns">
           <div *ngFor="let pattern of seeyond.patterns | keys" (click)="updateSelectedTessellation(pattern)" class="pattern-container tooltip-host">
-            <div class="pattern" [class.selected]="feature.selectedTile==pattern">
+            <div class="pattern" [class.selected]="seeyond.selectedTile==pattern">
+              {{seeyond.selectedTile}}
               <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
             </div>
             <p class="text-center xs">{{pattern | capitalize}}</p>

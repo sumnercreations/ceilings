@@ -16,7 +16,7 @@ export class SeeyondOptionsComponent extends OptionsComponent {
 
   dimensionsDidChange() {
     this.seeyond.setMaxMinDimensions();
-    this.seeyond.reloadVisualization();
+    this.seeyond.updateDimensions();
   }
 
   seeyondValidateOptions() {
@@ -26,7 +26,6 @@ export class SeeyondOptionsComponent extends OptionsComponent {
   }
 
   startDesigning() {
-    // this.seeyond.updateFeature(this.seeyond.seeyond_feature_type);
     this.seeyond.onDimensionsChange.emit();
     this.dialogRef.close('start designing');
   }
