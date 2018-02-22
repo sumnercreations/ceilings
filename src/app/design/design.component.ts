@@ -318,12 +318,12 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response);
     const params = Object.assign({}, urlParams);
     const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-    if (!!designId) { this.seeyondService.loadFeature(designId).subscribe(design => {
-      console.log(design);
-      this.seeyond.loadSeeyondFeature(design);
-      // this.feature.feature_type = design.seeyond.feature_type;
+    if (!!designId) {   // load requested id
+      this.seeyondService.loadFeature(designId).subscribe(design => {
+        this.location.go(`seeyond/design/${design.name}/${design.id}`);
+        this.seeyond.loadSeeyondFeature(design);
       });
-    } else { // load a fresh window
+    } else {
       // Set default param to wall if not specified
       if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
 

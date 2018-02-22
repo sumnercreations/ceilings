@@ -26,7 +26,7 @@
             <span>
               {{dimensionsString}} &nbsp;<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a>
             </span>
-            <span>
+            <span class="save-load">
                 <a id="save-btn" title="save design" (click)="saveDesign()"><span class="icomoon-folder orange"></span>
                   <span *ngIf="user.isLoggedIn()">Save</span>
                   <span *ngIf="!user.isLoggedIn()">Login to save</span>
@@ -64,9 +64,11 @@
           </div>
         </div>
         <div class="row materials">
-            <p class="md">Colors</p>
+          <p class="md">Colors</p>
           <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
-            <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
+            <ng-container *ngIf="material.status === 'active'">
+              <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
+            </ng-container>
           </div>
         </div>
         <hr class="nine-pixels">

@@ -29,19 +29,6 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       .subscribe(data => {
         this.dimensionsString = this.seeyond.getDimensionString();
       });
-    // // Check for a logged in user.
-    // const seeyondUser = localStorage.getItem('seeyondUser');
-    // if (seeyondUser) {
-    //   // set up the user values
-    //   const parsedUser = JSON.parse(seeyondUser);
-    //   this.user.uid = parsedUser.uid;
-    //   this.user.email = parsedUser.email;
-    //   this.user.firstname = parsedUser.firstname;
-    //   this.user.lastname = parsedUser.lastname;
-    // } else {
-    //   // create a new empty user
-    //   this.user = new User;
-    // }
   }
 
   ngAfterContentInit() {

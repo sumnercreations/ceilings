@@ -60,6 +60,10 @@ label {
   text-align: right;
 }
 
+.save-load {
+  text-align: center;
+}
+
 .download-icon > a:hover {
   text-decoration: none;
 }
