@@ -83,7 +83,7 @@
           </md-tab>
           <md-tab label="Varia">
             <div class="varia-materials">
-              <div *ngFor="let varia of materials.varia | keys" mdTooltip="{{varia.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')" class="col-sm-2 material tooltip-host">
+              <div *ngFor="let varia of materials.varia.color | keys" mdTooltip="{{varia.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')" class="col-sm-2 material tooltip-host">
                 <div class="circle" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex"></div>
                 <!-- <img src="{{varia.image}}" alt="{{varia.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==varia.material"> -->
               </div>
