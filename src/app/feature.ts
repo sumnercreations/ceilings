@@ -147,12 +147,12 @@ export class Feature {
     const hardware110 = 0.23;
     const hardware111 = 1.80;
     const hardware112 = 2.00;
-    const total110 = hardware110 * hushTileCount * 6;
+    const total110 = hardware110 * hushTileCount * 5;
     const total111 = hardware111 * hushTileCount * 4;
     const total112 = hardware112 * hushTileCount * 2;
 
     this.hardware = {
-      '3-85-110': hushTileCount * 6,
+      '3-85-110': hushTileCount * 5,
       '3-85-111': hushTileCount * 4,
       '3-85-112': hushTileCount * 2
     }
