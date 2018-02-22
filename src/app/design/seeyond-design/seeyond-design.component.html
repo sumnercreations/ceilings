@@ -57,7 +57,8 @@
           </div>
           <div class="strength-parent design-column-padding-adjust">
             <span>Pattern Strength</span>
-            <select name="pattern-strength" id="pattern-strength" [(ngModel)]="pattern_strength" (change)="updatePatternStrength($event.target.value)" class="form-control">
+            {{pattern_strength}}
+            <select name="pattern-strength" id="pattern-strength" [value]="pattern_strength" (change)="updatePatternStrength($event.target.value)" class="form-control">
               <option *ngFor="let strength of strengths" [value]="strength">{{strength}}</option>
             </select>
           </div>

@@ -23,7 +23,7 @@ export class SeeyondFeature extends Feature {
   public xml: any = {};
   public tessellation = 0; // court
   public tessellationStr = 'court';
-  public pattern_strength = 3;
+  public pattern_strength: number;
   public material = 'zinc';
   public sheet_part_id = '0-51-804';
   public boxes: number;
@@ -62,10 +62,9 @@ export class SeeyondFeature extends Feature {
       }
       this.seeyond_feature_type = seeyond_feature_type;
       this.location.go(`seeyond/design/${seeyond_feature_type}`);
-      // load the selected feature
       const seeyondFeature = this.seeyond_features[this.seeyond_feature_index];
-
       // set defaults
+      this.pattern_strength = 3;
       this.seeyond_feature_index = this.seeyond_feature_index;
       this.name = seeyondFeature.name;
       this.title = seeyondFeature.title;
@@ -81,37 +80,37 @@ export class SeeyondFeature extends Feature {
     }
   }
 
-  loadSeeyondFeature(feature) {
-    this.id = feature.id;
-    this.uid = feature.uid;
-    this.seeyond_feature_index = feature.feature_type;
-    this.seeyond_feature_type = feature.name;
-    this.title = feature.title;
-    this.name = feature.name;
-    this.design_name = feature.design_name;
-    this.project_name = feature.project_name;
-    this.specifier = feature.specifier;
-    this.units = feature.units;
-    this.width = feature.width;
-    this.height = feature.height;
-    this.radius = feature.radius;
-    this.angle = feature.angle;
-    this.ceiling_length = feature.ceiling_length;
-    this.depth = feature.depth;
-    this.tessellation = feature.tessellation;
-    this.tessellationStr = this.getTessellationName(feature.tessellation)
-    this.pattern_strength = feature.pattern_strength;
-    this.material = feature.material;
-    this.sheet_part_id = feature.sheet_part_id;
-    this.boxes = feature.boxes;
-    this.sheets = feature.sheets;
-    this.xml = feature.xml;
-    this.cove_lighting = feature.cove_lighting;
-    this.random_seed = feature.random_seed;
-    this.services_amount = feature.services_amount;
-    this.estimated_amount = feature.estimated_amount;
-    this.quoted = feature.quoted;
-    this.archived = feature.archived;
+  loadSeeyondDesign(design) {
+    this.id = design.id;
+    this.uid = design.uid;
+    this.seeyond_feature_index = design.feature_type;
+    this.seeyond_feature_type = design.name;
+    this.title = design.title;
+    this.name = design.name;
+    this.design_name = design.design_name;
+    this.project_name = design.project_name;
+    this.specifier = design.specifier;
+    this.units = design.units;
+    this.width = design.width;
+    this.height = design.height;
+    this.radius = design.radius;
+    this.angle = design.angle;
+    this.ceiling_length = design.ceiling_length;
+    this.depth = design.depth;
+    this.tessellation = design.tessellation;
+    this.tessellationStr = this.getTessellationName(design.tessellation)
+    this.pattern_strength = design.pattern_strength;
+    this.material = design.material;
+    this.sheet_part_id = design.sheet_part_id;
+    this.boxes = design.boxes;
+    this.sheets = design.sheets;
+    this.xml = design.xml;
+    this.cove_lighting = design.cove_lighting;
+    this.random_seed = design.random_seed;
+    this.services_amount = design.services_amount;
+    this.estimated_amount = design.estimated_amount;
+    this.quoted = design.quoted;
+    this.archived = design.archived;
     this.image = this.getFeatureImage(this.seeyond_feature_index); // need to get this from the seeyond_feature_index
 
     this.reloadVisualization();
