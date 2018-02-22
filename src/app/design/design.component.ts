@@ -57,13 +57,11 @@ export class DesignComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
+      if (this.feature.feature_type === 'seeyond') { this.setSeeyondFeature(params); return; }
       // default the feature type
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
-        if (featureType === 'seeyond') {
-          this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response);
-        }
         if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
       }
       // if one of the params are an integer we need to load the design
@@ -83,7 +81,7 @@ export class DesignComponent implements OnInit, OnDestroy {
               design.feature_type = this.feature.setFeatureType(design.feature_type);
               this.feature.setDesign(design);
               this.featureTiles = this.feature.tilesArray[featureType];
-              this.materials = this.feature.newMaterialsArray[featureType];
+              this.materials = this.getFeatureMaterials();
               if (this.feature.feature_type === 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if (this.feature.feature_type === 'velo') {
@@ -123,7 +121,8 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
           }
-          this.materials = this.feature.newMaterialsArray[this.feature.feature_type];
+          this.materials = this.getFeatureMaterials();
+          console.log('materials', this.materials);
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
         }, 500);
@@ -286,6 +285,24 @@ export class DesignComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
+  getFeatureMaterials() {
+    const featureType = this.feature.feature_type;
+    let requiredMaterials: any;
+    switch (featureType) {
+      case 'hush': requiredMaterials = this.feature.materials.felt.sola; break;
+      case 'seeyond': requiredMaterials = this.feature.materials.felt.sola; break;
+      case 'tetria': requiredMaterials = this.feature.materials.felt.merino; break;
+      case 'clario': requiredMaterials = this.feature.materials.felt.sola; break;
+      case 'velo':
+        requiredMaterials = {felt: undefined, varia: undefined};
+        requiredMaterials.felt = this.feature.materials.felt.merino;
+        requiredMaterials.varia = this.feature.materials.varia;
+      break;
+    }
+    console.log('requiredMaterials', requiredMaterials);
+    return requiredMaterials;
+  }
+
   adjustGridDimensions(tool) {
     switch (tool) {
       case 'addColumn': this.feature.width = this.feature.width + 24; break;
@@ -298,6 +315,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   setSeeyondFeature(urlParams) {
+    this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response);
     const params = Object.assign({}, urlParams);
     const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
     if (!!designId) { this.seeyondService.loadFeature(designId).subscribe(design => {
@@ -305,19 +323,22 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.seeyond.loadSeeyondFeature(design);
       // this.feature.feature_type = design.seeyond.feature_type;
       });
+    } else { // load a fresh window
+      // Set default param to wall if not specified
+      if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
+
+      // Determine the seeyond feature to load
+      let seeyondFeature;
+      const seeyondFeaturesList = this.seeyond.seeyond_features;
+      Object.keys(seeyondFeaturesList).forEach(key => {
+        if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeaturesList[key]['name']) > -1) {
+          seeyondFeature = seeyondFeaturesList[key]['name'];
+        }
+      })
+      this.materials = this.getFeatureMaterials();
+      this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
+      this.seeyond.updateFeature(seeyondFeature);
+      this.editOptions();
     }
-    let seeyondFeature;
-    // Set default param to wall if not specified
-    if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
-
-    // Determine the seeyond feature to load
-    const seeyondFeatures = this.seeyond.seeyond_features;
-    Object.keys(seeyondFeatures).forEach(key => {
-      if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeatures[key]['name']) > -1) {
-        seeyondFeature = seeyondFeatures[key]['name'];
-      }
-    })
-
-    this.seeyond.updateFeature(seeyondFeature);
   }
 }

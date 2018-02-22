@@ -47,7 +47,7 @@ export class Feature {
   public gridData: any;
   public toolsArray = this.materialsService.toolsArray;
   public tilesArray = this.materialsService.tilesArray;
-  public newMaterialsArray = this.materialsService.newMaterialsArray;
+  public materials = this.materialsService.materials;
   public seeyond_felt_sheet_mapping = this.materialsService.seeyond_felt_sheet_mapping;
   public seeyond_features = this.materialsService.seeyond_features;
 

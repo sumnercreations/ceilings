@@ -13,7 +13,7 @@ import { NavigationEnd } from '@angular/router/src/events';
   styleUrls: ['../design.component.css', './seeyond-design.component.css']
 })
 export class SeeyondDesignComponent extends DesignComponent implements OnInit, OnDestroy, AfterContentInit {
-  seeyondMaterials = this.feature.newMaterialsArray['seeyond'];
+  seeyondMaterials = this.feature.materials.felt.sola;
   pattern_strength = this.seeyond.pattern_strength;
   strengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   selectedTessellation = this.seeyond.tessellation;
