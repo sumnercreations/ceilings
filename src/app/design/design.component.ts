@@ -315,30 +315,32 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   setSeeyondFeature(urlParams) {
-    this.seeyondService.getPrices().subscribe(response => this.seeyond.prices = response);
-    const params = Object.assign({}, urlParams);
-    const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-    if (!!designId) {   // load requested id
-      this.seeyondService.loadFeature(designId).subscribe(design => {
-        this.location.go(`seeyond/design/${design.name}/${design.id}`);
-        this.seeyond.loadSeeyondFeature(design);
-      });
-    } else {
-      // Set default param to wall if not specified
-      if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
+    this.seeyondService.getPrices().subscribe(prices => {
+      this.seeyond.prices = prices;
+      const params = Object.assign({}, urlParams);
+      const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      if (!!designId) {   // load requested id
+        this.seeyondService.loadFeature(designId).subscribe(design => {
+          this.location.go(`seeyond/design/${design.name}/${design.id}`);
+          this.seeyond.loadSeeyondFeature(design);
+        });
+      } else {
+        // Set default param to wall if not specified
+        if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
 
-      // Determine the seeyond feature to load
-      let seeyondFeature;
-      const seeyondFeaturesList = this.seeyond.seeyond_features;
-      Object.keys(seeyondFeaturesList).forEach(key => {
-        if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeaturesList[key]['name']) > -1) {
-          seeyondFeature = seeyondFeaturesList[key]['name'];
-        }
-      })
-      this.materials = this.getFeatureMaterials();
-      this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
-      this.seeyond.updateFeature(seeyondFeature);
-      this.editOptions();
-    }
+        // Determine the seeyond feature to load
+        let seeyondFeature;
+        const seeyondFeaturesList = this.seeyond.seeyond_features;
+        Object.keys(seeyondFeaturesList).forEach(key => {
+          if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeaturesList[key]['name']) > -1) {
+            seeyondFeature = seeyondFeaturesList[key]['name'];
+          }
+        })
+        this.materials = this.getFeatureMaterials();
+        this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
+        this.editOptions();
+        this.seeyond.updateFeature(seeyondFeature);
+      }
+    });
   }
 }

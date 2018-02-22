@@ -22,6 +22,7 @@ export class SeeyondFeature extends Feature {
   public data: any = [];
   public xml: any = {};
   public tessellation = 0; // court
+  public tessellationStr = 'court';
   public pattern_strength = 3;
   public material = 'zinc';
   public sheet_part_id = '0-51-804';
@@ -98,6 +99,7 @@ export class SeeyondFeature extends Feature {
     this.ceiling_length = feature.ceiling_length;
     this.depth = feature.depth;
     this.tessellation = feature.tessellation;
+    this.tessellationStr = this.getTessellationName(feature.tessellation)
     this.pattern_strength = feature.pattern_strength;
     this.material = feature.material;
     this.sheet_part_id = feature.sheet_part_id;
@@ -608,29 +610,12 @@ export class SeeyondFeature extends Feature {
   getTessellationName(tessellation: number) {
     let name: string;
     switch (tessellation) {
-      case 0:
-        name = 'Court';
-        break;
-
-      case 1:
-        name = 'Cusp';
-        break;
-
-      case 2:
-        name = 'Kink';
-        break;
-
-      case 3:
-        name = 'Tilt';
-        break;
-
-      case 4:
-        name = 'Billow';
-        break;
-
-      default:
-        name = 'Pattern name not found for tessellation: ' + tessellation;
-        break;
+      case 0: name = 'court'; break;
+      case 1: name = 'cusp'; break;
+      case 2: name = 'kink'; break;
+      case 3: name = 'tilt'; break;
+      case 4: name = 'billow'; break;
+      default: name = 'Pattern name not found for tessellation: ' + tessellation; break;
     }
     return name;
   }
@@ -697,7 +682,7 @@ export class SeeyondFeature extends Feature {
         'Type': this.seeyond_feature_index,
         // 0 = court, 1 = cusp, 2 = kink, 3 = tilt, 4 = billow
         'Tessellation': this.tessellation,
-        // valid values = .1 - 1.0 (we send whole numbers 1-10 and the tesselation divides by 10)
+        // valid values = .1 - 1.0 (we send whole numbers 1-10 and the tessellation divides by 10)
         'PatternStrength': this.pattern_strength,
         // relative path to rendering material image
         'Material': this.getMaterialImage(this.material),

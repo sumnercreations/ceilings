@@ -112,11 +112,13 @@ export class MaterialsService {
 
   public seeyondPatternsArray = [
     'court',
-    'tilt',
     'cusp',
-    'billow',
-    'kink'
+    'kink',
+    'tilt',
+    'billow'
   ]
+
+  // 0 = court, 1 = cusp, 2 = kink, 3 = tilt, 4 = billow
 
   public seeyondMinMaxDimensions = {
     0: {

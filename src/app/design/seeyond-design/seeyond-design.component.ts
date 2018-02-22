@@ -46,6 +46,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   }
 
   public updateSelectedTessellation(tessellationName: string) {
+    this.seeyond.tessellationStr = tessellationName;
     const tessellation = this.seeyond.getTesslationNumber(tessellationName);
     this.selectedTessellation = this.seeyond.tessellation = tessellation;
 
