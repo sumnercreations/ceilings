@@ -13,4 +13,10 @@
     <td>{{tile.purchased}}</td>
     <td *ngIf="feature.feature_type!='hush'">{{tile.purchased - tile.used}}</td>
   </tr>
+  <tr>
+    <th>Total</th>
+    <th *ngIf="feature.feature_type!='hush'">{{totalUsed}}</th>
+    <th>{{totalReceiving}}</th>
+    <th *ngIf="feature.feature_type!='hush'">{{totalUnused}}</th>
+  </tr>
 </table>

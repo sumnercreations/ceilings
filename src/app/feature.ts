@@ -98,7 +98,7 @@ export class Feature {
   }
 
   updateEstimatedAmount() {
-    const tilesArray = this.getTilesPurchasedArray();
+    const tilesArray = this.getTilesPurchasedObj();
     switch (this.feature_type) {
       case 'tetria':
         this.getTetriaEstimate(tilesArray);
@@ -151,12 +151,12 @@ export class Feature {
     const hardware110 = 0.23;
     const hardware111 = 1.80;
     const hardware112 = 2.00;
-    const total110 = hardware110 * hushTileCount * 6;
+    const total110 = hardware110 * hushTileCount * 5;
     const total111 = hardware111 * hushTileCount * 4;
     const total112 = hardware112 * hushTileCount * 2;
 
     this.hardware = {
-      '3-85-110': hushTileCount * 6,
+      '3-85-110': hushTileCount * 5,
       '3-85-111': hushTileCount * 4,
       '3-85-112': hushTileCount * 2
     }
@@ -366,10 +366,6 @@ export class Feature {
     }
   }
 
-  adjustDimensions(adjust) {
-    console.log(adjust);
-  }
-
   updateSelectedTool(tool: string) {
     const oldTool = this.selectedTool;
     const newTool = tool;
@@ -539,17 +535,21 @@ export class Feature {
     }
   }
 
-  public getTilesPurchasedArray() {
-    let tiles = [];
+  public getTilesPurchasedObj() {
+    let tiles: {};
     if (this.feature_type === 'velo') {
       const pkgQty: number = this.getPackageQty('velo');
       const gridTiles = this.veloTiles();
-      const purchasedTiles = [];
+      let purchasedTiles: {};
 
       for (const tile in gridTiles) {
         if (gridTiles.hasOwnProperty(tile)) {
-          const key = gridTiles[tile].materialType + '-' + gridTiles[tile].material + '-' + gridTiles[tile].diffusion;
-          if (purchasedTiles[key]) {
+          const materialType = gridTiles[tile].materialType;
+          const material = gridTiles[tile].material;
+          const diffusion = gridTiles[tile].diffusion || '';
+          const key = (!diffusion) ? `${materialType}-${material}` : `${materialType}-${material}-${diffusion}`;
+          if (purchasedTiles === undefined) { purchasedTiles = {}; }
+          if (!!purchasedTiles[key]) {
             purchasedTiles[key][gridTiles[tile].tile] += 1;
             purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
           } else {
@@ -578,7 +578,8 @@ export class Feature {
             if (this.gridData[i][j].tile) {
               const key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
                 pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
-              if (tiles[key]) {
+              if (tiles === undefined) { tiles = {}; }
+              if (!!tiles[key]) {
                 tiles[key].used += 1;
                 tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
               } else {
@@ -600,31 +601,19 @@ export class Feature {
         }
       }
     }
-
-    // this.tiles is an array of the purchased tiles.
-    const tilesArray = [];
-    for (const tile in tiles) {
-      if (tiles.hasOwnProperty(tile)) {
-        const currentTile = tiles[tile];
-        tilesArray.push(currentTile);
-      }
-    }
-    this.debug.log('feature', `${tilesArray}`);
-    this.tiles = tilesArray;
-
+    this.tiles = tiles;
     return tiles;
   }
 
   public getPurchasedVeloTiles(materialType: string) {
-    const tilesArray = [];
-    const veloTiles = this.tiles;
+    const tilesObj = {};
+    const veloTiles = this.getTilesPurchasedObj();
     for (const tile in veloTiles) {
       if (veloTiles[tile].materialType === materialType) {
-        tilesArray.push(veloTiles[tile]);
+        tilesObj[tile] = veloTiles[tile];
       }
     }
-
-    return tilesArray;
+    return tilesObj;
   }
 
   public getUserInputs() {
