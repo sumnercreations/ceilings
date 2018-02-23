@@ -29,7 +29,7 @@ export class QuoteDialogComponent implements OnInit {
 
   ngOnInit() {
     this.debug.log('quote-dialog', 'init quote-dialog');
-    this.tilesArray = this.feature.getTilesPurchasedArray();
+    this.tilesArray = this.feature.getTilesPurchasedObj();
     this.tileType = this.feature.getTileType('plural');
   }
 

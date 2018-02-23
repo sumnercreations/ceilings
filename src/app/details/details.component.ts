@@ -41,7 +41,7 @@ export class DetailsComponent implements OnInit {
             this.api.getUserRep(design.uid).subscribe(rep => {
               this.rep = rep;
               this.feature.setDesign(design);
-              this.tilesArray = this.feature.getTilesPurchasedArray();
+              this.tilesArray = this.feature.getTilesPurchasedObj();
               this.tileArraySize = Object.keys(this.tilesArray).length;
               this.debug.log('details-component', this.tileArraySize);
             });
