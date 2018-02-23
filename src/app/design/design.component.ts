@@ -323,6 +323,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.seeyondService.loadFeature(designId).subscribe(design => {
           this.location.go(`seeyond/design/${design.name}/${design.id}`);
           this.seeyond.loadSeeyondDesign(design);
+          this.seeyond.pattern_strength = design.pattern_strength;
         });
       } else {
         // Set default param to wall if not specified
