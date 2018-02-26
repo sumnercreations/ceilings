@@ -194,6 +194,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   public loadDesigns() {
+    if (this.feature.feature_type === 'seeyond') { this.loadSeeyondDesigns(); return; }
     // If the user is not logged in then present the login dialog
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
