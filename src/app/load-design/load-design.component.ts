@@ -26,8 +26,7 @@ export class LoadDesignComponent implements OnInit {
     public user: User
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   load(id: number) {
     this.debug.log('load-design', 'loading id: ' + id);

@@ -113,6 +113,7 @@ export class SeeyondFeature extends Feature {
     this.archived = design.archived;
     this.image = this.getFeatureImage(this.seeyond_feature_index); // need to get this from the seeyond_feature_index
 
+    this.handleLegacyDbValues();
     this.reloadVisualization();
   }
 
@@ -643,6 +644,10 @@ export class SeeyondFeature extends Feature {
 
   getFeatureImage(seeyond_feature_index: number) {
     return this.seeyond_features[seeyond_feature_index].image;
+  }
+
+  handleLegacyDbValues() {
+    this.material = this.material.replace(/dark_gray/g, 'dark-gray');
   }
 
   getDimensionString(units?) {

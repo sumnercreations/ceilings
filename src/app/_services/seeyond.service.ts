@@ -1,7 +1,7 @@
 import { DebugService } from './debug.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { environment } from './../../environments/environment.prod';
+import { environment } from './../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { SeeyondFeature } from 'app/seeyond-feature';
 import { User } from './../_models/user';

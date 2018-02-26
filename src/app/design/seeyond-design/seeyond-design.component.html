@@ -30,7 +30,7 @@
                 <a id="save-btn" title="save design" (click)="saveDesign()"><span class="icomoon-folder orange"></span>
                   <span *ngIf="user.isLoggedIn()">Save</span>
                   <span *ngIf="!user.isLoggedIn()">Login to save</span>
-                </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
+                </a> | <a id="load-btn" title="load saved designs" (click)="loadSeeyondDesigns()">Load</a>
             </span>
             <span class="download-icon">
               <a (click)="this.seeyond.downloadImages()">

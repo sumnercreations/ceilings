@@ -208,6 +208,21 @@ export class DesignComponent implements OnInit, OnDestroy {
     }
   }
 
+  public loadSeeyondDesigns() {
+    // If the user is not logged in then present the login dialog
+    if (!this.user.isLoggedIn()) {
+      this.loginDialog(true);
+    } else {
+      // let loadDialog: MdDialog;
+      this.seeyondService.getMyFeatures()
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe(designs => {
+        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
+        this.loadDesignDialogRef.componentInstance.designs = designs;
+      });
+    }
+  }
+
   public saveDesign() {
     // let saveDialog: MdDialog;
     this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MdDialogConfig);
@@ -323,7 +338,6 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.seeyondService.loadFeature(designId).subscribe(design => {
           this.location.go(`seeyond/design/${design.name}/${design.id}`);
           this.seeyond.loadSeeyondDesign(design);
-          this.seeyond.pattern_strength = design.pattern_strength;
         });
       } else {
         // Set default param to wall if not specified
