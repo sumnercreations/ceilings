@@ -309,119 +309,119 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/zinc.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-925'
         },
         1: {
           material: 'nickel',
           image: '/assets/images/materials/felt/sola/nickel.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-926'
         },
         2: {
           material: 'cashmere',
           image: '/assets/images/materials/felt/sola/cashmere.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-928'
         },
         3: {
           material: 'burnt_umber',
           image: '/assets/images/materials/felt/sola/burnt_umber.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-930'
         },
         4: {
           material: 'cast',
           image: '/assets/images/materials/felt/sola/cast.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-929'
         },
         5: {
           material: 'ebony',
           image: '/assets/images/materials/felt/sola/ebony.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-927'
         },
         6: {
           material: 'ruby',
           image: '/assets/images/materials/felt/sola/ruby.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-916'
         },
         7: {
           material: 'aries',
           image: '/assets/images/materials/felt/sola/aries.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-917'
         },
         8: {
           material: 'citrine',
           image: '/assets/images/materials/felt/sola/citrine.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-918'
         },
         9: {
           material: 'oxford',
           image: '/assets/images/materials/felt/sola/oxford.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-919'
         },
         10: {
           material: 'admiral',
           image: '/assets/images/materials/felt/sola/admiral.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-920'
         },
         11: {
           material: 'hunter',
           image: '/assets/images/materials/felt/sola/hunter.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-921'
         },
         12: {
           material: 'moon',
           image: '/assets/images/materials/felt/sola/moon.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-922'
         },
         13: {
           material: 'mineral',
           image: '/assets/images/materials/felt/sola/mineral.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-923'
         },
         14: {
           material: 'armor',
           image: '/assets/images/materials/felt/sola/armor.png',
           status: 'active',
           available_until: '',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-924'
         },
         15: {
           material: 'ore',
           image: '/assets/images/materials/felt/sola/ore.png',
           status: 'inactive',
           available_until: 'March 2019',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-802'
         },
         16: {
           material: 'dark-gray',
-          image: '/assets/images/materials/felt/sola/dark-gray.png',
+          image: '/assets/images/materials/felt/sola/dark_gray.png',
           status: 'inactive',
           available_until: 'March 2019',
-          sheet_part_id: ''
+          sheet_part_id: '0-51-801'
         },
       },
       merino: {
