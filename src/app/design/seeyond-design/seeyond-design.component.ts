@@ -54,9 +54,9 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
     this.seeyond.reloadVisualization();
   }
 
-  public updateSelectedMaterial(material: string) {
-    this.selectedMaterial = this.seeyond.material = material;
-    this.seeyond.sheet_part_id = this.seeyond.seeyond_felt_sheet_mapping[material];
+  public updateSelectedMaterial(material) {
+    this.selectedMaterial = this.seeyond.material = material.material;
+    this.seeyond.sheet_part_id = material.sheet_part_id;
 
     // update the visualization
     this.seeyond.redrawVisualization();

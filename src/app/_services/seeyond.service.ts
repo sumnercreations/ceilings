@@ -91,7 +91,7 @@ export class SeeyondService {
   saveFeature() {
     const patchData = {
       'uid': this.user.uid,
-      'feature_type': this.seeyond.seeyond_feature_type,
+      'feature_type': this.seeyond.seeyond_feature_index,
       'title': this.seeyond.title,
       'name': this.seeyond.name,
       'design_name': this.seeyond.design_name,

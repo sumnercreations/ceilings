@@ -64,7 +64,7 @@
         </div>
         <div class="row materials">
           <p class="md">Colors</p>
-          <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
+          <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
             <ng-container *ngIf="material.status === 'active'">
               <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="seeyond.material==material.material">
             </ng-container>

@@ -21,11 +21,11 @@ export class SeeyondFeature extends Feature {
   public depth: number;
   public data: any = [];
   public xml: any = {};
-  public tessellation = 0; // court
-  public tessellationStr = 'court';
+  public tessellation: number; // court
+  public tessellationStr: string;
   public pattern_strength: number;
-  public material = 'zinc';
-  public sheet_part_id = '0-51-804';
+  public material: string;
+  public sheet_part_id: string;
   public boxes: number;
   public sheets: number;
   public cove_lighting = false;
@@ -74,6 +74,10 @@ export class SeeyondFeature extends Feature {
       this.radius = seeyondFeature.radius;
       this.angle = seeyondFeature.angle;
       this.ceiling_length = seeyondFeature.ceiling_length;
+      this.tessellation = 0;
+      this.tessellationStr = 'court';
+      this.material = 'zinc';
+      this.sheet_part_id = '0-51-925';
       this.setMaxMinDimensions();
 
       this.reloadVisualization();
@@ -111,8 +115,10 @@ export class SeeyondFeature extends Feature {
     this.estimated_amount = design.estimated_amount;
     this.quoted = design.quoted;
     this.archived = design.archived;
-    this.image = this.getFeatureImage(this.seeyond_feature_index); // need to get this from the seeyond_feature_index
+    this.estimated_amount = design.estimated_amount;
+    this.image = this.getFeatureImage(this.seeyond_feature_index);
 
+    // this.updateEstimatedAmount();
     this.reloadVisualization();
   }
 
