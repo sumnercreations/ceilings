@@ -99,17 +99,6 @@ export class MaterialsService {
     },
   };
 
-  public seeyond_felt_sheet_mapping: any = {
-    'ebony': '0-51-800',
-    'dark_gray': '0-51-801',
-    'ore': '0-51-802',
-    'nickel': '0-51-803',
-    'zinc': '0-51-804',
-    'burnt_umber': '0-51-805',
-    'cashmere': '0-51-806',
-    'cast': '0-51-807'
-  }
-
   // 0 = court, 1 = cusp, 2 = kink, 3 = tilt, 4 = billow
   public seeyondPatternsArray = [
     'court',
@@ -309,6 +298,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/zinc.png',
           status: 'active',
           available_until: '',
+          name_str: 'Zinc',
           sheet_part_id: '0-51-925'
         },
         'nickel': {
@@ -316,6 +306,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/nickel.png',
           status: 'active',
           available_until: '',
+          name_str: 'Nickel',
           sheet_part_id: '0-51-926'
         },
         'cashmere': {
@@ -323,6 +314,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/cashmere.png',
           status: 'active',
           available_until: '',
+          name_str: 'Cashmere',
           sheet_part_id: '0-51-928'
         },
         'burnt_umber': {
@@ -330,6 +322,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/burnt_umber.png',
           status: 'active',
           available_until: '',
+          name_str: 'Burnt Umber',
           sheet_part_id: '0-51-930'
         },
         'cast': {
@@ -337,6 +330,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/cast.png',
           status: 'active',
           available_until: '',
+          name_str: 'Cast',
           sheet_part_id: '0-51-929'
         },
         'ebony': {
@@ -344,6 +338,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/ebony.png',
           status: 'active',
           available_until: '',
+          name_str: 'Ebony',
           sheet_part_id: '0-51-927'
         },
         'ruby': {
@@ -351,6 +346,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/ruby.png',
           status: 'active',
           available_until: '',
+          name_str: 'Ruby',
           sheet_part_id: '0-51-916'
         },
         'aries': {
@@ -358,6 +354,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/aries.png',
           status: 'active',
           available_until: '',
+          name_str: 'Aries',
           sheet_part_id: '0-51-917'
         },
         'citrine': {
@@ -365,6 +362,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/citrine.png',
           status: 'active',
           available_until: '',
+          name_str: 'Citrine',
           sheet_part_id: '0-51-918'
         },
         'oxford': {
@@ -372,6 +370,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/oxford.png',
           status: 'active',
           available_until: '',
+          name_str: 'Oxford',
           sheet_part_id: '0-51-919'
         },
         'admiral': {
@@ -379,6 +378,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/admiral.png',
           status: 'active',
           available_until: '',
+          name_str: 'Admiral',
           sheet_part_id: '0-51-920'
         },
         'hunter': {
@@ -386,6 +386,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/hunter.png',
           status: 'active',
           available_until: '',
+          name_str: 'Hunter',
           sheet_part_id: '0-51-921'
         },
         'moon': {
@@ -393,6 +394,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/moon.png',
           status: 'active',
           available_until: '',
+          name_str: 'Moon',
           sheet_part_id: '0-51-922'
         },
         'mineral': {
@@ -400,6 +402,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/mineral.png',
           status: 'active',
           available_until: '',
+          name_str: 'Mineral',
           sheet_part_id: '0-51-923'
         },
         'armor': {
@@ -407,6 +410,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/armor.png',
           status: 'active',
           available_until: '',
+          name_str: 'Armor',
           sheet_part_id: '0-51-924'
         },
         'ore': {
@@ -414,13 +418,15 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/sola/ore.png',
           status: 'inactive',
           available_until: 'March 2019',
+          name_str: 'Ore',
           sheet_part_id: '0-51-802'
         },
-        'dark-gray': {
-          material: 'dark-gray',
+        'dark_gray': {
+          material: 'dark_gray',
           image: '/assets/images/materials/felt/sola/dark_gray.png',
           status: 'inactive',
           available_until: 'March 2019',
+          name_str: 'Dark Gray',
           sheet_part_id: '0-51-801'
         },
       },
@@ -430,6 +436,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/milky-white.png',
           hex: '#dfdee0',
           status: 'active',
+          name_str: 'Milky White',
           availableUntil: '',
           partId: ''
         },
@@ -438,6 +445,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/heather-gray.png',
           hex: '#babbbe',
           status: 'active',
+          name_str: 'Heather Gray',
           availableUntil: '',
           partId: ''
         },
@@ -446,6 +454,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/charcoal.png',
           hex: '#445062',
           status: 'active',
+          name_str: 'Charcoal',
           availableUntil: '',
           partId: ''
         },
@@ -454,6 +463,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/heather-charcoal.png',
           hex: '#5e616d',
           status: 'active',
+          name_str: 'Heather Charcoal',
           availableUntil: '',
           partId: ''
         },
@@ -462,6 +472,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/heather-black.png',
           hex: '#353542',
           status: 'active',
+          name_str: 'Heather Black',
           availableUntil: '',
           partId: ''
         },
@@ -470,6 +481,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/black.png',
           hex: '#20232d',
           status: 'active',
+          name_str: 'Black',
           availableUntil: '',
           partId: ''
         },
@@ -478,6 +490,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/taupe.png',
           hex: '#b7a7a3',
           status: 'active',
+          name_str: 'Taupe',
           availableUntil: '',
           partId: ''
         },
@@ -486,6 +499,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/heather-taupe.png',
           hex: '#b3aaa4',
           status: 'active',
+          name_str: 'Heather Taupe',
           availableUntil: '',
           partId: ''
         },
@@ -494,6 +508,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/putty.png',
           hex: '#8e7476',
           status: 'active',
+          name_str: 'Putty',
           availableUntil: '',
           partId: ''
         },
@@ -502,6 +517,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/latte.png',
           hex: '#a15532',
           status: 'active',
+          name_str: 'Latte',
           availableUntil: '',
           partId: ''
         },
@@ -510,6 +526,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/heather-dark-brown.png',
           hex: '#54393a',
           status: 'active',
+          name_str: 'Heather Dark Brown',
           availableUntil: '',
           partId: ''
         },
@@ -518,6 +535,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/dark-brown.png',
           hex: '#382228',
           status: 'active',
+          name_str: 'Dark Brown',
           availableUntil: '',
           partId: ''
         },
@@ -526,6 +544,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/red.png',
           hex: '#e20000',
           status: 'active',
+          name_str: 'Red',
           availableUntil: '',
           partId: ''
         },
@@ -534,6 +553,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/crimson.png',
           hex: '#bf001f',
           status: 'active',
+          name_str: 'Crimson',
           availableUntil: '',
           partId: ''
         },
@@ -542,6 +562,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/bordeaux.png',
           hex: '#700229',
           status: 'active',
+          name_str: 'Bordeaux',
           availableUntil: '',
           partId: ''
         },
@@ -550,6 +571,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/raspberry-jam.png',
           hex: '#bb0058',
           status: 'active',
+          name_str: 'Raspberry Jam',
           availableUntil: '',
           partId: ''
         },
@@ -558,6 +580,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/royal-purple.png',
           hex: '#481a6d',
           status: 'active',
+          name_str: 'Royal Purple',
           availableUntil: '',
           partId: ''
         },
@@ -566,6 +589,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/midnight-blue.png',
           hex: '#22234e',
           status: 'active',
+          name_str: 'Midnight Blue',
           availableUntil: '',
           partId: ''
         },
@@ -574,6 +598,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/peacock.png',
           hex: '#003363',
           status: 'active',
+          name_str: 'Peacock',
           availableUntil: '',
           partId: ''
         },
@@ -582,6 +607,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/liberty-blue.png',
           hex: '#005db0',
           status: 'active',
+          name_str: 'Liberty',
           availableUntil: '',
           partId: ''
         },
@@ -590,6 +616,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/deep-turquoise.png',
           hex: '#006ecb',
           status: 'active',
+          name_str: 'Deep',
           availableUntil: '',
           partId: ''
         },
@@ -598,6 +625,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/platinum.png',
           hex: '#8a95a6',
           status: 'active',
+          name_str: 'Platinum',
           availableUntil: '',
           partId: ''
         },
@@ -606,6 +634,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/sky-blue.png',
           hex: '#01a5d4',
           status: 'active',
+          name_str: 'Sky',
           availableUntil: '',
           partId: ''
         },
@@ -614,6 +643,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/teal.png',
           hex: '#00a494',
           status: 'active',
+          name_str: 'Teal',
           availableUntil: '',
           partId: ''
         },
@@ -622,6 +652,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/hunter-green.png',
           hex: '#003b39',
           status: 'active',
+          name_str: 'Hunter',
           availableUntil: '',
           partId: ''
         },
@@ -630,6 +661,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/avocado.png',
           hex: '#778a00',
           status: 'active',
+          name_str: 'Avocado',
           availableUntil: '',
           partId: ''
         },
@@ -638,6 +670,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/clover-green.png',
           hex: '#019a00',
           status: 'active',
+          name_str: 'Clover',
           availableUntil: '',
           partId: ''
         },
@@ -646,6 +679,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/goldenrod.png',
           hex: '#ffb300',
           status: 'active',
+          name_str: 'Goldenrod',
           availableUntil: '',
           partId: ''
         },
@@ -654,6 +688,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/camel.png',
           hex: '#dfa77b',
           status: 'active',
+          name_str: 'Camel',
           availableUntil: '',
           partId: ''
         },
@@ -662,6 +697,7 @@ export class MaterialsService {
           image: '/assets/images/materials/felt/merino/orange.png',
           hex: '#ff6c00',
           status: 'active',
+          name_str: 'Orange',
           availableUntil: '',
           partId: ''
         }

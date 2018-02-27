@@ -38,6 +38,14 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       .subscribe(data => {
         this.seeyond.updateEstimatedAmount();
       });
+
+    this.seeyond.$outdatedMaterial
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        if (this.seeyond.materialObj.status === 'inactive') { this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" is being discontinued.  It will be available until ${this.seeyond.materialObj.available_until} or while supplies last.`)}
+        if (this.seeyond.materialObj.status === 'discontinued') { this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" has been discontinued.  Select a new color to proceed.`)}
+      });
+
   }
 
   ngOnDestroy() {

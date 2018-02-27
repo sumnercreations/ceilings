@@ -9,6 +9,7 @@ import { MaterialsService } from 'app/_services/materials.service';
 export class SeeyondFeature extends Feature {
   onFeatureUpdated = new EventEmitter();
   onDimensionsChange = new EventEmitter();
+  $outdatedMaterial = new EventEmitter();
   public syd_t = require('syd-tessellation');
   public syd_v = require('syd-visualization');
   public title: string;
@@ -118,7 +119,11 @@ export class SeeyondFeature extends Feature {
     this.estimated_amount = design.estimated_amount;
     this.image = this.getFeatureImage(this.seeyond_feature_index);
 
-    // this.updateEstimatedAmount();
+    this.materialObj = this.getMaterialInfo('felt', 'sola', this.material);
+    if ((this.materialObj.status === 'inactive') || (this.materialObj.status === 'discontinued')) {
+      this.$outdatedMaterial.emit();
+    }
+
     this.reloadVisualization();
   }
 

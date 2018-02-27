@@ -48,7 +48,7 @@ export class Feature {
   public toolsArray = this.materialsService.toolsArray;
   public tilesArray = this.materialsService.tilesArray;
   public materials = this.materialsService.materials;
-  public seeyond_felt_sheet_mapping = this.materialsService.seeyond_felt_sheet_mapping;
+  public materialObj: any;
   public seeyond_features = this.materialsService.seeyond_features;
 
   constructor(
@@ -871,5 +871,11 @@ export class Feature {
   public setFeatureType(str: string) {
     if (str.indexOf('hush') > -1) { str = 'hush'; }
     return str;
+  }
+
+  public getMaterialInfo(matFamily: string, matType: string, material: string) {
+    const materialObject = this.materials[matFamily][matType][material];
+    this.materialObj = materialObject;
+    return materialObject;
   }
 }
