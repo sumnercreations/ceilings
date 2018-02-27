@@ -30,6 +30,7 @@ export class SaveDesignComponent implements OnInit {
   ngOnInit() {
     // if the design already has an ID then it's not new.
     this.newDesign = this.seeyond.id ? false : true;
+    if (this.feature.feature_type === 'seeyond') { this.feature = this.seeyond; }
   }
 
   newButtonClick() {
@@ -37,7 +38,7 @@ export class SaveDesignComponent implements OnInit {
   }
 
   trySave() {
-    if (this.feature.feature_type === 'seeyond') {
+    if (this.feature === this.seeyond) {
       this.saveSeeyond();
     } else {
       this.saveFeature();
