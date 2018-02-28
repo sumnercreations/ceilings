@@ -90,4 +90,5 @@ label {
   padding: 0px;
   margin: 5px 0px;
   cursor: pointer;
+  width: auto;
 }

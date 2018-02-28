@@ -57,17 +57,16 @@ export class DesignComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.debug.log('design-component', 'init');
     this.route.params.subscribe(params => {
-      if (this.feature.feature_type === 'seeyond') { this.setSeeyondFeature(params); return; }
       // default the feature type
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
         if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
       }
+      if (featureType === 'seeyond') { this.setSeeyondFeature(params); return; }
       // if one of the params are an integer we need to load the design
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!designId) { // if designId is truthy
-        if (featureType === 'seeyond') { this.setSeeyondFeature(params); return; }
         this.api.loadDesign(designId).subscribe(design => {
           if (design == null) {
             this.debug.log('design-component', 'design not found');
@@ -316,7 +315,6 @@ export class DesignComponent implements OnInit, OnDestroy {
         requiredMaterials.varia = this.feature.materials.varia;
       break;
     }
-    console.log('requiredMaterials', requiredMaterials);
     return requiredMaterials;
   }
 
