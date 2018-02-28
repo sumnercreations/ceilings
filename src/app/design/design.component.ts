@@ -91,6 +91,7 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.feature.materialHex = '#dfdee0';
                 this.feature.materialType = 'felt';
               }else if (this.feature.feature_type === 'hush') {
+                this.feature.selectedTile = '00';
                 this.feature.toolsArray = ['remove'];
               }
             } else {
