@@ -70,6 +70,11 @@
             </ng-container>
           </div>
         </div>
+        <div class="row" *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))">
+          <p class="md cove-lighting-label col-sm-6">Cove Lighting</p>
+          <p *ngIf="!this.seeyond.cove_lighting" class="icomoon-checkbox-unchecked orange checkbox col-sm-6" (click)="toggleCoveLighting()"></p>
+          <p *ngIf="this.seeyond.cove_lighting" class="icomoon-checkbox-checked orange checkbox col-sm-6" (click)="toggleCoveLighting()"></p>
+        </div>
         <hr class="nine-pixels">
         <div class="row">
           <div class="col-sm-12 tools-header">

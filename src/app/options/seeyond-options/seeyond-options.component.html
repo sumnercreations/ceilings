@@ -107,6 +107,8 @@
             <li class="material"><img src="/assets/images/materials/felt/sola/ebony.png" alt="Ebony" class="img-responsive"></li>
           </ul>
         </div>
+        <p *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))">Add cove lighting to your ceiling feature</p>
+        <p *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))" class="icomoon-checkbox-checked orange checkbox"></p>
       </div>
       <div id="modify">
         <h3>Modify</h3>

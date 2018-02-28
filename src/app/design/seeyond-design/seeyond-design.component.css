@@ -22,7 +22,7 @@ label {
 .strength-parent {
   display: flex;
   width: 100%;
-  margin: 15px 0px;
+  margin: 5px 0px;
 }
 
 .strength-parent > * {
@@ -75,4 +75,19 @@ label {
 
 .base-color {
   color: #666666;
+}
+
+.cove-lighting-label {
+  padding: 0px !important;
+}
+
+.cove-lighting-label {
+  font-size: 18px;
+}
+
+.checkbox {
+  font-size: 18px;
+  padding: 0px;
+  margin: 5px 0px;
+  cursor: pointer;
 }

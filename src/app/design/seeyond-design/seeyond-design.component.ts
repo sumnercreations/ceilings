@@ -82,4 +82,8 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
     this.seeyond.convertDimensionsUnits(units);
     this.dimensionsString = this.seeyond.getDimensionString(units);
   }
+
+  public toggleCoveLighting() {
+    this.seeyond.cove_lighting = !this.seeyond.cove_lighting;
+  }
 }
