@@ -1,9 +1,11 @@
+import { SeeyondFeature } from 'app/seeyond-feature';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, Location } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { Feature } from '../feature';
+import { SeeyondService } from '../_services/seeyond.service';
 
 @Component({
   selector: 'app-details',
@@ -22,7 +24,9 @@ export class DetailsComponent implements OnInit {
     private debug: DebugService,
     private api: ApiService,
     public feature: Feature,
-    public location: Location
+    public location: Location,
+    public seeyondApi: SeeyondService,
+    public seeyond: SeeyondFeature
   ) { }
 
   ngOnInit() {
@@ -30,24 +34,41 @@ export class DetailsComponent implements OnInit {
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!designId) {
-        this.api.loadDesign(designId).subscribe(design => {
-          if (design == null) {
-            // design not found
-            this.router.navigate([params['type'], 'design']);
-          }else if (!design.quoted) {
-            // not quoted
-            this.router.navigate([design.feature_type, 'design', design.id]);
-          } else {
-            // load the quoted design
-            this.api.getUserRep(design.uid).subscribe(rep => {
-              this.rep = rep;
-              this.feature.setDesign(design);
-              this.tilesArray = this.feature.getTilesPurchasedObj();
-              this.tileArraySize = Object.keys(this.tilesArray).length;
-              this.debug.log('details-component', this.tileArraySize);
-            });
-          }
-        });
+        if (params['type'] === 'seeyond') {
+          this.seeyondApi.loadFeature(designId).subscribe(design => {
+            console.log(design);
+            if (!design.quoted) {
+              // not quoted
+              const pathname = window.location.pathname.replace(/\/details/g, '');
+              this.router.navigate([pathname]);
+            } else {
+              // load the quoted design
+              this.api.getUserRep(design.uid).subscribe(rep => {
+                this.rep = rep;
+                this.seeyond.setDesign(design);
+                this.tilesArray = this.seeyond.getTilesPurchasedObj();
+                this.tileArraySize = Object.keys(this.tilesArray).length;
+                this.debug.log('details-component', this.tileArraySize);
+              });
+            }
+          });
+        } else {
+          this.api.loadDesign(designId).subscribe(design => {
+            if (!design.quoted) {
+              // not quoted
+              this.router.navigate([design.feature_type, 'design', design.id]);
+            } else {
+              // load the quoted design
+              this.api.getUserRep(design.uid).subscribe(rep => {
+                this.rep = rep;
+                this.feature.setDesign(design);
+                this.tilesArray = this.feature.getTilesPurchasedObj();
+                this.tileArraySize = Object.keys(this.tilesArray).length;
+                this.debug.log('details-component', this.tileArraySize);
+              });
+            }
+          });
+        }
       }
     });
   }

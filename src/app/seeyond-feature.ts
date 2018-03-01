@@ -317,10 +317,6 @@ export class SeeyondFeature extends Feature {
     const ceilLengthMax = max_min['ceilLengthMax'];
     let radiusMin = max_min['radiusMin'];
     const radiusMax = max_min['radiusMax'];
-    if (this.width) { // update radiusMin based off entered width
-      const newRadiusMin = Math.ceil((this.width * .5) + 1);
-      radiusMin = (newRadiusMin < this.radiusMin) ? this.radiusMin : newRadiusMin;
-    }
 
     if (currentWidth < widthMin) {
       this.width = widthMin;
@@ -345,6 +341,10 @@ export class SeeyondFeature extends Feature {
     if ((currentCeilLength > ceilLengthMax) && (this.seeyond_feature_index === 4)) {
       this.ceiling_length = ceilLengthMax;
       this.alert.error(`The maximum ceilLength is ${ceilLengthMax} ${units}`);
+    }
+    if (this.width) { // update radiusMin based off entered width
+      const newRadiusMin = Math.ceil((this.width * .5) + 1);
+      radiusMin = (newRadiusMin < this.radiusMin) ? this.radiusMin : newRadiusMin;
     }
     if ((currentRadius < radiusMin) && (this.seeyond_feature_index === 1)) {
       this.radius = radiusMin;

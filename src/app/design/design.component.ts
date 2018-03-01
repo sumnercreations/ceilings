@@ -28,6 +28,7 @@ import { AlertService } from 'app/_services/alert.service';
   styleUrls: ['./design.component.css']
 })
 export class DesignComponent implements OnInit, OnDestroy {
+  syd_v = require('syd-visualization');
   ngUnsubscribe: Subject<any> = new Subject();
   optionsDialogRef: MdDialogRef<any>;
   loadDesignDialogRef: MdDialogRef<any>;
@@ -284,6 +285,11 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
   }
 
+  public downloadSeeyondImage() {
+    const profileImg = this.syd_v.QT.Visualization.TakeSnapshot(45);
+    this.feature.design_data_url = profileImg;
+  }
+
   public requestQuote() {
     // get the grid with guides
     // make sure the guide is set to true
@@ -292,6 +298,8 @@ export class DesignComponent implements OnInit, OnDestroy {
       const veloCanvas = document.querySelector('canvas');
       const dataURL = veloCanvas.toDataURL();
       this.feature.design_data_url = dataURL;
+    } else if (this.feature.feature_type === 'seeyond') {
+      this.downloadSeeyondImage();
     } else {
       this.downloadGridGuide();
     }
