@@ -85,5 +85,9 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
 
   public toggleCoveLighting() {
     this.seeyond.cove_lighting = !this.seeyond.cove_lighting;
+    if (this.seeyond.cove_lighting) {
+      this.seeyond.calcLightingFootage();
+    }
+    this.seeyond.updateEstimatedAmount();
   }
 }

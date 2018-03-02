@@ -46,6 +46,7 @@ export class SeeyondFeature extends Feature {
   public ceilLengthMax: number;
   public radiusMin: number;
   public radiusMax: number;
+  public linear_feet: number;
 
   updateFeature(seeyond_feature_type: string) {
     if (seeyond_feature_type) {
@@ -231,7 +232,8 @@ export class SeeyondFeature extends Feature {
     const totalProductsCost = this.sheets * sheetCost;
 
     // HARDWARE
-    const totalHardwareCost = this.getHardwareCost(this.seeyond_feature_index);
+    let totalHardwareCost = this.getHardwareCost(this.seeyond_feature_index);
+    if (this.cove_lighting) { totalHardwareCost += (this.calcLightingFootage() * 40.02)}
 
     // SERVICES
     const staples: number = this.getStaples(this.seeyond_feature_index);
@@ -244,29 +246,30 @@ export class SeeyondFeature extends Feature {
 
     this.services_amount = (staples * stapleCost) + (magnets * magnetCost) + (backplates * backplateCost) + (baseplates * baseplateCost) + (frames * frameCost) + fabricationCost;
 
-    // this.debug.log('seeyond', `Rows: ${rows}`);
-    // this.debug.log('seeyond', `Columns: ${columns}`);
-    // this.debug.log('seeyond', `boxes: ${this.boxes}`);
-    // this.debug.log('seeyond', `sheets: ${this.sheets}`);
-    // this.debug.log('seeyond', `magnets: ${magnets}`);
-    // this.debug.log('seeyond', `stapleCost: ${stapleCost}`);
-    // this.debug.log('seeyond', `Staples cost: ${(staples * stapleCost)}`);
-    // // this.debug.log('seeyond', `Zipties cost: ${(zipties * ziptieCost)}`);
-    // this.debug.log('seeyond', `Magnets cost: ${(magnets * magnetCost)}`);
-    // this.debug.log('seeyond', `Backplates: ${backplates}`);
-    // this.debug.log('seeyond', `Backplates cost: ${(backplates * backplateCost)}`);
-    // this.debug.log('seeyond', `Baseplates: ${baseplates}`);
-    // this.debug.log('seeyond', `Baseplates cost: ${(baseplates * baseplateCost)}`);
-    // this.debug.log('seeyond', `Frames: ${frames}`);
-    // this.debug.log('seeyond', `Frames cost: ${(frames * frameCost)}`);
-    // this.debug.log('seeyond', `Fabrication cost: ${fabricationCost}`);
-    // this.debug.log('seeyond', `Products cost: ${totalProductsCost}`);
-    // this.debug.log('seeyond', `Hardware cost: ${totalHardwareCost}`);
-    // this.debug.log('seeyond', `Services cost: ${this.services_amount}`);
-
     this.estimated_amount = totalProductsCost + totalHardwareCost + this.services_amount;
     this.debug.log('seeyond', `estimated amount: ${this.estimated_amount}`);
     return this.estimated_amount;
+  }
+
+  calcLightingFootage() {
+    let totalFootage: number;
+    const inset = 16; // cove lighting is positioned 16 inches in from the actual perimeter
+    const units = this.units;
+    let length = this.height;
+    let ceilingLength = this.ceiling_length;
+    let width = this.width;
+    if (this.units === 'centimeters') {
+      length = this.convertCMtoIN(length);
+      ceilingLength = this.convertCMtoIN(ceilingLength);
+      width = this.convertCMtoIN(width);
+    }
+    if (this.seeyond_feature_type === 'wall-to-ceiling') {
+      totalFootage = ((ceilingLength - inset) * 2) + (width - inset * 2);
+    } else if (this.seeyond_feature_type === 'ceiling') {
+      totalFootage = ((length - (inset * 2)) * 2) + ((width - (inset * 2)) * 2);
+    }
+    this.linear_feet = totalFootage / 12;
+    return this.linear_feet;
   }
 
   convertDimensionsUnits(newUnit) {
