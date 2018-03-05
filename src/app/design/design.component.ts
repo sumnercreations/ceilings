@@ -285,11 +285,6 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
   }
 
-  public downloadSeeyondImage() {
-    const profileImg = this.syd_v.QT.Visualization.TakeSnapshot(45);
-    this.feature.design_data_url = profileImg;
-  }
-
   public requestQuote() {
     // get the grid with guides
     // make sure the guide is set to true
@@ -299,7 +294,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       const dataURL = veloCanvas.toDataURL();
       this.feature.design_data_url = dataURL;
     } else if (this.feature.feature_type === 'seeyond') {
-      this.downloadSeeyondImage();
+      this.seeyond.seeyondProfileImage();
     } else {
       this.downloadGridGuide();
     }

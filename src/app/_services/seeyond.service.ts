@@ -42,7 +42,8 @@ export class SeeyondService {
   updateFeature() {
     this.debug.log('seeyond', this.seeyond.hardware);
     const hardware = JSON.stringify({hardware: this.seeyond.hardware});
-    this.debug.log('seeyond', hardware)
+    const profileImg = this.seeyond.seeyondProfileImage();
+    this.debug.log('seeyond', hardware);
     const patchData = {
       'id': this.seeyond.id,
       'uid': this.user.uid,
@@ -74,7 +75,8 @@ export class SeeyondService {
       'quoted': this.seeyond.quoted,
       'archived': this.seeyond.archived,
       'hardware': this.seeyond.hardware,
-      'linear_feet': this.seeyond.linear_feet
+      'linear_feet': this.seeyond.linear_feet,
+      'design_data_url': profileImg
     };
     this.debug.log('seeyond', patchData);
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -90,6 +92,7 @@ export class SeeyondService {
   }
 
   saveFeature() {
+    const profileImg = this.seeyond.seeyondProfileImage();
     const patchData = {
       'uid': this.user.uid,
       'feature_type': this.seeyond.seeyond_feature_index,
@@ -120,7 +123,8 @@ export class SeeyondService {
       'quoted': this.seeyond.quoted,
       'archived': this.seeyond.archived,
       'hardware': this.seeyond.hardware,
-      'linear_feet': this.seeyond.linear_feet
+      'linear_feet': this.seeyond.linear_feet,
+      'design_data_url': this.seeyond.design_data_url
     };
 
     return this.http.post(this.apiUrl, patchData)

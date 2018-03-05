@@ -27,4 +27,5 @@ const appRoutes: Routes = [
 export const appRoutingProviders: any[] = [];
 
 export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
-// .forRoot(appRoutes, { enableTracing: true}); // -> turns on console tracing of router events
+// export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, { enableTracing: true});
+// ^^^ turns on console tracing of router events

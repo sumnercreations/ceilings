@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -25,6 +26,7 @@ export class SaveDesignComponent implements OnInit {
     public seeyondApi: SeeyondService,
     public seeyond: SeeyondFeature,
     public user: User,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -85,11 +87,7 @@ export class SaveDesignComponent implements OnInit {
         this.alert.success('Successfully saved your design');
         // set the feature up according to what is returned from the API after save.
         this.seeyond = feature.seeyond;
-        // navigate if the current path isn't already right
-        const url = this.router.createUrlTree(['/feature', this.feature.id]).toString();
-        if (url !== this.router.url) {
-          this.router.navigate(['/feature', this.feature.id]);
-        }
+        this.location.go(`seeyond/design/${this.seeyond.name}/${this.seeyond.id}`);
       });
     }
   }

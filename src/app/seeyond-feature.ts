@@ -202,6 +202,12 @@ export class SeeyondFeature extends Feature {
     });
   }
 
+  public seeyondProfileImage() {
+    const profileImg = this.syd_v.QT.Visualization.TakeSnapshot(45);
+    this.design_data_url = profileImg;
+    return profileImg;
+  }
+
   updateEstimatedAmount() {
     if (!this.prices) {
       this.seeyondService.getPrices().subscribe(response => {
