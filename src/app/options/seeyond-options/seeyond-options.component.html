@@ -45,7 +45,8 @@
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label for="length">Height</label>
+                <label for="length" *ngIf="seeyond.seeyond_feature_type !== 'ceiling'">Height</label>
+                <label for="length" *ngIf="seeyond.seeyond_feature_type === 'ceiling'">Length</label>
                 <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" (change)="dimensionsDidChange($event.key)" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
                 <span id="helpBlock" class="help-block">min: {{this.seeyond.heightMin}}, max: {{this.seeyond.heightMax}}</span>
               </div>
