@@ -42,7 +42,8 @@
     <dl class="dl-horizontal col-sm-6">
         <dt>Feature</dt>
         <dd>{{design.name | capitalize}}</dd>
-        <dt>Height</dt>
+        <dt *ngIf="design.name === 'ceiling'">Length</dt>
+        <dt *ngIf="design.name !== 'ceiling'">Height</dt>
         <dd>{{design.height}} {{design.units}}</dd>
         <dt>Width</dt>
         <dd>{{design.width}} {{design.units}}</dd>
