@@ -16,7 +16,9 @@ export class DetailsComponent implements OnInit {
   public rep: any;
   public tilesArray: any;
   public tileArraySize: number;
-  public encodedImage: any;
+  public design: any;
+  public isSeeyond = false;
+  public tessellationStr: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,20 +37,19 @@ export class DetailsComponent implements OnInit {
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!designId) {
         if (params['type'] === 'seeyond') {
+          this.isSeeyond = true;
           this.seeyondApi.loadFeature(designId).subscribe(design => {
-            console.log(design);
             if (!design.quoted) {
               // not quoted
               const pathname = window.location.pathname.replace(/\/details/g, '');
               this.router.navigate([pathname]);
             } else {
+              this.design = design;
+              this.tessellationStr = this.seeyond.getTessellationName(design.tessellation);
+              this.debug.log('seeyond', design);
               // load the quoted design
               this.api.getUserRep(design.uid).subscribe(rep => {
                 this.rep = rep;
-                this.seeyond.setDesign(design);
-                this.tilesArray = this.seeyond.getTilesPurchasedObj();
-                this.tileArraySize = Object.keys(this.tilesArray).length;
-                this.debug.log('details-component', this.tileArraySize);
               });
             }
           });

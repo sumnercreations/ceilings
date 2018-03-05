@@ -50,6 +50,7 @@ import { TetriaOptionsComponent } from './options/tetria-options/tetria-options.
 import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-options.component';
 import { SeeyondDesignComponent } from './design/seeyond-design/seeyond-design.component';
 import { SeeyondVisualizationComponent } from './visualization/seeyond-visualization/seeyond-visualization.component';
+import { SeeyondDetailsComponent } from './details/seeyond-details/seeyond-details.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -90,7 +91,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     TetriaOptionsComponent,
     SeeyondOptionsComponent,
     SeeyondDesignComponent,
-    SeeyondVisualizationComponent
+    SeeyondVisualizationComponent,
+    SeeyondDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -123,7 +123,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.materialType = 'felt';
           }
           this.materials = this.getFeatureMaterials();
-          console.log('materials', this.materials);
+          this.debug.log('design-component', this.materials);
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
         }, 500);

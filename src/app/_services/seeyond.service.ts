@@ -73,7 +73,8 @@ export class SeeyondService {
       'estimated_amount': this.seeyond.estimated_amount,
       'quoted': this.seeyond.quoted,
       'archived': this.seeyond.archived,
-      'hardware': this.seeyond.hardware
+      'hardware': this.seeyond.hardware,
+      'linear_feet': this.seeyond.linear_feet
     };
     this.debug.log('seeyond', patchData);
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -118,7 +119,8 @@ export class SeeyondService {
       'estimated_amount': this.seeyond.estimated_amount,
       'quoted': this.seeyond.quoted,
       'archived': this.seeyond.archived,
-      'hardware': this.seeyond.hardware
+      'hardware': this.seeyond.hardware,
+      'linear_feet': this.seeyond.linear_feet
     };
 
     return this.http.post(this.apiUrl, patchData)
