@@ -671,6 +671,8 @@ export class SeeyondFeature extends Feature {
     if (this.seeyond_feature_index === 1) { dimensionString += ' x ' + this.radius + ' R'; }
     // wall to ceiling has ceiling_length
     if (this.seeyond_feature_index === 3) { dimensionString += ' x ' + this.ceiling_length + ' CL'; }
+    // ceiling is labeled as length, not height
+    if (this.seeyond_feature_index === 4) { dimensionString = dimensionString.replace(/H/i, 'L'); }
     // add dimensions
     if (this.units === 'inches') { dimensionString += ` (IN)`; }
     if (this.units === 'centimeters') { dimensionString += ` (CM)`; }

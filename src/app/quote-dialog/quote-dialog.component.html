@@ -11,9 +11,9 @@
       <dt>Feature</dt>
       <dd>{{feature.feature_type | capitalize}}</dd>
       <dt>Width</dt>
-      <dd>{{feature.width}}"</dd>
+      <dd>{{feature.width}}{{units}}</dd>
       <dt>Length</dt>
-      <dd>{{feature.length}}"</dd>
+      <dd>{{feature.length}}{{units}}</dd>
       <dt>Estimated Amount</dt>
       <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd>
       <dt *ngIf="feature.quoted">Project Name</dt>
@@ -24,10 +24,11 @@
     <dl class="dl-horizontal" *ngIf="feature.feature_type === 'seeyond'">
       <dt>Feature</dt>
       <dd>{{seeyond.seeyond_feature_type | capitalize}}</dd>
-      <dt>Height</dt>
-      <dd>{{seeyond.height}}{{units}}</dd>
       <dt>Width</dt>
       <dd>{{seeyond.width}}{{units}}</dd>
+      <dt *ngIf="seeyond.seeyond_feature_type !== 'ceiling'">Height</dt>
+      <dt *ngIf="seeyond.seeyond_feature_type === 'ceiling'">Length</dt>
+      <dd>{{seeyond.height}}{{units}}</dd>
       <dt *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">Radius</dt>
       <dd *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">{{seeyond.radius}}{{units}}</dd>
       <dt *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">Ceiling Length</dt>
