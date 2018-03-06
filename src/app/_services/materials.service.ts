@@ -301,6 +301,14 @@ export class MaterialsService {
           name_str: 'Zinc',
           sheet_part_id: '0-51-925'
         },
+        'moon': {
+          material: 'moon',
+          image: '/assets/images/materials/felt/sola/moon.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Moon',
+          sheet_part_id: '0-51-922'
+        },
         'nickel': {
           material: 'nickel',
           image: '/assets/images/materials/felt/sola/nickel.png',
@@ -308,6 +316,14 @@ export class MaterialsService {
           available_until: '',
           name_str: 'Nickel',
           sheet_part_id: '0-51-926'
+        },
+        'armor': {
+          material: 'armor',
+          image: '/assets/images/materials/felt/sola/armor.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Armor',
+          sheet_part_id: '0-51-924'
         },
         'cashmere': {
           material: 'cashmere',
@@ -324,22 +340,6 @@ export class MaterialsService {
           available_until: '',
           name_str: 'Burnt Umber',
           sheet_part_id: '0-51-930'
-        },
-        'cast': {
-          material: 'cast',
-          image: '/assets/images/materials/felt/sola/cast.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Cast',
-          sheet_part_id: '0-51-929'
-        },
-        'ebony': {
-          material: 'ebony',
-          image: '/assets/images/materials/felt/sola/ebony.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Ebony',
-          sheet_part_id: '0-51-927'
         },
         'ruby': {
           material: 'ruby',
@@ -365,14 +365,6 @@ export class MaterialsService {
           name_str: 'Citrine',
           sheet_part_id: '0-51-918'
         },
-        'oxford': {
-          material: 'oxford',
-          image: '/assets/images/materials/felt/sola/oxford.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Oxford',
-          sheet_part_id: '0-51-919'
-        },
         'admiral': {
           material: 'admiral',
           image: '/assets/images/materials/felt/sola/admiral.png',
@@ -380,6 +372,14 @@ export class MaterialsService {
           available_until: '',
           name_str: 'Admiral',
           sheet_part_id: '0-51-920'
+        },
+        'oxford': {
+          material: 'oxford',
+          image: '/assets/images/materials/felt/sola/oxford.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Oxford',
+          sheet_part_id: '0-51-919'
         },
         'hunter': {
           material: 'hunter',
@@ -389,14 +389,6 @@ export class MaterialsService {
           name_str: 'Hunter',
           sheet_part_id: '0-51-921'
         },
-        'moon': {
-          material: 'moon',
-          image: '/assets/images/materials/felt/sola/moon.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Moon',
-          sheet_part_id: '0-51-922'
-        },
         'mineral': {
           material: 'mineral',
           image: '/assets/images/materials/felt/sola/mineral.png',
@@ -405,13 +397,21 @@ export class MaterialsService {
           name_str: 'Mineral',
           sheet_part_id: '0-51-923'
         },
-        'armor': {
-          material: 'armor',
-          image: '/assets/images/materials/felt/sola/armor.png',
+        'cast': {
+          material: 'cast',
+          image: '/assets/images/materials/felt/sola/cast.png',
           status: 'active',
           available_until: '',
-          name_str: 'Armor',
-          sheet_part_id: '0-51-924'
+          name_str: 'Cast',
+          sheet_part_id: '0-51-929'
+        },
+        'ebony': {
+          material: 'ebony',
+          image: '/assets/images/materials/felt/sola/ebony.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Ebony',
+          sheet_part_id: '0-51-927'
         },
         'ore': {
           material: 'ore',
