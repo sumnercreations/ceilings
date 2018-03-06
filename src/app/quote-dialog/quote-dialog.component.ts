@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -30,6 +31,7 @@ export class QuoteDialogComponent implements OnInit {
     public dialogRef: MdDialogRef<QuoteDialogComponent>,
     public seeyond: SeeyondFeature,
     public seeyondApi: SeeyondService,
+    public location: Location
   ) { }
 
   ngOnInit() {
@@ -104,10 +106,10 @@ export class QuoteDialogComponent implements OnInit {
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');
-        this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+        this.location.go(`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`)
       });
-      this.dialogRef.close();
     }
+    this.dialogRef.close();
   }
 
   private getToday() {

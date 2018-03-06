@@ -159,7 +159,7 @@ export class SeeyondFeature extends Feature {
     this.syd_v.QT.Visualization.visualizeFeature(front, back, uNum, vNum, this.getMaterialImage(this.material));
 
     // update the feature depth
-    this.depth = this.syd_v.QT.Visualization.GetFeatureDepth().toFixed(2);
+    this.depth = this.syd_v.QT.Visualization.GetBoundingBoxDepth().toFixed(2);
 
     // feature has been updated
     this.onFeatureUpdated.emit();
@@ -185,8 +185,18 @@ export class SeeyondFeature extends Feature {
   }
 
   downloadImages() {
-    let profile = this.syd_v.QT.Visualization.TakeSnapshot(45);
-    let facing  = this.syd_v.QT.Visualization.TakeSnapshot(0);
+    let profileAngle: number;
+    let facingAngle: number;
+    switch (this.seeyond_feature_type) {
+      case 'linear-partition': profileAngle = 45; facingAngle = 0; break;
+      case 'curved-partition': profileAngle = 225; facingAngle = 180; break;
+      case 'wall': profileAngle = 45; facingAngle = 0; break;
+      case 'wall-to-ceiling': profileAngle = 45; facingAngle = 0; break;
+      case 'ceiling': profileAngle = 0; facingAngle = 0; break;
+      default: profileAngle = 45; facingAngle = 0; break;
+    }
+    let profile = this.syd_v.QT.Visualization.TakeSnapshot(profileAngle);
+    let facing  = this.syd_v.QT.Visualization.TakeSnapshot(facingAngle);
     const filename = this.name + '.zip';
     const FileSaver = require('file-saver');
     const JSZip = require('jszip');
@@ -204,7 +214,17 @@ export class SeeyondFeature extends Feature {
   }
 
   public seeyondProfileImage() {
-    const profileImg = this.syd_v.QT.Visualization.TakeSnapshot(45);
+    let profileAngle: number;
+    // determine the preferred angle for each feature
+    switch (this.seeyond_feature_type) {
+      case 'linear-partition': profileAngle = 45; break;
+      case 'curved-partition': profileAngle = 225; break;
+      case 'wall': profileAngle = 45; break;
+      case 'wall-to-ceiling': profileAngle = 45; break;
+      case 'ceiling': profileAngle = 0; break;
+      default: profileAngle = 45; break;
+    }
+    const profileImg = this.syd_v.QT.Visualization.TakeSnapshot(profileAngle);
     this.design_data_url = profileImg;
     this.reloadVisualization();
     return profileImg;
