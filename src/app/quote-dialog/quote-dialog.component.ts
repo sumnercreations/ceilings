@@ -73,6 +73,7 @@ export class QuoteDialogComponent implements OnInit {
         this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
       });
     }
+    this.dialogRef.close();
   }
 
   seeyondQuoteConfirmed() {
@@ -105,6 +106,7 @@ export class QuoteDialogComponent implements OnInit {
         this.alert.success('We saved your design so we can quote it and you can load it later.');
         this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
       });
+      this.dialogRef.close();
     }
   }
 
