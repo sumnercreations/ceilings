@@ -6,6 +6,7 @@ import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { Feature } from '../feature';
 import { SeeyondService } from '../_services/seeyond.service';
+import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-details',
@@ -28,7 +29,8 @@ export class DetailsComponent implements OnInit {
     public feature: Feature,
     public location: Location,
     public seeyondApi: SeeyondService,
-    public seeyond: SeeyondFeature
+    public seeyond: SeeyondFeature,
+    public alert: AlertService
   ) { }
 
   ngOnInit() {
@@ -57,6 +59,7 @@ export class DetailsComponent implements OnInit {
           this.api.loadDesign(designId).subscribe(design => {
             if (!design.quoted) {
               // not quoted
+              this.alert.error('Details are not available until a request for a quote is processed.');
               this.router.navigate([design.feature_type, 'design', design.id]);
             } else {
               // load the quoted design
