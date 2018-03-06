@@ -23,7 +23,8 @@ export class LoadDesignComponent implements OnInit {
     private debug: DebugService,
     public dialog: MdDialog,
     public feature: Feature,
-    public user: User
+    public user: User,
+    private dialogRef: MdDialogRef<LoadDesignComponent>
   ) { }
 
   ngOnInit() {}
@@ -31,6 +32,7 @@ export class LoadDesignComponent implements OnInit {
   load(id: number) {
     this.debug.log('load-design', 'loading id: ' + id);
     this.router.navigate([this.feature.feature_type + '/design', id]);
+    this.dialogRef.close();
   }
 
   delete(id: number, target: any) {

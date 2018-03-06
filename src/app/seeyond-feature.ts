@@ -159,7 +159,7 @@ export class SeeyondFeature extends Feature {
     this.syd_v.QT.Visualization.visualizeFeature(front, back, uNum, vNum, this.getMaterialImage(this.material));
 
     // update the feature depth
-    this.depth = this.syd_v.QT.Visualization.GetFeatureDepth().toFixed(2);
+    // this.depth = this.syd_v.QT.Visualization.GetFeatureDepth().toFixed(2);
 
     // feature has been updated
     this.onFeatureUpdated.emit();

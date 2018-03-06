@@ -1,3 +1,4 @@
+import { MdDialogRef } from '@angular/material';
 import { Location } from '@angular/common';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Component, OnInit } from '@angular/core';
@@ -26,13 +27,14 @@ export class SaveDesignComponent implements OnInit {
     public seeyondApi: SeeyondService,
     public seeyond: SeeyondFeature,
     public user: User,
-    private location: Location
+    private location: Location,
+    private dialogRef: MdDialogRef<SaveDesignComponent>
   ) { }
 
   ngOnInit() {
     // if the design already has an ID then it's not new.
-    this.newDesign = this.seeyond.id ? false : true;
     if (this.feature.feature_type === 'seeyond') { this.feature = this.seeyond; }
+    this.newDesign = this.feature.id ? false : true;
   }
 
   newButtonClick() {
@@ -40,11 +42,12 @@ export class SaveDesignComponent implements OnInit {
   }
 
   trySave() {
-    if (this.feature === this.seeyond) {
+    if (this.feature.feature_type === 'seeyond') {
       this.saveSeeyond();
     } else {
       this.saveFeature();
     }
+    this.dialogRef.close()
   }
 
   saveFeature() {
