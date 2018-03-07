@@ -328,7 +328,7 @@ export class MaterialsService {
         'oxford': {
           material: 'oxford',
           image: '/assets/images/materials/felt/sola/oxford.png',
-          status: 'discontinued',
+          status: 'active',
           available_until: '',
           name_str: 'Oxford',
           sheet_part_id: '0-51-919'

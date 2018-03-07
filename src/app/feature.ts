@@ -148,10 +148,11 @@ export class Feature {
 
   checkMaterialsUsed() {
     let alertStr;
-    let gridData = this.gridData;
+    const gridData = this.gridData;
     const matchedInactiveMaterials = [];
     const matchedDiscontinuedMaterials = [];
     if (this.inactiveMaterials.length > 0) {
+      // loop through gridData looking for inactive materials
       this.inactiveMaterials.map(material => {
         const mat = material.toString().toLowerCase().replace(/ /g, '_');
         gridData.map(gridSection => {
@@ -164,6 +165,7 @@ export class Feature {
           })
         })
       })
+      // alert users if inactive materials are being used
       if (matchedInactiveMaterials.length === 1) {
         this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while suplies last.`)
       } else if (matchedInactiveMaterials.length > 1) {
@@ -173,6 +175,7 @@ export class Feature {
       }
     }
     if (this.discontinuedMaterials.length > 0) {
+      // loop through gridData looking for discontinued materials
       this.discontinuedMaterials.map(material => {
         const mat = material.toString().toLowerCase().replace(/ /g, '_');
         gridData.map(gridSection => {
@@ -185,6 +188,7 @@ export class Feature {
           })
         })
       })
+      // if discontinued materials are found disable quote and alert user
       if (matchedDiscontinuedMaterials.length > 0) {
         this.canQuote = false;
         if (matchedDiscontinuedMaterials.length === 1) {
@@ -192,16 +196,12 @@ export class Feature {
         } else if (matchedDiscontinuedMaterials.length > 1) {
           alertStr = matchedDiscontinuedMaterials.toString();
           alertStr = alertStr.replace(/,/g, ' and ');
-          this.alert.error(`The ${alertStr} colors have been discontinued. Select a new color to proceed.`)
+          this.alert.error(`The ${alertStr} materials have been discontinued. Select a new color to proceed.`)
         }
       } else {
         this.canQuote = true;
       }
     }
-    console.log('finished');
-    console.log('inactive:', this.inactiveMaterials);
-    console.log('discontinued', this.discontinuedMaterials);
-
   }
 
   getTetriaEstimate(tilesArray) {
