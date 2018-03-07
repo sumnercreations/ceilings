@@ -81,7 +81,7 @@ export class DesignComponent implements OnInit, OnDestroy {
               design.feature_type = this.feature.setFeatureType(design.feature_type);
               this.feature.setDesign(design);
               this.featureTiles = this.feature.tilesArray[featureType];
-              this.materials = this.getFeatureMaterials();
+              this.materials = this.feature.getFeatureMaterials();
               if (this.feature.feature_type === 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if (this.feature.feature_type === 'velo') {
@@ -122,7 +122,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
           }
-          this.materials = this.getFeatureMaterials();
+          this.materials = this.feature.getFeatureMaterials();
           this.debug.log('design-component', this.materials);
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
@@ -304,23 +304,6 @@ export class DesignComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
-  getFeatureMaterials() {
-    const featureType = this.feature.feature_type;
-    let requiredMaterials: any;
-    switch (featureType) {
-      case 'hush': requiredMaterials = this.feature.materials.felt.sola; break;
-      case 'seeyond': requiredMaterials = this.feature.materials.felt.sola; break;
-      case 'tetria': requiredMaterials = this.feature.materials.felt.merino; break;
-      case 'clario': requiredMaterials = this.feature.materials.felt.sola; break;
-      case 'velo':
-        requiredMaterials = {felt: undefined, varia: undefined};
-        requiredMaterials.felt = this.feature.materials.felt.merino;
-        requiredMaterials.varia = this.feature.materials.varia;
-      break;
-    }
-    return requiredMaterials;
-  }
-
   adjustGridDimensions(tool) {
     switch (tool) {
       case 'addColumn': this.feature.width = this.feature.width + 24; break;
@@ -354,7 +337,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             seeyondFeature = seeyondFeaturesList[key]['name'];
           }
         })
-        this.materials = this.getFeatureMaterials();
+        this.materials = this.feature.getFeatureMaterials();
         this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
         this.editOptions();
         this.seeyond.updateFeature(seeyondFeature);

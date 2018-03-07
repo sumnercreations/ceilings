@@ -22,7 +22,6 @@ export class MaterialsService {
       }
     },
    '1': {
-      'feature_type': 1,
       'name': 'curved-partition',
       'title': 'Freestanding Curved Partition',
       'image': '/assets/images/renderings/freestanding_curved_partition.png',

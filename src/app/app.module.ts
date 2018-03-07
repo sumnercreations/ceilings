@@ -51,6 +51,10 @@ import { SeeyondOptionsComponent } from './options/seeyond-options/seeyond-optio
 import { SeeyondDesignComponent } from './design/seeyond-design/seeyond-design.component';
 import { SeeyondVisualizationComponent } from './visualization/seeyond-visualization/seeyond-visualization.component';
 import { SeeyondDetailsComponent } from './details/seeyond-details/seeyond-details.component';
+import { QuantityComponent } from './quantity/quantity.component';
+import { HushQuantityComponent } from './quantity/hush-quantity/hush-quantity.component';
+import { ClarioQuantityComponent } from './quantity/clario-quantity/clario-quantity.component';
+import { TetriaQuantityComponent } from './quantity/tetria-quantity/tetria-quantity.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -92,7 +96,11 @@ import { KeysPipe } from './_pipes/keys.pipe';
     SeeyondOptionsComponent,
     SeeyondDesignComponent,
     SeeyondVisualizationComponent,
-    SeeyondDetailsComponent
+    SeeyondDetailsComponent,
+    QuantityComponent,
+    HushQuantityComponent,
+    ClarioQuantityComponent,
+    TetriaQuantityComponent
   ],
   imports: [
     BrowserModule,
