@@ -293,54 +293,6 @@ export class MaterialsService {
   public materials = {
     felt: {
       sola: {
-        'zinc': {
-          material: 'zinc',
-          image: '/assets/images/materials/felt/sola/zinc.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Zinc',
-          sheet_part_id: '0-51-925'
-        },
-        'moon': {
-          material: 'moon',
-          image: '/assets/images/materials/felt/sola/moon.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Moon',
-          sheet_part_id: '0-51-922'
-        },
-        'nickel': {
-          material: 'nickel',
-          image: '/assets/images/materials/felt/sola/nickel.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Nickel',
-          sheet_part_id: '0-51-926'
-        },
-        'armor': {
-          material: 'armor',
-          image: '/assets/images/materials/felt/sola/armor.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Armor',
-          sheet_part_id: '0-51-924'
-        },
-        'cashmere': {
-          material: 'cashmere',
-          image: '/assets/images/materials/felt/sola/cashmere.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Cashmere',
-          sheet_part_id: '0-51-928'
-        },
-        'burnt_umber': {
-          material: 'burnt_umber',
-          image: '/assets/images/materials/felt/sola/burnt_umber.png',
-          status: 'active',
-          available_until: '',
-          name_str: 'Burnt Umber',
-          sheet_part_id: '0-51-930'
-        },
         'ruby': {
           material: 'ruby',
           image: '/assets/images/materials/felt/sola/ruby.png',
@@ -389,6 +341,30 @@ export class MaterialsService {
           name_str: 'Hunter',
           sheet_part_id: '0-51-921'
         },
+        'burnt_umber': {
+          material: 'burnt_umber',
+          image: '/assets/images/materials/felt/sola/burnt_umber.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Burnt Umber',
+          sheet_part_id: '0-51-930'
+        },
+        'nickel': {
+          material: 'nickel',
+          image: '/assets/images/materials/felt/sola/nickel.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Nickel',
+          sheet_part_id: '0-51-926'
+        },
+        'armor': {
+          material: 'armor',
+          image: '/assets/images/materials/felt/sola/armor.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Armor',
+          sheet_part_id: '0-51-924'
+        },
         'mineral': {
           material: 'mineral',
           image: '/assets/images/materials/felt/sola/mineral.png',
@@ -412,6 +388,30 @@ export class MaterialsService {
           available_until: '',
           name_str: 'Ebony',
           sheet_part_id: '0-51-927'
+        },
+        'cashmere': {
+          material: 'cashmere',
+          image: '/assets/images/materials/felt/sola/cashmere.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Cashmere',
+          sheet_part_id: '0-51-928'
+        },
+        'moon': {
+          material: 'moon',
+          image: '/assets/images/materials/felt/sola/moon.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Moon',
+          sheet_part_id: '0-51-922'
+        },
+        'zinc': {
+          material: 'zinc',
+          image: '/assets/images/materials/felt/sola/zinc.png',
+          status: 'active',
+          available_until: '',
+          name_str: 'Zinc',
+          sheet_part_id: '0-51-925'
         },
         'ore': {
           material: 'ore',

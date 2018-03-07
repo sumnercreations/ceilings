@@ -43,6 +43,8 @@ export class Feature {
   public materialHex: string;
   public materialType: string;
   public diffusion: string;
+  public discontinuedMaterials: Array<string>;
+  public inactiveMaterials: Array<string>;
 
   public gridData: any;
   public toolsArray = this.materialsService.toolsArray;
@@ -86,6 +88,7 @@ export class Feature {
       this.updateEstimatedAmount();
     }
     this.buildGrid();
+    this.getDeprecatedMaterials();
   }
 
   public reset() {
@@ -114,6 +117,81 @@ export class Feature {
         break;
     }
     return this.estimated_amount;
+  }
+
+  getDeprecatedMaterials() {
+    const inactiveMaterials = [];
+    const discontinuedMaterials = [];
+    const materialsObj = this.materials;
+    for (const mat in materialsObj) {
+      if (materialsObj.hasOwnProperty(mat)) {
+        for (const matType in materialsObj[mat]) {
+          if (materialsObj[mat].hasOwnProperty(matType)) {
+            for (const matTypeColor in materialsObj[mat][matType]) {
+              if (materialsObj[mat][matType].hasOwnProperty(matTypeColor)) {
+                if (materialsObj[mat][matType][matTypeColor].status === 'inactive') {
+                  inactiveMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
+                }
+                if (materialsObj[mat][matType][matTypeColor].status === 'discontinued') {
+                  discontinuedMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    this.discontinuedMaterials = discontinuedMaterials;
+    this.inactiveMaterials = inactiveMaterials;
+    this.checkMaterialsUsed();
+  }
+
+  checkMaterialsUsed() {
+    let alertStr;
+    let gridData = this.gridData;
+    const matchedInactiveMaterials = [];
+    const matchedDiscontinuedMaterials = [];
+    if (this.inactiveMaterials.length > 0) {
+      this.inactiveMaterials.map(material => {
+        const mat = material.toString().toLowerCase().replace(/ /g, '_');
+        gridData.map(gridSection => {
+          gridSection.map(tile => {
+            if (tile.material === mat) {
+              if (matchedInactiveMaterials.indexOf(material) < 0) {
+                matchedInactiveMaterials.push(material);
+              }
+            }
+          })
+        })
+      })
+      if (matchedInactiveMaterials.length === 1) {
+        this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while suplies last.`)
+      } else if (matchedInactiveMaterials.length > 1) {
+        alertStr = matchedInactiveMaterials.toString();
+        alertStr = alertStr.replace(/,/g, ' and ');
+        this.alert.error(`${alertStr} are being discontinued and are only available while suplies last.`)
+      }
+    }
+    if (this.discontinuedMaterials.length > 0) {
+      this.discontinuedMaterials.map(material => {
+        const mat = material.toString().toLowerCase();
+        gridData = gridData.toString();
+        if (gridData.indexOf(mat) > -1) { matchedDiscontinuedMaterials.push(material); }
+      })
+      if (matchedDiscontinuedMaterials.length > 0) {
+        if (matchedDiscontinuedMaterials.length === 1) {
+          this.alert.error(`${matchedDiscontinuedMaterials[0]} has been discontinued. Select a new color to proceed.`)
+        } else if (matchedDiscontinuedMaterials.length > 1) {
+          alertStr = matchedDiscontinuedMaterials.toString();
+          alertStr = alertStr.replace(/,/g, ' and ');
+          this.alert.error(`${alertStr} has been discontinued. Select a new color to proceed.`)
+        }
+      }
+    }
+    console.log('finished');
+    console.log('inactive:', this.inactiveMaterials);
+    console.log('discontinued', this.discontinuedMaterials);
+
   }
 
   getTetriaEstimate(tilesArray) {
