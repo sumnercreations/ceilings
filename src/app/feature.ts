@@ -44,6 +44,7 @@ export class Feature {
   public diffusion: string;
   public discontinuedMaterials: Array<string>;
   public inactiveMaterials: Array<string>;
+  public canQuote = true;
 
   public gridData: any;
   public toolsArray = this.materialsService.toolsArray;
@@ -173,18 +174,28 @@ export class Feature {
     }
     if (this.discontinuedMaterials.length > 0) {
       this.discontinuedMaterials.map(material => {
-        const mat = material.toString().toLowerCase();
-        gridData = gridData.toString();
-        if (gridData.indexOf(mat) > -1) { matchedDiscontinuedMaterials.push(material); }
+        const mat = material.toString().toLowerCase().replace(/ /g, '_');
+        gridData.map(gridSection => {
+          gridSection.map(tile => {
+            if (tile.material === mat) {
+              if (matchedDiscontinuedMaterials.indexOf(material) < 0) {
+                matchedDiscontinuedMaterials.push(material);
+              }
+            }
+          })
+        })
       })
       if (matchedDiscontinuedMaterials.length > 0) {
+        this.canQuote = false;
         if (matchedDiscontinuedMaterials.length === 1) {
-          this.alert.error(`${matchedDiscontinuedMaterials[0]} has been discontinued. Select a new color to proceed.`)
+          this.alert.error(`The ${matchedDiscontinuedMaterials[0]} material has been discontinued. Select a new color to proceed.`)
         } else if (matchedDiscontinuedMaterials.length > 1) {
           alertStr = matchedDiscontinuedMaterials.toString();
           alertStr = alertStr.replace(/,/g, ' and ');
-          this.alert.error(`${alertStr} has been discontinued. Select a new color to proceed.`)
+          this.alert.error(`The ${alertStr} colors have been discontinued. Select a new color to proceed.`)
         }
+      } else {
+        this.canQuote = true;
       }
     }
     console.log('finished');
