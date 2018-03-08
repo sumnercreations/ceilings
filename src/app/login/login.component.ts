@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
 import { AlertService } from '../_services/alert.service';
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private debug: DebugService,
     public feature: Feature,
     public user: User,
-    public dialogRef: MdDialogRef<LoginComponent>
+    public dialogRef: MatDialogRef<LoginComponent>
   ) { }
 
   ngOnInit() {

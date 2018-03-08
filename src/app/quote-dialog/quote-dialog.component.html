@@ -4,9 +4,9 @@
 </div>
 
 <div *ngIf="user.uid">
-  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</h2>
-  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
-  <div md-dialog-content>
+  <h2 mat-dialog-title class="text-center" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</h2>
+  <h2 mat-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
+  <div mat-dialog-content>
     <dl class="dl-horizontal"  *ngIf="feature.feature_type !== 'seeyond'">
       <dt>Feature</dt>
       <dd>{{feature.feature_type | capitalize}}</dd>
@@ -15,7 +15,7 @@
       <dt>Length</dt>
       <dd>{{feature.length}}{{units}}</dd>
       <dt>Estimated Amount</dt>
-      <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd>
+      <dd>{{feature.estimated_amount | currency:'USD'}} USD</dd>
       <dt *ngIf="feature.quoted">Project Name</dt>
       <dd *ngIf="feature.quoted">{{feature.project_name}}</dd>
       <dt *ngIf="feature.quoted">Specifier</dt>
@@ -43,7 +43,7 @@
       <dd *ngIf="!seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">No</dd>
       <dd *ngIf="seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">Yes</dd>
       <dt>Estimated Amount</dt>
-      <dd>{{seeyond.estimated_amount | currency:'USD':true}} USD</dd>
+      <dd>{{seeyond.estimated_amount | currency:'USD'}} USD</dd>
       <dt *ngIf="seeyond.quoted">Project Name</dt>
       <dd *ngIf="seeyond.quoted">{{seeyond.project_name}}</dd>
       <dt *ngIf="seeyond.quoted">Specifier</dt>
@@ -53,26 +53,26 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
-            <md-input-container class="full-width">
-              <input  *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="feature.project_name">
-              <input  *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="seeyond.project_name">
-            </md-input-container>
+            <mat-input-container class="full-width">
+              <input  *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" matInput mat-input required [(ngModel)]="feature.project_name">
+              <input  *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" matInput mat-input required [(ngModel)]="seeyond.project_name">
+            </mat-input-container>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
-            <md-input-container class="full-width">
-              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="feature.specifier">
-              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="seeyond.specifier">
-            </md-input-container>
+            <mat-input-container class="full-width">
+              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput mat-input required [(ngModel)]="feature.specifier">
+              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput mat-input required [(ngModel)]="seeyond.specifier">
+            </mat-input-container>
           </div>
         </div>
       </div>
       <div class="text-center confirm-cancel">
-        <button md-button type="submit" class="button button-gray" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
-        <button md-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
+        <button mat-button type="submit" class="button button-gray" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
+        <button mat-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
       <app-tile-usage *ngIf="feature.feature_type !=='velo' && feature.feature_type !=='seeyond'"></app-tile-usage>

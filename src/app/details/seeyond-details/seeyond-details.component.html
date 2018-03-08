@@ -23,7 +23,7 @@
           <p class="sm">Specifier: <span class="md info">{{design.specifier}}</span></p>
         </div>
         <div class="col-sm-5">
-          <p class="sm">Est. Total: <span class="md info">{{design.estimated_amount | currency:'USD':true}}<sup>*</sup> USD</span></p>
+          <p class="sm">Est. Total: <span class="md info">{{design.estimated_amount | currency:'USD'}}<sup>*</sup> USD</span></p>
         </div>
         <div class="col-sm-1">
           <p class="xs bold">{{design.updated_at | date:'shortDate'}}</p>
@@ -61,7 +61,7 @@
         <dd *ngIf="!design.cove_lighting && (design.name === 'wall-to-ceiling' || design.name === 'ceiling')">No</dd>
         <dd *ngIf="design.cove_lighting && (design.name === 'wall-to-ceiling' || design.name === 'ceiling')">Yes</dd>
         <dt>Estimated Amount</dt>
-        <dd>{{design.estimated_amount | currency:'USD':true}} USD</dd>
+        <dd>{{design.estimated_amount | currency:'USD'}} USD</dd>
         <dt>Project Name</dt>
         <dd>{{design.project_name}}</dd>
         <dt>Specifier</dt>

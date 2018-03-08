@@ -8,7 +8,7 @@
     <div class="col-sm-8">
       <div class="row">
         <div class="col-sm-8">
-          <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
+          <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD'}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
         </div>
         <div class="col-sm-4">
           <button class="button button-orange design-quote pull-right" [disabled]="!feature.canQuote" (click)="requestQuote()">Request Quote</button>
@@ -39,10 +39,10 @@
           </div>
           <div *ngIf="feature.feature_type=='velo'" class="col-sm-5 pull-right">
             <div class="toggle-button-form-wrapper">
-              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
-                <md-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</md-button-toggle>
-                <md-button-toggle value="centimeters" id="cm-toggle" class="small-toggle">CM</md-button-toggle>
-              </md-button-toggle-group>
+              <mat-button-toggle-group #units="matButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
+                <mat-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</mat-button-toggle>
+                <mat-button-toggle value="centimeters" id="cm-toggle" class="small-toggle">CM</mat-button-toggle>
+              </mat-button-toggle-group>
             </div>
             <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
             <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
@@ -64,7 +64,7 @@
       <div class="row tiles">
         <p class="md">Design</p>
         <ng-container *ngIf="feature.feature_type !== 'hush'">
-          <div *ngFor="let tile of featureTiles | keys" mdTooltip="{{tile.tile | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" [class.col-sm-5]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host" [class.hide]="feature.tile_size==24 && tile.tile==48">
+          <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" [class.col-sm-5]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host" [class.hide]="feature.tile_size==24 && tile.tile==48">
             <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
               <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
             </div>
@@ -73,19 +73,19 @@
         </ng-container>
       </div>
       <div class="row velo-materials" *ngIf="feature.feature_type == 'velo'">
-        <md-tab-group class="velo-materials-tab-group" mat-stretch-tabs>
-          <md-tab label="Merino">
+        <mat-tab-group class="velo-materials-tab-group" mat-stretch-tabs>
+          <mat-tab label="Merino">
             <div class="merino-felt-materials">
-              <div *ngFor="let felt of materials.felt | keys" mdTooltip="{{felt.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')" [attr.data-hex]="felt.hex" class="material tooltip-host">
+              <div *ngFor="let felt of materials.felt | keys" matTooltip="{{felt.material | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')" [attr.data-hex]="felt.hex" class="material tooltip-host">
                 <ng-container *ngIf="felt.status === 'active'">
                   <img src="{{felt.image}}" alt="{{felt.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==felt.material">
                 </ng-container>
               </div>
             </div>
-          </md-tab>
-          <md-tab label="Varia">
+          </mat-tab>
+          <mat-tab label="Varia">
             <div class="varia-materials">
-              <div *ngFor="let varia of materials.varia.color | keys" mdTooltip="{{varia.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')" class="col-sm-2 material tooltip-host">
+              <div *ngFor="let varia of materials.varia.color | keys" matTooltip="{{varia.material | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')" class="col-sm-2 material tooltip-host">
                 <ng-container *ngIf="varia.status === 'active'">
                   <div class="circle" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex"></div>
                   <!-- <img src="{{varia.image}}" alt="{{varia.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==varia.material"> -->
@@ -110,12 +110,12 @@
                 </ul>
               </div>
             </div>
-          </md-tab>
-        </md-tab-group>
+          </mat-tab>
+        </mat-tab-group>
       </div>
       <div class="row materials" *ngIf="feature.feature_type !== 'velo'">
         <div *ngFor="let material of materials | keys" (click)="feature.updateSelectedMaterial(material.material)">
-          <div *ngIf="material.status === 'active'"  mdTooltip="{{material.material | capitalize}}" class="material col-sm-2 tooltip-host" [mdTooltipPosition]="position">
+          <div *ngIf="material.status === 'active'"  matTooltip="{{material.material | capitalize}}" class="material col-sm-2 tooltip-host" [matTooltipPosition]="position">
             <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
           </div>
         </div>
