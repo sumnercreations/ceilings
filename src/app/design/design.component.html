@@ -11,7 +11,7 @@
           <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
         </div>
         <div class="col-sm-4">
-          <button class="button button-orange design-quote pull-right" (click)="requestQuote()">Request Quote</button>
+          <button class="button button-orange design-quote pull-right" [disabled]="!feature.canQuote" (click)="requestQuote()">Request Quote</button>
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
         <md-tab-group class="velo-materials-tab-group" mat-stretch-tabs>
           <md-tab label="Merino">
             <div class="merino-felt-materials">
-              <div *ngFor="let felt of materials.felt | keys" mdTooltip="{{felt.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')" [attr.data-hex]="felt.hex" class="col-sm-2 material tooltip-host">
+              <div *ngFor="let felt of materials.felt | keys" mdTooltip="{{felt.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')" [attr.data-hex]="felt.hex" class="material tooltip-host">
                 <ng-container *ngIf="felt.status === 'active'">
                   <img src="{{felt.image}}" alt="{{felt.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==felt.material">
                 </ng-container>
@@ -114,10 +114,10 @@
         </md-tab-group>
       </div>
       <div class="row materials" *ngIf="feature.feature_type !== 'velo'">
-        <div *ngFor="let material of materials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="feature.updateSelectedMaterial(material.material)" class="col-sm-2 material tooltip-host">
-          <ng-container *ngIf="material.status === 'active'">
+        <div *ngFor="let material of materials | keys" (click)="feature.updateSelectedMaterial(material.material)">
+          <div *ngIf="material.status === 'active'"  mdTooltip="{{material.material | capitalize}}" class="material col-sm-2 tooltip-host" [mdTooltipPosition]="position">
             <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==material.material">
-          </ng-container>
+          </div>
         </div>
       </div>
       <div class="row">
