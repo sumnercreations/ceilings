@@ -14,7 +14,8 @@ import {
   MdDialogModule,
   MdInputModule,
   MdProgressSpinnerModule,
-  MdTabsModule
+  MdTabsModule,
+  MdTableModule,
 } from '@angular/material';
 
 // routing
@@ -67,6 +68,7 @@ import { SeeyondService } from './_services/seeyond.service';
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -116,7 +118,9 @@ import { KeysPipe } from './_pipes/keys.pipe';
     MdDialogModule,
     MdInputModule,
     MdProgressSpinnerModule,
-    MdTabsModule
+    MdTabsModule,
+    MdTableModule,
+    CdkTableModule
   ],
   providers: [
     Feature,

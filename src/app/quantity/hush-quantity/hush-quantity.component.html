@@ -1,6 +1,63 @@
-<div class="row">
-  <div class="col-sm-2">
+<div class="quantity-header">
+  <div class="row">
     <a class="hidden-print back-to-design" (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> Back to Design</a>
+    <div class="col-sm-12">
+      <div class="col-sm-4">
+        <p class="md title">Order By Quantity</p>
+      </div>
+      <div class="col-sm-8">
+        <p class="md title">Hush Blocks Tiles</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bg-white">
+  <div class="separator"></div>
+</div>
+<div class="quantity-ui">
+  <div class="row full-height">
+    <div class="col-sm-9 full-height">
+      <div class="table-wrapper col-sm-12">
+        <div class="add-button-row">
+          <button class="button button-orange design-quote pull-right" (click)="addRow()">Add Row</button>
+        </div>
+
+        <div class="example-container md-elevation-z8">
+            <md-table #table [dataSource]="dataSource">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container mdColumnDef="position">
+                  <md-header-cell *mdHeaderCellDef> No. </md-header-cell>
+                  <md-cell *mdCellDef="let element"> {{element.position}} </md-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container mdColumnDef="name">
+                  <md-header-cell *mdHeaderCellDef> Name </md-header-cell>
+                  <md-cell *mdCellDef="let element"> {{element.name}} </md-cell>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container mdColumnDef="weight">
+                  <md-header-cell *mdHeaderCellDef> Weight </md-header-cell>
+                  <md-cell *mdCellDef="let element"> {{element.weight}} </md-cell>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container mdColumnDef="symbol">
+                  <md-header-cell *mdHeaderCellDef> Symbol </md-header-cell>
+                  <md-cell *mdCellDef="let element"> {{element.symbol}} </md-cell>
+                </ng-container>
+
+                <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+                <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+              </md-table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

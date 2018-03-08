@@ -1,0 +1,19 @@
+.separator {
+  background-color: #fff;
+  border-bottom: 2px solid #cdcdcd;
+  margin: 0 15px;
+}
+
+.full-height{
+  height: 100%;
+}
+
+.table-wrapper {
+  border-right: 2px solid #cdcdcd;
+  height: 100%;
+  overflow: auto;
+}
+
+.add-button-row {
+  margin: 15px;
+}
