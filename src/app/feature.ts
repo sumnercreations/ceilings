@@ -250,9 +250,8 @@ export class Feature {
     }
 
     const allHardwareCost = total110 + total111 + total112;
-    const allTilesPrice = (hushTileCount / 3) * 114.88;
-    this.services_amount = (hushTileCount * 26.08);
-    this.estimated_amount = allTilesPrice + this.services_amount + allHardwareCost;
+    this.services_amount = (hushTileCount * 65.69);
+    this.estimated_amount = this.services_amount + allHardwareCost;
   }
 
   getClarioEstimate(tilesArray) {
