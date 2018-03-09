@@ -1,144 +1,120 @@
-<div class="row">
-  <div class="col-xs-11">
-    <div class="intro">
-      <h2>{{title | capitalize}}</h2>
+<div class="options-dialog-container">
+  <div class="row">
+    <div class="col-xs-11">
+      <div class="intro">
+        <h2>{{title | capitalize}}</h2>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12 col-sm-6 left-pane">
-    <div class="row">
-      <div class="col-sm-12">
-        <h3>Design Name</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-9">
-        <div class="form-group">
-          <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
-        </div>
-      </div>
-      <div class="col-sm-3 options-load">
-        <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
-      </div>
-    </div>
-    <hr>
-    <div id="grid-dimensions">
-      <h3>Design Dimensions</h3>
-      <p>A 15/16 grid system is required for this product.</p>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 left-pane">
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-12">
+          <h3>Feature Name</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-9">
           <div class="form-group">
-            <label for="width">Width</label>
-            <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Width" name="width" id="width">
+            <input [(ngModel)]="seeyond.design_name" #designNameInput="ngModel" required type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label for="length">Length</label>
-            <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Length" name="length" id="length">
+        <div class="col-sm-3 options-load">
+          <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+        </div>
+      </div>
+      <div id="grid-dimensions">
+        <h3>Feature Selection</h3>
+        <div class="form-group">
+          <div class="col-sm-10 feature-select">
+            <select class="form-control" (change)="updateSelectedFeature($event.target.value)">
+              <option *ngFor="let featureOption of seeyond.seeyond_features | keys;" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option>
+            </select>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="toggle-button-form-wrapper">
-            <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
-              <md-button-toggle value="inches">IN</md-button-toggle>
-              <md-button-toggle value="centimeters">CM</md-button-toggle>
-            </md-button-toggle-group>
+        <hr class="col-sm-10">
+        <div>
+          <h3>Dimensions</h3>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="width">Width</label>
+                <input [(ngModel)]="seeyond.width" #widthInput="ngModel" (change)="dimensionsDidChange($event.key)" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.widthMin}}, max: {{this.seeyond.widthMax}}</span>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="length" *ngIf="seeyond.seeyond_feature_type !== 'ceiling'">Height</label>
+                <label for="length" *ngIf="seeyond.seeyond_feature_type === 'ceiling'">Length</label>
+                <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" (change)="dimensionsDidChange($event.key)" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.heightMin}}, max: {{this.seeyond.heightMax}}</span>
+              </div>
+            </div>
+            <div class="col-sm-4" *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">
+              <div class="form-group">
+                <label for="length">Radius</label>
+                <input [(ngModel)]="seeyond.radius" #radiusInput="ngModel" (change)="dimensionsDidChange($event.key)" type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.radiusMin}}, max: {{this.seeyond.radiusMax}}</span>
+              </div>
+            </div>
+            <div class="col-sm-4" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
+              <div class="form-group">
+                <label for="length">Ceiling Length</label>
+                <input [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" (change)="dimensionsDidChange($event.key)" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+                <span id="helpBlock" class="help-block">min: {{this.seeyond.ceilLengthMin}}, max: {{this.seeyond.ceilLengthMax}}</span>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="toggle-button-form-wrapper no-margin">
+                <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+                  <md-button-toggle value="inches">IN</md-button-toggle>
+                  <md-button-toggle value="centimeters">CM</md-button-toggle>
+                </md-button-toggle-group>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div id="grid-size">
-      <hr>
-      <h3>Tile Size</h3>
-      <p>Please specify the size of your grid.</p>
-      <md-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
-        <div class="row">
-          <div class="col-sm-4">
-            <md-radio-button class="radio-button" [value]="24">
-              24 X 24
-            </md-radio-button>
-            <p>Qty. 4 per package</p>
-          </div>
-          <div class="col-sm-4">
-            <md-radio-button class="radio-button" [value]="48">
-              24 X 48
-            </md-radio-button>
-            <p>Qty. 2 per package</p>
-          </div>
-        </div>
-      </md-radio-group>
-    </div>
-    <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="validateOptions()">start designing</button>
-    <div class="back">
-      <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
-    </div>
-  </div>
-  <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
-    <div class="grid-guides clearfix">
-      <h3>Grid and Guides</h3>
-      <p>Design dimensions are shown by a blue guide.</p>
-      <img src="/assets/images/grid-and-guide.png" alt="Grid with Blue Guides"
-          class="pull-left">
-      <aside class="note">Tiles extending past the blue guide must be flat tiles to allow cutting.</aside>
-    </div>
-    <div id="design">
-      <h3>Design</h3>
-      <p>Choose your {{feature.getTileType()}} design and color.</p>
-      <div id="tiles">
-        <ul class="list-inline">
-          <li class="tile">
-            <img src="/assets/images/baffles/baffle_24_x_24.png" alt="24x24 Baffle" class="img-responsive">
-          </li>
-          <li class="tile">
-            <img src="/assets/images/tiles/00.png" alt="Tile 00" class="img-responsive">
-          </li>
-          <li class="baffle">
-            <img src="/assets/images/baffles/baffle_24_x_48.png" alt="24x48 Baffle" class="img-responsive">
-          </li>
-          <li class="material">
-            <img src="/assets/images/materials/felt/sola/zinc.png" alt="Zinc" class="img-responsive">
-          </li>
-          <li class="material">
-            <img src="/assets/images/materials/felt/sola/nickel.png" alt="Nickel" class="img-responsive">
-          </li>
-          <li class="material">
-            <img src="/assets/images/materials/felt/sola/cashmere.png" alt="Cashemere" class="img-responsive">
-          </li>
-          <li class="material">
-            <img src="/assets/images/materials/felt/sola/burnt_umber.png" alt="Burnt Umber" class="img-responsive">
-          </li>
-          <li class="material">
-            <img src="/assets/images/materials/felt/sola/ore.png" alt="Ore" class="img-responsive">
-          </li>
-          <li class="material">
-            <img src="/assets/images/materials/felt/sola/dark_gray.png" alt="Dark Gray" class="img-responsive">
-          </li>
-        </ul>
+      <button class="button button-orange start-designing" (click)="startDesigning()" [disabled]="!seeyondValidateOptions()">start designing</button>
+      <div class="back">
+        <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
       </div>
     </div>
-    <div id="modify">
-      <h3>Modify</h3>
-      <p>Rotate or remove {{feature.getTileType('plural')}}.</p>
-      <ul class="list-inline tools">
-        <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container" [class.add-margin-left]="i === 2">
-          <div class="tool" [class.add-border-right]="isLast">
-            <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div id="fixtures">
-      <h3>Fixtures</h3>
-      <p>Accomodate ceiling fixtures with flat tiles.</p>
-      <ul class="list-inline tools">
-        <li *ngFor="let tool of fixturesToolsArray last as isLast; index as i" class="tool-container">
-          <div class="tool" [class.add-border-right]="isLast">
-            <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}" class="img-responsive">
-          </div>
-        </li>
-      </ul>
+    <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
+      <div class="">
+        <h3>Feature Configuration</h3>
+        <img class="seeyond-feature-img" src="{{seeyond.image}}" alt="{{seeyond.title}} line drawing">
+      </div>
+      <div id="design">
+        <h3>Design</h3>
+        <p>Choose your feature pattern and color</p>
+        <div id="tiles">
+          <ul class="list-inline tools no-margin">
+            <li *ngFor="let pattern of seeyond.patterns last as isLast; index as i" class="pattern-container">
+              <div class="pattern">
+                <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
+              </div>
+            </li>
+          </ul>
+          <ul class="list-inline no-margin">
+            <li class="material"><img src="/assets/images/materials/felt/sola/nickel.png" alt="Nickel" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/citrine.png" alt="Citrine" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/aries.png" alt="Aries" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ruby.png" alt="Ruby" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/oxford.png" alt="Oxford" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/hunter.png" alt="hunter" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/burnt_umber.png" alt="Burnt Umber" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ebony.png" alt="Ebony" class="img-responsive"></li>
+          </ul>
+        </div>
+        <p *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))">Add cove lighting to your ceiling feature</p>
+        <p *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))" class="icomoon-checkbox-checked orange checkbox"></p>
+      </div>
+      <div id="modify">
+        <h3>Modify</h3>
+        <p>Dynamically adjust feature dimensions</p>
+      </div>
     </div>
   </div>
 </div>

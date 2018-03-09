@@ -1,9 +1,12 @@
+import { SeeyondFeature } from 'app/seeyond-feature';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, Location } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { Feature } from '../feature';
+import { SeeyondService } from '../_services/seeyond.service';
+import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-details',
@@ -14,7 +17,9 @@ export class DetailsComponent implements OnInit {
   public rep: any;
   public tilesArray: any;
   public tileArraySize: number;
-  public encodedImage: any;
+  public design: any;
+  public isSeeyond = false;
+  public tessellationStr: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,31 +27,52 @@ export class DetailsComponent implements OnInit {
     private debug: DebugService,
     private api: ApiService,
     public feature: Feature,
-    public location: Location
+    public location: Location,
+    public seeyondApi: SeeyondService,
+    public seeyond: SeeyondFeature,
+    public alert: AlertService
   ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
-      if (params['id']) {
-        this.api.loadDesign(params['id']).subscribe(design => {
-          if (design == null) {
-            // design not found
-            this.router.navigate([params['type'], 'design']);
-          }else if (!design.quoted) {
-            // not quoted
-            this.router.navigate([design.feature_type, 'design', design.id]);
-          } else {
-            // load the quoted design
-            this.api.getUserRep(design.uid).subscribe(rep => {
-              this.rep = rep;
-              this.feature.setDesign(design);
-              this.tilesArray = this.feature.getTilesPurchasedObj();
-              this.tileArraySize = Object.keys(this.tilesArray).length;
-              this.debug.log('details-component', this.tileArraySize);
-            });
-          }
-        });
+      const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      if (!!designId) {
+        if (params['type'] === 'seeyond') {
+          this.isSeeyond = true;
+          this.seeyondApi.loadFeature(designId).subscribe(design => {
+            if (!design.quoted) {
+              // not quoted
+              const pathname = window.location.pathname.replace(/\/details/g, '');
+              this.router.navigate([pathname]);
+            } else {
+              this.design = design;
+              this.tessellationStr = this.seeyond.getTessellationName(design.tessellation);
+              this.debug.log('seeyond', design);
+              // load the quoted design
+              this.api.getUserRep(design.uid).subscribe(rep => {
+                this.rep = rep;
+              });
+            }
+          });
+        } else {
+          this.api.loadDesign(designId).subscribe(design => {
+            if (!design.quoted) {
+              // not quoted
+              this.alert.error('Details are not available until a request for a quote is processed.');
+              this.router.navigate([design.feature_type, 'design', design.id]);
+            } else {
+              // load the quoted design
+              this.api.getUserRep(design.uid).subscribe(rep => {
+                this.rep = rep;
+                this.feature.setDesign(design);
+                this.tilesArray = this.feature.getTilesPurchasedObj();
+                this.tileArraySize = Object.keys(this.tilesArray).length;
+                this.debug.log('details-component', this.tileArraySize);
+              });
+            }
+          });
+        }
       }
     });
   }

@@ -1,7 +1,9 @@
+import { AlertService } from './_services/alert.service';
 import { MaterialsService } from './_services/materials.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
 import * as _ from 'lodash';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class Feature {
@@ -40,18 +42,22 @@ export class Feature {
   public materialHex: string;
   public materialType: string;
   public diffusion: string;
+  public discontinuedMaterials: Array<string>;
+  public inactiveMaterials: Array<string>;
+  public canQuote = true;
 
   public gridData: any;
   public toolsArray = this.materialsService.toolsArray;
   public tilesArray = this.materialsService.tilesArray;
-  public newMaterialsArray = this.materialsService.newMaterialsArray;
-  public columnAdjustArray = this.materialsService.columnAdjustArray;
-  public rowAdjustArray = this.materialsService.rowAdjustArray;
-
+  public materials = this.materialsService.materials;
+  public materialObj: any;
+  public seeyond_features = this.materialsService.seeyond_features;
 
   constructor(
-    private materialsService: MaterialsService,
-    private debug: DebugService
+    public materialsService: MaterialsService,
+    public debug: DebugService,
+    public location: Location,
+    public alert: AlertService
   ) {}
 
   setDesign(design: any) {
@@ -82,6 +88,7 @@ export class Feature {
       this.updateEstimatedAmount();
     }
     this.buildGrid();
+    this.getDeprecatedMaterials();
   }
 
   public reset() {
@@ -110,6 +117,91 @@ export class Feature {
         break;
     }
     return this.estimated_amount;
+  }
+
+  getDeprecatedMaterials() {
+    const inactiveMaterials = [];
+    const discontinuedMaterials = [];
+    const materialsObj = this.materials;
+    for (const mat in materialsObj) {
+      if (materialsObj.hasOwnProperty(mat)) {
+        for (const matType in materialsObj[mat]) {
+          if (materialsObj[mat].hasOwnProperty(matType)) {
+            for (const matTypeColor in materialsObj[mat][matType]) {
+              if (materialsObj[mat][matType].hasOwnProperty(matTypeColor)) {
+                if (materialsObj[mat][matType][matTypeColor].status === 'inactive') {
+                  inactiveMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
+                }
+                if (materialsObj[mat][matType][matTypeColor].status === 'discontinued') {
+                  discontinuedMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    this.discontinuedMaterials = discontinuedMaterials;
+    this.inactiveMaterials = inactiveMaterials;
+    this.checkMaterialsUsed();
+  }
+
+  checkMaterialsUsed() {
+    let alertStr;
+    const gridData = this.gridData;
+    const matchedInactiveMaterials = [];
+    const matchedDiscontinuedMaterials = [];
+    if (this.inactiveMaterials.length > 0) {
+      // loop through gridData looking for inactive materials
+      this.inactiveMaterials.map(material => {
+        const mat = material.toString().toLowerCase().replace(/ /g, '_');
+        gridData.map(gridSection => {
+          gridSection.map(tile => {
+            if (tile.material === mat) {
+              if (matchedInactiveMaterials.indexOf(material) < 0) {
+                matchedInactiveMaterials.push(material);
+              }
+            }
+          })
+        })
+      })
+      // alert users if inactive materials are being used
+      if (matchedInactiveMaterials.length === 1) {
+        this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while suplies last.`)
+      } else if (matchedInactiveMaterials.length > 1) {
+        alertStr = matchedInactiveMaterials.toString();
+        alertStr = alertStr.replace(/,/g, ' and ');
+        this.alert.error(`${alertStr} are being discontinued and are only available while suplies last.`)
+      }
+    }
+    if (this.discontinuedMaterials.length > 0) {
+      // loop through gridData looking for discontinued materials
+      this.discontinuedMaterials.map(material => {
+        const mat = material.toString().toLowerCase().replace(/ /g, '_');
+        gridData.map(gridSection => {
+          gridSection.map(tile => {
+            if (tile.material === mat) {
+              if (matchedDiscontinuedMaterials.indexOf(material) < 0) {
+                matchedDiscontinuedMaterials.push(material);
+              }
+            }
+          })
+        })
+      })
+      // if discontinued materials are found disable quote and alert user
+      if (matchedDiscontinuedMaterials.length > 0) {
+        this.canQuote = false;
+        if (matchedDiscontinuedMaterials.length === 1) {
+          this.alert.error(`The ${matchedDiscontinuedMaterials[0]} material has been discontinued. Select a new color to proceed.`)
+        } else if (matchedDiscontinuedMaterials.length > 1) {
+          alertStr = matchedDiscontinuedMaterials.toString();
+          alertStr = alertStr.replace(/,/g, ' and ');
+          this.alert.error(`The ${alertStr} materials have been discontinued. Select a new color to proceed.`)
+        }
+      } else {
+        this.canQuote = true;
+      }
+    }
   }
 
   getTetriaEstimate(tilesArray) {
@@ -633,14 +725,14 @@ export class Feature {
     // 1 cm = 0.393701 in
     const conversion = 0.393701;
     const inches = cm * conversion;
-    return Math.ceil(inches);
+    return Math.round(inches);
   }
 
   public convertINtoCM(inches: number) {
     // 1 cm = 0.393701 in
     const conversion = 2.54;
     const cm = inches * conversion;
-    return Math.ceil(cm);
+    return Math.round(cm);
   }
 
   public veloTiles() {
@@ -866,5 +958,11 @@ export class Feature {
   public setFeatureType(str: string) {
     if (str.indexOf('hush') > -1) { str = 'hush'; }
     return str;
+  }
+
+  public getMaterialInfo(matFamily: string, matType: string, material: string) {
+    const materialObject = this.materials[matFamily][matType][material];
+    this.materialObj = materialObject;
+    return materialObject;
   }
 }

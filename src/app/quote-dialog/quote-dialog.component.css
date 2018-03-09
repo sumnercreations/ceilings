@@ -22,3 +22,7 @@ td div.tile {
   width: 48px;
   height: 48px;
 }
+
+.confirm-cancel {
+  padding: 5px;
+}

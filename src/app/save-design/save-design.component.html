@@ -11,7 +11,7 @@
 <div *ngIf="(feature.uid && feature.uid === user.uid) || (user.uid && !feature.id)">
   <h2 md-dialog-title class="text-center">Save Your Design</h2>
   <div md-dialog-content>
-    <form (ngSubmit)="saveFeature()" #saveForm="ngForm">
+    <form (ngSubmit)="trySave()" #saveForm="ngForm" class="save-form">
       <div class="col-sm-12">
         <div class="form-group">
           <md-input-container class="full-width">
@@ -23,9 +23,10 @@
         </div>
       </div>
       <div class="text-center">
-        <button class="button button-gray" [hidden]="saving || !newDesign" type="submit">Save</button>
-        <button class="button button-gray" [hidden]="newDesign || feature.quoted" type="submit">Overwrite</button>
-        <button class="button button-gray" [hidden]="newDesign" (click)="newButtonClick()">Save New</button>
+        <!-- <button class="button button-gray" [hidden]="saving || !newDesign" type="submit">Save</button>   TODO: What does saving mean?-->
+        <button class="button button-gray" *ngIf="newDesign" type="submit">Save</button>
+        <button class="button button-gray" *ngIf="!newDesign || feature.quoted" type="submit">Overwrite</button>
+        <button class="button button-gray" *ngIf="!newDesign" (click)="newButtonClick()">Save New</button>
         <div class="center-div" [hidden]="!saving">
           <md-progress-spinner color="primary" mode="indeterminate"></md-progress-spinner>
         </div>

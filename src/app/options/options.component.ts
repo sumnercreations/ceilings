@@ -1,9 +1,12 @@
+import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
+import { SeeyondFeature } from '../seeyond-feature';
 import { AlertService } from 'app/_services/alert.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-options',
@@ -23,9 +26,6 @@ export class OptionsComponent implements OnInit {
     'sprinkler'
   ];
 
-  public columnAdjustArray = this.feature.columnAdjustArray;
-  public rowAdjustArray = this.feature.rowAdjustArray;
-
   // debugging
   public params: any;
 
@@ -34,7 +34,10 @@ export class OptionsComponent implements OnInit {
     private debug: DebugService,
     public feature: Feature,
     public dialogRef: MdDialogRef<OptionsComponent>,
-    public alert: AlertService
+    public alert: AlertService,
+    public seeyondService: SeeyondService,
+    public seeyond: SeeyondFeature,
+    public location: Location
   ) { }
 
   ngOnInit() {
@@ -53,6 +56,8 @@ export class OptionsComponent implements OnInit {
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
+    this.seeyond.convertDimensionsUnits(units);
+    this.seeyond.setMaxMinDimensions(units);
     this.feature.updateGridUnits(units);
   }
 

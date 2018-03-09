@@ -8,16 +8,18 @@ import { DetailsComponent } from './details/details.component';
 
 
 const appRoutes: Routes = [
+  // note: param1 and param2 are meant to be interchangable
   { path: '', component: LandingComponent },
-  // { path: ':type/options', component: OptionsComponent },
   { path: ':type/design', component: DesignComponent },
-  { path: ':type/design/:id', component: DesignComponent },
-  { path: ':type/design/:id/details', component: DetailsComponent },
-  { path: 'clario', redirectTo: 'clario/design', pathMatch: 'full'},
-  { path: 'tetria', redirectTo: 'tetria/design', pathMatch: 'full' },
-  // { path: 'seeyond', redirectTo: 'seeyond/design', pathMatch: 'full' },
-  { path: 'hush-blocks', redirectTo: 'hush-blocks/design', pathMatch: 'full' },
-  { path: 'velo', redirectTo: 'velo/design', pathMatch: 'full' },
+  { path: ':type/design/:param1', component: DesignComponent },
+  { path: ':type/design/:param1/details', component: DetailsComponent },
+  { path: ':type/design/:param1/:param2', component: DesignComponent },
+  { path: ':type/design/:param1/:param2/details', component: DetailsComponent },
+  { path: 'clario', redirectTo: '/clario/design', pathMatch: 'full'},
+  { path: 'tetria', redirectTo: '/tetria/design', pathMatch: 'full' },
+  { path: 'seeyond', redirectTo: '/seeyond/design', pathMatch: 'full' },
+  { path: 'hush-blocks', redirectTo: '/hush-blocks/design', pathMatch: 'full' },
+  { path: 'velo', redirectTo: '/velo/design', pathMatch: 'full' },
   { path: 'landing', redirectTo: '', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -25,3 +27,5 @@ const appRoutes: Routes = [
 export const appRoutingProviders: any[] = [];
 
 export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+// export const Routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, { enableTracing: true});
+// ^^^ turns on console tracing of router events
