@@ -1,4 +1,9 @@
+
 <h3>Tile Usage information</h3>
+<div *ngIf="!purchasedTiles">
+  <p class="md">Select tiles for your design.</p>
+</div>
+<div *ngIf="!!purchasedTiles">
 <p class="sm">{{feature.packageInformation()}}</p>
 <table class="table table-striped">
   <tr>
@@ -20,3 +25,4 @@
     <th *ngIf="feature.feature_type!='hush'">{{totalUnused}}</th>
   </tr>
 </table>
+</div>
