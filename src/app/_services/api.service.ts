@@ -10,7 +10,6 @@ import { DebugService } from './../_services/debug.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ApiService {
@@ -122,8 +121,6 @@ export class ApiService {
 
   sendEmail() {
     return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/design/' + this.feature.id)
-      .map((res: Response) => res.json())
-      .catch(this.handleError);
   }
 
   getPrices() {
@@ -138,17 +135,7 @@ export class ApiService {
       'email': email,
       'password': password
     }
-
-    return this.http.post(this.loginUrl, formData)
-      .map((res: Response) => {
-        const api = res.json();
-        if (api && !api.result.error) {
-          localStorage.setItem('3formUser', JSON.stringify(api.result.user));
-          this.user = api.result.user;
-          this.onUserLoggedIn.emit(this.user);
-          this.debug.log('api', 'user successfully logged in');
-        }
-      });
+    return this.http.post<any>(this.loginUrl, formData);
   }
 
   logout() {

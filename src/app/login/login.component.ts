@@ -36,13 +36,19 @@ export class LoginComponent implements OnInit {
         data => {
           // this.alert.success("Successfully logged in.");
           this.loading = false;
+          localStorage.setItem('3formUser', JSON.stringify(data.result.user));
+          this.api.onUserLoggedIn.emit(this.user);
+          this.debug.log('api', 'user successfully logged in');
+          // this.dialogRef.close();
         },
         error => {
           if (error) {
-            this.alert.apiAlert(error);
+            this.api.handleError(error);
           }
           this.loading = false;
         }
       );
   }
+
 }
+
