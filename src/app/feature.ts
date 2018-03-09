@@ -68,7 +68,7 @@ export class Feature {
     this.tile_size = design.tile_size;
     this.design_data_url = design.design_data_url;
     this.tiles = JSON.parse(design.tiles);
-    this.hardware = JSON.parse(design.hardware);
+    this.hardware = (!!design.hardware) ? JSON.parse(design.hardware) : null;
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;
     this.gridData = JSON.parse(design.grid_data);
