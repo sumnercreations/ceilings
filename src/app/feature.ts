@@ -120,6 +120,7 @@ export class Feature {
   }
 
   getDeprecatedMaterials() {
+    if (this.feature_type === 'seeyond') { return; } // handled by seeyondFeature.loadSeeyondDesign()
     const inactiveMaterials = [];
     const discontinuedMaterials = [];
     const materialsObj = this.materials;
@@ -198,9 +199,9 @@ export class Feature {
           alertStr = alertStr.replace(/,/g, ' and ');
           this.alert.error(`The ${alertStr} materials have been discontinued. Select a new color to proceed.`)
         }
-      } else {
-        this.canQuote = true;
       }
+    } else { // canQuote if no discontinuedMaterials found
+      this.canQuote = true;
     }
   }
 

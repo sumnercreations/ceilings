@@ -11,7 +11,7 @@
 <div *ngIf="(feature.uid && feature.uid === user.uid) || (user.uid && !feature.id)">
   <h2 md-dialog-title class="text-center">Save Your Design</h2>
   <div md-dialog-content>
-    <form (ngSubmit)="trySave()" #saveForm="ngForm" class="save-form">
+    <form (ngSubmit)="saveInvoked()" #saveForm="ngForm" class="save-form">
       <div class="col-sm-12">
         <div class="form-group">
           <md-input-container class="full-width">

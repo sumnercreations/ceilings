@@ -121,9 +121,8 @@ export class SeeyondFeature extends Feature {
     this.image = this.getFeatureImage(this.seeyond_feature_index);
 
     this.materialObj = this.getMaterialInfo('felt', 'sola', this.material);
-    if ((this.materialObj.status === 'inactive') || (this.materialObj.status === 'discontinued')) {
-      this.$outdatedMaterial.emit();
-    }
+    if (this.materialObj.status === 'inactive') { this.$outdatedMaterial.emit(); }
+    if (this.materialObj.status === 'discontinued') { this.$outdatedMaterial.emit(); this.canQuote = false; }
 
     this.reloadVisualization();
   }
