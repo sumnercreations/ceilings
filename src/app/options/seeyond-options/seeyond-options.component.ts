@@ -11,7 +11,7 @@ import { SeeyondFeature } from './../../seeyond-feature';
 export class SeeyondOptionsComponent extends OptionsComponent {
 
   updateSelectedFeature(feature) {
-    this.seeyond.updateFeature(feature);
+    this.seeyond.updateSeeyondFeature(feature);
   }
 
   dimensionsDidChange() {

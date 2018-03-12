@@ -48,7 +48,7 @@ export class SeeyondFeature extends Feature {
   public radiusMax: number;
   public linear_feet: number;
 
-  updateFeature(seeyond_feature_type: string) {
+  updateSeeyondFeature(seeyond_feature_type?: string) {
     if (seeyond_feature_type) {
       this.debug.log('seeyond', `updateFeature: ${this.seeyond_feature_type}`);
       switch (seeyond_feature_type) {
@@ -87,6 +87,7 @@ export class SeeyondFeature extends Feature {
   }
 
   loadSeeyondDesign(design) {
+    this.feature_type = 'seeyond'
     this.id = design.id;
     this.uid = design.uid;
     this.seeyond_feature_index = design.feature_type;
@@ -125,6 +126,44 @@ export class SeeyondFeature extends Feature {
     if (this.materialObj.status === 'discontinued') { this.$outdatedMaterial.emit(); this.canQuote = false; }
 
     this.reloadVisualization();
+  }
+
+  resetSeeyond() {
+    this.title = undefined;
+    this.name = undefined;
+    this.image = undefined;
+    this.height = undefined;
+    this.radius = undefined;
+    this.angle = undefined;
+    this.ceiling_length = undefined;
+    this.depth = undefined;
+    this.data = undefined;
+    this.xml = undefined;
+    this.tessellation = undefined;
+    this.tessellationStr = undefined;
+    this.pattern_strength = undefined;
+    this.material = undefined;
+    this.sheet_part_id = undefined;
+    this.boxes = undefined;
+    this.sheets = undefined;
+    this.cove_lighting = false;
+    this.random_seed = undefined;
+    this.prices = undefined;
+    this.hardware = undefined;
+    this.seeyond_feature_type = undefined;
+    this.seeyond_feature_index = undefined;
+    this.seeyondService = undefined;
+    this.widthMin = undefined;
+    this.widthMax = undefined;
+    this.heightMin = undefined;
+    this.heightMax = undefined;
+    this.ceilLengthMin = undefined;
+    this.ceilLengthMax = undefined;
+    this.radiusMin = undefined;
+    this.radiusMax = undefined;
+    this.linear_feet = undefined;
+
+    this.reset();
   }
 
   reloadVisualization() {

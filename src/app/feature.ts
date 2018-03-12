@@ -92,12 +92,28 @@ export class Feature {
   }
 
   public reset() {
-    this.design_name = undefined;
     this.width = undefined;
     this.length = undefined;
     this.gridData = undefined;
-    this.estimated_amount = 0.00;
     this.id = undefined;
+    this.uid = undefined;
+    this.feature_type = undefined;
+    this.design_name = undefined;
+    this.project_name = undefined;
+    this.specifier = undefined;
+    this.width = undefined;
+    this.length = undefined;
+    this.units = 'inches';
+    this.material = undefined;
+    this.tile_size = 24;
+    this.tiles = undefined;
+    this.design_data_url = undefined;
+    this.hardware = undefined;
+    this.estimated_amount = 0.00;
+    this.services_amount = 0.00;
+    this.quoted = false; // boolean
+    this.archived = false; // boolean
+    this.updated_at = undefined;
   }
 
   updateEstimatedAmount() {
@@ -134,7 +150,7 @@ export class Feature {
                   inactiveMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
                 }
                 if (materialsObj[mat][matType][matTypeColor].status === 'discontinued') {
-                  discontinuedMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
+                  discontinuedMaterials.push(materialsObj[mat][matType][matTypeColor].name_str || materialsObj[mat][matType][matTypeColor].material)
                 }
               }
             }
@@ -148,16 +164,24 @@ export class Feature {
   }
 
   checkMaterialsUsed() {
+    if (this.feature_type === 'seeyond') { return; }
     let alertStr;
     const gridData = this.gridData;
     const matchedInactiveMaterials = [];
     const matchedDiscontinuedMaterials = [];
+
     if (this.inactiveMaterials.length > 0) {
       // loop through gridData looking for inactive materials
       this.inactiveMaterials.map(material => {
         const mat = material.toString().toLowerCase().replace(/ /g, '_');
         gridData.map(gridSection => {
-          gridSection.map(tile => {
+          let gridSectionArr = [];
+          if (!Array.isArray(gridSection)) {
+            gridSectionArr = Object.keys(gridSection).map(key => {
+              return gridSection[key];
+            })
+          } else { gridSectionArr = gridSection; }
+          gridSectionArr.map(tile => {
             if (tile.material === mat) {
               if (matchedInactiveMaterials.indexOf(material) < 0) {
                 matchedInactiveMaterials.push(material);
@@ -180,7 +204,13 @@ export class Feature {
       this.discontinuedMaterials.map(material => {
         const mat = material.toString().toLowerCase().replace(/ /g, '_');
         gridData.map(gridSection => {
-          gridSection.map(tile => {
+          let gridSectionArr = [];
+          if (!Array.isArray(gridSection)) {
+            gridSectionArr = Object.keys(gridSection).map(key => {
+              return gridSection[key];
+            })
+          } else { gridSectionArr = gridSection; }
+          gridSectionArr.map(tile => {
             if (tile.material === mat) {
               if (matchedDiscontinuedMaterials.indexOf(material) < 0) {
                 matchedDiscontinuedMaterials.push(material);
