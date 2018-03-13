@@ -9,7 +9,8 @@
             <p class="md">Est. Total: {{seeyond.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
           </div>
           <div class="col-sm-4">
-            <button class="button button-orange design-quote pull-right" [disabled]="!seeyond.canQuote" (click)="requestQuote()">Request Quote</button>
+            <button *ngIf="!seeyond.quoted" class="button button-orange design-quote pull-right" [disabled]="!seeyond.canQuote" (click)="requestQuote()">Request Quote</button>
+            <button *ngIf="seeyond.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
           </div>
         </div>
       </div>
