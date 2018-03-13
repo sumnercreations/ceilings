@@ -9,7 +9,8 @@
             <p class="md">Est. Total: {{seeyond.estimated_amount | currency:'USD'}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
           </div>
           <div class="col-sm-4">
-            <button class="button button-orange design-quote pull-right" [disabled]="feature.canQuote" (click)="requestQuote()">Request Quote</button>
+            <button *ngIf="!seeyond.quoted" class="button button-orange design-quote pull-right" [disabled]="!seeyond.canQuote" (click)="requestQuote()">Request Quote</button>
+            <button *ngIf="seeyond.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
           </div>
         </div>
       </div>
@@ -107,7 +108,7 @@
           </div>
           <div class="col-sm-6 vertical-center">
             <div class="toggle-button-form-wrapper">
-              <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateUnits(units.value)" value="{{feature.units}}">
+              <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateUnits(units.value)" value="{{seeyond.units}}">
                 <mat-button-toggle value="inches">IN</mat-button-toggle>
                 <mat-button-toggle value="centimeters">CM</mat-button-toggle>
               </mat-button-toggle-group>

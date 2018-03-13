@@ -41,7 +41,7 @@ export class SaveDesignComponent implements OnInit {
     this.newButton = true;
   }
 
-  trySave() {
+  saveInvoked() {
     if (this.feature.feature_type === 'seeyond') {
       this.saveSeeyond();
     } else {

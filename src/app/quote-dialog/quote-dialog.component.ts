@@ -90,7 +90,7 @@ export class QuoteDialogComponent implements OnInit {
         // redirect to the new URL if we aren't already there.
         const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
         if (url !== this.router.url) {
-          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+          this.router.navigate([`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`]);
         }
         this.alert.success('Your quote request has been sent.');
       });

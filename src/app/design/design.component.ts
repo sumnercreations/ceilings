@@ -253,6 +253,12 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
   }
 
+  viewDetails () {
+    let path = window.location.pathname;
+    path = `${path}/details`
+    this.router.navigate([path])
+  }
+
   public logout() {
     this.api.logout();
     this.user = new User;
@@ -359,7 +365,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.materials = this.getFeatureMaterials();
         this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
         this.editOptions();
-        this.seeyond.updateFeature(seeyondFeature);
+        this.seeyond.updateSeeyondFeature(seeyondFeature);
       }
     });
   }

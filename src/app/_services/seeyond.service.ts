@@ -47,7 +47,7 @@ export class SeeyondService {
     const patchData = {
       'id': this.seeyond.id,
       'uid': this.user.uid,
-      'feature_type': this.seeyond.feature_type,
+      'feature_type': this.seeyond.seeyond_feature_index,
       'title': this.seeyond.title,
       'name': this.seeyond.name,
       'design_name': this.seeyond.design_name,
