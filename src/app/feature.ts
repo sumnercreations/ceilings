@@ -269,7 +269,7 @@ export class Feature {
 
     const hardware110 = 0.23;
     const hardware111 = 1.80;
-    const hardware112 = 2.00;
+    const hardware112 = 3.08;
     const total110 = hardware110 * hushTileCount * 5;
     const total111 = hardware111 * hushTileCount * 4;
     const total112 = hardware112 * hushTileCount * 2;
