@@ -76,7 +76,7 @@
       <div class="row velo-materials" *ngIf="feature.feature_type === 'velo'">
         <md-tab-group class="velo-materials-tab-group" mat-stretch-tabs>
           <md-tab label="Merino">
-            <div class="merino-felt-materials">
+            <div class="merino-felt-materials" *ngIf="materials.felt">
               <div *ngFor="let felt of materials.felt | keys" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')">
                 <div *ngIf="felt.status === 'active'"mdTooltip="{{felt.material | capitalize}}" [mdTooltipPosition]="position" [attr.data-hex]="felt.hex" class="col-sm-2 material tooltip-host">
                   <img src="{{felt.image}}" alt="{{felt.material | capitalize}}" class="circle img-responsive" [class.selected]="feature.material==felt.material">
@@ -85,7 +85,7 @@
             </div>
           </md-tab>
           <md-tab label="Varia">
-            <div class="varia-materials">
+            <div class="varia-materials" *ngIf="materials.varia">
               <div *ngFor="let varia of materials.varia.color | keys" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')">
                 <div *ngIf="varia.status === 'active'" mdTooltip="{{varia.material | capitalize}}" [mdTooltipPosition]="position" class="col-sm-2 material tooltip-host">
                   <div class="circle" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex"></div>
