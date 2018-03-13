@@ -69,6 +69,10 @@ export class VeloGridComponent implements OnInit {
   }
 
   gridClick(event: any) {
+    if (this.feature.quoted) {
+      this.alert.error('This design has been quoted.  To make changes you must first save it as a new design.');
+      return;
+    }
     this.debug.log('velo-grid', event);
     const x = event.offsetX;
     const y = event.offsetY;

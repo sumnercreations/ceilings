@@ -251,6 +251,12 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
   }
 
+  viewDetails () {
+    let path = window.location.pathname;
+    path = `${path}/details`
+    this.router.navigate([path])
+  }
+
   public logout() {
     this.api.logout();
     this.user = new User;
