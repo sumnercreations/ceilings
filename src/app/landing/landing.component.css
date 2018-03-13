@@ -20,6 +20,17 @@
   color: #fff;
 }
 
+.black-bar {
+  height: 32px;
+  width: 100%;
+  background-color: black;
+  margin-bottom: 15px;
+}
+
+.logo {
+  margin: 15px 0px;
+}
+
 #seeyond {
   background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(/assets/images/features/seeyond.png);
   background-size: cover;
