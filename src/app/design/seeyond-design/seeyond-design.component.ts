@@ -43,7 +43,10 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         if (this.seeyond.materialObj.status === 'inactive') { this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" is being discontinued.  It will be available until ${this.seeyond.materialObj.available_until} or while supplies last.`)}
-        if (this.seeyond.materialObj.status === 'discontinued') { this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" has been discontinued.  Select a new color to proceed.`)}
+        if (this.seeyond.materialObj.status === 'discontinued') {
+          this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" has been discontinued.  Select a new color to proceed.`);
+          this.feature.canQuote = false;
+        }
       });
 
   }
@@ -65,6 +68,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   public updateSelectedMaterial(material) {
     this.selectedMaterial = this.seeyond.material = material.material;
     this.seeyond.sheet_part_id = material.sheet_part_id;
+    this.seeyond.canQuote = true;
 
     // update the visualization
     this.seeyond.redrawVisualization();

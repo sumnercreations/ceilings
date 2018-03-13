@@ -9,7 +9,7 @@
             <p class="md">Est. Total: {{seeyond.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
           </div>
           <div class="col-sm-4">
-            <button class="button button-orange design-quote pull-right" [disabled]="feature.canQuote" (click)="requestQuote()">Request Quote</button>
+            <button class="button button-orange design-quote pull-right" [disabled]="!seeyond.canQuote" (click)="requestQuote()">Request Quote</button>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@
           </div>
           <div class="col-sm-6 vertical-center">
             <div class="toggle-button-form-wrapper">
-              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateUnits(units.value)" value="{{feature.units}}">
+              <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateUnits(units.value)" value="{{seeyond.units}}">
                 <md-button-toggle value="inches">IN</md-button-toggle>
                 <md-button-toggle value="centimeters">CM</md-button-toggle>
               </md-button-toggle-group>

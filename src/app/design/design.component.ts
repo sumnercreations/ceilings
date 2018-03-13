@@ -357,7 +357,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.materials = this.getFeatureMaterials();
         this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
         this.editOptions();
-        this.seeyond.updateFeature(seeyondFeature);
+        this.seeyond.updateSeeyondFeature(seeyondFeature);
       }
     });
   }
