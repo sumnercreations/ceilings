@@ -42,7 +42,7 @@ export class SaveDesignComponent implements OnInit {
   }
 
   saveInvoked() {
-    if (this.feature.feature_type === 'seeyond') {
+    if (!!this.seeyond.seeyond_feature_type) {
       this.saveSeeyond();
     } else {
       this.saveFeature();
