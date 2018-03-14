@@ -1,3 +1,4 @@
+import { AlertService } from './alert.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -22,6 +23,7 @@ export class ApiService {
     private feature: Feature,
     private user: User,
     private debug: DebugService,
+    private alert: AlertService
   ) { }
 
   getMyDesigns() {
@@ -149,6 +151,9 @@ export class ApiService {
           this.user = api.result.user;
           this.onUserLoggedIn.emit(this.user);
           this.debug.log('api', 'user successfully logged in');
+          return api;
+        } else {
+          this.alert.apiAlert(api.result.error);
         }
       });
   }
