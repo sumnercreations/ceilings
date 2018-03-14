@@ -161,8 +161,6 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.user.email = data.email;
       this.user.firstname = data.firstname;
       this.user.lastname = data.lastname;
-
-      this.loginDialogRef.close();
     });
 
     // subscribe to the onView3d event and build the dialog
