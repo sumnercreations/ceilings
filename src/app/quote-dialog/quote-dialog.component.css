@@ -26,3 +26,51 @@ td div.tile {
 .confirm-cancel {
   padding: 5px;
 }
+
+.checkbox {
+  font-size: 18px;
+  margin: 0px;
+  padding-left: 10px;
+}
+
+.multiples-header {
+  display: flex;
+}
+
+.multiples {
+  margin-left: 15px;
+}
+
+.multiples-section {
+  margin-bottom: 15px;
+}
+
+.multiples-row {
+  display: flex;
+  margin: 5px 0px;
+}
+
+.multiples-row > * {
+  margin-left: 15px;
+}
+
+.multiples-row :first-child {
+  min-width: 120px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.quantity-input {
+  max-width: 70px;
+}
+
+input {
+  padding-right: 5px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; */
+    -webkit-appearance: none;
+    margin: 0;
+}

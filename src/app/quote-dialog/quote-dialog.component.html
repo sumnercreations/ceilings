@@ -49,6 +49,24 @@
       <dt *ngIf="seeyond.quoted">Specifier</dt>
       <dd *ngIf="seeyond.quoted">{{seeyond.specifier}}</dd>
     </dl>
+    <div  *ngIf="feature.feature_type === 'seeyond'" class="row multiples-section">
+      <div class="multiples-header">
+        <span class="multiples">Order Multiples</span>
+        <span *ngIf="!multiples" class="icomoon-checkbox-unchecked orange checkbox" (click)="toggleMultiples()"></span>
+        <span *ngIf="multiples" class="icomoon-checkbox-checked orange checkbox" (click)="toggleMultiples()"></span>
+      </div>
+      <div *ngIf="multiples" class="multiples">
+        <div class="multiples-row">
+          <span>Quantity</span>
+          <input [(ngModel)]="quantity" type="number" class="number-input quantity-input">
+        </div>
+        <div class="multiples-row">
+          <span>Estimated Total</span>
+          <span>{{(seeyond.estimated_amount * quantity) | currency:'USD':true }}</span>
+        </div>
+      </div>
+    </div>
+
     <form (ngSubmit)="quoteConfirmed()" #confirmQuote="ngForm" *ngIf="!feature.quoted">
       <div class="row">
         <div class="col-sm-12">
