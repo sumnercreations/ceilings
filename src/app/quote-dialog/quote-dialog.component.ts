@@ -19,8 +19,6 @@ export class QuoteDialogComponent implements OnInit {
   public tilesArray: any;
   public tileType: string;
   public units: string;
-  multiples = false;
-  quantity = 1;
 
   constructor(
     private router: Router,
@@ -112,10 +110,6 @@ export class QuoteDialogComponent implements OnInit {
       });
     }
     this.dialogRef.close();
-  }
-
-  toggleMultiples() {
-    this.multiples = !this.multiples;
   }
 
   private getToday() {

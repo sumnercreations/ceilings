@@ -50,17 +50,15 @@
       <dd *ngIf="seeyond.quoted">{{seeyond.specifier}}</dd>
     </dl>
     <div  *ngIf="feature.feature_type === 'seeyond'" class="row multiples-section">
-      <div class="multiples-header">
-        <p class="multiples md">Order Multiples of This Design</p>
-      </div>
+      <p class="multiples md">Order Multiples of This Design</p>
       <div class="multiples">
         <div class="multiples-row">
           <span>Quantity</span>
-          <input [(ngModel)]="quantity" type="number" class="number-input quantity-input">
+          <input [(ngModel)]="seeyond.quantity" type="number" class="number-input quantity-input">
         </div>
         <div class="multiples-row">
           <span>Estimated Total</span>
-          <span>{{(seeyond.estimated_amount * quantity) | currency:'USD':true }}</span>
+          <span>{{(seeyond.estimated_amount * seeyond.quantity) | currency:'USD':true }}</span>
         </div>
       </div>
       <hr>

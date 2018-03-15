@@ -47,6 +47,7 @@ export class SeeyondFeature extends Feature {
   public radiusMin: number;
   public radiusMax: number;
   public linear_feet: number;
+  public quantity = 1;
 
   updateSeeyondFeature(seeyond_feature_type?: string) {
     if (seeyond_feature_type) {
@@ -120,6 +121,7 @@ export class SeeyondFeature extends Feature {
     this.archived = design.archived;
     this.estimated_amount = design.estimated_amount;
     this.image = this.getFeatureImage(this.seeyond_feature_index);
+    this.quantity = design.quantity || 1;
 
     this.materialObj = this.getMaterialInfo('felt', 'sola', this.material);
     if (this.materialObj.status === 'inactive') { this.$outdatedMaterial.emit(); }
@@ -162,6 +164,7 @@ export class SeeyondFeature extends Feature {
     this.radiusMin = undefined;
     this.radiusMax = undefined;
     this.linear_feet = undefined;
+    this.quantity = 1;
 
     this.reset();
   }
