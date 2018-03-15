@@ -33,6 +33,7 @@ export class Feature {
   public quoted = false; // boolean
   public archived = false; // boolean
   public updated_at: string;
+  public quantity = 1;
 
   // attributes for the tool
   public tile_type = 'tile';
@@ -81,6 +82,7 @@ export class Feature {
     this.quoted = design.quoted;
     this.archived = design.archived;
     this.updated_at = design.updated_at;
+    this.quantity = design.quantity || 1;
 
     // after it's been loaded, recalculate the price if the design
     // hasn't been quoted. In the event that the prices have changed.
@@ -114,6 +116,7 @@ export class Feature {
     this.quoted = false; // boolean
     this.archived = false; // boolean
     this.updated_at = undefined;
+    this.quantity = 1;
   }
 
   updateEstimatedAmount() {

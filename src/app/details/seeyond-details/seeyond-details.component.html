@@ -23,7 +23,7 @@
           <p class="sm">Specifier: <span class="md info">{{design.specifier}}</span></p>
         </div>
         <div class="col-sm-5">
-          <p class="sm">Est. Total: <span class="md info">{{design.estimated_amount | currency:'USD':true}}<sup>*</sup> USD</span></p>
+          <p class="sm">Design Total: <span class="md info">{{design.estimated_amount | currency:'USD':true}}<sup>*</sup> USD</span></p>
         </div>
         <div class="col-sm-1">
           <p class="xs bold">{{design.updated_at | date:'shortDate'}}</p>
@@ -39,7 +39,8 @@
       <p class="sm">Dimensions: <span class="md info">{{dimensionsStr}}</span></p>
       <img class="grid-guide img-responsive" src="{{design.design_data_url}}" alt="Feature Image">
     </div>
-    <dl class="dl-horizontal col-sm-6">
+    <div class="col-sm-6">
+      <dl class="dl-horizontal">
         <dt>Feature</dt>
         <dd>{{design.name | capitalize}}</dd>
         <dt *ngIf="design.name === 'ceiling'">Length</dt>
@@ -67,7 +68,21 @@
         <dt>Specifier</dt>
         <dd>{{design.specifier}}</dd>
       </dl>
-  </div>
+      <div class="row multiples-section">
+        <p class="multiples md">Total Quantity Ordered</p>
+        <div class="multiples">
+          <div class="multiples-row">
+            <span>Quantity Ordered</span>
+            <span>{{design.quantity || 1}}</span>
+          </div>
+          <div class="multiples-row">
+            <span>Estimated Total</span>
+            <span>{{((design.estimated_amount * design.quantity) || (design.estimated_amount))| currency:'USD':true }}<sup>*</sup></span>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 
   <div class="row footer">
     <div class="col-sm-6">

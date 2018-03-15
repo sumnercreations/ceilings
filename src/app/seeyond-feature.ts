@@ -47,7 +47,6 @@ export class SeeyondFeature extends Feature {
   public radiusMin: number;
   public radiusMax: number;
   public linear_feet: number;
-  public quantity = 1;
 
   updateSeeyondFeature(seeyond_feature_type?: string) {
     if (seeyond_feature_type) {
@@ -164,7 +163,6 @@ export class SeeyondFeature extends Feature {
     this.radiusMin = undefined;
     this.radiusMax = undefined;
     this.linear_feet = undefined;
-    this.quantity = 1;
 
     this.reset();
   }
@@ -590,17 +588,21 @@ export class SeeyondFeature extends Feature {
     let totalHardwareCost = 0.00;
     this.debug.log('seeyond', '========== FEATURE HARDWARE ===============')
     const hardwares = this.seeyond_features[seeyond_feature_index].hardware;
-    const size = Object.keys(hardwares).length;
     let qty;
     for (const hardware in hardwares) {
       if (hardwares.hasOwnProperty(hardware)) {
+
+        // for magnets add the partId to each feature in MaterialsService.seeyond_features and to hardware switch below
+
         qty = this.getHardwareQty(seeyond_feature_index, hardware);
         const hardwareCost = this.prices[hardware] * qty;
         totalHardwareCost += hardwareCost;
-        // this.debug.log('seeyond', hardware);
-        // this.debug.log('seeyond', `PRICE: ${this.prices[hardware]}`);
-        // this.debug.log('seeyond', `QUANTITY: ${qty}`);
-        // this.debug.log('seeyond', `HARDWARE COST: ${hardwareCost}`);
+
+        this.debug.log('seeyond', hardware);
+        this.debug.log('seeyond', `PRICE: ${this.prices[hardware]}`);
+        this.debug.log('seeyond', `QUANTITY: ${qty}`);
+        this.debug.log('seeyond', `HARDWARE COST: ${hardwareCost}`);
+
         const hwpart = {
           'part_id': hardware,
           'qty': qty
@@ -617,24 +619,16 @@ export class SeeyondFeature extends Feature {
     const columns = this.syd_t.QT.GetU();
     const rows = this.syd_t.QT.GetV();
     switch (hardware) {
+      // MAGNETS
+      case 'Magnets Part Id': hardwareQty = this.syd_t.QT.GetMagnets(); break;
+
       // WALL
-      case '3-15-1606':
-        hardwareQty = Math.ceil(this.boxes / 4) * 4;
-        break;
-
-      case '3-85-104':
-        hardwareQty = Math.ceil(this.boxes / 4) * 4;
-        break;
-
-      case '3-85-109':
-        hardwareQty = Math.ceil(this.boxes / 4) * 4;
-        break;
-      // END WALL
+      case '3-15-1606': hardwareQty = Math.ceil(this.boxes / 4) * 4; break;
+      case '3-85-104': hardwareQty = Math.ceil(this.boxes / 4) * 4; break;
+      case '3-85-109': hardwareQty = Math.ceil(this.boxes / 4) * 4; break;
 
       // PARTITIONS
-      case '3-85-106':
-        hardwareQty = columns * 4;
-        break;
+      case '3-85-106': hardwareQty = columns * 4; break;
 
       // Used in partitions and ceilings
       case '3-15-0842':
@@ -673,26 +667,12 @@ export class SeeyondFeature extends Feature {
         break;
 
       // CEILINGS
-      case '3-85-107':
-        hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2);
-        break;
+      case '3-85-107': hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2); break;
+      case '3-85-108': hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2); break;
+      case '3-15-1674': hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2); break;
+      case '3-15-1675': hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2); break;
 
-      case '3-85-108':
-        hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2);
-        break;
-
-      case '3-15-1674':
-        hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2);
-        break;
-
-      case '3-15-1675':
-        hardwareQty = Math.ceil(rows / 2) * Math.ceil(columns / 2);
-        break;
-      // END CEILINGS
-
-      default:
-        alert('Unknown hardware part: ' + hardware);
-        break;
+      default: alert('Unknown hardware part: ' + hardware); break;
     }
     return hardwareQty;
   }
