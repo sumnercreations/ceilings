@@ -426,13 +426,13 @@ export class SeeyondFeature extends Feature {
       this.height = heightMax;
       this.alert.error(`The maximum height is ${heightMax} ${units}`);
     }
-    if ((currentCeilLength < ceilLengthMin) && (this.seeyond_feature_index === 4)) {
+    if ((currentCeilLength < ceilLengthMin) && (this.seeyond_feature_index === 3)) {
       this.ceiling_length = ceilLengthMin;
-      this.alert.error(`The minimum ceilLength is ${ceilLengthMin} ${units}`);
+      this.alert.error(`The minimum ceiling length is ${ceilLengthMin} ${units}`);
     }
-    if ((currentCeilLength > ceilLengthMax) && (this.seeyond_feature_index === 4)) {
+    if ((currentCeilLength > ceilLengthMax) && (this.seeyond_feature_index === 3)) {
       this.ceiling_length = ceilLengthMax;
-      this.alert.error(`The maximum ceilLength is ${ceilLengthMax} ${units}`);
+      this.alert.error(`The maximum maximum ceiling length is ${ceilLengthMax} ${units}`);
     }
     if (this.width) { // update radiusMin based off entered width
       const newRadiusMin = Math.ceil((this.width * .5) + 1);
