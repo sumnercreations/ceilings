@@ -299,8 +299,12 @@ export class SeeyondFeature extends Feature {
 
     // HARDWARE
     let totalHardwareCost = this.getHardwareCost(this.seeyond_feature_index);
-    if (this.cove_lighting) { totalHardwareCost += (this.calcLightingFootage() * 40.02)}
-
+    let lightingCost;
+    if (this.cove_lighting) {
+      this.calcLightingFootage();
+      lightingCost = this.calcLightingCost();
+      totalHardwareCost += lightingCost;
+    }
     // SERVICES
     const staples: number = this.getStaples(this.seeyond_feature_index);
     // var zipties: number = this.getZipties(this.seeyond_feature_index);
@@ -335,7 +339,23 @@ export class SeeyondFeature extends Feature {
       totalFootage = ((length - (inset * 2)) * 2) + ((width - (inset * 2)) * 2);
     }
     this.linear_feet = totalFootage / 12;
+    console.log(this.linear_feet);
     return this.linear_feet;
+  }
+
+  calcLightingCost() {
+    const powerSupplyHw = 144.71;
+    const switchHw = 206.74;
+    const totalWatts = this.linear_feet * 1.88;
+    const powerSuppliesNeeded = Math.ceil(totalWatts / 85.4);
+    const dimmingSwitchesNeeded = Math.ceil(powerSuppliesNeeded / 12.0);
+    const powerCost = powerSuppliesNeeded * powerSupplyHw;
+    const switchCost = dimmingSwitchesNeeded * switchHw;
+    const linearFootCost = this.linear_feet * 40.02;
+    const partsCost = linearFootCost + switchCost + powerCost;
+    const adjustment = ((partsCost / 5000.00) * 95.00) + 265.00;
+    const estimatedCost = parseInt((partsCost + adjustment).toFixed(2), 10);
+    return estimatedCost;
   }
 
   convertDimensionsUnits(newUnit) {
