@@ -77,6 +77,10 @@ label {
   color: #666666;
 }
 
+.cove-lighting > div {
+  padding: 0px;
+}
+
 .cove-lighting-label {
   padding: 0px !important;
 }
