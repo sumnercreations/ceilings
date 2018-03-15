@@ -14,6 +14,18 @@ h2 .subtitle {
   padding-top: 5px;
 }
 
+dl {
+  min-width: 300px;
+}
+
+.dl-horizontal dt {
+  width: 47%;
+}
+
+.dl-horizontal dd {
+  margin-left: 53%;
+}
+
 td img {
   width: 48px;
 }
@@ -27,18 +39,9 @@ td div.tile {
   padding: 5px;
 }
 
-.checkbox {
-  font-size: 18px;
-  margin: 0px;
-  padding-left: 10px;
-}
-
-.multiples-header {
-  display: flex;
-}
-
 .multiples {
-  margin-left: 15px;
+  text-align: center;
+  width: 100%;
 }
 
 .multiples-section {
@@ -51,11 +54,11 @@ td div.tile {
 }
 
 .multiples-row > * {
-  margin-left: 15px;
+  margin: 0px 8px;
 }
 
 .multiples-row :first-child {
-  min-width: 120px;
+  width: 45%;
   font-weight: bold;
   text-align: right;
 }
