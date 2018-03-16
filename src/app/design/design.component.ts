@@ -159,6 +159,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     // subscribe to the loggedIn event and set the user attributes
     // and close the dialog
     this.api.onUserLoggedIn.subscribe(data => {
+      console.log('user logged in event fired');
       this.user.uid = data.uid;
       this.user.email = data.email;
       this.user.firstname = data.firstname;

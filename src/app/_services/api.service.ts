@@ -145,7 +145,6 @@ export class ApiService {
 
     // return this.http.post(this.loginUrl, formData)
     //   .map((res: Response) => {
-    //     const api = res.json();
     //     if (api && !api.result.error) {
     //       localStorage.setItem('3formUser', JSON.stringify(api.result.user));
     //       this.user = api.result.user;

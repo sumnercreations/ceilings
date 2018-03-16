@@ -27,7 +27,7 @@
         <button class="button button-gray" *ngIf="newDesign" type="submit">Save</button>
         <button class="button button-gray" *ngIf="!newDesign || feature.quoted" type="submit">Overwrite</button>
         <button class="button button-gray" *ngIf="!newDesign" (click)="newButtonClick()">Save New</button>
-        <div class="center-div" [hidden]="!saving">
+        <div class="center-div" *ngIf="saving">
           <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
         </div>
       </div>

@@ -27,7 +27,7 @@
     <div class="text-center">
       <button mat-button type="submit" class="button button-gray" *ngIf="!loading">Submit</button>
       <button mat-button type="button" class="button button-gray" *ngIf="!loading" (click)="dialogRef.close('cancel')">Cancel</button>
-      <div class="center-div">
+      <div class="center-div" *ngIf="loading">
         <mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-spinner>
       </div>
     </div>
