@@ -72,7 +72,8 @@ export class ApiService {
       'services_amount': this.feature.services_amount,
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
-      'archived': this.feature.archived
+      'archived': this.feature.archived,
+      'quantity': this.feature.quantity
     };
 
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -108,7 +109,8 @@ export class ApiService {
       'services_amount': this.feature.services_amount,
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
-      'archived': this.feature.archived
+      'archived': this.feature.archived,
+      'quantity': this.feature.quantity
     }
 
     return this.http.post(this.apiUrl, patchData)
