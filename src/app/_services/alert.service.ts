@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
@@ -9,11 +9,11 @@ export class AlertService {
   constructor() { }
 
   success(message: string) {
-    this.subject.next({type: "success", text: message});
+    this.subject.next({type: 'success', text: message});
   }
 
   error(message: string) {
-    this.subject.next({type: "error", text: message});
+    this.subject.next({type: 'error', text: message});
   }
 
   getMessage(): Observable<any> {
@@ -21,17 +21,16 @@ export class AlertService {
   }
 
   apiAlert(alert: any) {
-    var body: any;
-    var type: string;
+    let body: any;
 
     // api alerts contain a _body element that needs to be parsed as JSON
     body = JSON.parse(alert._body);
 
-    if(body.result && body.result.error) {
+    if (body.result && body.result.error) {
       this.error(body.result.message);
-    }else if(body.error) {
+    }else if (body.error) {
       this.error(body.message);
-    }else{
+    } else {
       this.success(body.result.message);
     }
   }

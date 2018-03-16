@@ -1,8 +1,5 @@
 <h3>Tile Usage information</h3>
-<p class="sm">Velo tiles are sold in quantities of 8. <span class="note">(single material and color with any combination
-  of
-  convex
-  and concave tiles)</span></p>
+<p class="sm">Velo tiles are sold in quantities of 8. <span class="note">(single material and color with any combination of convex and concave tiles)</span></p>
 <table class="table table-striped" *ngIf="this.feature.veloHasFelt()">
   <tr>
     <th width="92px">Merino Felt</th>
@@ -17,6 +14,13 @@
     <td>{{tile.concave}}</td>
     <td>{{tile.purchased - (tile.convex + tile.concave)}}</td>
     <td class="border-left">{{tile.purchased}}</td>
+  </tr>
+  <tr>
+    <th width="92px">Totals</th>
+    <th>{{totalFeltConvex}}</th>
+    <th>{{totalFeltConcave}}</th>
+    <th>{{totalFeltUnused}}</th>
+    <th class="border-left">{{totalFeltReceiving}}</th>
   </tr>
 </table>
 
@@ -36,5 +40,13 @@
     <td>{{tile.concave}}</td>
     <td>{{tile.purchased - (tile.convex + tile.concave)}}</td>
     <td class="border-left">{{tile.purchased}}</td>
+  </tr>
+  <tr>
+    <th width="92px">Totals</th>
+    <td></td>
+    <th>{{totalVariaConvex}}</th>
+    <th>{{totalVariaConcave}}</th>
+    <th>{{totalVariaUnused}}</th>
+    <th class="border-left">{{totalVariaReceiving}}</th>
   </tr>
 </table>

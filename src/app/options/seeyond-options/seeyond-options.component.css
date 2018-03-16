@@ -1,0 +1,31 @@
+hr {
+  margin: 25px 0px;
+}
+
+.feature-select {
+  padding: 0px;
+  margin-top: 15px;
+}
+
+.seeyond-feature-img {
+  max-height: 250px;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.pattern-container {
+  padding: 0;
+  font-size: 12px;
+}
+
+.pattern {
+  border-right: none;
+  padding: 3px;
+  width: 52px;
+}
+
+.checkbox {
+  font-size: 18px;
+}

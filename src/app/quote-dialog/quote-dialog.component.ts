@@ -1,3 +1,5 @@
+import { Location } from '@angular/common';
+import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
@@ -6,6 +8,7 @@ import { ApiService } from './../_services/api.service';
 import { AlertService } from './../_services/alert.service';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
+import { SeeyondFeature } from '../seeyond-feature';
 
 @Component({
   selector: 'app-quote-dialog',
@@ -15,6 +18,7 @@ import { User } from '../_models/user';
 export class QuoteDialogComponent implements OnInit {
   public tilesArray: any;
   public tileType: string;
+  public units: string;
 
   constructor(
     private router: Router,
@@ -24,18 +28,23 @@ export class QuoteDialogComponent implements OnInit {
     public feature: Feature,
     public dialog: MdDialog,
     public user: User,
-    public dialogRef: MdDialogRef<QuoteDialogComponent>
+    public dialogRef: MdDialogRef<QuoteDialogComponent>,
+    public seeyond: SeeyondFeature,
+    public seeyondApi: SeeyondService,
+    public location: Location
   ) { }
 
   ngOnInit() {
     this.debug.log('quote-dialog', 'init quote-dialog');
-    this.tilesArray = this.feature.getTilesPurchasedArray();
+    this.tilesArray = this.feature.getTilesPurchasedObj();
     this.tileType = this.feature.getTileType('plural');
+    this.units = (this.feature.units = 'inches') ? '\"' : 'cm';
   }
 
   public quoteConfirmed() {
+    if (this.feature.feature_type === 'seeyond') { this.seeyondQuoteConfirmed(); return; }
     // mark the design as quoted and save
-    if(this.feature.id) {
+    if (this.feature.id) {
       this.feature.quoted = true;
       this.api.updateDesign().subscribe(feature => {
         // send ceilings design email after we have saved.
@@ -43,11 +52,11 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
-        var url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
-        if(url != this.router.url) {
+        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        if (url !== this.router.url) {
           this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
         }
-        this.alert.success("Your quote request has been sent.");
+        this.alert.success('Your quote request has been sent.');
       });
     } else {
       // set the design name to something simple
@@ -62,28 +71,63 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // redirect to the URL of the saved design.
-        this.alert.success("We saved your design so we can quote it and you can load it later.");
+        this.alert.success('We saved your design so we can quote it and you can load it later.');
         this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
       });
     }
+    this.dialogRef.close();
+  }
+
+  seeyondQuoteConfirmed() {
+    // mark the design as quoted and save
+    this.seeyond.quoted = true;
+    if (this.seeyond.id) {
+      this.seeyondApi.updateFeature().subscribe(feature => {
+        // send seeyond design email after we have saved.
+        this.seeyondApi.sendEmail().subscribe(response => {
+          this.debug.log('quote-dialog', response);
+        });
+        // redirect to the new URL if we aren't already there.
+        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        if (url !== this.router.url) {
+          this.router.navigate([`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`]);
+        }
+        this.alert.success('Your quote request has been sent.');
+      });
+    } else {
+      // set the design name to something simple
+      this.seeyond.design_name = this.seeyond.seeyond_feature_type + ' - ' +  this.getToday();
+      this.seeyondApi.saveFeature().subscribe(feature => {
+        // send seeyond design email after we have saved.
+        // set the feature to what was returned.
+        this.seeyond.id = feature.seeyond.id;
+        this.seeyondApi.sendEmail().subscribe(response => {
+          console.log(response);
+        });
+        // redirect to the URL of the saved design.
+        this.alert.success('We saved your design so we can quote it and you can load it later.');
+        this.location.go(`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`)
+      });
+    }
+    this.dialogRef.close();
   }
 
   private getToday() {
-    var today = new Date();
-    var todayString: string;
-    var dd: any = today.getDate();
-    var mm: any = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
+    const today = new Date();
+    let todayString: string;
+    let dd: any = today.getDate();
+    let mm: any = today.getMonth() + 1; // January is 0!
+    const yyyy = today.getFullYear();
 
-    if(dd<10) {
-        dd='0'+dd
+    if (dd < 10) {
+        dd = '0' + dd
     }
 
-    if(mm<10) {
-        mm='0'+mm
+    if (mm < 10) {
+        mm = '0' + mm
     }
 
-    todayString = mm+'/'+dd+'/'+yyyy;
+    todayString = mm + '/' + dd + '/' + yyyy;
     return todayString;
   }
 

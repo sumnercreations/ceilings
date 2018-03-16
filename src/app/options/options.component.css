@@ -83,3 +83,14 @@ aside.note {
   padding: 0;
   border-right: 2px solid #e7e7e7;
 }
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

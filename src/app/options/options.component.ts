@@ -1,8 +1,12 @@
+import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
+import { SeeyondFeature } from '../seeyond-feature';
+import { AlertService } from 'app/_services/alert.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-options',
@@ -29,45 +33,45 @@ export class OptionsComponent implements OnInit {
     private router: Router,
     private debug: DebugService,
     public feature: Feature,
-    public dialogRef: MdDialogRef<OptionsComponent>
+    public dialogRef: MdDialogRef<OptionsComponent>,
+    public alert: AlertService,
+    public seeyondService: SeeyondService,
+    public seeyond: SeeyondFeature,
+    public location: Location
   ) { }
 
   ngOnInit() {
     this.debug.log('options-component', 'init');
-
     this.debug.log('options-component', this.feature.feature_type);
-    this.title =  this.feature.feature_type + ' Design Tool';
-
-    if(this.feature.feature_type == 'velo') {
-      // set default width and length for now.
-      setTimeout(() => {
-        if(!this.feature.quoted) {
-          this.feature.width = this.feature.units == 'inches' ? 384 : 976;
-          this.feature.length = this.feature.units == 'inches' ? 240 : 610;
-        }
-      }, 500);
-    }
+    const featureType = this.feature.feature_type;
+    this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
   }
 
   public goToLanding() {
+    if (this.feature.feature_type === 'seeyond') { this.seeyond.resetSeeyond(); }
     this.dialogRef.close('cancel');
-    this.dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['/']);
-    });
+    this.location.go('/');
+    window.location.reload();
+    // this.dialogRef.afterClosed().subscribe(result => {
+    //   this.router.navigate(['/']);
+    // });
   }
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
+    this.seeyond.convertDimensionsUnits(units);
+    this.seeyond.setMaxMinDimensions(units);
     this.feature.updateGridUnits(units);
   }
 
-  private validateOptions() {
+  validateOptions() {
     // name, width, and length are required
-    if((this.feature.width == 0 || typeof this.feature.width == 'undefined') || (this.feature.length == 0 || typeof this.feature.length == 'undefined') || (typeof this.feature.design_name == 'undefined')) {
-      return true;
-    }else{
-      return false;
-    }
+    const valid = (this.feature.width === 0 || typeof this.feature.width === 'undefined')
+             || (this.feature.length === 0 || typeof this.feature.length === 'undefined')
+             || (typeof this.feature.design_name === 'undefined')
+              ? true : false;
+
+    return valid;
   }
 
 }
