@@ -33,6 +33,7 @@ export class Feature {
   public quoted = false; // boolean
   public archived = false; // boolean
   public updated_at: string;
+  public quantity = 1;
 
   // attributes for the tool
   public tile_type = 'tile';
@@ -81,6 +82,7 @@ export class Feature {
     this.quoted = design.quoted;
     this.archived = design.archived;
     this.updated_at = design.updated_at;
+    this.quantity = design.quantity || 1;
 
     // after it's been loaded, recalculate the price if the design
     // hasn't been quoted. In the event that the prices have changed.
@@ -114,6 +116,7 @@ export class Feature {
     this.quoted = false; // boolean
     this.archived = false; // boolean
     this.updated_at = undefined;
+    this.quantity = 1;
   }
 
   updateEstimatedAmount() {
@@ -192,11 +195,11 @@ export class Feature {
       })
       // alert users if inactive materials are being used
       if (matchedInactiveMaterials.length === 1) {
-        this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while suplies last.`)
+        this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while supplies last.`)
       } else if (matchedInactiveMaterials.length > 1) {
         alertStr = matchedInactiveMaterials.toString();
         alertStr = alertStr.replace(/,/g, ' and ');
-        this.alert.error(`${alertStr} are being discontinued and are only available while suplies last.`)
+        this.alert.error(`${alertStr} are being discontinued and are only available while supplies last.`)
       }
     }
     if (this.discontinuedMaterials.length > 0) {
@@ -281,7 +284,7 @@ export class Feature {
     }
 
     const allHardwareCost = total110 + total111 + total112;
-    this.services_amount = (hushTileCount * 65.69);
+    this.services_amount = (hushTileCount * 65.49);
     this.estimated_amount = this.services_amount + allHardwareCost;
   }
 

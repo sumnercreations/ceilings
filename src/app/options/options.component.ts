@@ -50,9 +50,11 @@ export class OptionsComponent implements OnInit {
   public goToLanding() {
     if (this.feature.feature_type === 'seeyond') { this.seeyond.resetSeeyond(); }
     this.dialogRef.close('cancel');
-    this.dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['/']);
-    });
+    this.location.go('/');
+    window.location.reload();
+    // this.dialogRef.afterClosed().subscribe(result => {
+    //   this.router.navigate(['/']);
+    // });
   }
 
   public updateGridUnits(units: string) {

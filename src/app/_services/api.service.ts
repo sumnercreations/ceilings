@@ -1,3 +1,4 @@
+import { AlertService } from './alert.service';
 import { Injectable, EventEmitter } from '@angular/core';
 // import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
@@ -25,6 +26,7 @@ export class ApiService {
     private feature: Feature,
     private user: User,
     private debug: DebugService,
+    private alert: AlertService
   ) { }
 
   getMyDesigns() {
@@ -66,7 +68,8 @@ export class ApiService {
       'services_amount': this.feature.services_amount,
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
-      'archived': this.feature.archived
+      'archived': this.feature.archived,
+      'quantity': this.feature.quantity
     };
 
     // const headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -103,7 +106,8 @@ export class ApiService {
       'services_amount': this.feature.services_amount,
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
-      'archived': this.feature.archived
+      'archived': this.feature.archived,
+      'quantity': this.feature.quantity
     }
 
     return this.http.post(this.apiUrl, patchData)
@@ -136,6 +140,22 @@ export class ApiService {
       'password': password
     }
     return this.http.post<any>(this.loginUrl, formData);
+
+    // TODO, IMPLEMENT BELOW LOGIC
+
+    // return this.http.post(this.loginUrl, formData)
+    //   .map((res: Response) => {
+    //     const api = res.json();
+    //     if (api && !api.result.error) {
+    //       localStorage.setItem('3formUser', JSON.stringify(api.result.user));
+    //       this.user = api.result.user;
+    //       this.onUserLoggedIn.emit(this.user);
+    //       this.debug.log('api', 'user successfully logged in');
+    //       return api;
+    //     } else {
+    //       this.alert.apiAlert(api.result.error);
+    //     }
+    //   });
   }
 
   logout() {

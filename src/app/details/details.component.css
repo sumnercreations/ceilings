@@ -75,6 +75,31 @@ img.grid-guide {
   /*transform: scale(2);*/
 }
 
+.multiples {
+  text-align: center;
+  width: 100%;
+}
+
+.multiples-section {
+  margin-top: 20px;
+}
+
+.multiples-row {
+  display: flex;
+  margin: 5px 0px;
+}
+
+.multiples-row > * {
+  margin: 0px 8px;
+  font-size: 1.2em;
+}
+
+.multiples-row :first-child {
+  width: 50%;
+  font-weight: bold;
+  text-align: right;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */

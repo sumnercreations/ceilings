@@ -32,22 +32,27 @@ export class LoginComponent implements OnInit {
   login() {
     this.loading = true;
     this.api.login(this.email, this.password)
-      .subscribe(
-        data => {
-          // this.alert.success("Successfully logged in.");
-          this.loading = false;
-          localStorage.setItem('3formUser', JSON.stringify(data.result.user));
-          this.api.onUserLoggedIn.emit(this.user);
-          this.debug.log('api', 'user successfully logged in');
-          // this.dialogRef.close();
-        },
-        error => {
-          if (error) {
-            this.api.handleError(error);
-          }
-          this.loading = false;
-        }
-      );
+      // TODO RECONSILE THIS
+      // .subscribe(
+      //   data => {
+      //     // this.alert.success("Successfully logged in.");
+      //     this.loading = false;
+      //     localStorage.setItem('3formUser', JSON.stringify(data.result.user));
+      //     this.api.onUserLoggedIn.emit(this.user);
+      //     this.debug.log('api', 'user successfully logged in');
+      //     // this.dialogRef.close();
+      //   },
+      //   error => {
+      //     if (error) {
+      //       this.api.handleError(error);
+      //     }
+      //     this.loading = false;
+      //   }
+      // );
+      .subscribe( res => {
+        this.loading = false;
+        this.dialogRef.close();
+      });
   }
 
 }
