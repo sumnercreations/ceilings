@@ -54,7 +54,8 @@
       <div class="multiples">
         <div class="multiples-row">
           <span>Quantity</span>
-          <input [(ngModel)]="feature.quantity" type="number" class="number-input quantity-input">
+          <input *ngIf="feature.feature_type !== 'seeyond'" [(ngModel)]="feature.quantity" type="number" class="number-input quantity-input">
+          <input *ngIf="feature.feature_type === 'seeyond'" [(ngModel)]="seeyond.quantity" type="number" class="number-input quantity-input">
         </div>
         <div class="multiples-row">
           <span>Estimated Total</span>
