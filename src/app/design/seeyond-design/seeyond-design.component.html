@@ -58,7 +58,7 @@
           </div>
           <div class="strength-parent design-column-padding-adjust">
             <span>Pattern Strength</span>
-            <select name="pattern-strength" id="pattern-strength" [value]="seeyond.pattern_strength" (change)="updatePatternStrength($event.target.value)" class="form-control">
+            <select name="pattern-strength" id="pattern-strength" [value]="seeyond.pattern_strength" (change)="updatePatternStrength($event.target.value)" [disabled]="this.seeyond.quoted" class="form-control">
               <option *ngFor="let strength of strengths">{{strength}}</option>
             </select>
           </div>
@@ -89,30 +89,30 @@
         <div class="row dimensions-parent">
           <div class="form-group col-sm-6">
             <label for="width">Width</label>
-            <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+            <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.width" #widthInput="ngModel" required type="number" [disabled]="this.seeyond.quoted" class="form-control number-input square" placeholder="Width" name="width" id="width">
           </div>
           <div class="col-sm-6">
             <div class="form-group">
               <label for="length" *ngIf="seeyond.seeyond_feature_type !== 'ceiling'">Height</label>
               <label for="length" *ngIf="seeyond.seeyond_feature_type === 'ceiling'">Length</label>
-              <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.height" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.height" #lengthInput="ngModel" required type="number" [disabled]="this.seeyond.quoted" class="form-control number-input square" placeholder="Height" name="length" id="length">
             </div>
           </div>
           <div class="col-sm-6" *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">
             <div class="form-group">
               <label for="length">Radius</label>
-              <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.radius" #radiusInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.radius" #radiusInput="ngModel" required type="number" [disabled]="this.seeyond.quoted" class="form-control number-input square" placeholder="Height" name="length" id="length">
             </div>
           </div>
           <div class="col-sm-6" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
             <div class="form-group">
               <label for="length">Ceiling Length</label>
-              <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+              <input (change)="this.seeyond.updateDimensions()" [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" required type="number" [disabled]="this.seeyond.quoted" class="form-control number-input square" placeholder="Height" name="length" id="length">
             </div>
           </div>
           <div class="col-sm-6 vertical-center">
             <div class="toggle-button-form-wrapper">
-              <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateUnits(units.value)" value="{{seeyond.units}}">
+              <mat-button-toggle-group #units="matButtonToggleGroup" [disabled]="this.seeyond.quoted" (change)="updateUnits(units.value)" value="{{seeyond.units}}">
                 <mat-button-toggle value="inches">IN</mat-button-toggle>
                 <mat-button-toggle value="centimeters">CM</mat-button-toggle>
               </mat-button-toggle-group>
