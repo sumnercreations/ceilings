@@ -25,10 +25,10 @@ export class User {
   }
 
   public isLoggedIn() {
-    var loggedIn: boolean;
-    if(typeof this.uid !== 'undefined') {
+    let loggedIn: boolean;
+    if (typeof this.uid !== 'undefined') {
       loggedIn = true;
-    }else{
+    } else {
       loggedIn = false;
     }
     return loggedIn;

@@ -1,3 +1,5 @@
+<app-seeyond-details *ngIf="isSeeyond"></app-seeyond-details>
+<ng-container *ngIf="!isSeeyond">
 <div class="row">
   <div class="col-sm-2">
     <a class="hidden-print back-to-design" (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> Back to Design</a>
@@ -7,10 +9,10 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-sm-6">
-        <p class="sm">Project: <span class="md info">{{this.feature.project_name}}</span></p>
+        <p class="sm">Project: <span class="md info">{{feature.project_name}}</span></p>
       </div>
       <div class="col-sm-5">
-        <p class="sm">Feature: <span class="md info">{{this.feature.feature_type | capitalize}} - ID: {{this.feature.id}}</span></p>
+        <p class="sm">Feature: <span class="md info">{{feature.feature_type | capitalize}} - ID: {{feature.id}}</span></p>
       </div>
       <div class="col-sm-1 hidden-print">
         <p class="sm bold print" (click)="print()"><span class="icomoon-print orange"></span> Print</p>
@@ -19,13 +21,13 @@
 
     <div class="row">
       <div class="col-sm-6">
-        <p class="sm">Specifier: <span class="md info">{{this.feature.specifier}}</span></p>
+        <p class="sm">Specifier: <span class="md info">{{feature.specifier}}</span></p>
       </div>
       <div class="col-sm-5">
-        <p class="sm">Est. Total: <span class="md info">{{feature.estimated_amount | currency:'USD':true}}<sup>*</sup> USD</span></p>
+        <p class="sm">Design Total: <span class="md info">{{feature.estimated_amount | currency:'USD':true}}<sup>*</sup> USD</span></p>
       </div>
       <div class="col-sm-1">
-        <p class="xs bold">{{this.feature.updated_at | date:'shortDate'}}</p>
+        <p class="xs bold">{{feature.updated_at | date:'shortDate'}}</p>
       </div>
     </div>
   </div>
@@ -36,10 +38,10 @@
 <div class="row">
   <div class="col-sm-6">
     <p class="sm">Dimensions: <span class="md info">{{feature.width}} W x {{feature.length}} L ({{feature.units}})</span></p>
-    <img class="grid-guide img-responsive" src="{{this.feature.design_data_url}}" alt="Grid Guide Image">
+    <img class="grid-guide img-responsive" src="{{feature.design_data_url}}" alt="Grid Guide Image">
   </div>
   <div class="col-sm-6">
-    <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_size=='24')">24" x 24" {{feature.getTileType('plural') | capitalize}} <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span></p>
+    <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_size===24)">24" x 24" {{feature.getTileType('plural') | capitalize}} <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span></p>
     <div class="row tile-info-header">
       <div class="col-sm-3">
         <div class="row">
@@ -78,6 +80,19 @@
         </div>
       </div>
     </div>
+    <div class="row multiples-section">
+      <p class="multiples md">Total Quantity Ordered</p>
+      <div class="multiples">
+        <div class="multiples-row">
+          <span>Quantity Ordered</span>
+          <span>{{feature.quantity || 1}}</span>
+        </div>
+        <div class="multiples-row">
+          <span>Estimated Total</span>
+          <span>{{((feature.estimated_amount * feature.quantity) || (feature.estimated_amount))| currency:'USD':true }}<sup>*</sup></span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -106,3 +121,4 @@
     </div>
   </div>
 </div>
+</ng-container>

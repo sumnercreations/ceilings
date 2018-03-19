@@ -27,24 +27,28 @@ export class LandingComponent implements OnInit {
   public goTo(where: string) {
     this.debug.log('landing-component', where);
     switch (where) {
-      case "seeyond":
-        window.location.href = 'https://seeyond.3-form.com/feature/ceiling';
+      case 'seeyond':
+        this.router.navigate(['/seeyond/']);
         break;
 
-      case "tetria":
+      case 'tetria':
         this.router.navigate(['/tetria/']);
         break;
 
-      case "clario":
+      case 'clario':
         this.router.navigate(['/clario/']);
         break;
 
-      case "velo":
+      case 'velo':
         this.router.navigate(['/velo/']);
         break;
 
+      case 'hush-blocks':
+        this.router.navigate(['/hush-blocks/']);
+        break;
+
       default:
-        this.alert.error("Sorry we don't recognize the path: '" + where + "'");
+        this.alert.error('Sorry we don\'t recognize the path: \'' + where + '\'');
         break;
     }
   }

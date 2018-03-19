@@ -4,16 +4,16 @@
 </div>
 
 <div *ngIf="user.uid">
-  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</h2>
+  <p class="text-center md" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</p>
   <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
   <div md-dialog-content>
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal"  *ngIf="feature.feature_type !== 'seeyond'">
       <dt>Feature</dt>
       <dd>{{feature.feature_type | capitalize}}</dd>
       <dt>Width</dt>
-      <dd>{{feature.width}}"</dd>
+      <dd>{{feature.width}}{{units}}</dd>
       <dt>Length</dt>
-      <dd>{{feature.length}}"</dd>
+      <dd>{{feature.length}}{{units}}</dd>
       <dt>Estimated Amount</dt>
       <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd>
       <dt *ngIf="feature.quoted">Project Name</dt>
@@ -21,12 +21,58 @@
       <dt *ngIf="feature.quoted">Specifier</dt>
       <dd *ngIf="feature.quoted">{{feature.specifier}}</dd>
     </dl>
+    <dl class="dl-horizontal" *ngIf="feature.feature_type === 'seeyond'">
+      <dt>Feature</dt>
+      <dd>{{seeyond.seeyond_feature_type | capitalize}}</dd>
+      <dt>Width</dt>
+      <dd>{{seeyond.width}}{{units}}</dd>
+      <dt *ngIf="seeyond.seeyond_feature_type !== 'ceiling'">Height</dt>
+      <dt *ngIf="seeyond.seeyond_feature_type === 'ceiling'">Length</dt>
+      <dd>{{seeyond.height}}{{units}}</dd>
+      <dt *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">Radius</dt>
+      <dd *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">{{seeyond.radius}}{{units}}</dd>
+      <dt *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">Ceiling Length</dt>
+      <dd *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">{{seeyond.ceiling_length}}{{units}}</dd>
+      <dt>Pattern</dt>
+      <dd>{{seeyond.tessellationStr | capitalize}}</dd>
+      <dt>Pattern Strength</dt>
+      <dd>{{seeyond.pattern_strength}}</dd>
+      <dt>Color</dt>
+      <dd>{{seeyond.material | capitalize}}</dd>
+      <dt *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling'">Cove Lighting</dt>
+      <dd *ngIf="!seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">No</dd>
+      <dd *ngIf="seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">Yes</dd>
+      <dt>Estimated Amount</dt>
+      <dd>{{seeyond.estimated_amount | currency:'USD':true}} USD</dd>
+      <dt *ngIf="seeyond.quoted">Project Name</dt>
+      <dd *ngIf="seeyond.quoted">{{seeyond.project_name}}</dd>
+      <dt *ngIf="seeyond.quoted">Specifier</dt>
+      <dd *ngIf="seeyond.quoted">{{seeyond.specifier}}</dd>
+    </dl>
+    <div class="row multiples-section">
+      <p class="multiples md">Order Multiples of Your Design</p>
+      <div class="multiples">
+        <div class="multiples-row">
+          <span>Quantity</span>
+          <input *ngIf="feature.feature_type !== 'seeyond'" [(ngModel)]="feature.quantity" type="number" class="number-input quantity-input">
+          <input *ngIf="feature.feature_type === 'seeyond'" [(ngModel)]="seeyond.quantity" type="number" class="number-input quantity-input">
+        </div>
+        <div class="multiples-row">
+          <span>Estimated Total</span>
+          <span *ngIf="feature.feature_type !== 'seeyond'">{{(feature.estimated_amount * feature.quantity) | currency:'USD':true }}</span>
+          <span *ngIf="feature.feature_type === 'seeyond'">{{(seeyond.estimated_amount * feature.quantity) | currency:'USD':true }}</span>
+        </div>
+      </div>
+      <hr>
+    </div>
+
     <form (ngSubmit)="quoteConfirmed()" #confirmQuote="ngForm" *ngIf="!feature.quoted">
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
             <md-input-container class="full-width">
-              <input type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="feature.project_name">
+              <input  *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="feature.project_name">
+              <input  *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="seeyond.project_name">
             </md-input-container>
           </div>
         </div>
@@ -35,20 +81,19 @@
         <div class="col-sm-12">
           <div class="form-group">
             <md-input-container class="full-width">
-              <input type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="feature.specifier">
+              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="feature.specifier">
+              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="seeyond.specifier">
             </md-input-container>
           </div>
         </div>
       </div>
-      <div class="text-center">
+      <div class="text-center confirm-cancel">
         <button md-button type="submit" class="button button-gray" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
         <button md-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
-    <!--TETRIA & CLARIO-->
-    <app-tile-usage *ngIf="feature.feature_type !='velo'"></app-tile-usage>
-
-    <!--VELO-->
-    <app-velo-tile-usage *ngIf="feature.feature_type == 'velo'"></app-velo-tile-usage>
+      <app-tile-usage *ngIf="feature.feature_type !=='velo' && feature.feature_type !=='seeyond'"></app-tile-usage>
+      <!--VELO-->
+      <app-velo-tile-usage *ngIf="feature.feature_type === 'velo' && feature.feature_type !=='seeyond'"></app-velo-tile-usage>
   </div>
 </div>

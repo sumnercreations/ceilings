@@ -1,0 +1,101 @@
+<div class="options-dialog-container">
+  <div class="row">
+    <div class="col-xs-11">
+      <div class="intro">
+        <h2>{{title | capitalize}}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 left-pane">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Design Name</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group">
+            <input [(ngModel)]="feature.design_name" #designNameInput="ngModel" required type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+          </div>
+        </div>
+        <div class="col-sm-3 options-load">
+          <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+        </div>
+      </div>
+      <hr>
+      <div id="grid-dimensions">
+        <h3>Design Dimensions</h3>
+        <p>Blocks come in 24"x24". Your measurements must be divisble by 24.</p>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="width">Width</label>
+              <input [(ngModel)]="feature.width" #widthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Width" name="width" id="width">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="length">Height</label>
+              <input [(ngModel)]="feature.length" #lengthInput="ngModel" required type="number" class="form-control number-input square" placeholder="Height" name="length" id="length">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="button button-orange start-designing" (click)="closeDialog()" [disabled]="!hushValidateOptions()">start designing</button>
+      <div class="back">
+        <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Choose a New Design Tool</a>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
+      <div>
+        <h3>Tile Size</h3>
+        <p>Tile dimensions are 24" x 24" x 2" <br> (60.96cm x 60.96cm x 5.08cm)</p>
+        <img class="dimensions-img" src="/assets/images/hush-blocks-size.png" alt="Hush Blocks Size. 24 inches by 24 inches.">
+      </div>
+      <div id="design">
+        <h3>Design</h3>
+        <p>Choose your {{feature.getTileType()}} color.</p>
+        <div id="tiles">
+          <ul class="list-inline">
+            <li class="material"><img src="/assets/images/materials/felt/sola/nickel.png" alt="Nickel" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/citrine.png" alt="Citrine" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/aries.png" alt="Aries" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ruby.png" alt="Ruby" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/oxford.png" alt="Oxford" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/hunter.png" alt="hunter" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/burnt_umber.png" alt="Burnt Umber" class="img-responsive"></li>
+            <li class="material"><img src="/assets/images/materials/felt/sola/ebony.png" alt="Ebony" class="img-responsive"></li>
+          </ul>
+        </div>
+      </div>
+      <div id="modify">
+        <h3>Modify Tiles</h3>
+        <p>Remove tiles as needed.</p>
+        <ul class="list-inline tools">
+          <li *ngFor="let tool of modifyToolsArray last as isLast; index as i" class="tool-container">
+            <div class="tool" [class.add-border-right]="isLast">
+              <img src="/assets/icons/tools/remove.png" alt="{{tool | capitalize}}" class="img-responsive">
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div id="modify">
+        <h3>Modify Grid</h3>
+        <p>Add and remove columns and rows as needed.</p>
+        <ul class="tools list-inline">
+          <li class="options-container">
+            <div class="grid-tool-options">
+              <span class="icomoon-plus img-responsive"></span>
+            </div>
+          </li>
+          <li class="options-container">
+            <div class="grid-tool-options add-border-right">
+              <span class="icomoon-minus img-responsive"></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
