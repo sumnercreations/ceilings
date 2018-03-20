@@ -139,22 +139,19 @@ export class ApiService {
       'email': email,
       'password': password
     }
-    return this.http.post<any>(this.loginUrl, formData);
 
-    // TODO, IMPLEMENT BELOW LOGIC
-
-    // return this.http.post(this.loginUrl, formData)
-    //   .map((res: Response) => {
-    //     if (api && !api.result.error) {
-    //       localStorage.setItem('3formUser', JSON.stringify(api.result.user));
-    //       this.user = api.result.user;
-    //       this.onUserLoggedIn.emit(this.user);
-    //       this.debug.log('api', 'user successfully logged in');
-    //       return api;
-    //     } else {
-    //       this.alert.apiAlert(api.result.error);
-    //     }
-    //   });
+    return this.http.post(this.loginUrl, formData)
+      .map((res: any) => {
+        if (res && !res.result.error) {
+          localStorage.setItem('3formUser', JSON.stringify(res.result.user));
+          this.user = res.result.user;
+          this.onUserLoggedIn.emit(this.user);
+          this.debug.log('res', 'user successfully logged in');
+          return res;
+        } else {
+          this.alert.apiAlert(res.result.error);
+        }
+      });
   }
 
   logout() {

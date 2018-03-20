@@ -1,5 +1,5 @@
 <!-- not logged in -->
-<div class="center-div" [hidden]="user.isLoggedIn()">
+<div class="center-div" *ngIf="!user.uid">
   <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
 </div>
 
