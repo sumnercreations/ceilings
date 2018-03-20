@@ -1,5 +1,8 @@
+import { AlertService } from './alert.service';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+// import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import { Feature } from '../feature';
@@ -7,44 +10,39 @@ import { User } from '../_models/user';
 import { DebugService } from './../_services/debug.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 @Injectable()
 export class ApiService {
-  onSaved = new EventEmitter();
-  onLoaded = new EventEmitter();
-  onUserLoggedIn = new EventEmitter();
+  public onSaved = new EventEmitter();
+  public onLoaded = new EventEmitter();
+  public onUserLoggedIn = new EventEmitter();
   apiUrl = 'https://' + environment.API_URL + '/ceilings/';
   loginUrl = 'https://' + environment.API_URL + '/auth/login';
   userUrl = 'https://' + environment.API_URL + '/users/';
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private feature: Feature,
     private user: User,
     private debug: DebugService,
+    private alert: AlertService
   ) { }
 
   getMyDesigns() {
     return this.http.get(this.apiUrl + 'list/' + this.user.uid)
-      .map((res: Response) => res.json())
       .catch(this.handleError);
   }
 
   getUserRep(uid: number) {
     this.debug.log('api', 'getting user rep');
     return this.http.get(this.userUrl + uid + '/rep')
-      .map((res: Response) => res.json())
       .catch(this.handleError);
   }
 
   loadDesign(id: number) {
     this.debug.log('api', 'loading design: ' + id);
-    return this.http.get(this.apiUrl + id)
-      .map((res: Response) => {
-        this.onLoaded.emit();
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.http.get<any>(this.apiUrl + id);
   }
 
   updateDesign() {
@@ -70,17 +68,19 @@ export class ApiService {
       'services_amount': this.feature.services_amount,
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
-      'archived': this.feature.archived
+      'archived': this.feature.archived,
+      'quantity': this.feature.quantity
     };
 
-    const headers = new Headers({'Content-Type': 'application/json'});
-    const options = new RequestOptions({headers: headers});
+    // const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    // const options = new RequestOptions({headers: headers});
 
-    return this.http.patch(this.apiUrl + this.feature.id, patchData, options)
-      .map((res: Response) => {
+    // return this.http.patch(this.apiUrl + this.feature.id, patchData, options)
+    return this.http.patch(this.apiUrl + this.feature.id, patchData)
+      .map((res) => {
         this.onSaved.emit();
         this.debug.log('api', 'emitting onSaved in updateDesign');
-        return res.json() || {}
+        return res || {}
       })
       .catch(this.handleError);
   }
@@ -106,7 +106,8 @@ export class ApiService {
       'services_amount': this.feature.services_amount,
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
-      'archived': this.feature.archived
+      'archived': this.feature.archived,
+      'quantity': this.feature.quantity
     }
 
     return this.http.post(this.apiUrl, patchData)
@@ -124,8 +125,6 @@ export class ApiService {
 
   sendEmail() {
     return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/design/' + this.feature.id)
-      .map((res: Response) => res.json())
-      .catch(this.handleError);
   }
 
   getPrices() {
@@ -142,13 +141,15 @@ export class ApiService {
     }
 
     return this.http.post(this.loginUrl, formData)
-      .map((res: Response) => {
-        const api = res.json();
-        if (api && !api.result.error) {
-          localStorage.setItem('3formUser', JSON.stringify(api.result.user));
-          this.user = api.result.user;
+      .map((res: any) => {
+        if (res && !res.result.error) {
+          localStorage.setItem('3formUser', JSON.stringify(res.result.user));
+          this.user = res.result.user;
           this.onUserLoggedIn.emit(this.user);
-          this.debug.log('api', 'user successfully logged in');
+          this.debug.log('res', 'user successfully logged in');
+          return res;
+        } else {
+          this.alert.apiAlert(res.result.error);
         }
       });
   }
@@ -158,13 +159,20 @@ export class ApiService {
     this.user = new User;
   }
 
-  private handleError(error: any) {
-    const errorJson = error.json();
-    if (errorJson) {
-      return Observable.throw(errorJson.message || 'Server Error');
+  public handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
     }
-
-    return Observable.throw('Unknown Error');
-  }
+    // return an ErrorObservable with a user-facing error message
+    return new ErrorObservable(
+      'Something bad happened; please try again later.');
+  };
 
 }

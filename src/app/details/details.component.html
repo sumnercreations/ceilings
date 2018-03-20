@@ -24,7 +24,7 @@
         <p class="sm">Specifier: <span class="md info">{{feature.specifier}}</span></p>
       </div>
       <div class="col-sm-5">
-        <p class="sm">Est. Total: <span class="md info">{{feature.estimated_amount | currency:'USD':true}}<sup>*</sup> USD</span></p>
+        <p class="sm">Design Total: <span class="md info">{{feature.estimated_amount | currency:'USD'}}<sup>*</sup> USD</span></p>
       </div>
       <div class="col-sm-1">
         <p class="xs bold">{{feature.updated_at | date:'shortDate'}}</p>
@@ -77,6 +77,19 @@
             </div>
             <div class="col-sm-6">{{tile.purchased}}</div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="row multiples-section">
+      <p class="multiples md">Total Quantity Ordered</p>
+      <div class="multiples">
+        <div class="multiples-row">
+          <span>Quantity Ordered</span>
+          <span>{{feature.quantity || 1}}</span>
+        </div>
+        <div class="multiples-row">
+          <span>Estimated Total</span>
+          <span>{{((feature.estimated_amount * feature.quantity) || (feature.estimated_amount))| currency:'USD'}}<sup>*</sup></span>
         </div>
       </div>
     </div>

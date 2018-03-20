@@ -82,7 +82,8 @@ export class DetailsComponent implements OnInit {
   }
 
   backToDesign() {
-    this.router.navigate([this.feature.feature_type, 'design', this.feature.id]);
+    const newUrl = window.location.pathname.replace(/details/, '');
+    this.router.navigate([newUrl]);
   }
 
 }

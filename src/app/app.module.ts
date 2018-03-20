@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 // core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -7,15 +8,15 @@ import { HttpModule } from '@angular/http';
 // material.angular.io
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-  MdButtonToggleModule,
-  MdRadioModule,
-  MdTooltipModule,
-  MdSnackBarModule,
-  MdDialogModule,
-  MdInputModule,
-  MdProgressSpinnerModule,
-  MdTabsModule,
-  MdTableModule,
+  MatButtonToggleModule,
+  MatRadioModule,
+  MatTooltipModule,
+  MatSnackBarModule,
+  MatDialogModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatTabsModule,
+  MatTableModule
 } from '@angular/material';
 
 // routing
@@ -109,18 +110,18 @@ import { CdkTableModule } from '@angular/cdk/table';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    HttpClientModule,
     Routing,
     BrowserAnimationsModule,
-    MdButtonToggleModule,
-    MdRadioModule,
-    MdTooltipModule,
-    MdSnackBarModule,
-    MdDialogModule,
-    MdInputModule,
-    MdProgressSpinnerModule,
-    MdTabsModule,
-    MdTableModule,
-    CdkTableModule
+    MatButtonToggleModule,
+    MatRadioModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
+    MatTableModule
   ],
   providers: [
     Feature,

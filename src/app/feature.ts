@@ -33,6 +33,7 @@ export class Feature {
   public quoted = false; // boolean
   public archived = false; // boolean
   public updated_at: string;
+  public quantity = 1;
 
   // attributes for the tool
   public tile_type = 'tile';
@@ -81,6 +82,7 @@ export class Feature {
     this.quoted = design.quoted;
     this.archived = design.archived;
     this.updated_at = design.updated_at;
+    this.quantity = design.quantity || 1;
 
     // after it's been loaded, recalculate the price if the design
     // hasn't been quoted. In the event that the prices have changed.
@@ -92,12 +94,29 @@ export class Feature {
   }
 
   public reset() {
-    this.design_name = undefined;
     this.width = undefined;
     this.length = undefined;
     this.gridData = undefined;
-    this.estimated_amount = 0.00;
     this.id = undefined;
+    this.uid = undefined;
+    this.feature_type = undefined;
+    this.design_name = undefined;
+    this.project_name = undefined;
+    this.specifier = undefined;
+    this.width = undefined;
+    this.length = undefined;
+    this.units = 'inches';
+    this.material = undefined;
+    this.tile_size = 24;
+    this.tiles = undefined;
+    this.design_data_url = undefined;
+    this.hardware = undefined;
+    this.estimated_amount = 0.00;
+    this.services_amount = 0.00;
+    this.quoted = false; // boolean
+    this.archived = false; // boolean
+    this.updated_at = undefined;
+    this.quantity = 1;
   }
 
   updateEstimatedAmount() {
@@ -120,6 +139,7 @@ export class Feature {
   }
 
   getDeprecatedMaterials() {
+    if (this.feature_type === 'seeyond') { return; } // handled by seeyondFeature.loadSeeyondDesign()
     const inactiveMaterials = [];
     const discontinuedMaterials = [];
     const materialsObj = this.materials;
@@ -133,7 +153,7 @@ export class Feature {
                   inactiveMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
                 }
                 if (materialsObj[mat][matType][matTypeColor].status === 'discontinued') {
-                  discontinuedMaterials.push(materialsObj[mat][matType][matTypeColor].name_str)
+                  discontinuedMaterials.push(materialsObj[mat][matType][matTypeColor].name_str || materialsObj[mat][matType][matTypeColor].material)
                 }
               }
             }
@@ -147,16 +167,24 @@ export class Feature {
   }
 
   checkMaterialsUsed() {
+    if (this.feature_type === 'seeyond') { return; }
     let alertStr;
     const gridData = this.gridData;
     const matchedInactiveMaterials = [];
     const matchedDiscontinuedMaterials = [];
+
     if (this.inactiveMaterials.length > 0) {
       // loop through gridData looking for inactive materials
       this.inactiveMaterials.map(material => {
         const mat = material.toString().toLowerCase().replace(/ /g, '_');
         gridData.map(gridSection => {
-          gridSection.map(tile => {
+          let gridSectionArr = [];
+          if (!Array.isArray(gridSection)) {
+            gridSectionArr = Object.keys(gridSection).map(key => {
+              return gridSection[key];
+            })
+          } else { gridSectionArr = gridSection; }
+          gridSectionArr.map(tile => {
             if (tile.material === mat) {
               if (matchedInactiveMaterials.indexOf(material) < 0) {
                 matchedInactiveMaterials.push(material);
@@ -167,11 +195,11 @@ export class Feature {
       })
       // alert users if inactive materials are being used
       if (matchedInactiveMaterials.length === 1) {
-        this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while suplies last.`)
+        this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while supplies last.`)
       } else if (matchedInactiveMaterials.length > 1) {
         alertStr = matchedInactiveMaterials.toString();
         alertStr = alertStr.replace(/,/g, ' and ');
-        this.alert.error(`${alertStr} are being discontinued and are only available while suplies last.`)
+        this.alert.error(`${alertStr} are being discontinued and are only available while supplies last.`)
       }
     }
     if (this.discontinuedMaterials.length > 0) {
@@ -179,7 +207,13 @@ export class Feature {
       this.discontinuedMaterials.map(material => {
         const mat = material.toString().toLowerCase().replace(/ /g, '_');
         gridData.map(gridSection => {
-          gridSection.map(tile => {
+          let gridSectionArr = [];
+          if (!Array.isArray(gridSection)) {
+            gridSectionArr = Object.keys(gridSection).map(key => {
+              return gridSection[key];
+            })
+          } else { gridSectionArr = gridSection; }
+          gridSectionArr.map(tile => {
             if (tile.material === mat) {
               if (matchedDiscontinuedMaterials.indexOf(material) < 0) {
                 matchedDiscontinuedMaterials.push(material);
@@ -198,9 +232,9 @@ export class Feature {
           alertStr = alertStr.replace(/,/g, ' and ');
           this.alert.error(`The ${alertStr} materials have been discontinued. Select a new color to proceed.`)
         }
-      } else {
-        this.canQuote = true;
       }
+    } else { // canQuote if no discontinuedMaterials found
+      this.canQuote = true;
     }
   }
 
@@ -238,7 +272,7 @@ export class Feature {
 
     const hardware110 = 0.23;
     const hardware111 = 1.80;
-    const hardware112 = 2.00;
+    const hardware112 = 3.08;
     const total110 = hardware110 * hushTileCount * 5;
     const total111 = hardware111 * hushTileCount * 4;
     const total112 = hardware112 * hushTileCount * 2;
@@ -250,7 +284,7 @@ export class Feature {
     }
 
     const allHardwareCost = total110 + total111 + total112;
-    this.services_amount = (hushTileCount * 65.69);
+    this.services_amount = (hushTileCount * 65.49);
     this.estimated_amount = this.services_amount + allHardwareCost;
   }
 

@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { AlertService } from './../_services/alert.service';
@@ -26,9 +26,9 @@ export class QuoteDialogComponent implements OnInit {
     private api: ApiService,
     private alert: AlertService,
     public feature: Feature,
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     public user: User,
-    public dialogRef: MdDialogRef<QuoteDialogComponent>,
+    public dialogRef: MatDialogRef<QuoteDialogComponent>,
     public seeyond: SeeyondFeature,
     public seeyondApi: SeeyondService,
     public location: Location
@@ -90,7 +90,7 @@ export class QuoteDialogComponent implements OnInit {
         // redirect to the new URL if we aren't already there.
         const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
         if (url !== this.router.url) {
-          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+          this.router.navigate([`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`]);
         }
         this.alert.success('Your quote request has been sent.');
       });

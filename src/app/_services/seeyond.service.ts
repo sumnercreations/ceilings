@@ -47,7 +47,7 @@ export class SeeyondService {
     const patchData = {
       'id': this.seeyond.id,
       'uid': this.user.uid,
-      'feature_type': this.seeyond.feature_type,
+      'feature_type': this.seeyond.seeyond_feature_index,
       'title': this.seeyond.title,
       'name': this.seeyond.name,
       'design_name': this.seeyond.design_name,
@@ -76,7 +76,8 @@ export class SeeyondService {
       'archived': this.seeyond.archived,
       'hardware': this.seeyond.hardware,
       'linear_feet': this.seeyond.linear_feet,
-      'design_data_url': profileImg
+      'design_data_url': profileImg,
+      'quantity': this.seeyond.quantity
     };
     this.debug.log('seeyond', patchData);
     const headers = new Headers({'Content-Type': 'application/json'});
@@ -124,7 +125,8 @@ export class SeeyondService {
       'archived': this.seeyond.archived,
       'hardware': this.seeyond.hardware,
       'linear_feet': this.seeyond.linear_feet,
-      'design_data_url': this.seeyond.design_data_url
+      'design_data_url': this.seeyond.design_data_url,
+      'quantity': this.seeyond.quantity
     };
 
     return this.http.post(this.apiUrl, patchData)

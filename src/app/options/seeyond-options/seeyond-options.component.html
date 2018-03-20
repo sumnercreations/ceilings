@@ -67,10 +67,10 @@
             </div>
             <div class="col-sm-12">
               <div class="toggle-button-form-wrapper no-margin">
-                <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
-                  <md-button-toggle value="inches">IN</md-button-toggle>
-                  <md-button-toggle value="centimeters">CM</md-button-toggle>
-                </md-button-toggle-group>
+                <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+                  <mat-button-toggle value="inches">IN</mat-button-toggle>
+                  <mat-button-toggle value="centimeters">CM</mat-button-toggle>
+                </mat-button-toggle-group>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
       </div>
       <button class="button button-orange start-designing" (click)="startDesigning()" [disabled]="!seeyondValidateOptions()">start designing</button>
       <div class="back">
-        <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Back to Ceilings Configurator</a>
+        <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Choose a New Design Tool</a>
       </div>
     </div>
     <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
@@ -108,8 +108,10 @@
             <li class="material"><img src="/assets/images/materials/felt/sola/ebony.png" alt="Ebony" class="img-responsive"></li>
           </ul>
         </div>
-        <p *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))">Add cove lighting to your ceiling feature</p>
-        <p *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))" class="icomoon-checkbox-checked orange checkbox"></p>
+        <div *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))">
+          <h3>Cove Lighting</h3>
+          <p>Add cove lighting to your ceiling feature</p>
+        </div>
       </div>
       <div id="modify">
         <h3>Modify</h3>

@@ -43,7 +43,10 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         if (this.seeyond.materialObj.status === 'inactive') { this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" is being discontinued.  It will be available until ${this.seeyond.materialObj.available_until} or while supplies last.`)}
-        if (this.seeyond.materialObj.status === 'discontinued') { this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" has been discontinued.  Select a new color to proceed.`)}
+        if (this.seeyond.materialObj.status === 'discontinued') {
+          this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" has been discontinued.  Select a new color to proceed.`);
+          this.feature.canQuote = false;
+        }
       });
 
   }
@@ -53,7 +56,12 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
     this.ngUnsubscribe.complete();
   }
 
+  alertQuoted() {
+    this.alert.error('This design has been quoted.  To make changes you must first save it as a new design.');
+  }
+
   public updateSelectedTessellation(tessellationName: string) {
+    if (this.seeyond.quoted) { this.alertQuoted(); return; }
     this.seeyond.tessellationStr = tessellationName;
     const tessellation = this.seeyond.getTesslationNumber(tessellationName);
     this.selectedTessellation = this.seeyond.tessellation = tessellation;
@@ -63,8 +71,10 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   }
 
   public updateSelectedMaterial(material) {
+    if (this.seeyond.quoted) { this.alertQuoted(); return; }
     this.selectedMaterial = this.seeyond.material = material.material;
     this.seeyond.sheet_part_id = material.sheet_part_id;
+    this.seeyond.canQuote = true;
 
     // update the visualization
     this.seeyond.redrawVisualization();
@@ -78,12 +88,14 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   }
 
   public updateUnits(units) {
+    if (this.seeyond.quoted) { this.alertQuoted(); return; }
     this.seeyond.units = units;
     this.seeyond.convertDimensionsUnits(units);
     this.dimensionsString = this.seeyond.getDimensionString(units);
   }
 
   public toggleCoveLighting() {
+    if (this.seeyond.quoted) { this.alertQuoted(); return; }
     this.seeyond.cove_lighting = !this.seeyond.cove_lighting;
     if (this.seeyond.cove_lighting) {
       this.seeyond.calcLightingFootage();

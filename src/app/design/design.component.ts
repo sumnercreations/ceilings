@@ -2,7 +2,7 @@ import { SeeyondService } from './../_services/seeyond.service';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
@@ -30,12 +30,12 @@ import { AlertService } from 'app/_services/alert.service';
 export class DesignComponent implements OnInit, OnDestroy {
   syd_v = require('syd-visualization');
   ngUnsubscribe: Subject<any> = new Subject();
-  optionsDialogRef: MdDialogRef<any>;
-  loadDesignDialogRef: MdDialogRef<any>;
-  saveDesignDialogRef: MdDialogRef<any>;
-  loginDialogRef: MdDialogRef<any>;
-  view3dDialogRef: MdDialogRef<any>;
-  tileUsageDialogRef: MdDialogRef<any>;
+  optionsDialogRef: MatDialogRef<any>;
+  loadDesignDialogRef: MatDialogRef<any>;
+  saveDesignDialogRef: MatDialogRef<any>;
+  loginDialogRef: MatDialogRef<any>;
+  view3dDialogRef: MatDialogRef<any>;
+  tileUsageDialogRef: MatDialogRef<any>;
   position = 'above';
   FileSaver = FileSaver;
   featureTiles: any;
@@ -47,7 +47,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     public debug: DebugService,
     public api: ApiService,
     public feature: Feature,
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     public user: User,
     public seeyond: SeeyondFeature,
     public seeyondService: SeeyondService,
@@ -98,7 +98,9 @@ export class DesignComponent implements OnInit, OnDestroy {
               this.router.navigate([design.feature_type, 'design', design.id]);
             }
           }
-        });
+        },
+        err => this.api.handleError(err)
+      );
       } else {
         setTimeout(() => {
           this.feature.feature_type = this.feature.setFeatureType(params['type']);
@@ -157,12 +159,11 @@ export class DesignComponent implements OnInit, OnDestroy {
     // subscribe to the loggedIn event and set the user attributes
     // and close the dialog
     this.api.onUserLoggedIn.subscribe(data => {
+      console.log('user logged in event fired');
       this.user.uid = data.uid;
       this.user.email = data.email;
       this.user.firstname = data.firstname;
       this.user.lastname = data.lastname;
-
-      this.loginDialogRef.close();
     });
 
     // subscribe to the onView3d event and build the dialog
@@ -182,7 +183,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   public editOptions() {
     // load a dialog to edit the options
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     config.disableClose = true;
     config.height = '90%';
     config.width = '80%';
@@ -200,11 +201,11 @@ export class DesignComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      // let loadDialog: MdDialog;
+      // let loadDialog: MatDialog;
       this.api.getMyDesigns()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
-        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
+        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
         this.loadDesignDialogRef.componentInstance.designs = designs;
       });
     }
@@ -215,19 +216,19 @@ export class DesignComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      // let loadDialog: MdDialog;
+      // let loadDialog: MatDialog;
       this.seeyondService.getMyFeatures()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
-        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
+        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
         this.loadDesignDialogRef.componentInstance.designs = designs;
       });
     }
   }
 
   public saveDesign() {
-    // let saveDialog: MdDialog;
-    this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MdDialogConfig);
+    // let saveDialog: MatDialog;
+    this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig);
     if (!this.user.isLoggedIn()) {
       this.loginDialog();
     }
@@ -235,7 +236,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   public loginDialog(load: boolean = false) {
     this.debug.log('design-component', 'displaying login dialog');
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
     this.loginDialogRef.afterClosed()
@@ -251,6 +252,12 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
   }
 
+  viewDetails () {
+    let path = window.location.pathname;
+    path = `${path}/details`
+    this.router.navigate([path])
+  }
+
   public logout() {
     this.api.logout();
     this.user = new User;
@@ -259,11 +266,11 @@ export class DesignComponent implements OnInit, OnDestroy {
   public view3d() {
     this.debug.log('design-component', 'displaying 3d dialog');
     // display the dialog where the 3d visualization will be rendered
-    this.view3dDialogRef = this.dialog.open(VisualizationComponent, new MdDialogConfig);
+    this.view3dDialogRef = this.dialog.open(VisualizationComponent, new MatDialogConfig);
   }
 
   public tileUsage() {
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     config.height = '700px';
     if (this.feature.feature_type === 'velo') {
       this.tileUsageDialogRef = this.dialog.open(VeloTileUsageComponent, config);
@@ -299,7 +306,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.downloadGridGuide();
     }
     // load the dialog to confirm the design we will be sending
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     // config.height = '700px';
     const dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
@@ -340,7 +347,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.materials = this.feature.getFeatureMaterials();
         this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
         this.editOptions();
-        this.seeyond.updateFeature(seeyondFeature);
+        this.seeyond.updateSeeyondFeature(seeyondFeature);
       }
     });
   }

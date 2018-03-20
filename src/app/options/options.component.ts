@@ -1,7 +1,7 @@
 import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { SeeyondFeature } from '../seeyond-feature';
@@ -33,7 +33,7 @@ export class OptionsComponent implements OnInit {
     private router: Router,
     private debug: DebugService,
     public feature: Feature,
-    public dialogRef: MdDialogRef<OptionsComponent>,
+    public dialogRef: MatDialogRef<OptionsComponent>,
     public alert: AlertService,
     public seeyondService: SeeyondService,
     public seeyond: SeeyondFeature,
@@ -48,10 +48,13 @@ export class OptionsComponent implements OnInit {
   }
 
   public goToLanding() {
+    if (this.feature.feature_type === 'seeyond') { this.seeyond.resetSeeyond(); }
     this.dialogRef.close('cancel');
-    this.dialogRef.afterClosed().subscribe(result => {
-      this.router.navigate(['/']);
-    });
+    this.location.go('/');
+    window.location.reload();
+    // this.dialogRef.afterClosed().subscribe(result => {
+    //   this.router.navigate(['/']);
+    // });
   }
 
   public updateGridUnits(units: string) {
