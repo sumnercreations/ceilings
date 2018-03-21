@@ -1,3 +1,91 @@
-<app-hush-quantity *ngIf="feature_type === 'hush'"></app-hush-quantity>
-<app-tetria-quantity *ngIf="feature_type === 'tetria'"></app-tetria-quantity>
-<app-clario-quantity *ngIf="feature_type === 'clario'"></app-clario-quantity>
+<div class="quantity-header">
+    <div class="row">
+      <a (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> <span>Back to Design</span></a>
+      <div class="col-sm-12">
+        <div class="col-sm-4">
+          <p class="md title">Order By Quantity</p>
+        </div>
+        <div class="col-sm-4">
+          <p class="md title">{{headerTitle}}</p>
+        </div>
+        <div class="col-sm-4">
+          <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((!order || order.length === 0) || !orderName)" (click)="requestQuote()">Request Quote</button>
+          <button *ngIf="feature.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white">
+    <div class="separator"></div>
+  </div>
+  <div class="quantity-ui">
+    <div class="row full-height">
+      <div class="col-sm-9 full-height">
+        <div class="table-parent col-sm-12">
+          <div class="table-header col-sm-12">
+            <span class="order-name">
+              <span>Order Name</span>
+              <input [(ngModel)]="orderName" required placeholder="Name" type="text">
+            </span>
+            <button class="button button-orange" (click)="addToOrder()">Add To Order</button>
+          </div>
+          <div class="table-container">
+            <div class="example-container">
+              <p *ngIf="(!order || order.length === 0)" class="md center-text add-to-order">
+                Select "Add To Order" to begin.
+              </p>
+              <mat-table #table [dataSource]="order" *ngIf="(!!order && order.length > 0)">
+                <ng-container matColumnDef="qty">
+                  <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                </ng-container>
+                <!-- <ng-container matColumnDef="weight">
+                  <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="symbol">
+                  <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+                </ng-container> -->
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              <!-- <mat-table #table [dataSource]="dataSource">
+                <ng-container matColumnDef="position">
+                  <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="weight">
+                  <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="symbol">
+                  <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="logo">
+          <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
+        </div>
+      </div>
+    </div>
+  </div>
+

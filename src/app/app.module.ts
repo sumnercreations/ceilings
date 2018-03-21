@@ -1,9 +1,9 @@
-import { HttpClientModule } from '@angular/common/http';
 // core
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 // material.angular.io
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -37,6 +37,7 @@ import { LandingComponent } from './landing/landing.component';
 import { AlertComponent } from './alert/alert.component';
 import { GridComponent } from './grid/grid.component';
 import { LoadDesignComponent } from './load-design/load-design.component';
+import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { SaveDesignComponent } from './save-design/save-design.component';
 import { LoginComponent } from './login/login.component';
 import { VisualizationComponent } from './visualization/visualization.component';
@@ -54,9 +55,7 @@ import { SeeyondDesignComponent } from './design/seeyond-design/seeyond-design.c
 import { SeeyondVisualizationComponent } from './visualization/seeyond-visualization/seeyond-visualization.component';
 import { SeeyondDetailsComponent } from './details/seeyond-details/seeyond-details.component';
 import { QuantityComponent } from './quantity/quantity.component';
-import { HushQuantityComponent } from './quantity/hush-quantity/hush-quantity.component';
-import { ClarioQuantityComponent } from './quantity/clario-quantity/clario-quantity.component';
-import { TetriaQuantityComponent } from './quantity/tetria-quantity/tetria-quantity.component';
+import { AddQuantityComponent } from './quantity/add-quantity/add-quantity.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -64,12 +63,11 @@ import { AlertService } from './_services/alert.service';
 import { ApiService } from './_services/api.service';
 import { MaterialsService } from './_services/materials.service';
 import { SeeyondService } from './_services/seeyond.service';
+import { QuantityService } from './quantity/quantity.service';
 
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
-import { ConfirmDeleteComponent } from './confirm-delete/confirm-delete.component';
 import { KeysPipe } from './_pipes/keys.pipe';
-import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [
@@ -101,9 +99,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     SeeyondVisualizationComponent,
     SeeyondDetailsComponent,
     QuantityComponent,
-    HushQuantityComponent,
-    ClarioQuantityComponent,
-    TetriaQuantityComponent
+    AddQuantityComponent
   ],
   imports: [
     BrowserModule,
@@ -132,7 +128,8 @@ import { CdkTableModule } from '@angular/cdk/table';
     AlertService,
     ApiService,
     MaterialsService,
-    SeeyondService
+    SeeyondService,
+    QuantityService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -145,7 +142,8 @@ import { CdkTableModule } from '@angular/cdk/table';
     VisualizationComponent,
     TileUsageComponent,
     VeloTileUsageComponent,
-    QuoteDialogComponent
+    QuoteDialogComponent,
+    AddQuantityComponent
   ]
 })
 export class AppModule { }

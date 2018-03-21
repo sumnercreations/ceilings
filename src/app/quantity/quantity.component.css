@@ -8,26 +8,23 @@
   height: 100%;
 }
 
-.table-wrapper {
+.table-parent {
   border-right: 2px solid #cdcdcd;
-  /* height: 600px; */
-  /* overflow: auto; */
   display: flex;
   flex-direction: column;
 }
 
-.add-button-row {
+.table-header {
   margin: 15px;
   min-height: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.logo {
-  padding: 0px 15px;
-}
+/* .order-name {
 
-.logo img {
-  width: 100px;
-}
+} */
+
 
 .mat-header-row {
   position: sticky;
@@ -36,7 +33,23 @@
 }
 
 .table-container {
-  max-height: 500px;
+  height: 500px;
   overflow: auto;
   margin-bottom: 15px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.add-to-order {
+  margin-top: 30px;
+}
+
+.logo {
+  padding: 0px 15px;
+}
+
+.logo img {
+  width: 100px;
 }
