@@ -10,10 +10,33 @@
 
 .table-wrapper {
   border-right: 2px solid #cdcdcd;
-  height: 100%;
-  overflow: auto;
+  /* height: 600px; */
+  /* overflow: auto; */
+  display: flex;
+  flex-direction: column;
 }
 
 .add-button-row {
   margin: 15px;
+  min-height: 30px;
+}
+
+.logo {
+  padding: 0px 15px;
+}
+
+.logo img {
+  width: 100px;
+}
+
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  background: white;
+}
+
+.table-container {
+  max-height: 500px;
+  overflow: auto;
+  margin-bottom: 15px;
 }
