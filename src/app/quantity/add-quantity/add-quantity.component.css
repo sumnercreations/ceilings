@@ -34,6 +34,25 @@
   margin: 0 15px;
 }
 
+.selection-summary {
+  min-height: 50px;
+  margin-bottom: 10px;
+}
+
+.selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selection * {
+  margin: 0px 5px;
+}
+
+.selection img{
+  max-height: 50px;
+}
+
 /* Keep below other borders so it will override the default border */
 .selected {
   border: 2px solid #ff9933;

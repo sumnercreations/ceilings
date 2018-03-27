@@ -21,10 +21,9 @@
   justify-content: space-between;
 }
 
-/* .order-name {
-
-} */
-
+.order-name {
+  font-size: 18px;
+}
 
 .mat-header-row {
   position: sticky;
@@ -36,6 +35,11 @@
   height: 500px;
   overflow: auto;
   margin-bottom: 15px;
+}
+
+.table-img {
+  max-height: 50px;
+  margin: 3px 0px;
 }
 
 .center-text {

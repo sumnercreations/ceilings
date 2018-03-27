@@ -24,56 +24,50 @@
         <div class="table-parent col-sm-12">
           <div class="table-header col-sm-12">
             <span class="order-name">
-              <span>Order Name</span>
+              <span>Design Name</span>
               <input [(ngModel)]="orderName" required placeholder="Name" type="text">
             </span>
             <button class="button button-orange" (click)="addToOrder()">Add To Order</button>
           </div>
           <div class="table-container">
             <div class="example-container">
-              <p *ngIf="(!order || order.length === 0)" class="md center-text add-to-order">
+              <p *ngIf="(order.data.length === 0)" class="md center-text add-to-order">
                 Select "Add To Order" to begin.
               </p>
-              <mat-table #table [dataSource]="order" *ngIf="(!!order && order.length > 0)">
+              <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
                 <ng-container matColumnDef="qty">
                   <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                  <mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="name">
-                  <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                <ng-container matColumnDef="imgUrl">
+                  <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                      <img src="{{element.imgUrl}}" class="img-responsive table-img" alt="{{element.material | capitalize}}">
+                  </mat-cell>
                 </ng-container>
-                <!-- <ng-container matColumnDef="weight">
-                  <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+                <ng-container matColumnDef="material">
+                  <mat-header-cell *matHeaderCellDef> Material Name </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.material | capitalize}} </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="symbol">
-                  <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-                </ng-container> -->
+                <ng-container matColumnDef="total">
+                  <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                  <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;">
+                      <button (click)="editRow(i, row)">
+                        <span aria-label="Edit">edit</span>
+                      </button>
+
+                      <button (click)="deleteRow(i, row)">
+                        <span aria-label="Delete">delete</span>
+                      </button>
+                    </mat-cell>
+                </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
-              <!-- <mat-table #table [dataSource]="dataSource">
-                <ng-container matColumnDef="position">
-                  <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="name">
-                  <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="weight">
-                  <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="symbol">
-                  <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-              </mat-table> -->
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@ export class AddQuantityComponent implements OnInit {
   position = 'above';
 
   // Selections
-  selectedMaterial: string;
+  selectedMaterial: any;
   selectedQuantity: number;
 
   constructor(
@@ -30,14 +30,8 @@ export class AddQuantityComponent implements OnInit {
     let requiredMaterials: any;
     switch (this.qtySrv.feature_type) {
       case 'hush': requiredMaterials = this.materialsService.materials.felt.sola; break;
-      case 'seeyond': requiredMaterials = this.materialsService.materials.felt.sola; break;
       case 'tetria': requiredMaterials = this.materialsService.materials.felt.merino; break;
       case 'clario': requiredMaterials = this.materialsService.materials.felt.sola; break;
-      case 'velo':
-        requiredMaterials = {felt: undefined, varia: undefined};
-        requiredMaterials.felt = this.materialsService.materials.felt.merino;
-        requiredMaterials.varia = this.materialsService.materials.varia;
-      break;
     }
     this.materials = requiredMaterials;
   }
@@ -52,11 +46,43 @@ export class AddQuantityComponent implements OnInit {
     this.selectedQuantity = quantity;
   }
 
+  validateQtyInputs() {
+    let isValid = false;
+    switch (this.qtySrv.feature_type) {
+      case 'hush': isValid = (!!this.selectedMaterial && (this.selectedQuantity > 0)); break;
+      case 'tetria': isValid = (!!this.selectedMaterial && (this.selectedQuantity > 0)); break; // TODO FIX THIS
+      case 'clario': isValid = (!!this.selectedMaterial && (this.selectedQuantity > 0)); break; // TODO FIX THIS
+    }
+    return isValid;
+  }
+
   cancel() {
     this.dialogRef.close();
   }
 
   addToOrder() {
+    let selections = {};
+    switch (this.qtySrv.feature_type) {
+      case 'hush':
+        selections = {
+          material: this.selectedMaterial,
+          qty: this.selectedQuantity
+        };
+      break;
+      case 'tetria':
+        selections = {
+          material: this.selectedMaterial,
+          qty: this.selectedQuantity
+        };
+      break;
+      case 'clario':
+        selections = {
+          material: this.selectedMaterial,
+          qty: this.selectedQuantity
+        };
+      break;
+    }
+    this.dialogRef.close(selections);
     console.log('add to order invoked');
   }
 }

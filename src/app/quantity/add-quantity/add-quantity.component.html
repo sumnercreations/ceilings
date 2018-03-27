@@ -1,10 +1,10 @@
-<div class="addQty-dialog-container">
+<div class="addQty-dialog-container form-group">
   <div class='section'>
     <p class="md">Material</p>
     <div class="materials">
-      <div *ngFor="let material of materials | keys" (click)="updateSelectedMaterial(material.material)">
+      <div *ngFor="let material of materials | keys" (click)="updateSelectedMaterial(material)">
         <div *ngIf="material.status === 'active'"  matTooltip="{{material.material | capitalize}}" class="material col-sm-2 tooltip-host" [matTooltipPosition]="position">
-          <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="selectedMaterial==material.material">
+          <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="((!!selectedMaterial) && selectedMaterial.material == material.material)">
         </div>
       </div>
     </div>
@@ -12,13 +12,23 @@
 
   <div class='row section'>
     <p class="md">Quantity</p>
-    <input [(ngModel)]="selectedQuantity" #quantityInput="ngModel" (change)="quantityDidChange(quantityInput.value)" required type="number" class="form-control number-input square" placeholder="Quantity" name="Quantity" id="quantity">
+    <input [(ngModel)]="selectedQuantity" #quantityInput="ngModel" required (change)="quantityDidChange(quantityInput.value)" required type="number" class="form-control number-input square" placeholder="Quantity" name="Quantity" id="quantity">
+  </div>
+
+  <div class='row section'>
+    <p class="md">Selection</p>
+    <div class="selection-summary">
+      <p *ngIf="(selectedQuantity > 0) && !!selectedMaterial" class="md selection">
+        {{selectedQuantity}} x
+        <img src="{{selectedMaterial.image}}" matTooltip="{{selectedMaterial.material | capitalize}}" class="img-responsive tooltip-host" alt="{{selectedMaterial.material | capitalize}}" [matTooltipPosition]="position">
+      </p>
+    </div>
   </div>
 
   <div class="footer section">
     <div class="action-btns">
       <!-- <button class="button button-gray" (click)="cancel()">Cancel</button> -->
-      <button class="button button-gray" (click)="addToOrder()" type="submit">ADD TO ORDER</button>
+      <button class="button button-gray" (click)="addToOrder()" [disabled]="!validateQtyInputs()">ADD TO ORDER</button>
     </div>
   </div>
 </div>

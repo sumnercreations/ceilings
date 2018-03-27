@@ -1,4 +1,4 @@
-import { MatDialog, MatDialogRef, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { AddQuantityComponent } from './add-quantity/add-quantity.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -19,44 +19,16 @@ export class QuantityComponent implements OnInit, OnDestroy {
   ngUnsubscribe: Subject<any> = new Subject();
   materials: any;
   panelOpenState = false;
-  order: any;
+  order = new MatTableDataSource();
   orderName = '';
   headerTitle = '';
   addQtyDialogRef: MatDialogRef<any>;
 
   // Table Properties
   displayedColumns = [];
-  hushOrder: HushQty[];
-  clarioOrder: ClarioQty[];
-  tetriaOrder: TetriaQty[];
-  // displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  // ELEMENT_DATA: Element[] = [
-  //   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  //   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  //   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  //   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  //   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  //   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  //   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  //   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  //   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  //   {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  //   {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  //   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  //   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  //   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  //   {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  //   {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  //   {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  //   {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  //   {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  //   {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  //   {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  //   {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  //   {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  //   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-  // ];
-  // dataSource = this.ELEMENT_DATA;
+  // hushOrder: HushQty[];
+  // clarioOrder: ClarioQty[];
+  // tetriaOrder: TetriaQty[];
 
   constructor(
     private route: ActivatedRoute,
@@ -87,21 +59,19 @@ export class QuantityComponent implements OnInit, OnDestroy {
   setTableProperties() {
     switch (this.qtySrv.feature_type) {
       case 'hush':
-        this.order = this.hushOrder;
-        this.displayedColumns = ['qty', 'imgUrl', 'material'];
+        this.displayedColumns = ['qty', 'imgUrl', 'material', 'total', 'edit'];
         this.headerTitle = 'Hush Blocks Tiles';
         break;
       case 'clario':
-        this.displayedColumns = ['qty', 'imgUrl', 'material', 'size', 'type'];
-        this.order = this.clarioOrder;
+        this.displayedColumns = ['qty', 'imgUrl', 'material', 'size', 'type', 'total', 'edit'];
         this.headerTitle = 'Clario Tiles';
         break;
       case 'tetria':
-        this.displayedColumns = ['qty', 'imgUrl', 'material', 'type'];
-        this.order = this.tetriaOrder;
+        this.displayedColumns = ['qty', 'imgUrl', 'material', 'type', 'total', 'edit'];
         this.headerTitle = 'Tetria Tiles';
         break;
     }
+    console.log('order', this.order);
   }
 
   backToDesign() {
@@ -118,8 +88,36 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         console.log('addToOrder result:', result);
-        // add result to order array
+        if (!!result) {
+          console.log('old order', this.order);
+          // add result to order array
+          const newLine = <any>{};
+          newLine.qty = result.qty;
+          newLine.material = result.material.material;
+          newLine.imgUrl = result.material.image;
+
+          const tilesArray = this.feature.getTilesPurchasedObj;
+          switch (this.qtySrv.feature_type) {
+            case 'hush': newLine.total = this.feature.getHushEstimate(tilesArray); break;
+            case 'tetria': newLine.total = this.feature.getTetriaEstimate(tilesArray); break; // TODO FIX THIS
+            case 'clario': newLine.total = this.feature.getClarioEstimate(tilesArray); break; // TODO FIX THIS
+          }
+          newLine.total = 123.45;
+          const data = this.order.data;
+          data.push(newLine);
+          this.order.data = data;
+          this.order.filter = '';
+          console.log('new order', this.order);
+        }
       })
+  }
+
+  editRow(index, row) {
+    console.log('edit index/row:', index, row);
+  }
+
+  deleteRow(index, row) {
+    console.log('delete index/row:', index, row);
   }
 
   requestQuote() {
@@ -132,31 +130,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
 }
 
-// export interface Element {
-//   name: string;
-//   position: number;
-//   weight: number;
-//   symbol: string;
+// export interface HushQty {
+//   material: string;
+//   qty: number;
 // }
 
-export interface HushQty {
-  material: string;
-  qty: number;
-  imgUrl: string;
-}
+// export interface ClarioQty {
+//   material: string;
+//   qty: number;
+//   size: string;
+//   type: string;
+// }
 
-export interface ClarioQty {
-  material: string;
-  qty: number;
-  size: string;
-  type: string;
-  imgUrl: string;
-}
-
-export interface TetriaQty {
-  material: string;
-  qty: number;
-  type: string;
-  imgUrl: string;
-}
+// export interface TetriaQty {
+//   material: string;
+//   qty: number;
+//   type: string;
+// }
 
