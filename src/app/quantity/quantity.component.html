@@ -9,7 +9,7 @@
           <p class="md title">{{headerTitle}}</p>
         </div>
         <div class="col-sm-4">
-          <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((!order || order.length === 0) || !orderName)" (click)="requestQuote()">Request Quote</button>
+          <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((order.data.length === 0) || !orderName)" (click)="requestQuote()">Request Quote</button>
           <button *ngIf="feature.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
         </div>
       </div>
@@ -55,15 +55,10 @@
                 </ng-container>
                 <ng-container matColumnDef="edit">
                   <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
-                  <mat-cell *matCellDef="let row; let i=index;">
-                      <button (click)="editRow(i, row)">
-                        <span aria-label="Edit">edit</span>
-                      </button>
-
-                      <button (click)="deleteRow(i, row)">
-                        <span aria-label="Delete">delete</span>
-                      </button>
-                    </mat-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="edit-column">
+                    <span class='icomoon-pencil orange' (click)="editRow(i, row)"></span>
+                    <span class='icomoon-remove2 delete-icon orange' (click)="deleteRow(i, row)"></span>
+                  </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
