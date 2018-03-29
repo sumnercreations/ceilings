@@ -23,6 +23,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
   orderName = '';
   headerTitle = '';
   addQtyDialogRef: MatDialogRef<any>;
+  sqFootage: number;
+  tilesNeeded: number;
+  estimatedPrice: number = 123.45;
+  tilesUsed: number = 123;
+  estimatedSqFootage: number = 123;
 
   // Table Properties
   displayedColumns = [];
@@ -99,8 +104,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
           const tilesArray = this.feature.getTilesPurchasedObj;
           switch (this.qtySrv.feature_type) {
             case 'hush': newLine.total = this.feature.getHushEstimate(tilesArray); break;
-            case 'tetria': newLine.total = this.feature.getTetriaEstimate(tilesArray); break; // TODO FIX THIS
-            case 'clario': newLine.total = this.feature.getClarioEstimate(tilesArray); break; // TODO FIX THIS
+            case 'tetria':
+            break; // TODO FIX THIS
+            case 'clario':
+            break; // TODO FIX THIS
           }
           newLine.total = 123.45;
           const data = this.order.data;
@@ -126,6 +133,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
   viewDetails() {
     console.log('view details invoked');
+  }
+
+  calcSqFootage() {
+    switch (this.qtySrv.feature_type) {
+      case 'hush':
+        // each hush blocks tile is 4 sq ft.
+        this.tilesNeeded = this.sqFootage / 4;
+      break;
+      case 'tetria':
+        this.tilesNeeded = this.sqFootage / 3; // TODO FIX THIS
+      break;
+      case 'clario':
+        this.tilesNeeded = this.sqFootage / 5; // TODO FIX THIS
+      break;
+    }
   }
 
 }

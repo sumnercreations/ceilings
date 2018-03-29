@@ -1,80 +1,93 @@
 <div class="quantity-header">
-    <div class="row">
-      <a (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> <span>Back to Design</span></a>
-      <div class="col-sm-12">
-        <div class="col-sm-4">
-          <p class="md title">Order By Quantity</p>
-        </div>
-        <div class="col-sm-4">
-          <p class="md title">{{headerTitle}}</p>
-        </div>
-        <div class="col-sm-4">
-          <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((order.data.length === 0) || !orderName)" (click)="requestQuote()">Request Quote</button>
-          <button *ngIf="feature.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
+  <div class="row">
+    <a (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> <span>Back to Design</span></a>
+    <div class="col-sm-12">
+      <div class="col-sm-4">
+        <p class="md title">Order By Quantity</p>
+      </div>
+      <div class="col-sm-4">
+        <p class="md title">{{headerTitle}}</p>
+      </div>
+      <div class="col-sm-4">
+        <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((order.data.length === 0) || !orderName)" (click)="requestQuote()">Request Quote</button>
+        <button *ngIf="feature.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="bg-white">
+  <div class="separator"></div>
+</div>
+<div class="quantity-ui">
+  <div class="col-sm-9 no-padding">
+    <div class="table-parent col-sm-12">
+      <div class="table-header col-sm-12">
+        <span class="order-name">
+          <span>Design Name</span>
+          <input [(ngModel)]="orderName" required placeholder="Name" type="text">
+        </span>
+        <button class="button button-orange" (click)="addToOrder()">Add To Order</button>
+      </div>
+      <div class="table-container">
+        <div class="example-container">
+          <p *ngIf="(order.data.length === 0)" class="md center-text add-to-order">
+            Select "Add To Order" to begin.
+          </p>
+          <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
+            <ng-container matColumnDef="qty">
+              <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="imgUrl">
+              <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                  <img src="{{element.imgUrl}}" class="img-responsive table-img" alt="{{element.material | capitalize}}">
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="material">
+              <mat-header-cell *matHeaderCellDef> Material Name </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.material | capitalize}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+              <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
+              <mat-cell *matCellDef="let row; let i=index;" class="edit-column">
+                <span class='icomoon-pencil orange' (click)="editRow(i, row)"></span>
+                <span class='icomoon-remove2 delete-icon orange' (click)="deleteRow(i, row)"></span>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
         </div>
       </div>
     </div>
   </div>
-  <div class="bg-white">
-    <div class="separator"></div>
-  </div>
-  <div class="quantity-ui">
-    <div class="row full-height">
-      <div class="col-sm-9 full-height">
-        <div class="table-parent col-sm-12">
-          <div class="table-header col-sm-12">
-            <span class="order-name">
-              <span>Design Name</span>
-              <input [(ngModel)]="orderName" required placeholder="Name" type="text">
-            </span>
-            <button class="button button-orange" (click)="addToOrder()">Add To Order</button>
-          </div>
-          <div class="table-container">
-            <div class="example-container">
-              <p *ngIf="(order.data.length === 0)" class="md center-text add-to-order">
-                Select "Add To Order" to begin.
-              </p>
-              <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
-                <ng-container matColumnDef="qty">
-                  <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="imgUrl">
-                  <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
-                  <mat-cell *matCellDef="let element">
-                      <img src="{{element.imgUrl}}" class="img-responsive table-img" alt="{{element.material | capitalize}}">
-                  </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="material">
-                  <mat-header-cell *matHeaderCellDef> Material Name </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.material | capitalize}} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="total">
-                  <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
-                  <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="edit">
-                  <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
-                  <mat-cell *matCellDef="let row; let i=index;" class="edit-column">
-                    <span class='icomoon-pencil orange' (click)="editRow(i, row)"></span>
-                    <span class='icomoon-remove2 delete-icon orange' (click)="deleteRow(i, row)"></span>
-                  </mat-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-              </mat-table>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="col-sm-3 right-column">
+    <div class="col-sm-12 no-padding sq-footage">
+      <p class="md">What is Your Square Footage?</p>
+      <input [(ngModel)]="sqFootage" (change)="calcSqFootage()" placeholder="Sq Footage" type="number">
+      <p class="md">Tiles Needed: <strong>{{tilesNeeded}}</strong></p>
     </div>
+    <div class="filler"></div>
+    <div class="col-sm-12 no-padding">
+      <hr>
+      <h3>Summary</h3>
+      <p class="md">Est Total: {{estimatedPrice | currency:'USD'}}</p>
+      <p class="md">Tiles Used: {{tilesUsed}}</p>
+      <p class="md">Est Sq Ft: {{estimatedSqFootage}}</p>
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="col-sm-2">
-        <div class="logo">
-          <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
-        </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="logo">
+        <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
       </div>
     </div>
   </div>
+</div>
 
