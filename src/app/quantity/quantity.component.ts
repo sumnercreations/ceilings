@@ -170,3 +170,13 @@ export class QuantityComponent implements OnInit, OnDestroy {
 //   type: string;
 // }
 
+// export class ExampleDataSource extends MatTableDataSource<any> {
+//   constructor(private _exampleDatabase: ExampleDatabase) {
+//   super();
+//   }
+//   connect(): Observable<UserData[]> {
+//   return this._exampleDatabase.dataChange;
+//   }
+//   disconnect() {}
+//   }
+
