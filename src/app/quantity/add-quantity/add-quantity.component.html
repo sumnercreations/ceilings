@@ -27,7 +27,7 @@
 
   <div class="footer section">
     <div class="action-btns">
-      <!-- <button class="button button-gray" (click)="cancel()">Cancel</button> -->
+      <button *ngIf="isEditing" class="button button-gray" (click)="cancel()">Cancel</button>
       <button class="button button-gray" (click)="addToOrder()" [disabled]="!validateQtyInputs()">ADD TO ORDER</button>
     </div>
   </div>

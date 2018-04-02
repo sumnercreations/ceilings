@@ -22,7 +22,7 @@
 }
 
 .table-header {
-  margin: 15px;
+  margin: 15px 0px;
   min-height: 30px;
   display: flex;
   justify-content: space-between;
@@ -85,6 +85,11 @@
 .sq-footage {
   margin-top: 15px;
   min-height: 200px;
+}
+
+.tiles-needed {
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 .logo {

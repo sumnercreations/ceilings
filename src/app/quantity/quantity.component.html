@@ -70,7 +70,9 @@
     <div class="col-sm-12 no-padding sq-footage">
       <p class="md">What is Your Square Footage?</p>
       <input [(ngModel)]="sqFootage" (change)="calcSqFootage()" placeholder="Sq Footage" type="number">
-      <p class="md">Tiles Needed: <strong>{{tilesNeeded}}</strong></p>
+      <!-- <p class="md">Tiles Needed: <strong>{{tilesNeeded}}</strong></p> -->
+      <p class="tiles-needed">Tiles Needed:</p>
+      <input type="number" disabled [(ngModel)]='tilesNeeded'>
     </div>
     <div class="filler"></div>
     <div class="col-sm-12 no-padding">

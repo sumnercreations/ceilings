@@ -1,7 +1,7 @@
+import { Component, OnInit, Inject } from '@angular/core';
 import { QuantityService } from './../quantity.service';
 import { MaterialsService } from 'app/_services/materials.service';
-import { MatDialogRef } from '@angular/material';
-import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-add-quantity',
@@ -11,12 +11,14 @@ import { Component, OnInit } from '@angular/core';
 export class AddQuantityComponent implements OnInit {
   materials: any;
   position = 'above';
-
+  isEditing = false;
+  oldRowData: any;
   // Selections
   selectedMaterial: any;
   selectedQuantity: number;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public inputRow: any,
     private dialogRef: MatDialogRef<AddQuantityComponent>,
     private materialsService: MaterialsService,
     private qtySrv: QuantityService
@@ -24,6 +26,10 @@ export class AddQuantityComponent implements OnInit {
 
   ngOnInit() {
     this.getFeatureMaterials();
+    if (!!this.inputRow) {
+      console.log('editing row');
+      this.isEditing = true;
+    }
   }
 
   getFeatureMaterials() {
@@ -57,6 +63,8 @@ export class AddQuantityComponent implements OnInit {
   }
 
   cancel() {
+    this.selectedMaterial = this.inputRow.material;
+    this.selectedQuantity = this.inputRow.qty;
     this.dialogRef.close();
   }
 

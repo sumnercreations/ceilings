@@ -7,8 +7,11 @@ import { ApiService } from './../_services/api.service';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { Location } from '@angular/common';
-import { Subject } from 'rxjs/Subject';
 import { QuantityService } from './quantity.service';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { EditQuantityComponent } from './edit-quantity/edit-quantity.component';
 
 @Component({
   selector: 'app-quantity',
@@ -23,17 +26,19 @@ export class QuantityComponent implements OnInit, OnDestroy {
   orderName = '';
   headerTitle = '';
   addQtyDialogRef: MatDialogRef<any>;
+  editQtyDialogRef: MatDialogRef<any>;
   sqFootage: number;
   tilesNeeded: number;
-  estimatedPrice: number = 123.45;
-  tilesUsed: number = 123;
-  estimatedSqFootage: number = 123;
+  estimatedPrice = 0; // TODO
+  tilesUsed = 0; // TODO
+  estimatedSqFootage = 0; // TODO
+  sqFtPerTile: number;
+
 
   // Table Properties
+  dataSource: TableDataSource | null;
+  dataSubject = new BehaviorSubject<Order[]>([]);
   displayedColumns = [];
-  // hushOrder: HushQty[];
-  // clarioOrder: ClarioQty[];
-  // tetriaOrder: TetriaQty[];
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +59,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
       this.materials = this.feature.getFeatureMaterials();
       this.setTableProperties();
     })
+    this.dataSource = new TableDataSource(this.dataSubject);
+    this.dataSource.connect();
   }
 
   ngOnDestroy() {
@@ -66,14 +73,17 @@ export class QuantityComponent implements OnInit, OnDestroy {
       case 'hush':
         this.displayedColumns = ['qty', 'imgUrl', 'material', 'total', 'edit'];
         this.headerTitle = 'Hush Blocks Tiles';
+        this.sqFtPerTile = 4;
         break;
       case 'clario':
         this.displayedColumns = ['qty', 'imgUrl', 'material', 'size', 'type', 'total', 'edit'];
         this.headerTitle = 'Clario Tiles';
+        this.sqFtPerTile = 4;
         break;
       case 'tetria':
         this.displayedColumns = ['qty', 'imgUrl', 'material', 'type', 'total', 'edit'];
         this.headerTitle = 'Tetria Tiles';
+        this.sqFtPerTile = 4;
         break;
     }
     console.log('order', this.order);
@@ -92,8 +102,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.addQtyDialogRef.afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
+        // debugger;
         console.log('addToOrder result:', result);
         if (!!result) {
+
           console.log('old order', this.order);
           // add result to order array
           const newLine = <any>{};
@@ -101,26 +113,46 @@ export class QuantityComponent implements OnInit, OnDestroy {
           newLine.material = result.material.material;
           newLine.imgUrl = result.material.image;
 
-          const tilesArray = this.feature.getTilesPurchasedObj;
+          const tilesArray = this.feature.getTilesPurchasedObj();
           switch (this.qtySrv.feature_type) {
             case 'hush': newLine.total = this.feature.getHushEstimate(tilesArray); break;
-            case 'tetria':
-            break; // TODO FIX THIS
-            case 'clario':
-            break; // TODO FIX THIS
+            case 'tetria': break; // TODO FIX THIS
+            case 'clario': break; // TODO FIX THIS
           }
           newLine.total = 123.45;
           const data = this.order.data;
           data.push(newLine);
           this.order.data = data;
-          this.order.filter = '';
+          // this.order.filter = '';
           console.log('new order', this.order);
+          this.updateSummary();
         }
       })
   }
 
+  updateSummary() {
+    console.log('summary', this.order.data);
+    const summary = this.order.data;
+    let estTotal = 0;
+    let tilesUsed = 0;
+    summary.map((key: any) => {
+      estTotal += key.total;
+      tilesUsed += key.qty;
+    });
+    this.estimatedPrice = estTotal;
+    this.tilesUsed = tilesUsed;
+    this.estimatedSqFootage = this.tilesUsed * this.sqFtPerTile;
+  }
+
   editRow(index, row) {
     console.log('edit index/row:', index, row);
+    const editRow = {index: index, row: row};
+    this.editQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: editRow});
+    this.editQtyDialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(result => {
+        console.log(result)
+      })
   }
 
   deleteRow(index, row) {
@@ -136,47 +168,47 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   calcSqFootage() {
-    switch (this.qtySrv.feature_type) {
-      case 'hush':
-        // each hush blocks tile is 4 sq ft.
-        this.tilesNeeded = this.sqFootage / 4;
-      break;
-      case 'tetria':
-        this.tilesNeeded = this.sqFootage / 3; // TODO FIX THIS
-      break;
-      case 'clario':
-        this.tilesNeeded = this.sqFootage / 5; // TODO FIX THIS
-      break;
-    }
+    this.tilesNeeded = this.sqFootage / this.sqFtPerTile;
   }
 
 }
 
-// export interface HushQty {
-//   material: string;
-//   qty: number;
-// }
+export interface Order {
+  material: string;
+  qty: number;
+  size: string;
+  type: string;
+}
 
-// export interface ClarioQty {
-//   material: string;
-//   qty: number;
-//   size: string;
-//   type: string;
-// }
+export class TableDataSource extends MatTableDataSource<any> {
 
-// export interface TetriaQty {
-//   material: string;
-//   qty: number;
-//   type: string;
-// }
+  constructor(private subject: BehaviorSubject<Order[]>) {
+    super ();
+  }
 
-// export class ExampleDataSource extends MatTableDataSource<any> {
-//   constructor(private _exampleDatabase: ExampleDatabase) {
-//   super();
-//   }
-//   connect(): Observable<UserData[]> {
-//   return this._exampleDatabase.dataChange;
-//   }
-//   disconnect() {}
-//   }
+  // connect (): Observable<any> {
+  //   // return Observable.merge(...displayDataChanges).map(() => {
+  //   //   // Filter data
+  //   //   this.filteredData = this._exampleDatabase.data.slice().filter((issue: Issue) => {
+  //   //     const searchStr = (issue.id + issue.title + issue.url + issue.created_at).toLowerCase();
+  //   //     return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+  //   //   });
+
+  //   //   // Sort filtered data
+  //   //   const sortedData = this.sortData(this.filteredData.slice());
+
+  //   //   // Grab the page's slice of the filtered sorted data.
+  //   //   const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+  //   //   this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
+  //   //   return this.renderedData;
+  //   // });
+
+  //   return this.subject.asObservable();
+  // }
+
+  disconnect (  ): void {
+
+  }
+
+}
 
