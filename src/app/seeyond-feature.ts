@@ -333,6 +333,7 @@ export class SeeyondFeature extends Feature {
   calcLightingFootage() {
     let totalFootage: number;
     const inset = 16; // cove lighting is positioned 16 inches in from the actual perimeter
+    const units = this.units;
     let length = this.height;
     let ceilingLength = this.ceiling_length;
     let width = this.width;
@@ -342,18 +343,12 @@ export class SeeyondFeature extends Feature {
       width = this.convertCMtoIN(width);
     }
     if (this.seeyond_feature_type === 'wall-to-ceiling') {
-      const length1 = ceilingLength - inset;
-      const length2 = ceilingLength - inset;
-      const width1 = width - (inset * 2);
-      totalFootage = length1 + length2 + width1;
+      totalFootage = ((ceilingLength - inset) * 2) + (width - inset * 2);
     } else if (this.seeyond_feature_type === 'ceiling') {
-      const length1 = length - (inset * 2);
-      const length2 = length - (inset * 2);
-      const width1 = width - (inset * 2);
-      const width2 = width - (inset * 2);
-      totalFootage = length1 + length2 + width1 + width2;
+      totalFootage = ((length - (inset * 2)) * 2) + ((width - (inset * 2)) * 2);
     }
     this.linear_feet = totalFootage / 12;
+    console.log(this.linear_feet);
     return this.linear_feet;
   }
 
