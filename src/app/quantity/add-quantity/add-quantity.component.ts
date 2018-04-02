@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { QuantityService } from './../quantity.service';
 import { MaterialsService } from 'app/_services/materials.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './add-quantity.component.html',
   styleUrls: ['./add-quantity.component.css']
 })
-export class AddQuantityComponent implements OnInit {
+export class AddQuantityComponent implements OnInit, AfterContentInit {
   materials: any;
   position = 'above';
   isEditing = false;
@@ -26,9 +26,16 @@ export class AddQuantityComponent implements OnInit {
 
   ngOnInit() {
     this.getFeatureMaterials();
+  }
+
+  ngAfterContentInit() {
     if (!!this.inputRow) {
       console.log('editing row');
       this.isEditing = true;
+      console.log(this.inputRow);
+      this.updateSelectedMaterial(this.inputRow.row.material);
+      this.quantityDidChange(this.inputRow.row.qty);
+      console.log(this.selectedMaterial, this.selectedQuantity);
     }
   }
 

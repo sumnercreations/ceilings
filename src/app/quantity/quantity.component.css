@@ -67,6 +67,16 @@
   font-size: 1.1em;
 }
 
+.material-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.material-column img {
+  margin-right: 10px;
+}
+
 .delete-icon {
   margin-left: 15px;
 }

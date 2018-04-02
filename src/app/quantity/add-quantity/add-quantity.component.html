@@ -26,9 +26,12 @@
   </div>
 
   <div class="footer section">
-    <div class="action-btns">
-      <button *ngIf="isEditing" class="button button-gray" (click)="cancel()">Cancel</button>
+    <div *ngIf="!isEditing" class="action-btns">
       <button class="button button-gray" (click)="addToOrder()" [disabled]="!validateQtyInputs()">ADD TO ORDER</button>
+    </div>
+    <div *ngIf="isEditing" class="action-btns">
+      <button class="button button-gray" (click)="cancel()">Cancel</button>
+      <button class="button button-gray" (click)="addToOrder()" [disabled]="!validateQtyInputs()">SAVE</button>
     </div>
   </div>
 </div>

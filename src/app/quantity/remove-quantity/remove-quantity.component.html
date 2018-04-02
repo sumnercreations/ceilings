@@ -1,0 +1,19 @@
+
+<div class="removeQty-dialog-container">
+  <div class='section'>
+    <div class="selection-summary">
+      <p class="md selection">
+        Remove {{selection.row.qty}} {{selection.row.material.name_str}} tiles?
+      </p>
+      <div class="img-container">
+        <img src="{{selection.row.material.image}}" class="img-responsive" alt="{{selection.row.material.name_str | capitalize}}">
+      </div>
+    </div>
+  </div>
+  <div class="footer section">
+    <div class="action-btns">
+      <button class="button button-gray" (click)="cancel()">Cancel</button>
+      <button class="button button-gray" (click)="removeFromOrder()">Remove</button>
+    </div>
+  </div>
+</div>

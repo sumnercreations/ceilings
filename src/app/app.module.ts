@@ -56,6 +56,7 @@ import { SeeyondVisualizationComponent } from './visualization/seeyond-visualiza
 import { SeeyondDetailsComponent } from './details/seeyond-details/seeyond-details.component';
 import { QuantityComponent } from './quantity/quantity.component';
 import { AddQuantityComponent } from './quantity/add-quantity/add-quantity.component';
+import { RemoveQuantityComponent } from './quantity/remove-quantity/remove-quantity.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -99,7 +100,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     SeeyondVisualizationComponent,
     SeeyondDetailsComponent,
     QuantityComponent,
-    AddQuantityComponent
+    AddQuantityComponent,
+    RemoveQuantityComponent
   ],
   imports: [
     BrowserModule,
@@ -143,7 +145,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     TileUsageComponent,
     VeloTileUsageComponent,
     QuoteDialogComponent,
-    AddQuantityComponent
+    AddQuantityComponent,
+    RemoveQuantityComponent
   ]
 })
 export class AppModule { }

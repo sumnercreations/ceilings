@@ -38,15 +38,12 @@
               <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="imgUrl">
-              <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                  <img src="{{element.imgUrl}}" class="img-responsive table-img" alt="{{element.material | capitalize}}">
-              </mat-cell>
-            </ng-container>
             <ng-container matColumnDef="material">
-              <mat-header-cell *matHeaderCellDef> Material Name </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.material | capitalize}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="material-column">
+                  <img src="{{element.material.image}}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+                  {{element.material.name_str | capitalize}}
+              </mat-cell>
             </ng-container>
             <ng-container matColumnDef="total">
               <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
@@ -68,7 +65,7 @@
   </div>
   <div class="col-sm-3 right-column">
     <div class="col-sm-12 no-padding sq-footage">
-      <p class="md">What is Your Square Footage?</p>
+      <p class="md">What is your Square Footage?</p>
       <input [(ngModel)]="sqFootage" (change)="calcSqFootage()" placeholder="Sq Footage" type="number">
       <!-- <p class="md">Tiles Needed: <strong>{{tilesNeeded}}</strong></p> -->
       <p class="tiles-needed">Tiles Needed:</p>
