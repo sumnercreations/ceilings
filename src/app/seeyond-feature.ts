@@ -226,14 +226,18 @@ export class SeeyondFeature extends Feature {
   downloadImages() {
     let profileAngle: number;
     let facingAngle: number;
+    let backAngle: number;
+    let linearProfile: number;
     switch (this.seeyond_feature_type) {
-      case 'linear-partition': profileAngle = 45; facingAngle = 0; break;
-      case 'curved-partition': profileAngle = 225; facingAngle = 180; break;
+      case 'linear-partition': backAngle = 180; linearProfile = 90; profileAngle = 45; facingAngle = 0; break;
+      case 'curved-partition': backAngle = 65; profileAngle = 225; facingAngle = 180; break;
       case 'wall': profileAngle = 45; facingAngle = 0; break;
       case 'wall-to-ceiling': profileAngle = 45; facingAngle = 0; break;
       case 'ceiling': profileAngle = 0; facingAngle = 0; break;
       default: profileAngle = 45; facingAngle = 0; break;
     }
+    let back = (!!backAngle) ? this.syd_v.QT.Visualization.TakeSnapshot(backAngle) : '';
+    let linear = (!!linearProfile) ? this.syd_v.QT.Visualization.TakeSnapshot(linearProfile) : '';
     let profile = this.syd_v.QT.Visualization.TakeSnapshot(profileAngle);
     let facing  = this.syd_v.QT.Visualization.TakeSnapshot(facingAngle);
     const filename = this.name + '.zip';
@@ -241,8 +245,12 @@ export class SeeyondFeature extends Feature {
     const JSZip = require('jszip');
     const zip = new JSZip();
 
+    linear = linear.replace(/^data:image\/(png|jpg);base64,/, '');
+    back = back.replace(/^data:image\/(png|jpg);base64,/, '');
     profile = profile.replace(/^data:image\/(png|jpg);base64,/, '');
     facing = facing.replace(/^data:image\/(png|jpg);base64,/, '');
+    if (!!back) { zip.file('back.png', back, {base64: true}); }
+    if (!!linear) { zip.file('side_profile.png', linear, {base64: true}); }
     zip.file('profile.png', profile, {base64: true});
     zip.file('facing.png', facing, {base64: true});
     zip.generateAsync({type: 'blob'})
@@ -620,7 +628,7 @@ export class SeeyondFeature extends Feature {
     const rows = this.syd_t.QT.GetV();
     switch (hardware) {
       // MAGNETS
-      case 'Magnets Part Id': hardwareQty = this.syd_t.QT.GetMagnets(); break;
+      case '3-85-101': hardwareQty = this.syd_t.QT.GetMagnets(); break;
 
       // WALL
       case '3-15-1606': hardwareQty = Math.ceil(this.boxes / 4) * 4; break;
