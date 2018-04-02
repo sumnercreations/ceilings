@@ -11,7 +11,6 @@ import { QuantityService } from './quantity.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { EditQuantityComponent } from './edit-quantity/edit-quantity.component';
 
 @Component({
   selector: 'app-quantity',

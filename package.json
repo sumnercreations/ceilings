@@ -37,8 +37,7 @@
     "syd-tiling": "0.0.14",
     "syd-visualization": "0.0.84",
     "zone.js": "^0.8.4",
-    "xml-writer": "1.7.0",
-    "zone.js": "^0.8.4"
+    "xml-writer": "1.7.0"
   },
   "devDependencies": {
     "@angular/cli": "^1.7.3",
