@@ -120,8 +120,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
   getRowEstimate(row) {
     switch (this.qtySrv.feature_type) {
       case 'hush': this.feature.getHushEstimate(row); break;
-      case 'tetria': break; // TODO FIX THIS
-      case 'clario': break; // TODO FIX THIS
+      case 'tetria': this.feature.getTetriaEstimate(row); break; // TODO FIX THIS
+      case 'clario': this.feature.getClarioEstimate(row); break; // TODO FIX THIS
     }
   }
 

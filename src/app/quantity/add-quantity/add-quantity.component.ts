@@ -13,12 +13,12 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   materials: any;
   position = 'above';
   isEditing = false;
-  oldRowData: any;
+  featureTiles: any;
   // Selections
   selectedMaterial: string;
   selectedMaterialImg: string;
   selectedQuantity: number;
-  selectedTileType = '00';
+  selectedTile: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public inputRow: any,
@@ -30,16 +30,21 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   ngOnInit() {
     this.getFeatureMaterials();
+    this.featureTiles = this.feature.tilesArray[this.qtySrv.feature_type];
+    console.log('featureTiles:', this.featureTiles);
   }
 
   ngAfterContentInit() {
-    if (!!this.inputRow) {
-      this.isEditing = true;
-      console.log('editing row:', this.inputRow);
-      this.updateSelectedMaterial(this.inputRow.material);
-      this.quantityDidChange(this.inputRow.used);
-      console.log(this.selectedMaterial, this.selectedQuantity);
-    }
+    if (!!this.inputRow) { this.loadRowForEdit(); }
+  }
+
+  loadRowForEdit() {
+    this.isEditing = true;
+    console.log('editing row:', this.inputRow);
+    this.updateSelectedMaterial(this.inputRow.material);
+    this.quantityDidChange(this.inputRow.used);
+    this.updateSelectedTile(this.inputRow.tile);
+    console.log(this.selectedMaterial, this.selectedQuantity);
   }
 
   getFeatureMaterials() {
@@ -60,11 +65,17 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   updateMaterialImg() {
     let materialImg;
     switch (this.qtySrv.feature_type) {
-      case 'hush': materialImg = `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`; break;
-      case 'tetria': materialImg = `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
-      case 'clario': materialImg = `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
+      case 'hush': materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`; break;
+      case 'tetria': materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
+      case 'clario': materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
     }
     this.selectedMaterialImg = materialImg;
+  }
+
+  updateSelectedTile(tile) {
+    this.selectedTile = tile;
+    console.log('selectedTile:', this.selectedTile);
+    this.updateMaterialImg();
   }
 
   quantityDidChange(quantity) {
@@ -89,34 +100,34 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   addToOrder() {
     let selections = {};
-    const pkgQty = this.feature.getPackageQty(this.selectedTileType);
-    const key = `${this.selectedMaterial}-${this.selectedTileType}`
+    const pkgQty = this.feature.getPackageQty(this.selectedTile);
+    const key = `${this.selectedMaterial}-${this.selectedTile}`
     switch (this.qtySrv.feature_type) {
       case 'hush':
         selections = {[key]: {
           purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`,
+          image: `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`,
           used: this.selectedQuantity,
           material: this.selectedMaterial,
-          tile: this.selectedTileType
+          tile: this.selectedTile
         }}
       break;
       case 'tetria': // TODO
         selections = {[key]: {
           purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`,
+          image: `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`,
           used: this.selectedQuantity,
           material: this.selectedMaterial,
-          tile: this.selectedTileType
+          tile: this.selectedTile
         }}
       break;
       case 'clario': // TODO
         selections = {[key]: {
           purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`,
+          image: `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`,
           used: this.selectedQuantity,
           material: this.selectedMaterial,
-          tile: this.selectedTileType
+          tile: this.selectedTile
         }}
       break;
     }
