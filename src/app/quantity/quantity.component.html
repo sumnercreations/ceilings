@@ -34,15 +34,15 @@
             Select "Add To Order" to begin.
           </p>
           <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
-            <ng-container matColumnDef="qty">
-              <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.qty}} </mat-cell>
+            <ng-container matColumnDef="ordered">
+              <mat-header-cell *matHeaderCellDef> Used - Receiving </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.purchased}} - {{element.used}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="material">
               <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
               <mat-cell *matCellDef="let element" class="material-column">
-                  <img src="{{element.material.image}}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
-                  {{element.material.name_str | capitalize}}
+                  <img src="{{element.image}}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+                  {{element.material | capitalize}}
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="total">
@@ -75,9 +75,9 @@
     <div class="col-sm-12 no-padding">
       <hr>
       <h3>Summary</h3>
-      <p class="md">Est Total: {{estimatedPrice | currency:'USD'}}</p>
-      <p class="md">Tiles Used: {{tilesUsed}}</p>
-      <p class="md">Est Sq Ft: {{estimatedSqFootage}}</p>
+      <p class="">Est Total: {{estimatedPrice | currency:'USD'}}</p>
+      <p class="">Tiles Used/Receiving: {{tilesUsed}}/{{tilesReceiving}}</p>
+      <p class="">SqFt. Used/Receiving: {{sqFtUsed}}/{{sqFtReceiving}}</p>
     </div>
   </div>
 

@@ -8,7 +8,7 @@ import { ApiService } from './../_services/api.service';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { Location } from '@angular/common';
-import { QuantityService } from './quantity.service';
+import { QuantityService, TileObj } from './quantity.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -29,9 +29,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
   removeQtyDialogRef: MatDialogRef<any>;
   sqFootage: number;
   tilesNeeded: number;
-  estimatedPrice = 0; // TODO
-  tilesUsed = 0; // TODO
-  estimatedSqFootage = 0; // TODO
+  estimatedPrice = 0;
+  tilesUsed = 0;
+  tilesReceiving = 0;
+  sqFtUsed = 0;
+  sqFtReceiving = 0;
   sqFtPerTile: number;
 
 
@@ -71,17 +73,17 @@ export class QuantityComponent implements OnInit, OnDestroy {
   setTableProperties() {
     switch (this.qtySrv.feature_type) {
       case 'hush':
-        this.displayedColumns = ['qty', 'material', 'total', 'edit'];
+        this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
         this.headerTitle = 'Hush Blocks Tiles';
         this.sqFtPerTile = 4;
         break;
       case 'clario':
-        this.displayedColumns = ['qty', 'material', 'size', 'type', 'total', 'edit'];
+        this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
         this.headerTitle = 'Clario Tiles';
         this.sqFtPerTile = 4;
         break;
       case 'tetria':
-        this.displayedColumns = ['qty', 'material', 'type', 'total', 'edit'];
+        this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
         this.headerTitle = 'Tetria Tiles';
         this.sqFtPerTile = 4;
         break;
@@ -102,59 +104,57 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.addQtyDialogRef.afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
-        console.log('addToOrder result:', result);
         if (!!result) {
-          const newLine = <any>{};
-          newLine.qty = result.qty;
-          newLine.material = result.material;
-          newLine.total = this.getLineItemTotal(result);
-          const data = this.order.data;
-          data.push(newLine);
-          // this.order.filter = '';
-          console.log('new order', this.order);
+          console.log(result);
+          this.debug.log('quantity', result);
+          this.getRowEstimate(result); // sets feature.estimated_amount
+          const newRow = result[Object.keys(result)[0]];
+          newRow.total = this.feature.estimated_amount;
+          this.order.data.push(newRow);
+          this.order.data = this.order.data.slice(); // This somehow refreshes the table
           this.updateSummary();
         }
       })
   }
 
-  getLineItemTotal(lineItem) {
-    let lineTotal;
-    const tilesArray = this.feature.getTilesPurchasedObj();
+  getRowEstimate(row) {
     switch (this.qtySrv.feature_type) {
-      case 'hush': this.feature.getHushEstimate(tilesArray); break;
+      case 'hush': this.feature.getHushEstimate(row); break;
       case 'tetria': break; // TODO FIX THIS
       case 'clario': break; // TODO FIX THIS
     }
-    // TODO
-    lineTotal = 123.45;
-    return lineTotal;
   }
 
   updateSummary() {
-    console.log('summary', this.order.data);
     const summary = this.order.data;
+    this.debug.log('quantity', summary);
     let estTotal = 0;
     let tilesUsed = 0;
-    summary.map((key: any) => {
-      estTotal += key.total;
-      tilesUsed += key.qty;
+    let tilesReceiving = 0;
+    summary.map((row: any) => {
+      estTotal += row.total;
+      tilesUsed += row.used;
+      tilesReceiving += row.purchased;
     });
     this.estimatedPrice = estTotal;
+    this.tilesReceiving = tilesReceiving;
     this.tilesUsed = tilesUsed;
-    this.estimatedSqFootage = this.tilesUsed * this.sqFtPerTile;
+    this.sqFtUsed = this.tilesUsed * this.sqFtPerTile;
+    this.sqFtReceiving = tilesReceiving * this.sqFtPerTile;
   }
 
   editRow(index, row) {
     console.log('edit index/row:', index, row);
-    const editRow = {index: index, row: row};
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: editRow});
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: row});
     this.addQtyDialogRef.afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
-        console.log(result);
-        console.log(this.order.data);
-        this.order.data[index] = { result };
-        console.log(this.order.data);
+        console.log('edit result:', result);
+        this.getRowEstimate(result); // sets feature.estimated_amount
+        const editRow = result[Object.keys(result)[0]];
+        editRow.total = this.feature.estimated_amount;
+        this.order.data[index] = editRow;
+        this.order.data = this.order.data.slice(); // This somehow refreshes the table
         this.updateSummary();
       })
   }
@@ -171,6 +171,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.order.data.splice(index, 1);
         }
         console.log(this.order.data);
+        this.order.data = this.order.data.slice();
         this.updateSummary();
       })
   }
@@ -200,30 +201,6 @@ export class TableDataSource extends MatTableDataSource<any> {
 
   constructor(private subject: BehaviorSubject<Order[]>) {
     super ();
-  }
-
-  // connect (): Observable<any> {
-  //   return Observable.merge(...displayDataChanges).map(() => {
-  //     // Filter data
-  //     this.filteredData = this._exampleDatabase.data.slice().filter((issue: Issue) => {
-  //       const searchStr = (issue.id + issue.title + issue.url + issue.created_at).toLowerCase();
-  //       return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
-  //     });
-
-  //     // Sort filtered data
-  //     const sortedData = this.sortData(this.filteredData.slice());
-
-  //     // Grab the page's slice of the filtered sorted data.
-  //     const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-  //     this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
-  //     return this.renderedData;
-  //   });
-
-  // //   return this.subject.asObservable();
-  // }
-
-  disconnect (  ): void {
-
   }
 
 }

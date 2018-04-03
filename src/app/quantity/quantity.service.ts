@@ -7,7 +7,7 @@ export class QuantityService {
 
   constructor() { }
 
-  pushToTilesArr(newObj: TileObj) {
+  pushToTilesArr(newObj) {
     this.qtyTilesArray.push(newObj);
   }
 

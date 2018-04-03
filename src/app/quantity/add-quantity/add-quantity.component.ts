@@ -1,3 +1,4 @@
+import { Feature } from './../../feature';
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { QuantityService } from './../quantity.service';
 import { MaterialsService } from 'app/_services/materials.service';
@@ -14,14 +15,17 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   isEditing = false;
   oldRowData: any;
   // Selections
-  selectedMaterial: any;
+  selectedMaterial: string;
+  selectedMaterialImg: string;
   selectedQuantity: number;
+  selectedTileType = '00';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public inputRow: any,
     private dialogRef: MatDialogRef<AddQuantityComponent>,
     private materialsService: MaterialsService,
-    private qtySrv: QuantityService
+    private qtySrv: QuantityService,
+    private feature: Feature
   ) { }
 
   ngOnInit() {
@@ -30,11 +34,10 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     if (!!this.inputRow) {
-      console.log('editing row');
       this.isEditing = true;
-      console.log(this.inputRow);
-      this.updateSelectedMaterial(this.inputRow.row.material);
-      this.quantityDidChange(this.inputRow.row.qty);
+      console.log('editing row:', this.inputRow);
+      this.updateSelectedMaterial(this.inputRow.material);
+      this.quantityDidChange(this.inputRow.used);
       console.log(this.selectedMaterial, this.selectedQuantity);
     }
   }
@@ -51,11 +54,20 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   updateSelectedMaterial(material) {
     this.selectedMaterial = material;
-    console.log('selectedMaterial:', material);
+    this.updateMaterialImg();
+  }
+
+  updateMaterialImg() {
+    let materialImg;
+    switch (this.qtySrv.feature_type) {
+      case 'hush': materialImg = `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`; break;
+      case 'tetria': materialImg = `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
+      case 'clario': materialImg = `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
+    }
+    this.selectedMaterialImg = materialImg;
   }
 
   quantityDidChange(quantity) {
-    console.log('selectedQuantity:', quantity);
     this.selectedQuantity = quantity;
   }
 
@@ -77,27 +89,37 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   addToOrder() {
     let selections = {};
+    const pkgQty = this.feature.getPackageQty(this.selectedTileType);
+    const key = `${this.selectedMaterial}-${this.selectedTileType}`
     switch (this.qtySrv.feature_type) {
       case 'hush':
-        selections = {
+        selections = {[key]: {
+          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
+          image: `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`,
+          used: this.selectedQuantity,
           material: this.selectedMaterial,
-          qty: this.selectedQuantity
-        };
+          tile: this.selectedTileType
+        }}
       break;
-      case 'tetria':
-        selections = {
+      case 'tetria': // TODO
+        selections = {[key]: {
+          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
+          image: `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`,
+          used: this.selectedQuantity,
           material: this.selectedMaterial,
-          qty: this.selectedQuantity
-        };
+          tile: this.selectedTileType
+        }}
       break;
-      case 'clario':
-        selections = {
+      case 'clario': // TODO
+        selections = {[key]: {
+          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
+          image: `/assets/images/tiles/${this.selectedTileType}/${this.selectedMaterial}.png`,
+          used: this.selectedQuantity,
           material: this.selectedMaterial,
-          qty: this.selectedQuantity
-        };
+          tile: this.selectedTileType
+        }}
       break;
     }
     this.dialogRef.close(selections);
-    console.log('add to order invoked');
   }
 }
