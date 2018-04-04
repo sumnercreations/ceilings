@@ -158,6 +158,7 @@ export class GridComponent implements OnInit, OnDestroy {
           this.feature.gridData[row][column].setBackgroundImage('url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/' + this.feature.material + '.png');
           this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/light/' + this.feature.material + '.png');
           this.feature.gridData[row][column].setTile('00');
+          this.feature.gridData[row][column].setMaterial(this.feature.material);
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
@@ -165,6 +166,7 @@ export class GridComponent implements OnInit, OnDestroy {
           this.feature.gridData[row][column].setBackgroundImage('url(/assets/icons/tools/sprinkler.png), url(\'/assets/images/tiles/00/' + this.feature.material + '.png\')');
           this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/sprinkler/' + this.feature.material + '.png');
           this.feature.gridData[row][column].setTile('00');
+          this.feature.gridData[row][column].setMaterial(this.feature.material);
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
