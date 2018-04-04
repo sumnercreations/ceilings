@@ -628,7 +628,7 @@ export class SeeyondFeature extends Feature {
     const rows = this.syd_t.QT.GetV();
     switch (hardware) {
       // MAGNETS
-      case 'Magnets Part Id': hardwareQty = this.syd_t.QT.GetMagnets(); break;
+      case '3-85-101': hardwareQty = this.syd_t.QT.GetMagnets(); break;
 
       // WALL
       case '3-15-1606': hardwareQty = Math.ceil(this.boxes / 4) * 4; break;

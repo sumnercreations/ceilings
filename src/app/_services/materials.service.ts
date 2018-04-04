@@ -15,6 +15,7 @@ export class MaterialsService {
       'radius': '',
       'ceiling_length': '',
       'hardware': {
+        '3-85-101': {},
         '3-15-0842': {},
         '3-85-105': {},
         '3-85-106': {},
@@ -32,6 +33,7 @@ export class MaterialsService {
       'angle': '',
       'ceiling_length': '',
       'hardware': {
+        '3-85-101': {},
         '3-15-0842': {},
         '3-85-105': {},
         '3-85-106': {},
@@ -49,6 +51,7 @@ export class MaterialsService {
       'angle': '',
       'ceiling_length': '',
       'hardware': {
+        '3-85-101': {},
         '3-15-1606': {},
         '3-85-104': {},
         '3-85-109': {}
@@ -65,6 +68,7 @@ export class MaterialsService {
       'radius': '',
       'ceiling_length': 72,
       'hardware': {
+        '3-85-101': {},
         '3-15-1606': {},
         '3-85-104': {},
         '3-85-109': {},
@@ -88,6 +92,7 @@ export class MaterialsService {
       'angle': '',
       'ceiling_length': '',
       'hardware': {
+        '3-85-101': {},
         '3-85-107': {},
         '3-85-108': {},
         '3-85-105': {},
