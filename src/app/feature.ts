@@ -991,6 +991,7 @@ export class Feature {
 
   public setFeatureType(str: string) {
     if (str.indexOf('hush') > -1) { str = 'hush'; }
+    this.feature_type = str;
     return str;
   }
 
@@ -998,5 +999,22 @@ export class Feature {
     const materialObject = this.materials[matFamily][matType][material];
     this.materialObj = materialObject;
     return materialObject;
+  }
+
+  public getFeatureMaterials() {
+    const featureType = this.feature_type;
+    let requiredMaterials: any;
+    switch (featureType) {
+      case 'hush': requiredMaterials = this.materials.felt.sola; break;
+      case 'seeyond': requiredMaterials = this.materials.felt.sola; break;
+      case 'tetria': requiredMaterials = this.materials.felt.merino; break;
+      case 'clario': requiredMaterials = this.materials.felt.sola; break;
+      case 'velo':
+        requiredMaterials = {felt: undefined, varia: undefined};
+        requiredMaterials.felt = this.materials.felt.merino;
+        requiredMaterials.varia = this.materials.varia;
+      break;
+    }
+    return requiredMaterials;
   }
 }

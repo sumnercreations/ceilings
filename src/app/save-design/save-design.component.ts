@@ -1,4 +1,4 @@
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Location } from '@angular/common';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Component, OnInit } from '@angular/core';
@@ -28,7 +28,7 @@ export class SaveDesignComponent implements OnInit {
     public seeyond: SeeyondFeature,
     public user: User,
     private location: Location,
-    private dialogRef: MdDialogRef<SaveDesignComponent>
+    private dialogRef: MatDialogRef<SaveDesignComponent>
   ) { }
 
   ngOnInit() {

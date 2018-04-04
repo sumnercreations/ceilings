@@ -1,0 +1,152 @@
+.quantity-ui {
+  height: 580px;
+}
+
+/* .quantity-ui :first-child {
+  height: 580px;
+} */
+
+.separator {
+  background-color: #fff;
+  border-bottom: 2px solid #cdcdcd;
+  margin: 0 15px;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+.table-and-footer {
+  height: 580px;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  align-items: center;
+}
+
+.table-parent {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header {
+  margin: 15px 0px;
+  min-height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-name {
+  font-size: 18px;
+}
+
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  background: white;
+}
+
+.table-container {
+  max-height: 500px;
+  overflow: auto;
+  margin-bottom: 15px;
+}
+
+.table-img {
+  max-height: 50px;
+  margin: 3px 0px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.add-to-order {
+  margin-top: 30px;
+}
+
+.mat-cell:last-child,
+.mat-header-cell:last-child {
+  flex: 0 0 8%;
+}
+
+.mat-cell:last-child * {
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
+.material-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.material-column img {
+  margin-right: 10px;
+}
+
+.delete-icon {
+  margin-left: 15px;
+}
+
+.right-column {
+  border-left: 2px solid #cdcdcd;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.filler {
+  flex: 1;
+}
+
+.left-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sq-footage {
+  margin-top: 15px;
+  min-height: 200px;
+}
+
+.sq-footage input {
+  margin-bottom: 5px;
+
+}
+
+.sqFt-row {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  margin-top: 5px;
+}
+
+.sqFt-row input {
+  width: 75px;
+}
+
+.sqFt-row * {
+  flex: 1;
+}
+
+.tiles-needed {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+.logo {
+  padding: 0px 15px;
+}
+
+.logo img {
+  width: 100px;
+}
+
+.tile-package-information {
+  text-align: right;
+  margin: 3px 30px 0 0;
+}

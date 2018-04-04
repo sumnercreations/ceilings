@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar, MdSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { AlertService } from '../_services/alert.service';
 
 @Component({
@@ -12,12 +12,12 @@ export class AlertComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    public snackBar: MdSnackBar
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
     this.alert.getMessage().subscribe(message => {
-      let config = new MdSnackBarConfig();
+      const config = new MatSnackBarConfig();
       config.extraClasses = message.type === 'error' ? ['ceilings-alert-error'] : ['ceilings-alert-success'];
       config.duration = message.type === 'success' ? 1000 : null;
       config.announcementMessage = message.text;
