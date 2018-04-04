@@ -18,14 +18,14 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   selectedMaterial: string;
   selectedMaterialImg: string;
   selectedQuantity: number;
-  selectedTile: string;
+  selectedTile = '00';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public inputRow: any,
-    private dialogRef: MatDialogRef<AddQuantityComponent>,
-    private materialsService: MaterialsService,
-    private qtySrv: QuantityService,
-    private feature: Feature
+    public dialogRef: MatDialogRef<AddQuantityComponent>,
+    public materialsService: MaterialsService,
+    public qtySrv: QuantityService,
+    public feature: Feature
   ) { }
 
   ngOnInit() {
@@ -64,10 +64,11 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   updateMaterialImg() {
     let materialImg;
+    const tileType = (this.selectedTile === '24' || this.selectedTile === '48') ? 'baffles' : 'tiles';
     switch (this.qtySrv.feature_type) {
-      case 'hush': materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`; break;
-      case 'tetria': materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
-      case 'clario': materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
+      case 'hush': materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`; break;
+      case 'tetria': materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
+      case 'clario': materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
     }
     this.selectedMaterialImg = materialImg;
   }
@@ -106,25 +107,25 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
       case 'hush':
         selections = {[key]: {
           purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`,
+          image: this.selectedMaterialImg,
           used: this.selectedQuantity,
           material: this.selectedMaterial,
           tile: this.selectedTile
         }}
       break;
-      case 'tetria': // TODO
+      case 'tetria':
         selections = {[key]: {
           purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`,
+          image: this.selectedMaterialImg,
           used: this.selectedQuantity,
           material: this.selectedMaterial,
           tile: this.selectedTile
         }}
       break;
-      case 'clario': // TODO
+      case 'clario':
         selections = {[key]: {
           purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`,
+          image: this.selectedMaterialImg,
           used: this.selectedQuantity,
           material: this.selectedMaterial,
           tile: this.selectedTile

@@ -1,3 +1,7 @@
+import { LoadDesignComponent } from './../load-design/load-design.component';
+import { LoginComponent } from './../login/login.component';
+import { SaveDesignComponent } from './../save-design/save-design.component';
+import { User } from 'app/_models/user';
 import { RemoveQuantityComponent } from './remove-quantity/remove-quantity.component';
 import { MatDialog, MatDialogRef, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { AddQuantityComponent } from './add-quantity/add-quantity.component';
@@ -27,11 +31,15 @@ export class QuantityComponent implements OnInit, OnDestroy {
   headerTitle = '';
   addQtyDialogRef: MatDialogRef<any>;
   removeQtyDialogRef: MatDialogRef<any>;
+  saveQtyDialogRef: MatDialogRef<any>;
+  loadQtyDialogRef: MatDialogRef<any>;
+  loginDialogRef: MatDialogRef<any>;
   sqFootage: number;
   tilesNeeded: number;
   estimatedPrice = 0;
   tilesUsed = 0;
   tilesReceiving = 0;
+  tilesRemaining: number;
   sqFtUsed = 0;
   sqFtReceiving = 0;
   sqFtPerTile: number;
@@ -51,7 +59,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
     private alert: AlertService,
     private location: Location,
     private dialog: MatDialog,
-    public qtySrv: QuantityService
+    public qtySrv: QuantityService,
+    public user: User
   ) { }
 
   ngOnInit() {
@@ -63,6 +72,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     })
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
+    this.feature.tile_size = 48; // for quantity messaging
   }
 
   ngOnDestroy() {
@@ -75,20 +85,16 @@ export class QuantityComponent implements OnInit, OnDestroy {
       case 'hush':
         this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
         this.headerTitle = 'Hush Blocks Tiles';
-        this.sqFtPerTile = 4;
         break;
       case 'clario':
         this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
         this.headerTitle = 'Clario Tiles';
-        this.sqFtPerTile = 4;
         break;
       case 'tetria':
         this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
         this.headerTitle = 'Tetria Tiles';
-        this.sqFtPerTile = 4;
         break;
     }
-    console.log('order', this.order);
   }
 
   backToDesign() {
@@ -110,10 +116,45 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.getRowEstimate(result); // sets feature.estimated_amount
           const newRow = result[Object.keys(result)[0]];
           newRow.total = this.feature.estimated_amount;
+          newRow.tileSqFt = this.getTileSqFt(newRow.tile);
           this.order.data.push(newRow);
-          this.order.data = this.order.data.slice(); // This somehow refreshes the table
+          this.order.data = this.order.data.slice(); // refreshes the table
           this.updateSummary();
         }
+      })
+  }
+
+  editRow(index, row) {
+    console.log('edit index/row:', index, row);
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: row});
+    this.addQtyDialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(result => {
+        if (!!result) {
+          console.log('edit result:', result);
+          this.getRowEstimate(result); // sets feature.estimated_amount
+          const editRow = result[Object.keys(result)[0]];
+          editRow.total = this.feature.estimated_amount;
+          editRow.tileSqFt = this.getTileSqFt(editRow.tile);
+          this.order.data[index] = editRow;
+          this.order.data = this.order.data.slice(); // refreshes the table
+          this.updateSummary();
+        }
+      })
+  }
+
+  deleteRow(index, row) {
+    console.log('delete index/row:', index, row);
+    const removeRow = {index: index, row: row};
+    this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, {data: removeRow});
+    this.removeQtyDialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(result => {
+        if (result === 'remove') {
+          this.order.data.splice(index, 1);
+        }
+        this.order.data = this.order.data.slice();
+        this.updateSummary();
       })
   }
 
@@ -131,49 +172,25 @@ export class QuantityComponent implements OnInit, OnDestroy {
     let estTotal = 0;
     let tilesUsed = 0;
     let tilesReceiving = 0;
+    let sqFtUsed = 0;
+    let sqFtReceiving = 0;
     summary.map((row: any) => {
       estTotal += row.total;
       tilesUsed += row.used;
       tilesReceiving += row.purchased;
+      sqFtUsed += (row.purchased * row.tileSqFt);
+      sqFtReceiving  += (row.used * row.tileSqFt);
     });
     this.estimatedPrice = estTotal;
     this.tilesReceiving = tilesReceiving;
     this.tilesUsed = tilesUsed;
-    this.sqFtUsed = this.tilesUsed * this.sqFtPerTile;
-    this.sqFtReceiving = tilesReceiving * this.sqFtPerTile;
+    this.sqFtUsed = sqFtUsed;
+    this.sqFtReceiving = sqFtReceiving;
+    this.tilesRemaining = (this.tilesUsed - this.tilesNeeded) || null;
   }
 
-  editRow(index, row) {
-    console.log('edit index/row:', index, row);
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: row});
-    this.addQtyDialogRef.afterClosed()
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(result => {
-        console.log('edit result:', result);
-        this.getRowEstimate(result); // sets feature.estimated_amount
-        const editRow = result[Object.keys(result)[0]];
-        editRow.total = this.feature.estimated_amount;
-        this.order.data[index] = editRow;
-        this.order.data = this.order.data.slice(); // This somehow refreshes the table
-        this.updateSummary();
-      })
-  }
-
-  deleteRow(index, row) {
-    console.log('delete index/row:', index, row);
-    const removeRow = {index: index, row: row};
-    this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, {data: removeRow});
-    this.removeQtyDialogRef.afterClosed()
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(result => {
-        console.log(this.order.data);
-        if (result === 'remove') {
-          this.order.data.splice(index, 1);
-        }
-        console.log(this.order.data);
-        this.order.data = this.order.data.slice();
-        this.updateSummary();
-      })
+  getTileSqFt(tile) {
+    return (tile === '48') ? 8 : 4;
   }
 
   requestQuote() {
@@ -185,7 +202,48 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   calcSqFootage() {
-    this.tilesNeeded = this.sqFootage / this.sqFtPerTile;
+    this.tilesNeeded = this.sqFootage / 4; // TODO: toggle between 2 and 4
+  }
+
+  public saveQuantity() {
+    // let saveDialog: MatDialog;
+    this.saveQtyDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig);
+    if (!this.user.isLoggedIn()) {
+      this.loginDialog();
+    }
+  }
+
+  public loginDialog(load: boolean = false) {
+    this.debug.log('design-component', 'displaying login dialog');
+    const config = new MatDialogConfig();
+    config.disableClose = true;
+    this.loginDialogRef = this.dialog.open(LoginComponent, config);
+    this.loginDialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(result => {
+        if (result === 'cancel') {
+        // we need to close the savedDialog too if it's open.
+          if (this.saveQtyDialogRef) { this.saveQtyDialogRef.close() }
+        }else if (load) {
+          // the user should be logged in now, so show the load dialog
+          this.loadDesigns();
+        }
+    });
+  }
+
+  public loadDesigns() {
+    // If the user is not logged in then present the login dialog
+    if (!this.user.isLoggedIn()) {
+      this.loginDialog(true);
+    } else {
+      // let loadDialog: MatDialog;
+      this.api.getMyDesigns()
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe(designs => {
+        this.loadQtyDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
+        this.loadQtyDialogRef.componentInstance.designs = designs;
+      });
+    }
   }
 
 }

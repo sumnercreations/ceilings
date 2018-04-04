@@ -19,12 +19,18 @@
   <div class="separator"></div>
 </div>
 <div class="quantity-ui">
-  <div class="col-sm-9 no-padding">
+  <div class="col-sm-9 no-padding table-and-footer">
     <div class="table-parent col-sm-12">
       <div class="table-header col-sm-12">
         <span class="order-name">
           <span>Design Name</span>
           <input [(ngModel)]="orderName" required placeholder="Name" type="text">
+        </span>
+        <span class="save-load">
+            <a id="save-btn" title="save design" (click)="saveQuantity()"><span class="icomoon-folder orange"></span>
+              <span *ngIf="user.isLoggedIn()">Save</span>
+              <span *ngIf="!user.isLoggedIn()">Login to save</span>
+            </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
         </span>
         <button class="button button-orange" (click)="addToOrder()">Add To Order</button>
       </div>
@@ -62,14 +68,32 @@
         </div>
       </div>
     </div>
+    <div class="filler"></div>
+    <div class="left-footer">
+      <div class="">
+        <div class="logo">
+          <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
+        </div>
+      </div>
+      <div class="">
+        <p class="tile-package-information">
+          {{feature.packageInformation()}}
+        </p>
+      </div>
+    </div>
   </div>
   <div class="col-sm-3 right-column">
     <div class="col-sm-12 no-padding sq-footage">
       <p class="md">What is your Square Footage?</p>
       <input [(ngModel)]="sqFootage" (change)="calcSqFootage()" placeholder="Sq Footage" type="number">
-      <!-- <p class="md">Tiles Needed: <strong>{{tilesNeeded}}</strong></p> -->
-      <p class="tiles-needed">Tiles Needed:</p>
-      <input type="number" disabled [(ngModel)]='tilesNeeded'>
+      <div class="sqFt-row">
+        <span class="tiles-needed">Tiles Needed:</span>
+        <input type="number" disabled [(ngModel)]='tilesNeeded'>
+      </div>
+      <div class="sqFt-row">
+        <span class="tiles-needed">Tiles Remaining:</span>
+        <input type="number" disabled [(ngModel)]="tilesNeeded - tilesUsed">
+      </div>
     </div>
     <div class="filler"></div>
     <div class="col-sm-12 no-padding">
@@ -81,12 +105,6 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-2">
-      <div class="logo">
-        <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
-      </div>
-    </div>
-  </div>
+
 </div>
 

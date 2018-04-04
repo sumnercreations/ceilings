@@ -12,8 +12,16 @@
   margin: 0 15px;
 }
 
-.no-padding{
+.no-padding {
   padding: 0px;
+}
+
+.table-and-footer {
+  height: 580px;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  align-items: center;
 }
 
 .table-parent {
@@ -26,6 +34,7 @@
   min-height: 30px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .order-name {
@@ -92,9 +101,36 @@
   flex: 1;
 }
 
+.left-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .sq-footage {
   margin-top: 15px;
   min-height: 200px;
+}
+
+.sq-footage input {
+  margin-bottom: 5px;
+
+}
+
+.sqFt-row {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  margin-top: 5px;
+}
+
+.sqFt-row input {
+  width: 75px;
+}
+
+.sqFt-row * {
+  flex: 1;
 }
 
 .tiles-needed {
@@ -108,4 +144,9 @@
 
 .logo img {
   width: 100px;
+}
+
+.tile-package-information {
+  text-align: right;
+  margin: 3px 30px 0 0;
 }
