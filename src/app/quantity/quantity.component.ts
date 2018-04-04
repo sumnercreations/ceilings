@@ -226,12 +226,12 @@ export class QuantityComponent implements OnInit, OnDestroy {
           if (this.saveQtyDialogRef) { this.saveQtyDialogRef.close() }
         }else if (load) {
           // the user should be logged in now, so show the load dialog
-          this.loadDesigns();
+          this.loadQtyDesigns();
         }
     });
   }
 
-  public loadDesigns() {
+  public loadQtyDesigns() {
     // If the user is not logged in then present the login dialog
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
