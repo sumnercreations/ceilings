@@ -1,7 +1,7 @@
 <div class="addQty-dialog-container form-group">
-  <div *ngIf="qtySrv.feature_type === 'tetria'" class="row section">
+  <div *ngIf="qtySrv.feature_type !== 'hush'" class="row section">
     <p class="md">Tile Type</p>
-    <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" [class.col-sm-5]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host" [class.hide]="feature.tile_size==24 && tile.tile==48">
+    <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" class="tile-container tooltip-host">
       <div class="tile" [class.selected]="selectedTile==tile.tile">
         <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
       </div>
@@ -28,9 +28,9 @@
   <div class="row section">
     <p class="md">Selection</p>
     <div class="selection-summary">
-      <p *ngIf="(selectedQuantity > 0) && !!selectedMaterial" class="md selection">
+      <p class="md selection">
         {{selectedQuantity}} x
-        <img src="{{selectedMaterialImg}}" matTooltip="{{selectedMaterial | capitalize}}" class="img-responsive tooltip-host" alt="{{selectedMaterial.material | capitalize}}" [matTooltipPosition]="position">
+        <img *ngIf="!!selectedMaterialImg && (selectedMaterialImg.indexOf('undefined') < 0)" src="{{selectedMaterialImg}}" matTooltip="{{selectedMaterial | capitalize}}" class="img-responsive tooltip-host" alt="{{selectedMaterial.material | capitalize}}" [matTooltipPosition]="position">
       </p>
     </div>
   </div>

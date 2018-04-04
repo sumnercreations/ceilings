@@ -3,10 +3,10 @@
   <div class='section'>
     <div class="selection-summary">
       <p class="md selection">
-        Remove {{selection.row.qty}} {{selection.row.material.name_str}} tiles?
+        Remove {{selection.row.purchased}} {{selection.row.material | capitalize}}-{{selection.row.tile}} tiles?
       </p>
       <div class="img-container">
-        <img src="{{selection.row.material.image}}" class="img-responsive" alt="{{selection.row.material.name_str | capitalize}}">
+        <img src="{{selection.row.image}}" class="img-responsive" alt="{{selection.row.material | capitalize}}">
       </div>
     </div>
   </div>
