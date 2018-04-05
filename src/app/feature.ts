@@ -748,8 +748,8 @@ export class Feature {
     return {
       'UserInputs': {
         'Type': this.getFeatureTypeInteger(),
-        'NumX': this.getRows(),
-        'NumY': this.getColumns(),
+        'NumX': this.getColumns(),
+        'NumY': this.getRows(),
         'Tiles': tiles
       }
     }
