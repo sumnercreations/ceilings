@@ -13,7 +13,7 @@
     <th *ngIf="feature.feature_type!='hush'">Unused</th>
   </tr>
   <tr *ngFor="let tile of purchasedTiles | keys">
-    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" mdTooltip="{{tooltip(tile)}}" [mdTooltipPosition]="position"></td>
+    <td *ngIf="tile.image"><img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" matTooltip="{{tooltip(tile)}}" [matTooltipPosition]="position"></td>
     <td *ngIf="feature.feature_type!='hush'">{{tile.used}}</td>
     <td>{{tile.purchased}}</td>
     <td *ngIf="feature.feature_type!='hush'">{{tile.purchased - tile.used}}</td>
