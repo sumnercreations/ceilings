@@ -20,6 +20,6 @@
   text-decoration: underline;
 }
 
-.center-div md-progress-spinner {
+.center-div mat-progress-spinner {
   margin: 0 auto;
 }

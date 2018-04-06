@@ -6,7 +6,7 @@
       <div class="col-sm-8">
         <div class="row">
           <div class="col-sm-8">
-            <p class="md">Est. Total: {{seeyond.estimated_amount | currency:'USD':true}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
+            <p class="md">Est. Total: {{seeyond.estimated_amount | currency:'USD'}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
           </div>
           <div class="col-sm-4">
             <button *ngIf="!seeyond.quoted" class="button button-orange design-quote pull-right" [disabled]="!seeyond.canQuote" (click)="requestQuote()">Request Quote</button>
@@ -65,7 +65,7 @@
         </div>
         <div class="row materials">
           <p class="md">Colors</p>
-          <div *ngFor="let material of seeyondMaterials | keys" mdTooltip="{{material.material | capitalize}}" [mdTooltipPosition]="position" (click)="updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
+          <div *ngFor="let material of seeyondMaterials | keys" matTooltip="{{material.material | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
             <ng-container *ngIf="material.status === 'active'">
               <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="seeyond.material==material.material">
             </ng-container>
@@ -73,10 +73,10 @@
         </div>
         <div class="row cove-lighting" *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))">
           <p class="md cove-lighting-label col-sm-6">Cove Lighting</p>
-          <div *ngIf="!this.seeyond.cove_lighting" class="col-sm-6" mdTooltip="Add Cove Lighting to Quote" [mdTooltipPosition]="position">
+          <div *ngIf="!this.seeyond.cove_lighting" class="col-sm-6" matTooltip="Add Cove Lighting to Quote" [matTooltipPosition]="position">
             <p class="icomoon-checkbox-unchecked orange checkbox" (click)="toggleCoveLighting()"></p>
           </div>
-          <div *ngIf="this.seeyond.cove_lighting" class="col-sm-6" mdTooltip="Remove Cove Lighting from Quote" [mdTooltipPosition]="position">
+          <div *ngIf="this.seeyond.cove_lighting" class="col-sm-6" matTooltip="Remove Cove Lighting from Quote" [matTooltipPosition]="position">
             <p class="icomoon-checkbox-checked orange checkbox" (click)="toggleCoveLighting()"></p>
           </div>
         </div>
@@ -112,10 +112,10 @@
           </div>
           <div class="col-sm-6 vertical-center">
             <div class="toggle-button-form-wrapper">
-              <md-button-toggle-group #units="mdButtonToggleGroup" [disabled]="this.seeyond.quoted" (change)="updateUnits(units.value)" value="{{seeyond.units}}">
-                <md-button-toggle value="inches">IN</md-button-toggle>
-                <md-button-toggle value="centimeters">CM</md-button-toggle>
-              </md-button-toggle-group>
+              <mat-button-toggle-group #units="matButtonToggleGroup" [disabled]="this.seeyond.quoted" (change)="updateUnits(units.value)" value="{{seeyond.units}}">
+                <mat-button-toggle value="inches">IN</mat-button-toggle>
+                <mat-button-toggle value="centimeters">CM</mat-button-toggle>
+              </mat-button-toggle-group>
             </div>
           </div>
         </div>

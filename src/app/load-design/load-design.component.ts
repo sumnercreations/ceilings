@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
 import { AlertService } from '../_services/alert.service';
@@ -21,10 +21,10 @@ export class LoadDesignComponent implements OnInit {
     private alert: AlertService,
     private api: ApiService,
     private debug: DebugService,
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     public feature: Feature,
     public user: User,
-    private dialogRef: MdDialogRef<LoadDesignComponent>
+    private dialogRef: MatDialogRef<LoadDesignComponent>
   ) { }
 
   ngOnInit() {}
@@ -36,7 +36,7 @@ export class LoadDesignComponent implements OnInit {
   }
 
   delete(id: number, target: any) {
-    const dialogRef = this.dialog.open(ConfirmDeleteComponent, new MdDialogConfig);
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent, new MatDialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
         this.debug.log('load-design', 'User has confirmed delete');

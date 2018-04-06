@@ -41,10 +41,10 @@
         </div>
         <div class="col-sm-4">
           <div class="toggle-button-form-wrapper">
-            <md-button-toggle-group #units="mdButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
-              <md-button-toggle value="inches">IN</md-button-toggle>
-              <md-button-toggle value="centimeters">CM</md-button-toggle>
-            </md-button-toggle-group>
+            <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+              <mat-button-toggle value="inches">IN</mat-button-toggle>
+              <mat-button-toggle value="centimeters">CM</mat-button-toggle>
+            </mat-button-toggle-group>
           </div>
         </div>
       </div>
@@ -53,22 +53,22 @@
       <hr>
       <h3>Tile Size</h3>
       <p>Please specify the size of your grid.</p>
-      <md-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
+      <mat-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
         <div class="row">
           <div class="col-sm-4">
-            <md-radio-button class="radio-button" [value]="24">
+            <mat-radio-button class="radio-button" [value]="24">
               24 X 24
-            </md-radio-button>
+            </mat-radio-button>
             <p>Qty. 4 per package</p>
           </div>
           <div class="col-sm-4">
-            <md-radio-button class="radio-button" [value]="48">
+            <mat-radio-button class="radio-button" [value]="48">
               24 X 48
-            </md-radio-button>
+            </mat-radio-button>
             <p>Qty. 2 per package</p>
           </div>
         </div>
-      </md-radio-group>
+      </mat-radio-group>
     </div>
     <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="validateOptions()">start designing</button>
     <div class="back">
