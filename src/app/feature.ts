@@ -239,7 +239,7 @@ export class Feature {
   }
 
   getTetriaEstimate(tilesArray) {
-    const flatTilePrice = 15.45;
+    const flatTilePrice = 61.80;
     const tetriaTilePrice = 82.40;
     let flatTileCount = 0;
     let tetriaTileCount = 0;
@@ -748,8 +748,8 @@ export class Feature {
     return {
       'UserInputs': {
         'Type': this.getFeatureTypeInteger(),
-        'NumX': this.getRows(),
-        'NumY': this.getColumns(),
+        'NumX': this.getColumns(),
+        'NumY': this.getRows(),
         'Tiles': tiles
       }
     }
