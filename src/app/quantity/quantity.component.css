@@ -2,9 +2,17 @@
   height: 580px;
 }
 
-/* .quantity-ui :first-child {
-  height: 580px;
-} */
+.header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 30px;
+}
+
+span.sm {
+  font-size: 10px;
+  font-weight: 300;
+}
 
 .separator {
   background-color: #fff;
@@ -35,6 +43,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.button.add-tiles {
+  border: 1px solid #ff8000;
+  color: #ff8000;
+}
+
+.button.add-tiles:hover {
+  background-color: #f93;
+  color: #fff;
 }
 
 .order-name {

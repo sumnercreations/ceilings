@@ -84,7 +84,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     switch (this.qtySrv.feature_type) {
       case 'hush':
         this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
-        this.headerTitle = 'Hush Blocks Tiles';
+        this.headerTitle = 'Hush Blocks Tiles ';
         break;
       case 'clario':
         this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
@@ -178,8 +178,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
       estTotal += row.total;
       tilesUsed += row.used;
       tilesReceiving += row.purchased;
-      sqFtUsed += (row.purchased * row.tileSqFt);
-      sqFtReceiving  += (row.used * row.tileSqFt);
+      sqFtUsed += (row.used * row.tileSqFt);
+      sqFtReceiving  += (row.purchased * row.tileSqFt);
     });
     this.estimatedPrice = estTotal;
     this.tilesReceiving = tilesReceiving;

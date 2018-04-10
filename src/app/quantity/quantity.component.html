@@ -1,14 +1,14 @@
 <div class="quantity-header">
   <div class="row">
     <a (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> <span>Back to Design</span></a>
-    <div class="col-sm-12">
-      <div class="col-sm-4">
-        <p class="md title">Order By Quantity</p>
+    <div class="header-row">
+      <div class="">
+        <p class="md title">Order {{headerTitle}} By Quantity</p>
       </div>
-      <div class="col-sm-4">
-        <p class="md title">{{headerTitle}}</p>
+      <div class="">
+        <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD'}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
       </div>
-      <div class="col-sm-4">
+      <div class="">
         <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((order.data.length === 0) || !orderName)" (click)="requestQuote()">Request Quote</button>
         <button *ngIf="feature.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
       </div>
@@ -32,17 +32,17 @@
               <span *ngIf="!user.isLoggedIn()">Login to save</span>
             </a> | <a id="load-btn" title="load saved designs" (click)="loadQtyDesigns()">Load</a>
         </span>
-        <button class="button button-orange" (click)="addToOrder()">Add To Order</button>
+        <button class="button add-tiles" (click)="addToOrder()">Add Tiles</button>
       </div>
       <div class="table-container">
         <div class="example-container">
           <p *ngIf="(order.data.length === 0)" class="md center-text add-to-order">
-            Select "Add To Order" to begin.
+            Select "Add Tiles" to begin.
           </p>
           <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
             <ng-container matColumnDef="ordered">
-              <mat-header-cell *matHeaderCellDef> Used - Receiving </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.used}} - {{element.purchased}}</mat-cell>
+              <mat-header-cell *matHeaderCellDef> Used / Receiving </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.used}} / {{element.purchased}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="material">
               <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
@@ -84,22 +84,31 @@
   </div>
   <div class="col-sm-3 right-column">
     <div class="col-sm-12 no-padding sq-footage">
-      <p class="md">What is your Square Footage?</p>
-      <input [(ngModel)]="sqFootage" (change)="calcSqFootage()" placeholder="Sq Footage" type="number">
+      <h3>Estimator</h3>
+      <p class="">Enter square footage to calculate how many tiles are needed.</p>
       <div class="sqFt-row">
+        <span class="tiles-needed">SqFt:</span>
+        <input [(ngModel)]="sqFootage" (keyup)="calcSqFootage()" placeholder="Sq Footage" type="number">
+      </div>
+      <div *ngIf="!!sqFootage" class="">
+        <p><strong>{{tilesNeeded}}</strong> tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
+        <p><strong>{{tilesUsed}} / {{tilesNeeded}}</strong> are selected.</p>
+        <!-- <p></p> -->
+      </div>
+      <!-- <div class="sqFt-row">
         <span class="tiles-needed">Tiles Needed:</span>
         <input type="number" disabled [(ngModel)]='tilesNeeded'>
       </div>
       <div class="sqFt-row">
         <span class="tiles-needed">Tiles Remaining:</span>
         <input type="number" disabled [(ngModel)]="tilesNeeded - tilesUsed">
-      </div>
+      </div> -->
     </div>
     <div class="filler"></div>
     <div class="col-sm-12 no-padding">
       <hr>
-      <h3>Summary</h3>
-      <p class="">Est Total: {{estimatedPrice | currency:'USD'}}</p>
+      <h3>Quantities</h3>
+      <!-- <p class="">Est Total: {{estimatedPrice | currency:'USD'}}</p> -->
       <p class="">Tiles Used/Receiving: {{tilesUsed}}/{{tilesReceiving}}</p>
       <p class="">SqFt. Used/Receiving: {{sqFtUsed}}/{{sqFtReceiving}}</p>
     </div>
