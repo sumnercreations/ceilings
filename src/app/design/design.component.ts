@@ -41,6 +41,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   FileSaver = FileSaver;
   featureTiles: any;
   materials: any;
+  tryingRequestQuote = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -246,13 +247,17 @@ export class DesignComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'cancel') {
-        // we need to close the savedDialog too if it's open.
-          if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close() }
-        }else if (load) {
-        // the user should be logged in now, so show the load dialog
-        this.loadDesigns();
-      }
-    });
+          // we need to close the savedDialog too if it's open.
+          if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close(); return; }
+        } else if (load) {
+          // the user should be logged in now, so show the load dialog
+          this.loadDesigns();
+        }
+        if (this.tryingRequestQuote) {
+          this.tryingRequestQuote = false;
+          this.requestQuote()
+        }
+      });
   }
 
   viewDetails () {
@@ -296,6 +301,11 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   public requestQuote() {
+    if (!this.user.isLoggedIn()) {
+      this.tryingRequestQuote = true;
+      this.loginDialog();
+      return;
+    }
     // get the grid with guides
     // make sure the guide is set to true
     this.feature.showGuide = true;
