@@ -20,6 +20,7 @@ export class ApiService {
   apiUrl = 'https://' + environment.API_URL + '/ceilings/';
   loginUrl = 'https://' + environment.API_URL + '/auth/login';
   userUrl = 'https://' + environment.API_URL + '/users/';
+  partSubsUrl = `https://${environment.API_URL}/parts_substitutes`;
 
   constructor(
     private http: HttpClient,
@@ -114,7 +115,7 @@ export class ApiService {
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('api', 'emitting onSaved in saveDesign');
-        return res.json() || {}
+        return res || {}
       })
       .catch(this.handleError);
   }
@@ -129,7 +130,13 @@ export class ApiService {
 
   getPrices() {
     return this.http.get(this.apiUrl + 'prices')
-      .map((res: Response) => res.json())
+      .map((res: Response) => res)
+      .catch(this.handleError);
+  }
+
+  getPartsSubstitutes() {
+    return this.http.get(this.partSubsUrl)
+      .map((res: Response) => res)
       .catch(this.handleError);
   }
 
@@ -160,15 +167,16 @@ export class ApiService {
   }
 
   public handleError(error: HttpErrorResponse) {
+    if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
+      console.error('An error occurred:', error.error);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       console.error(
         `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `body was: ${error.message}`);
     }
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(
