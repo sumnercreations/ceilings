@@ -17,6 +17,7 @@ export class ApiService {
   apiUrl = 'https://' + environment.API_URL + '/ceilings/';
   loginUrl = 'https://' + environment.API_URL + '/auth/login';
   userUrl = 'https://' + environment.API_URL + '/users/';
+  partSubsUrl = `https://${environment.API_URL}/parts_substitutes`;
 
   constructor(
     private http: Http,
@@ -137,6 +138,13 @@ export class ApiService {
       .map((res: Response) => res.json())
       .catch(this.handleError);
   }
+
+  getPartsSubstitutes() {
+    return this.http.get(this.partSubsUrl)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
 
   login(email: string, password: string) {
     this.debug.log('api', 'api login');
