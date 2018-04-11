@@ -161,10 +161,13 @@ export class ApiService {
           this.user = api.result.user;
           this.onUserLoggedIn.emit(this.user);
           this.debug.log('api', 'user successfully logged in');
-          return api;
-        } else {
-          this.alert.apiAlert(api.result.error);
+          return 'success';
         }
+      })
+      .catch((res) => {
+        const api = res.json();
+        this.alert.error(api.result.message);
+        return 'error';
       });
   }
 
