@@ -25,7 +25,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private feature: Feature,
-    private user: User,
+    public user: User,
     private debug: DebugService,
     private alert: AlertService
   ) { }

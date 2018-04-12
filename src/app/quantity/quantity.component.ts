@@ -43,6 +43,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   sqFtUsed = 0;
   sqFtReceiving = 0;
   sqFtPerTile: number;
+  tryingRequestQuote = false;
 
 
   // Table Properties
@@ -73,6 +74,17 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
     this.feature.tile_size = 48; // for quantity messaging
+
+    this.api.onUserLoggedIn
+      .takeUntil(this.ngUnsubscribe)
+      .subscribe(data => {
+        console.log('user logged in event fired', data);
+        const user = this.api.user;
+        this.user.uid = user.uid;
+        this.user.email = user.email;
+        this.user.firstname = user.firstname;
+        this.user.lastname = user.lastname;
+      });
   }
 
   ngOnDestroy() {
@@ -194,6 +206,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   requestQuote() {
+    if (!this.user.isLoggedIn()) {
+      this.tryingRequestQuote = true;
+      this.loginDialog();
+      return;
+    }
     console.log('Request Quote Invoked');
   }
 
@@ -222,13 +239,18 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'cancel') {
-        // we need to close the savedDialog too if it's open.
-          if (this.saveQtyDialogRef) { this.saveQtyDialogRef.close() }
-        }else if (load) {
+          this.tryingRequestQuote = false;
+          // we need to close the savedDialog too if it's open.
+          if (this.saveQtyDialogRef) { this.saveQtyDialogRef.close(); return; }
+        } else if (load) {
           // the user should be logged in now, so show the load dialog
           this.loadQtyDesigns();
         }
-    });
+        if (this.tryingRequestQuote) {
+          this.tryingRequestQuote = false;
+          this.requestQuote()
+        }
+      });
   }
 
   public loadQtyDesigns() {
