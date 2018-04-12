@@ -18,6 +18,7 @@ import { SeeyondService } from '../_services/seeyond.service';
 export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;
   public newButton = false;
+  private uiType = this.feature.is_quantitiy_order ? '/quantity' : '/design';
 
   constructor(
     private router: Router,
@@ -62,7 +63,7 @@ export class SaveDesignComponent implements OnInit {
         // navigate if the current path isn't already right
         const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
         if (url !== this.router.url) {
-          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+          this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
         }
       });
     }
@@ -77,7 +78,7 @@ export class SaveDesignComponent implements OnInit {
       // set the feature to what was returned from the API.
       this.feature = feature.ceiling;
       // redirect to the new design
-      this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+      this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
     });
   }
 

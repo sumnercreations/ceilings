@@ -50,6 +50,7 @@ export class ApiService {
     this.debug.log('api', 'updating design');
     // we can't forget about the hardware...
     this.debug.log('api', this.feature.tiles);
+    if (this.feature.is_quantitiy_order) { this.prepDataForQtyOrder(); }
     const patchData = {
       'id': this.feature.id,
       'uid': this.user.uid,
@@ -70,13 +71,14 @@ export class ApiService {
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
       'archived': this.feature.archived,
-      'quantity': this.feature.quantity
+      'quantity': this.feature.quantity,
+      'is_quantity_order': this.feature.is_quantitiy_order
     };
 
-    // const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    // const options = new RequestOptions({headers: headers});
+    console.log('patchData:', patchData);
+    if (patchData.is_quantity_order) { patchData.width = 0; patchData.length = 0; }
+    console.log('patchData:', patchData);
 
-    // return this.http.patch(this.apiUrl + this.feature.id, patchData, options)
     return this.http.patch(this.apiUrl + this.feature.id, patchData)
       .map((res) => {
         this.onSaved.emit();
@@ -89,6 +91,7 @@ export class ApiService {
   saveDesign() {
     this.debug.log('api', 'saving design');
     const featureType = this.feature.setFeatureType(this.feature.feature_type);
+    if (this.feature.is_quantitiy_order) { this.prepDataForQtyOrder(); }
     const patchData = {
       'uid': this.user.uid,
       'feature_type': featureType,
@@ -108,7 +111,8 @@ export class ApiService {
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
       'archived': this.feature.archived,
-      'quantity': this.feature.quantity
+      'quantity': this.feature.quantity,
+      'is_quantity_order': this.feature.is_quantitiy_order
     }
 
     return this.http.post(this.apiUrl, patchData)
@@ -118,6 +122,14 @@ export class ApiService {
         return res || {}
       })
       .catch(this.handleError);
+  }
+
+  prepDataForQtyOrder() {
+    this.feature.width = 0;
+    this.feature.length = 0;
+    const tiles = this.feature.tiles;
+    const lastTile = tiles[Object.keys(tiles)[Object.keys(tiles).length - 1]];
+    this.feature.material = lastTile.material
   }
 
   deleteDesign(id: number) {

@@ -24,6 +24,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 })
 export class QuantityComponent implements OnInit, OnDestroy {
   ngUnsubscribe: Subject<any> = new Subject();
+  feature_type: string;
   materials: any;
   panelOpenState = false;
   order = new MatTableDataSource();
@@ -66,19 +67,29 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      // initial setup
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }
-      this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
+      this.qtySrv.feature_type = this.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setTableProperties();
+
+      // load saved if included in params
+      const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      if (!!qtyId) {
+        this.api.loadDesign(qtyId).subscribe(qtyOrder => {
+          if (!qtyOrder.is_quantitiy_order) { this.router.navigate([`${this.feature.feature_type}/quantity`, this.feature.id]); }
+          console.log(qtyOrder);
+        })
+      }
     })
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
     this.feature.tile_size = 48; // for quantity messaging
+    this.feature.is_quantitiy_order = true;
 
     this.api.onUserLoggedIn
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
-        console.log('user logged in event fired', data);
         const user = this.api.user;
         this.user.uid = user.uid;
         this.user.email = user.email;
@@ -122,18 +133,20 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.addQtyDialogRef.afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
-        if (!!result) {
-          console.log(result);
-          this.debug.log('quantity', result);
-          this.getRowEstimate(result); // sets feature.estimated_amount
-          const newRow = result[Object.keys(result)[0]];
-          newRow.total = this.feature.estimated_amount;
-          newRow.tileSqFt = this.getTileSqFt(newRow.tile);
-          this.order.data.push(newRow);
-          this.order.data = this.order.data.slice(); // refreshes the table
-          this.updateSummary();
-        }
+        if (!!result) { this.addRow(result); }
       })
+  }
+
+  addRow(row) {
+    console.log(row);
+    this.debug.log('quantity', row);
+    this.getRowEstimate(row); // sets feature.estimated_amount
+    const newRow = row[Object.keys(row)[0]];
+    newRow.total = this.feature.estimated_amount;
+    newRow.tileSqFt = this.getTileSqFt(newRow.tile);
+    this.order.data.push(newRow);
+    this.order.data = this.order.data.slice(); // refreshes the table
+    this.updateSummary();
   }
 
   editRow(index, row) {
@@ -199,6 +212,28 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.sqFtUsed = sqFtUsed;
     this.sqFtReceiving = sqFtReceiving;
     this.tilesRemaining = (this.tilesUsed - this.tilesNeeded) || null;
+    this.updateTilesArr();
+  }
+
+  updateTilesArr() {
+    const data = this.order.data;
+    const tilesArr = {};
+    data.map(row => {
+      const newObj = <TileRow>{};
+      newObj.purchased = row.purchased;
+      newObj.image = row.image;
+      newObj.used = row.used;
+      newObj.material = row.material;
+      newObj.tile = row.tile;
+      const objectKey = `${newObj.material}-${newObj.tile}`;
+      if (!tilesArr[objectKey]) {
+        tilesArr[objectKey] = newObj;
+      } else { // if tiles are already selected just add to the totals
+        tilesArr[objectKey].purchased += newObj.purchased;
+        tilesArr[objectKey].used += newObj.used;
+      }
+    })
+    this.feature.tiles = tilesArr;
   }
 
   getTileSqFt(tile) {
@@ -270,12 +305,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
 }
 
-export interface Order {
-  material: any;
-  qty: number;
-  size: string;
-  type: string;
-}
 
 export class TableDataSource extends MatTableDataSource<any> {
 
@@ -285,3 +314,17 @@ export class TableDataSource extends MatTableDataSource<any> {
 
 }
 
+export interface Order {
+  material: any;
+  qty: number;
+  size: string;
+  type: string;
+}
+
+export interface TileRow {
+  purchased: number;
+  image: string;
+  used: number;
+  material: string;
+  tile: string;
+}

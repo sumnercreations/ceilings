@@ -40,21 +40,41 @@
             Select "Add Tiles" to begin.
           </p>
           <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
-            <ng-container matColumnDef="ordered">
-              <mat-header-cell *matHeaderCellDef> Used / Receiving </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.used}} / {{element.purchased}}</mat-cell>
+
+            <ng-container *ngIf="feature_type === 'hush'">
+              <ng-container matColumnDef="ordered">
+                <mat-header-cell *matHeaderCellDef> Receiving </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.purchased}}</mat-cell>
+              </ng-container>
             </ng-container>
+            <ng-container *ngIf="feature_type !== 'hush'">
+              <ng-container matColumnDef="ordered">
+                <mat-header-cell *matHeaderCellDef> Used / Receiving </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.used}} / {{element.purchased}}</mat-cell>
+              </ng-container>
+            </ng-container>
+
             <ng-container matColumnDef="material">
               <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
-              <mat-cell *matCellDef="let element" class="material-column">
+              <ng-container *ngIf="feature_type !== 'hush'">
+                <mat-cell *matCellDef="let element" class="material-column">
+                    <img src="{{element.image}}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+                    {{element.material | capitalize}}-{{element.tile}}
+                </mat-cell>
+              </ng-container>
+              <ng-container *ngIf="feature_type === 'hush'">
+                <mat-cell *matCellDef="let element" class="material-column">
                   <img src="{{element.image}}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
-                  {{element.material | capitalize}}-{{element.tile}}
-              </mat-cell>
+                  {{element.material | capitalize}}
+                </mat-cell>
+              </ng-container>
             </ng-container>
+
             <ng-container matColumnDef="total">
               <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
             </ng-container>
+
             <ng-container matColumnDef="edit">
               <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
               <mat-cell *matCellDef="let row; let i=index;" class="edit-column">
@@ -62,6 +82,7 @@
                 <span class='icomoon-remove2 delete-icon orange' (click)="deleteRow(i, row)"></span>
               </mat-cell>
             </ng-container>
+
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
@@ -93,22 +114,12 @@
       <div *ngIf="!!sqFootage" class="">
         <p><strong>{{tilesNeeded}}</strong> tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
         <p><strong>{{tilesUsed}} / {{tilesNeeded}}</strong> are selected.</p>
-        <!-- <p></p> -->
       </div>
-      <!-- <div class="sqFt-row">
-        <span class="tiles-needed">Tiles Needed:</span>
-        <input type="number" disabled [(ngModel)]='tilesNeeded'>
-      </div>
-      <div class="sqFt-row">
-        <span class="tiles-needed">Tiles Remaining:</span>
-        <input type="number" disabled [(ngModel)]="tilesNeeded - tilesUsed">
-      </div> -->
     </div>
     <div class="filler"></div>
     <div class="col-sm-12 no-padding">
       <hr>
       <h3>Quantities</h3>
-      <!-- <p class="">Est Total: {{estimatedPrice | currency:'USD'}}</p> -->
       <p class="">Tiles Used/Receiving: {{tilesUsed}}/{{tilesReceiving}}</p>
       <p class="">SqFt. Used/Receiving: {{sqFtUsed}}/{{sqFtReceiving}}</p>
     </div>
