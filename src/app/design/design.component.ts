@@ -247,6 +247,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'cancel') {
+          this.tryingRequestQuote = false;
           // we need to close the savedDialog too if it's open.
           if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close(); return; }
         } else if (load) {
