@@ -77,8 +77,16 @@ export class QuantityComponent implements OnInit, OnDestroy {
       const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!qtyId) {
         this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          if (!qtyOrder.is_quantitiy_order) { this.router.navigate([`${this.feature.feature_type}/quantity`, this.feature.id]); }
           console.log(qtyOrder);
+          if (qtyOrder.is_quantitiy_order === false) { this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]); }
+          const tilesObj = JSON.parse(qtyOrder.tiles);
+          const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
+          console.log('rowsToAdd:', rowsToAdd);
+          rowsToAdd.map(row => {
+            const newRow = {[`${row.material}-${row.tile}`]: row };
+            this.doAddRow(newRow);
+          });
+          this.updateSummary();
         })
       }
     })
@@ -133,11 +141,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.addQtyDialogRef.afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
-        if (!!result) { this.addRow(result); }
+        if (!!result) { this.doAddRow(result); }
       })
   }
 
-  addRow(row) {
+  doAddRow(row) {
     console.log(row);
     this.debug.log('quantity', row);
     this.getRowEstimate(row); // sets feature.estimated_amount
@@ -156,16 +164,20 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (!!result) {
-          console.log('edit result:', result);
-          this.getRowEstimate(result); // sets feature.estimated_amount
-          const editRow = result[Object.keys(result)[0]];
-          editRow.total = this.feature.estimated_amount;
-          editRow.tileSqFt = this.getTileSqFt(editRow.tile);
-          this.order.data[index] = editRow;
-          this.order.data = this.order.data.slice(); // refreshes the table
-          this.updateSummary();
+          this.doEditRow(index, result);
         }
       })
+  }
+
+  doEditRow(index, row) {
+    console.log('edit result:', row);
+    this.getRowEstimate(row); // sets feature.estimated_amount
+    const editRow = row[Object.keys(row)[0]];
+    editRow.total = this.feature.estimated_amount;
+    editRow.tileSqFt = this.getTileSqFt(editRow.tile);
+    this.order.data[index] = editRow;
+    this.order.data = this.order.data.slice(); // refreshes the table
+    this.updateSummary();
   }
 
   deleteRow(index, row) {
@@ -234,6 +246,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       }
     })
     this.feature.tiles = tilesArr;
+    console.log(this.feature.tiles);
   }
 
   getTileSqFt(tile) {

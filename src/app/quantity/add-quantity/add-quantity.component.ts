@@ -100,38 +100,15 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   addToOrder() {
-    let selections = {};
     const pkgQty = this.feature.getPackageQty(this.selectedTile);
     const key = `${this.selectedMaterial}-${this.selectedTile}`
-    switch (this.qtySrv.feature_type) {
-      case 'hush':
-        selections = {[key]: {
-          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: this.selectedMaterialImg,
-          used: this.selectedQuantity,
-          material: this.selectedMaterial,
-          tile: this.selectedTile
-        }}
-      break;
-      case 'tetria':
-        selections = {[key]: {
-          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: this.selectedMaterialImg,
-          used: this.selectedQuantity,
-          material: this.selectedMaterial,
-          tile: this.selectedTile
-        }}
-      break;
-      case 'clario':
-        selections = {[key]: {
-          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: this.selectedMaterialImg,
-          used: this.selectedQuantity,
-          material: this.selectedMaterial,
-          tile: this.selectedTile
-        }}
-      break;
-    }
+    const selections = {[key]: {
+      purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
+      image: this.selectedMaterialImg,
+      used: this.selectedQuantity,
+      material: this.selectedMaterial,
+      tile: this.selectedTile
+    }}
     this.dialogRef.close(selections);
   }
 }
