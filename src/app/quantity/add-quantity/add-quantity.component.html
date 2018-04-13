@@ -33,7 +33,7 @@
           <p class="md" *ngIf="(!!selectedQuantity && selectedQuantity > 0)">{{selectedQuantity}} x</p>
         </div>
         <div>
-          <img *ngIf="!!selectedMaterialImg && (selectedMaterialImg.indexOf('undefined') < 0)" src="{{selectedMaterialImg}}" matTooltip="{{selectedMaterial | capitalize}}" class="img-responsive tooltip-host" alt="{{selectedMaterial | capitalize}}" [matTooltipPosition]="position">
+          <img [ngClass]="{'rotate-90': selectedTile === '24'}" *ngIf="!!selectedMaterialImg && (selectedMaterialImg.indexOf('undefined') < 0)" src="{{selectedMaterialImg}}" matTooltip="{{selectedMaterial | capitalize}}" class="img-responsive tooltip-host" alt="{{selectedMaterial | capitalize}}" [matTooltipPosition]="position">
         </div>
       </div>
     </div>

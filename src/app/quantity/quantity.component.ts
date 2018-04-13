@@ -77,16 +77,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
       const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!qtyId) {
         this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          console.log(qtyOrder);
-          if (qtyOrder.is_quantitiy_order === false) { this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]); }
+          console.log('qtyOrder:', qtyOrder);
+          if (!qtyOrder.is_quantity_order) {
+            this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
+          }
+          if (qtyOrder.feature_type !== this.feature_type) {
+            this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
+          }
+          // this.feature.id = qtyOrder.id;
+          // this.feature.design_name = qtyOrder.design_name;
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
-          console.log('rowsToAdd:', rowsToAdd);
           rowsToAdd.map(row => {
             const newRow = {[`${row.material}-${row.tile}`]: row };
             this.doAddRow(newRow);
           });
-          this.updateSummary();
         })
       }
     })
@@ -146,7 +151,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   doAddRow(row) {
-    console.log(row);
     this.debug.log('quantity', row);
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
@@ -198,8 +202,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
   getRowEstimate(row) {
     switch (this.qtySrv.feature_type) {
       case 'hush': this.feature.getHushEstimate(row); break;
-      case 'tetria': this.feature.getTetriaEstimate(row); break; // TODO FIX THIS
-      case 'clario': this.feature.getClarioEstimate(row); break; // TODO FIX THIS
+      case 'tetria': this.feature.getTetriaEstimate(row); break;
+      case 'clario': this.feature.getClarioEstimate(row); break;
     }
   }
 
@@ -245,8 +249,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
         tilesArr[objectKey].used += newObj.used;
       }
     })
+    this.getRowEstimate(tilesArr); // updates feature.ts with the totals
     this.feature.tiles = tilesArr;
-    console.log(this.feature.tiles);
   }
 
   getTileSqFt(tile) {

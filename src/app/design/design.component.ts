@@ -74,13 +74,11 @@ export class DesignComponent implements OnInit, OnDestroy {
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!designId) { // if designId is truthy
         this.api.loadDesign(designId).subscribe(design => {
-          if (design == null) {
+          if (design == null) { // design not found redirect to the design url
             this.debug.log('design-component', 'design not found');
-            // design not found redirect to the design url
             this.router.navigate([params['type'], 'design']);
-          } else {
-            // design was found so load it.
-            if (design.is_quantitiy_order === true) { this.router.navigate([`${design.feature_type}/design`, design.id]); }
+          } else { // design was found so load it.
+            if (design.is_quantity_order) { this.router.navigate([`${design.feature_type}/quantity`, design.id]); }
             if (design.feature_type === params['type']) {
               design.feature_type = (design.feature_type === 'hush-blocks') ? 'hush' : design.feature_type;
               this.debug.log('design-component', 'setting the design.');

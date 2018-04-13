@@ -58,13 +58,13 @@
               <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
               <ng-container *ngIf="feature_type !== 'hush'">
                 <mat-cell *matCellDef="let element" class="material-column">
-                    <img src="{{element.image}}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
-                    {{element.material | capitalize}}-{{element.tile}}
+                  <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+                  {{element.material | capitalize}}-{{element.tile}}
                 </mat-cell>
               </ng-container>
               <ng-container *ngIf="feature_type === 'hush'">
                 <mat-cell *matCellDef="let element" class="material-column">
-                  <img src="{{element.image}}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+                  <img src="{{element.image}}" class="img-responsive table-img rotate-90" alt="{{element.material.name_str | capitalize}}">
                   {{element.material | capitalize}}
                 </mat-cell>
               </ng-container>
@@ -111,9 +111,10 @@
         <span class="tiles-needed">SqFt:</span>
         <input [(ngModel)]="sqFootage" (keyup)="calcSqFootage()" placeholder="Sq Footage" type="number">
       </div>
-      <div *ngIf="!!sqFootage" class="">
+      <div *ngIf="!!sqFootage" class="sq-footage-results">
         <p><strong>{{tilesNeeded}}</strong> tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
-        <p><strong>{{tilesUsed}} / {{tilesNeeded}}</strong> are selected.</p>
+        <p><strong>{{tilesUsed}} / {{tilesNeeded}}</strong> are selected.<sup *ngIf="feature_type === 'clario'">*</sup></p>
+        <p *ngIf="feature_type === 'clario'"><sup>*</sup>24x48 baffles count as 2.</p>
       </div>
     </div>
     <div class="filler"></div>
