@@ -9,7 +9,7 @@
         <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD'}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
       </div>
       <div class="">
-        <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((order.data.length === 0) || !orderName)" (click)="requestQuote()">Request Quote</button>
+        <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((order.data.length === 0) || !feature.design_name)" (click)="requestQuote()">Request Quote</button>
         <button *ngIf="feature.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
       </div>
     </div>
@@ -107,7 +107,7 @@
       <h3>Estimator</h3>
       <p class="">Enter square footage to calculate how many tiles are needed.</p>
       <div class="sqFt-row">
-        <span class="tiles-needed">SqFt:</span>
+        <span class="sqFt-label">SqFt:</span>
         <input [(ngModel)]="sqFootage" (keyup)="calcSqFootage()" placeholder="Sq Footage" type="number">
       </div>
       <div *ngIf="!!sqFootage" class="sq-footage-results">

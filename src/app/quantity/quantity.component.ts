@@ -1,3 +1,4 @@
+import { QuoteDialogComponent } from './../quote-dialog/quote-dialog.component';
 import { LoadDesignComponent } from './../load-design/load-design.component';
 import { LoginComponent } from './../login/login.component';
 import { SaveDesignComponent } from './../save-design/save-design.component';
@@ -35,6 +36,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   saveQtyDialogRef: MatDialogRef<any>;
   loadQtyDialogRef: MatDialogRef<any>;
   loginDialogRef: MatDialogRef<any>;
+  quoteDialogRef: MatDialogRef<any>;
   sqFootage: number;
   tilesNeeded: number;
   estimatedPrice = 0;
@@ -287,6 +289,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       return;
     }
     console.log('Request Quote Invoked');
+    this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, new MatDialogConfig);
   }
 
   viewDetails() {
