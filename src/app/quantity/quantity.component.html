@@ -23,8 +23,7 @@
     <div class="table-parent col-sm-12">
       <div class="table-header col-sm-12">
         <span class="order-name">
-          <span>Design Name</span>
-          <input [(ngModel)]="feature.design_name" required placeholder="Name" type="text">
+          <input [(ngModel)]="feature.design_name" required placeholder="Design Name" type="text">
         </span>
         <span class="save-load">
             <a id="save-btn" title="save design" (click)="saveQuantity()"><span class="icomoon-folder orange"></span>
@@ -114,7 +113,7 @@
       <div *ngIf="!!sqFootage" class="sq-footage-results">
         <p><strong>{{tilesNeeded}}</strong> tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
         <p><strong>{{tilesSelected}} / {{tilesNeeded}}</strong> are selected.<sup *ngIf="feature_type === 'clario'">*</sup></p>
-        <p *ngIf="feature_type === 'clario'"><sup>*</sup>24x48 baffles count as 2.</p>
+        <p *ngIf="feature_type === 'clario'"><sup>*</sup>24x48 baffles count as 2 tiles.</p>
       </div>
     </div>
     <div class="filler"></div>

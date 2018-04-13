@@ -31,7 +31,6 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.getFeatureMaterials();
     this.featureTiles = this.feature.tilesArray[this.qtySrv.feature_type];
-    console.log('featureTiles:', this.featureTiles);
   }
 
   ngAfterContentInit() {

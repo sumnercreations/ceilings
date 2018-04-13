@@ -146,17 +146,42 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.addQtyDialogRef = this.dialog.open(AddQuantityComponent);
     this.addQtyDialogRef.afterClosed()
       .takeUntil(this.ngUnsubscribe)
-      .subscribe(result => {
-        if (!!result) { this.doAddRow(result); }
+      .subscribe(requestedRow => {
+        if (!!requestedRow) {
+          let isMultiple = false;
+          const res = requestedRow[Object.keys(requestedRow)[0]];
+          this.order.data.map(row => {
+            if (row.image === res.image) {
+              isMultiple = true;
+              this.combineRows(requestedRow, row);
+            }
+          })
+          if (!isMultiple) { this.doAddRow(requestedRow); }
+        }
       })
   }
 
-  doAddRow(row) {
-    this.debug.log('quantity', row);
+  combineRows(requestedRow, matchedRow) {
+    const pkgQty = this.feature.getPackageQty(matchedRow.tile);
+    const requestedRowFmtd = this.setRowData(requestedRow);
+    matchedRow.used += requestedRowFmtd.used;
+    matchedRow.total += requestedRowFmtd.total;
+    matchedRow.purchased = pkgQty * Math.ceil(matchedRow.used / pkgQty);
+    this.updateSummary();
+  }
+
+  setRowData(row) {
+    console.log('setRowData', row);
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
+    return newRow;
+  }
+
+  doAddRow(row) {
+    this.debug.log('quantity', row);
+    const newRow = this.setRowData(row);
     this.order.data.push(newRow);
     this.order.data = this.order.data.slice(); // refreshes the table
     this.updateSummary();
@@ -269,7 +294,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   calcSqFootage() {
-    this.tilesNeeded = this.sqFootage / 4; // TODO: toggle between 2 and 4
+    this.tilesNeeded = this.sqFootage / 4;
   }
 
   public saveQuantity() {
