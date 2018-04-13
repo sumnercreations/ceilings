@@ -78,7 +78,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.debug.log('design-component', 'design not found');
             this.router.navigate([params['type'], 'design']);
           } else { // design was found so load it.
-            if (design.is_quantity_order) { this.router.navigate([`${design.feature_type}/quantity`, design.id]); }
+            if (design.is_quantity_order) { this.router.navigate([`${design.feature_type}/quantity`, design.id]); return; }
             if (design.feature_type === params['type']) {
               design.feature_type = (design.feature_type === 'hush-blocks') ? 'hush' : design.feature_type;
               this.debug.log('design-component', 'setting the design.');

@@ -40,7 +40,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   estimatedPrice = 0;
   tilesUsed = 0;
   tilesReceiving = 0;
-  tilesRemaining: number;
+  tilesSelected: number;
   sqFtUsed = 0;
   sqFtReceiving = 0;
   sqFtPerTile: number;
@@ -84,8 +84,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
           if (qtyOrder.feature_type !== this.feature_type) {
             this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
           }
-          // this.feature.id = qtyOrder.id;
-          // this.feature.design_name = qtyOrder.design_name;
+          this.feature.id = qtyOrder.id;
+          this.feature.uid = qtyOrder.uid;
+          this.feature.design_name = qtyOrder.design_name;
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {
@@ -162,7 +163,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   editRow(index, row) {
-    console.log('edit index/row:', index, row);
     this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: row});
     this.addQtyDialogRef.afterClosed()
       .takeUntil(this.ngUnsubscribe)
@@ -174,7 +174,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   doEditRow(index, row) {
-    console.log('edit result:', row);
     this.getRowEstimate(row); // sets feature.estimated_amount
     const editRow = row[Object.keys(row)[0]];
     editRow.total = this.feature.estimated_amount;
@@ -185,7 +184,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   deleteRow(index, row) {
-    console.log('delete index/row:', index, row);
     const removeRow = {index: index, row: row};
     this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, {data: removeRow});
     this.removeQtyDialogRef.afterClosed()
@@ -227,7 +225,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.tilesUsed = tilesUsed;
     this.sqFtUsed = sqFtUsed;
     this.sqFtReceiving = sqFtReceiving;
-    this.tilesRemaining = (this.tilesUsed - this.tilesNeeded) || null;
+    this.tilesSelected = (sqFtUsed / 4) || null;
     this.updateTilesArr();
   }
 
@@ -275,7 +273,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   public saveQuantity() {
-    // let saveDialog: MatDialog;
     this.saveQtyDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig);
     if (!this.user.isLoggedIn()) {
       this.loginDialog();

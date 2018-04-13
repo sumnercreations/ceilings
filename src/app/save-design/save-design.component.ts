@@ -35,6 +35,7 @@ export class SaveDesignComponent implements OnInit {
   ngOnInit() {
     // if the design already has an ID then it's not new.
     if (this.feature.feature_type === 'seeyond') { this.feature = this.seeyond; }
+    console.log('save feature.id:', this.feature.id);
     this.newDesign = this.feature.id ? false : true;
   }
 
