@@ -7,6 +7,7 @@ import { SeeyondFeature } from 'app/seeyond-feature';
 import { User } from './../_models/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { MaterialsService } from './materials.service';
 
 @Injectable()
 export class SeeyondService {
@@ -18,7 +19,8 @@ export class SeeyondService {
     private http: Http,
     private seeyond: SeeyondFeature,
     private user: User,
-    private debug: DebugService
+    private debug: DebugService,
+    private materials: MaterialsService
   ) {}
 
   getMyFeatures() {
@@ -43,6 +45,7 @@ export class SeeyondService {
     this.debug.log('seeyond', this.seeyond.hardware);
     const hardware = JSON.stringify({hardware: this.seeyond.hardware});
     const profileImg = this.seeyond.seeyondProfileImage();
+    this.replaceOldPartIds();
     this.debug.log('seeyond', hardware);
     const patchData = {
       'id': this.seeyond.id,
@@ -94,6 +97,7 @@ export class SeeyondService {
 
   saveFeature() {
     const profileImg = this.seeyond.seeyondProfileImage();
+    this.replaceOldPartIds();
     const patchData = {
       'uid': this.user.uid,
       'feature_type': this.seeyond.seeyond_feature_index,
@@ -153,6 +157,38 @@ export class SeeyondService {
       .map((res: Response) => res.json())
       .catch(this.handleError)
   }
+
+  private replaceOldPartIds() {
+    const partId = this.seeyond.sheet_part_id;
+    const replacementsArray = this.materials.parts_substitutes;
+    if (!!replacementsArray) {
+      replacementsArray.map(obj => {
+        const today = this.formattedTimeStamp();
+        const todayFmt = new Date(Number(today[0]), Number(today[1]), Number(today[2]));
+        const effectiveArr = (!!obj.effectiveDate) ? obj.effectiveDate.split('-') : [];
+        const effectiveDate = new Date(Number(effectiveArr[0]), Number(effectiveArr[1]), Number(effectiveArr[2]));
+        const isEffective = effectiveDate.getTime() <= todayFmt.getTime();
+        if ((obj.partId === partId) && isEffective) {
+          this.debug.log('feature', `replacing sheet_part_id ${this.seeyond.sheet_part_id} with ${partId}`)
+          this.seeyond.sheet_part_id = obj.replacementPartId
+        }
+      })
+    }
+  }
+
+  formattedTimeStamp() {
+    // returns today in [yyyy, mm, dd];
+    const d = new Date();
+    const year = d.getFullYear();
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day];
+  }
+
 
   private handleError(error: any) {
     const errorJson = error.json();

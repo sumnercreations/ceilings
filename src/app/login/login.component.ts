@@ -32,9 +32,11 @@ export class LoginComponent implements OnInit {
   login() {
     this.loading = true;
     this.api.login(this.email, this.password)
-      .subscribe( res => {
+      .subscribe(res => {
         this.loading = false;
-        this.dialogRef.close();
+        if (res === 'success') {
+          this.dialogRef.close();
+        }
       });
   }
 }

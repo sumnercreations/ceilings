@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MaterialsService {
+  public parts_substitutes: PartsSubs[];
 
   public seeyond_features: any = {
     '0': {
@@ -964,4 +965,10 @@ export class MaterialsService {
     }
   }
   constructor() { }
+}
+
+export interface PartsSubs {
+  'partId': string,
+  'replacementPartId': string,
+  'effectiveDate': string
 }

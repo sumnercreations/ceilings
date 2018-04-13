@@ -17,6 +17,7 @@ export class ApiService {
   apiUrl = 'https://' + environment.API_URL + '/ceilings/';
   loginUrl = 'https://' + environment.API_URL + '/auth/login';
   userUrl = 'https://' + environment.API_URL + '/users/';
+  partSubsUrl = `https://${environment.API_URL}/parts_substitutes`;
 
   constructor(
     private http: Http,
@@ -138,6 +139,13 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  getPartsSubstitutes() {
+    return this.http.get(this.partSubsUrl)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+
   login(email: string, password: string) {
     this.debug.log('api', 'api login');
     const formData = {
@@ -153,10 +161,13 @@ export class ApiService {
           this.user = api.result.user;
           this.onUserLoggedIn.emit(this.user);
           this.debug.log('api', 'user successfully logged in');
-          return api;
-        } else {
-          this.alert.apiAlert(api.result.error);
+          return 'success';
         }
+      })
+      .catch((res) => {
+        const api = res.json();
+        this.alert.error(api.result.message);
+        return 'error';
       });
   }
 

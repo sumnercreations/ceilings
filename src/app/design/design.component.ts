@@ -1,3 +1,4 @@
+import { MaterialsService } from 'app/_services/materials.service';
 import { SeeyondService } from './../_services/seeyond.service';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Location } from '@angular/common';
@@ -40,6 +41,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   FileSaver = FileSaver;
   featureTiles: any;
   materials: any;
+  tryingRequestQuote = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -52,7 +54,8 @@ export class DesignComponent implements OnInit, OnDestroy {
     public seeyond: SeeyondFeature,
     public seeyondService: SeeyondService,
     public alert: AlertService,
-    public location: Location
+    public location: Location,
+    public materialsService: MaterialsService
   ) { }
 
   ngOnInit() {
@@ -240,13 +243,18 @@ export class DesignComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'cancel') {
-        // we need to close the savedDialog too if it's open.
-          if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close() }
-        }else if (load) {
-        // the user should be logged in now, so show the load dialog
-        this.loadDesigns();
-      }
-    });
+          this.tryingRequestQuote = false;
+          // we need to close the savedDialog too if it's open.
+          if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close(); return; }
+        } else if (load) {
+          // the user should be logged in now, so show the load dialog
+          this.loadDesigns();
+        }
+        if (this.tryingRequestQuote) {
+          this.tryingRequestQuote = false;
+          this.requestQuote()
+        }
+      });
   }
 
   viewDetails () {
@@ -290,6 +298,11 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   public requestQuote() {
+    if (!this.user.isLoggedIn()) {
+      this.tryingRequestQuote = true;
+      this.loginDialog();
+      return;
+    }
     // get the grid with guides
     // make sure the guide is set to true
     this.feature.showGuide = true;
@@ -339,30 +352,33 @@ export class DesignComponent implements OnInit, OnDestroy {
   setSeeyondFeature(urlParams) {
     this.seeyondService.getPrices().subscribe(prices => {
       this.seeyond.prices = prices;
-      const params = Object.assign({}, urlParams);
-      const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-      if (!!designId) {   // load requested id
-        this.seeyondService.loadFeature(designId).subscribe(design => {
-          this.location.go(`seeyond/design/${design.name}/${design.id}`);
-          this.seeyond.loadSeeyondDesign(design);
-        });
-      } else {
-        // Set default param to wall if not specified
-        if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
+      this.api.getPartsSubstitutes().subscribe(partsSubs => {
+        this.materialsService.parts_substitutes = partsSubs;
+        const params = Object.assign({}, urlParams);
+        const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+        if (!!designId) {   // load requested id
+          this.seeyondService.loadFeature(designId).subscribe(design => {
+            this.location.go(`seeyond/design/${design.name}/${design.id}`);
+            this.seeyond.loadSeeyondDesign(design);
+          });
+        } else {
+          // Set default param to wall if not specified
+          if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
 
-        // Determine the seeyond feature to load
-        let seeyondFeature;
-        const seeyondFeaturesList = this.seeyond.seeyond_features;
-        Object.keys(seeyondFeaturesList).forEach(key => {
-          if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeaturesList[key]['name']) > -1) {
-            seeyondFeature = seeyondFeaturesList[key]['name'];
-          }
-        })
-        this.materials = this.getFeatureMaterials();
-        this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
-        this.editOptions();
-        this.seeyond.updateSeeyondFeature(seeyondFeature);
-      }
+          // Determine the seeyond feature to load
+          let seeyondFeature;
+          const seeyondFeaturesList = this.seeyond.seeyond_features;
+          Object.keys(seeyondFeaturesList).forEach(key => {
+            if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeaturesList[key]['name']) > -1) {
+              seeyondFeature = seeyondFeaturesList[key]['name'];
+            }
+          })
+          this.materials = this.getFeatureMaterials();
+          this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
+          this.editOptions();
+          this.seeyond.updateSeeyondFeature(seeyondFeature);
+        }
+      });
     });
   }
 }
