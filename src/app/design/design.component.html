@@ -46,11 +46,11 @@
               </mat-button-toggle-group>
             </div>
             <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
-            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
+            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" [disabled]="(!feature.tiles)" (click)="feature.view3d()">3D View</button>
           </div>
           <div *ngIf="feature.feature_type!='velo'" class="col-sm-4">
             <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
-            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" (click)="feature.view3d()">3D View</button>
+            <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" [disabled]="(!feature.tiles)" (click)="feature.view3d()">3D View</button>
           </div>
         </div>
         <div class="row">

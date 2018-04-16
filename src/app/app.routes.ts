@@ -13,6 +13,7 @@ const appRoutes: Routes = [
   { path: '', component: LandingComponent },
   { path: ':type/design', component: DesignComponent },
   { path: ':type/quantity', component: QuantityComponent },
+  { path: ':type/quantity/:param1', component: QuantityComponent },
   { path: ':type/design/:param1', component: DesignComponent },
   { path: ':type/design/:param1/details', component: DetailsComponent },
   { path: ':type/design/:param1/:param2', component: DesignComponent },

@@ -2,9 +2,17 @@
   height: 580px;
 }
 
-/* .quantity-ui :first-child {
-  height: 580px;
-} */
+.header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 30px;
+}
+
+span.sm {
+  font-size: 10px;
+  font-weight: 300;
+}
 
 .separator {
   background-color: #fff;
@@ -37,6 +45,16 @@
   align-items: center;
 }
 
+.button.add-tiles {
+  border: 1px solid #ff8000;
+  color: #ff8000;
+}
+
+.button.add-tiles:hover {
+  background-color: #f93;
+  color: #fff;
+}
+
 .order-name {
   font-size: 18px;
 }
@@ -56,6 +74,14 @@
 .table-img {
   max-height: 50px;
   margin: 3px 0px;
+}
+
+.rotate-90 {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .center-text {
@@ -113,29 +139,23 @@
   min-height: 200px;
 }
 
-.sq-footage input {
-  margin-bottom: 5px;
-
-}
-
 .sqFt-row {
   display: flex;
   flex-direction: row;
-  align-content: center;
+  align-items: center;
   margin-top: 5px;
 }
 
 .sqFt-row input {
-  width: 75px;
+  width: 125px;
 }
 
-.sqFt-row * {
-  flex: 1;
+.sq-footage-results {
+  margin-top: 15px;
 }
 
-.tiles-needed {
-  margin-top: 10px;
-  margin-bottom: 0px;
+.sqFt-label {
+  margin-right: 15px;
 }
 
 .logo {

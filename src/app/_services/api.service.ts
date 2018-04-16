@@ -20,6 +20,7 @@ export class ApiService {
   apiUrl = 'https://' + environment.API_URL + '/ceilings/';
   loginUrl = 'https://' + environment.API_URL + '/auth/login';
   userUrl = 'https://' + environment.API_URL + '/users/';
+  partSubsUrl = `https://${environment.API_URL}/parts_substitutes`;
 
   constructor(
     private http: HttpClient,
@@ -49,6 +50,7 @@ export class ApiService {
     this.debug.log('api', 'updating design');
     // we can't forget about the hardware...
     this.debug.log('api', this.feature.tiles);
+    if (this.feature.is_quantity_order) { this.prepDataForQtyOrder(); }
     const patchData = {
       'id': this.feature.id,
       'uid': this.user.uid,
@@ -69,13 +71,10 @@ export class ApiService {
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
       'archived': this.feature.archived,
-      'quantity': this.feature.quantity
+      'quantity': this.feature.quantity,
+      'is_quantity_order': this.feature.is_quantity_order
     };
 
-    // const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    // const options = new RequestOptions({headers: headers});
-
-    // return this.http.patch(this.apiUrl + this.feature.id, patchData, options)
     return this.http.patch(this.apiUrl + this.feature.id, patchData)
       .map((res) => {
         this.onSaved.emit();
@@ -88,6 +87,7 @@ export class ApiService {
   saveDesign() {
     this.debug.log('api', 'saving design');
     const featureType = this.feature.setFeatureType(this.feature.feature_type);
+    if (this.feature.is_quantity_order) { this.prepDataForQtyOrder(); }
     const patchData = {
       'uid': this.user.uid,
       'feature_type': featureType,
@@ -107,16 +107,26 @@ export class ApiService {
       'grid_data': JSON.stringify(this.feature.gridData),
       'quoted': this.feature.quoted,
       'archived': this.feature.archived,
-      'quantity': this.feature.quantity
+      'quantity': this.feature.quantity,
+      'is_quantity_order': this.feature.is_quantity_order
     }
 
     return this.http.post(this.apiUrl, patchData)
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('api', 'emitting onSaved in saveDesign');
-        return res.json() || {}
+        return res || {}
       })
       .catch(this.handleError);
+  }
+
+  prepDataForQtyOrder() {
+    this.feature.width = 0;
+    this.feature.length = 0;
+    const tiles = this.feature.tiles;
+    // console.log('tiles:', tiles);
+    const lastTile = tiles[Object.keys(tiles)[Object.keys(tiles).length - 1]];
+    this.feature.material = lastTile.material
   }
 
   deleteDesign(id: number) {
@@ -129,7 +139,13 @@ export class ApiService {
 
   getPrices() {
     return this.http.get(this.apiUrl + 'prices')
-      .map((res: Response) => res.json())
+      .map((res: Response) => res)
+      .catch(this.handleError);
+  }
+
+  getPartsSubstitutes() {
+    return this.http.get(this.partSubsUrl)
+      .map((res: Response) => res)
       .catch(this.handleError);
   }
 
@@ -160,15 +176,15 @@ export class ApiService {
   }
 
   public handleError(error: HttpErrorResponse) {
+    if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
+      this.debug.log('api', `An error occurred: ${error.error}`);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+      this.debug.log('api',
+        `Backend returned code ${error.status}, body was: ${error.message}`);
     }
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(
@@ -176,3 +192,5 @@ export class ApiService {
   };
 
 }
+
+// export interface

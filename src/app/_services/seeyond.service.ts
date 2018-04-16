@@ -1,3 +1,8 @@
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AlertService } from './alert.service';
+import { ApiService } from './api.service';
+import { MaterialsService } from './materials.service';
 import { DebugService } from './debug.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -18,7 +23,10 @@ export class SeeyondService {
     private http: Http,
     private seeyond: SeeyondFeature,
     private user: User,
-    private debug: DebugService
+    private debug: DebugService,
+    private materials: MaterialsService,
+    private api: ApiService,
+    private alert: AlertService
   ) {}
 
   getMyFeatures() {
@@ -43,6 +51,7 @@ export class SeeyondService {
     this.debug.log('seeyond', this.seeyond.hardware);
     const hardware = JSON.stringify({hardware: this.seeyond.hardware});
     const profileImg = this.seeyond.seeyondProfileImage();
+    this.replaceOldPartIds();
     this.debug.log('seeyond', hardware);
     const patchData = {
       'id': this.seeyond.id,
@@ -87,13 +96,14 @@ export class SeeyondService {
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('seeyond', 'emitting onSaved');
-        return res.json() || {}
+        return res.json() || {};
       })
       .catch(this.handleError);
   }
 
   saveFeature() {
     const profileImg = this.seeyond.seeyondProfileImage();
+    this.replaceOldPartIds();
     const patchData = {
       'uid': this.user.uid,
       'feature_type': this.seeyond.seeyond_feature_index,
@@ -154,14 +164,52 @@ export class SeeyondService {
       .catch(this.handleError)
   }
 
-  private handleError(error: any) {
-    const errorJson = error.json();
-    if (errorJson) {
-      return Observable.throw(errorJson.message || 'Server Error');
+  private replaceOldPartIds() {
+    const partId = this.seeyond.sheet_part_id;
+    const replacementsArray = this.materials.parts_substitutes;
+    if (!!replacementsArray) {
+      replacementsArray.map(obj => {
+        const today = this.formattedTimeStamp();
+        const todayFmt = new Date(Number(today[0]), Number(today[1]), Number(today[2]));
+        const effectiveArr = (!!obj.effectiveDate) ? obj.effectiveDate.split('-') : [];
+        const effectiveDate = new Date(Number(effectiveArr[0]), Number(effectiveArr[1]), Number(effectiveArr[2]));
+        const isEffective = effectiveDate.getTime() <= todayFmt.getTime();
+        if ((obj.partId === partId) && isEffective) {
+          this.debug.log('seeyond', `replacing sheet_part_id ${this.seeyond.sheet_part_id} with ${partId}`)
+          this.seeyond.sheet_part_id = obj.replacementPartId
+        }
+      })
     }
-
-    return Observable.throw('Unknown Error');
   }
 
+  formattedTimeStamp() {
+    const d = new Date();
+    const year = d.getFullYear();
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day];
+  }
+
+  handleError(error: any) {
+    const errorBody = error.json();
+    if (!!errorBody.error) { this.alert.error(errorBody.message); }
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      this.debug.log('seeyond', `An error occurred`);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      this.debug.log('seeyond',
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.message}`);
+    }
+    // return an ErrorObservable with a user-facing error message
+    return new ErrorObservable(
+      'Something bad happened; please try again later.');
+  };
 
 }

@@ -1,3 +1,4 @@
+import { DebugService } from './../../_services/debug.service';
 import { Feature } from './../../feature';
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { QuantityService } from './../quantity.service';
@@ -25,13 +26,13 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     public dialogRef: MatDialogRef<AddQuantityComponent>,
     public materialsService: MaterialsService,
     public qtySrv: QuantityService,
-    public feature: Feature
+    public feature: Feature,
+    public debug: DebugService
   ) { }
 
   ngOnInit() {
     this.getFeatureMaterials();
     this.featureTiles = this.feature.tilesArray[this.qtySrv.feature_type];
-    console.log('featureTiles:', this.featureTiles);
   }
 
   ngAfterContentInit() {
@@ -39,12 +40,11 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   loadRowForEdit() {
+    this.debug.log('quantity', this.inputRow);
     this.isEditing = true;
-    console.log('editing row:', this.inputRow);
     this.updateSelectedMaterial(this.inputRow.material);
     this.quantityDidChange(this.inputRow.used);
     this.updateSelectedTile(this.inputRow.tile);
-    console.log(this.selectedMaterial, this.selectedQuantity);
   }
 
   getFeatureMaterials() {
@@ -75,7 +75,6 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   updateSelectedTile(tile) {
     this.selectedTile = tile;
-    console.log('selectedTile:', this.selectedTile);
     this.updateMaterialImg();
   }
 
@@ -100,38 +99,15 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   addToOrder() {
-    let selections = {};
     const pkgQty = this.feature.getPackageQty(this.selectedTile);
     const key = `${this.selectedMaterial}-${this.selectedTile}`
-    switch (this.qtySrv.feature_type) {
-      case 'hush':
-        selections = {[key]: {
-          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: this.selectedMaterialImg,
-          used: this.selectedQuantity,
-          material: this.selectedMaterial,
-          tile: this.selectedTile
-        }}
-      break;
-      case 'tetria':
-        selections = {[key]: {
-          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: this.selectedMaterialImg,
-          used: this.selectedQuantity,
-          material: this.selectedMaterial,
-          tile: this.selectedTile
-        }}
-      break;
-      case 'clario':
-        selections = {[key]: {
-          purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-          image: this.selectedMaterialImg,
-          used: this.selectedQuantity,
-          material: this.selectedMaterial,
-          tile: this.selectedTile
-        }}
-      break;
-    }
+    const selections = {[key]: {
+      purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
+      image: this.selectedMaterialImg,
+      used: this.selectedQuantity,
+      material: this.selectedMaterial,
+      tile: this.selectedTile
+    }}
     this.dialogRef.close(selections);
   }
 }

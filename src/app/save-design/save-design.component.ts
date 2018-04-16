@@ -18,6 +18,7 @@ import { SeeyondService } from '../_services/seeyond.service';
 export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;
   public newButton = false;
+  private uiType = this.feature.is_quantity_order ? '/quantity' : '/design';
 
   constructor(
     private router: Router,
@@ -34,6 +35,7 @@ export class SaveDesignComponent implements OnInit {
   ngOnInit() {
     // if the design already has an ID then it's not new.
     if (this.feature.feature_type === 'seeyond') { this.feature = this.seeyond; }
+    // console.log(`save feature.id:${this.feature.id}`);
     this.newDesign = this.feature.id ? false : true;
   }
 
@@ -62,7 +64,7 @@ export class SaveDesignComponent implements OnInit {
         // navigate if the current path isn't already right
         const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
         if (url !== this.router.url) {
-          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+          this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
         }
       });
     }
@@ -77,7 +79,7 @@ export class SaveDesignComponent implements OnInit {
       // set the feature to what was returned from the API.
       this.feature = feature.ceiling;
       // redirect to the new design
-      this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+      this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
     });
   }
 
@@ -88,9 +90,8 @@ export class SaveDesignComponent implements OnInit {
       this.seeyondApi.updateFeature().subscribe(feature => {
         // notify the user that we saved their design
         this.alert.success('Successfully saved your design');
-        // set the feature up according to what is returned from the API after save.
-        this.seeyond = feature.seeyond;
-        this.location.go(`seeyond/design/${this.seeyond.name}/${this.seeyond.id}`);
+        // redirect to the new design
+        this.location.go(`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`);
       });
     }
   }
@@ -103,8 +104,6 @@ export class SaveDesignComponent implements OnInit {
     this.seeyondApi.saveFeature().subscribe(feature => {
       // notify the user that we saved their design
       this.alert.success('Successfully saved your design');
-      // set the feature up according to what is returned from the API after save.
-      // this.seeyond = feature.seeyond;
       // redirect to the new design
       this.router.navigate(['/seeyond/design', feature.seeyond.id]);
     });

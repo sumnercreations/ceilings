@@ -34,6 +34,9 @@ export class Feature {
   public archived = false; // boolean
   public updated_at: string;
   public quantity = 1;
+  public is_quantity_order = false;
+  public qtyTilesUsed = 0;
+  public qtyTilesReceiving = 0;
 
   // attributes for the tool
   public tile_type = 'tile';
