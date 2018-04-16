@@ -25,7 +25,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private feature: Feature,
-    public user: User,
+    private user: User,
     private debug: DebugService,
     private alert: AlertService
   ) { }
@@ -74,10 +74,6 @@ export class ApiService {
       'quantity': this.feature.quantity,
       'is_quantity_order': this.feature.is_quantity_order
     };
-
-    console.log('patchData:', patchData);
-    if (patchData.is_quantity_order) { patchData.width = 0; patchData.length = 0; }
-    console.log('patchData:', patchData);
 
     return this.http.patch(this.apiUrl + this.feature.id, patchData)
       .map((res) => {
@@ -128,6 +124,7 @@ export class ApiService {
     this.feature.width = 0;
     this.feature.length = 0;
     const tiles = this.feature.tiles;
+    // console.log('tiles:', tiles);
     const lastTile = tiles[Object.keys(tiles)[Object.keys(tiles).length - 1]];
     this.feature.material = lastTile.material
   }
@@ -182,13 +179,12 @@ export class ApiService {
     if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
+      this.debug.log('api', `An error occurred: ${error.error}`);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.message}`);
+      this.debug.log('api',
+        `Backend returned code ${error.status}, body was: ${error.message}`);
     }
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(
@@ -196,3 +192,5 @@ export class ApiService {
   };
 
 }
+
+// export interface

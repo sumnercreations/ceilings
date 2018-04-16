@@ -174,12 +174,8 @@ export class SeeyondService {
         const effectiveArr = (!!obj.effectiveDate) ? obj.effectiveDate.split('-') : [];
         const effectiveDate = new Date(Number(effectiveArr[0]), Number(effectiveArr[1]), Number(effectiveArr[2]));
         const isEffective = effectiveDate.getTime() <= todayFmt.getTime();
-        if (obj.partId === partId) {
-          console.log(todayFmt, effectiveArr);
-          console.log(todayFmt.getTime(), effectiveDate.getTime(), obj.effectiveDate, isEffective);
-        }
         if ((obj.partId === partId) && isEffective) {
-          console.log(`replacing sheet_part_id ${this.seeyond.sheet_part_id} with ${partId}`)
+          this.debug.log('seeyond', `replacing sheet_part_id ${this.seeyond.sheet_part_id} with ${partId}`)
           this.seeyond.sheet_part_id = obj.replacementPartId
         }
       })
@@ -203,11 +199,11 @@ export class SeeyondService {
     if (!!errorBody.error) { this.alert.error(errorBody.message); }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error);
+      this.debug.log('seeyond', `An error occurred`);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(
+      this.debug.log('seeyond',
         `Backend returned code ${error.status}, ` +
         `body was: ${error.message}`);
     }

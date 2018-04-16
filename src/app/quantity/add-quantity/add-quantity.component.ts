@@ -1,3 +1,4 @@
+import { DebugService } from './../../_services/debug.service';
 import { Feature } from './../../feature';
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { QuantityService } from './../quantity.service';
@@ -25,7 +26,8 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     public dialogRef: MatDialogRef<AddQuantityComponent>,
     public materialsService: MaterialsService,
     public qtySrv: QuantityService,
-    public feature: Feature
+    public feature: Feature,
+    public debug: DebugService
   ) { }
 
   ngOnInit() {
@@ -38,12 +40,11 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   loadRowForEdit() {
+    this.debug.log('quantity', this.inputRow);
     this.isEditing = true;
-    console.log('editing row:', this.inputRow);
     this.updateSelectedMaterial(this.inputRow.material);
     this.quantityDidChange(this.inputRow.used);
     this.updateSelectedTile(this.inputRow.tile);
-    console.log(this.selectedMaterial, this.selectedQuantity);
   }
 
   getFeatureMaterials() {
@@ -74,7 +75,6 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   updateSelectedTile(tile) {
     this.selectedTile = tile;
-    console.log('selectedTile:', this.selectedTile);
     this.updateMaterialImg();
   }
 

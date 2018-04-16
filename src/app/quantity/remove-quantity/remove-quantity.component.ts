@@ -13,9 +13,7 @@ export class RemoveQuantityComponent implements OnInit {
     private dialogRef: MatDialogRef<RemoveQuantityComponent>,
   ) { }
 
-  ngOnInit() {
-    console.log(this.selection);
-  }
+  ngOnInit() {}
 
   cancel() {
     this.dialogRef.close();

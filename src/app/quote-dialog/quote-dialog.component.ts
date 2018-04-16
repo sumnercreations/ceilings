@@ -102,7 +102,7 @@ export class QuoteDialogComponent implements OnInit {
         // set the feature to what was returned.
         this.seeyond.id = feature.seeyond.id;
         this.seeyondApi.sendEmail().subscribe(response => {
-          console.log(response);
+          this.debug.log('quote-dialog', response);
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');

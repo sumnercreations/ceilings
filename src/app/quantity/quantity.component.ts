@@ -77,7 +77,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!qtyId) {
         this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          console.log('qtyOrder:', qtyOrder);
+          this.debug.log('quantity', `qtyOrder`);
           if (!qtyOrder.is_quantity_order) {
             this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
           }
@@ -87,6 +87,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.feature.id = qtyOrder.id;
           this.feature.uid = qtyOrder.uid;
           this.feature.design_name = qtyOrder.design_name;
+          this.feature.tiles = qtyOrder.tiles;
+          this.feature.material = qtyOrder.material;
+          this.feature.quoted = qtyOrder.quoted;
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {
@@ -102,13 +105,12 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.feature.is_quantity_order = true;
 
     this.api.onUserLoggedIn
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(data => {
-        const user = this.api.user;
-        this.user.uid = user.uid;
-        this.user.email = user.email;
-        this.user.firstname = user.firstname;
-        this.user.lastname = user.lastname;
+      // .takeUntil(this.ngUnsubscribe)
+      .subscribe(apiUser => {
+        this.user.uid = apiUser.uid;
+        this.user.email = apiUser.email;
+        this.user.firstname = apiUser.firstname;
+        this.user.lastname = apiUser.lastname;
       });
   }
 
@@ -169,7 +171,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   setRowData(row) {
-    console.log('setRowData', row);
+    this.debug.log('quantity', row);
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
     newRow.total = this.feature.estimated_amount;
@@ -286,7 +288,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
       this.loginDialog();
       return;
     }
-    console.log('Request Quote Invoked');
     this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, new MatDialogConfig);
   }
 
