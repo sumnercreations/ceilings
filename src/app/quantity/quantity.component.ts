@@ -101,7 +101,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
     this.feature.tile_size = 48; // for quantity messaging
-    this.feature.is_quantitiy_order = true;
+    this.feature.is_quantity_order = true;
 
     this.api.onUserLoggedIn
       .takeUntil(this.ngUnsubscribe)
@@ -140,10 +140,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.router.navigate([this.feature.feature_type, 'design']);
   }
 
-  print() {
-    window.print();
-  }
-
   addToOrder() {
     this.addQtyDialogRef = this.dialog.open(AddQuantityComponent);
     this.addQtyDialogRef.afterClosed()
@@ -153,7 +149,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
           let isMultiple = false;
           const res = requestedRow[Object.keys(requestedRow)[0]];
           this.order.data.map(row => {
-            if (row.image === res.image) {
+            const rowStr = JSON.stringify(row);
+            const newRow: TileRow = JSON.parse(rowStr);
+            if (newRow.image === res.image) {
               isMultiple = true;
               this.combineRows(requestedRow, row);
             }
@@ -260,12 +258,14 @@ export class QuantityComponent implements OnInit, OnDestroy {
     const data = this.order.data;
     const tilesArr = {};
     data.map(row => {
+      const rowStr = JSON.stringify(row);
+      const newRow: TileRow = JSON.parse(rowStr);
       const newObj = <TileRow>{};
-      newObj.purchased = row.purchased;
-      newObj.image = row.image;
-      newObj.used = row.used;
-      newObj.material = row.material;
-      newObj.tile = row.tile;
+      newObj.purchased = newRow.purchased;
+      newObj.image = newRow.image;
+      newObj.used = newRow.used;
+      newObj.material = newRow.material;
+      newObj.tile = newRow.tile;
       const objectKey = `${newObj.material}-${newObj.tile}`;
       if (!tilesArr[objectKey]) {
         tilesArr[objectKey] = newObj;

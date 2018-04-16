@@ -18,7 +18,7 @@ import { SeeyondService } from '../_services/seeyond.service';
 export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;
   public newButton = false;
-  private uiType = this.feature.is_quantitiy_order ? '/quantity' : '/design';
+  private uiType = this.feature.is_quantity_order ? '/quantity' : '/design';
 
   constructor(
     private router: Router,

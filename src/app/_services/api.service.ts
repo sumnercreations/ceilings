@@ -50,7 +50,7 @@ export class ApiService {
     this.debug.log('api', 'updating design');
     // we can't forget about the hardware...
     this.debug.log('api', this.feature.tiles);
-    if (this.feature.is_quantitiy_order) { this.prepDataForQtyOrder(); }
+    if (this.feature.is_quantity_order) { this.prepDataForQtyOrder(); }
     const patchData = {
       'id': this.feature.id,
       'uid': this.user.uid,
@@ -72,7 +72,7 @@ export class ApiService {
       'quoted': this.feature.quoted,
       'archived': this.feature.archived,
       'quantity': this.feature.quantity,
-      'is_quantity_order': this.feature.is_quantitiy_order
+      'is_quantity_order': this.feature.is_quantity_order
     };
 
     console.log('patchData:', patchData);
@@ -91,7 +91,7 @@ export class ApiService {
   saveDesign() {
     this.debug.log('api', 'saving design');
     const featureType = this.feature.setFeatureType(this.feature.feature_type);
-    if (this.feature.is_quantitiy_order) { this.prepDataForQtyOrder(); }
+    if (this.feature.is_quantity_order) { this.prepDataForQtyOrder(); }
     const patchData = {
       'uid': this.user.uid,
       'feature_type': featureType,
@@ -112,7 +112,7 @@ export class ApiService {
       'quoted': this.feature.quoted,
       'archived': this.feature.archived,
       'quantity': this.feature.quantity,
-      'is_quantity_order': this.feature.is_quantitiy_order
+      'is_quantity_order': this.feature.is_quantity_order
     }
 
     return this.http.post(this.apiUrl, patchData)

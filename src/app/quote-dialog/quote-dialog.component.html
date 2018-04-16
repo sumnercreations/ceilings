@@ -92,8 +92,9 @@
         <button mat-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
-      <app-tile-usage *ngIf="feature.feature_type !=='velo' && feature.feature_type !=='seeyond'"></app-tile-usage>
-      <!--VELO-->
-      <app-velo-tile-usage *ngIf="feature.feature_type === 'velo' && feature.feature_type !=='seeyond'"></app-velo-tile-usage>
+    <ng-container *ngIf="feature.feature_type !=='seeyond' && !feature.is_quantity_order">
+      <app-tile-usage *ngIf="feature.feature_type !=='velo'"></app-tile-usage>
+      <app-velo-tile-usage *ngIf="feature.feature_type === 'velo'"></app-velo-tile-usage>
+    </ng-container>
   </div>
 </div>
