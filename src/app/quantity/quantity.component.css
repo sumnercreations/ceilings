@@ -59,6 +59,10 @@ span.sm {
   font-size: 18px;
 }
 
+.order-name input {
+  width: 250px;
+}
+
 .mat-header-row {
   position: sticky;
   top: 0;
