@@ -4,7 +4,10 @@
 </div>
 
 <div *ngIf="user.uid">
-  <p class="text-center md" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</p>
+  <ng-container *ngIf="!feature.quoted">
+    <p class="text-center md" *ngIf="!feature.is_quantity_order">Confirm Your Design</p>
+    <p class="text-center md" *ngIf="feature.is_quantity_order">Confirm Your Quantity Order</p>
+  </ng-container>
   <h2 mat-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
   <div mat-dialog-content>
     <dl class="dl-horizontal"  *ngIf="feature.feature_type !== 'seeyond'">
@@ -49,7 +52,7 @@
       <dt *ngIf="seeyond.quoted">Specifier</dt>
       <dd *ngIf="seeyond.quoted">{{seeyond.specifier}}</dd>
     </dl>
-    <div class="row multiples-section">
+    <div class="row multiples-section" *ngIf="!feature.is_quantity_order">
       <p class="multiples md">Order Multiples of Your Design</p>
       <div class="multiples">
         <div class="multiples-row">
