@@ -40,8 +40,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   sqFootage: number;
   tilesNeeded: number;
   estimatedPrice = 0;
-  tilesUsed = 0;
-  tilesReceiving = 0;
   tilesSelected: number;
   sqFtUsed = 0;
   sqFtReceiving = 0;
@@ -246,8 +244,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
       sqFtReceiving  += (row.purchased * row.tileSqFt);
     });
     this.estimatedPrice = estTotal;
-    this.tilesReceiving = tilesReceiving;
-    this.tilesUsed = tilesUsed;
+    this.feature.qtyTilesReceiving = tilesReceiving;
+    this.feature.qtyTilesUsed = tilesUsed;
     this.sqFtUsed = sqFtUsed;
     this.sqFtReceiving = sqFtReceiving;
     this.tilesSelected = (sqFtUsed / 4) || null;

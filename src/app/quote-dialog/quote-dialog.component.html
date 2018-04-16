@@ -13,10 +13,18 @@
     <dl class="dl-horizontal"  *ngIf="feature.feature_type !== 'seeyond'">
       <dt>Feature</dt>
       <dd>{{feature.feature_type | capitalize}}</dd>
-      <dt>Width</dt>
-      <dd>{{feature.width}}{{units}}</dd>
-      <dt>Length</dt>
-      <dd>{{feature.length}}{{units}}</dd>
+      <ng-container *ngIf="!feature.is_quantity_order">
+        <dt>Width</dt>
+        <dd>{{feature.width}}{{units}}</dd>
+        <dt>Length</dt>
+        <dd>{{feature.length}}{{units}}</dd>
+      </ng-container>
+      <ng-container *ngIf="feature.is_quantity_order">
+        <dt>Tiles Used</dt>
+        <dd>{{feature.qtyTilesUsed}}</dd>
+        <dt>Tiles Receiving</dt>
+        <dd>{{feature.qtyTilesReceiving}}</dd>
+      </ng-container>
       <dt>Estimated Amount</dt>
       <dd>{{feature.estimated_amount | currency:'USD'}} USD</dd>
       <dt *ngIf="feature.quoted">Project Name</dt>
