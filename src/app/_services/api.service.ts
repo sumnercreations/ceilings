@@ -123,10 +123,6 @@ export class ApiService {
   prepDataForQtyOrder() {
     this.feature.width = 0;
     this.feature.length = 0;
-    const tiles = this.feature.tiles;
-    // console.log('tiles:', tiles);
-    const lastTile = tiles[Object.keys(tiles)[Object.keys(tiles).length - 1]];
-    this.feature.material = lastTile.material
   }
 
   deleteDesign(id: number) {
