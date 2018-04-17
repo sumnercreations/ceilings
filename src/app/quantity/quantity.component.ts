@@ -174,6 +174,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.debug.log('quantity', row);
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
+    this.feature.material = newRow.material;
+    this.feature.tile_size = (newRow.tile === '48') ? 48 : 24;
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
     return newRow;
@@ -274,8 +276,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
         tilesArr[objectKey].used += newObj.used;
       }
     })
+
     this.getRowEstimate(tilesArr); // updates feature.ts with the totals
     this.feature.tiles = tilesArr;
+
   }
 
   getTileSqFt(tile) {
