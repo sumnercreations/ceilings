@@ -22,7 +22,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   params: any;
   selectedFeature: any;
   dimensionsString: string;
-  patternRelief = 'both';
+  patternRelief: string;
   patternReliefOptions = ['both', 'front', 'back'];
 
   ngOnInit() {
@@ -30,6 +30,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.dimensionsString = this.seeyond.getDimensionString();
+        this.patternRelief = this.getPatternReliefString();
       });
   }
 
@@ -128,5 +129,19 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
 
     // update the visualization
     this.seeyond.reloadVisualization();
+  }
+
+  private getPatternReliefString() {
+    if (this.seeyond.front_relief === true && this.seeyond.back_relief === true) {
+      return 'both';
+    }
+
+    if (this.seeyond.front_relief === true && this.seeyond.back_relief === false) {
+      return 'front';
+    }
+
+    if (this.seeyond.front_relief === false && this.seeyond.back_relief === true) {
+      return 'back';
+    }
   }
 }
