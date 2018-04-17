@@ -174,3 +174,7 @@ span.sm {
   text-align: right;
   margin: 3px 30px 0 0;
 }
+
+input.form-control.square.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
