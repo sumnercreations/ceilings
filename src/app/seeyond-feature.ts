@@ -30,7 +30,7 @@ export class SeeyondFeature extends Feature {
   public boxes: number;
   public sheets: number;
   public cove_lighting = false;
-  public front_relief = false;
+  public front_relief = true;
   public back_relief = false;
   public random_seed: number;
   public boxsize = 16; // baked in number right now.
@@ -60,13 +60,26 @@ export class SeeyondFeature extends Feature {
           this.seeyond_feature_index = 0;
           this.front_relief = this.back_relief = true;
         break;
-        case 'curved-partition': this.seeyond_feature_index = 1; break;
-        case 'wall': this.seeyond_feature_index = 2; break;
-        case 'wall-to-ceiling': this.seeyond_feature_index = 3; break;
-        case 'ceiling': this.seeyond_feature_index = 4; break;
+        case 'curved-partition':
+          this.seeyond_feature_index = 1;
+          this.front_relief = this.back_relief = true;
+        break;
+        case 'wall':
+          this.seeyond_feature_index = 2;
+          this.front_relief = true;
+        break;
+        case 'wall-to-ceiling':
+          this.seeyond_feature_index = 3;
+          this.front_relief = true;
+        break;
+        case 'ceiling':
+          this.seeyond_feature_index = 4;
+          this.front_relief = true;
+        break;
         default: {
           this.seeyond_feature_index = 2;
           this.seeyond_feature_type = 'wall';
+          this.front_relief = true;
         }; break;
       }
       this.seeyond_feature_type = seeyond_feature_type;
@@ -160,7 +173,7 @@ export class SeeyondFeature extends Feature {
     this.boxes = undefined;
     this.sheets = undefined;
     this.cove_lighting = false;
-    this.front_relief = false;
+    this.front_relief = true;
     this.back_relief = false;
     this.random_seed = undefined;
     this.prices = undefined;

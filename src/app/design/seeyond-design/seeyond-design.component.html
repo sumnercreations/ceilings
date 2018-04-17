@@ -62,9 +62,9 @@
               <option *ngFor="let strength of strengths">{{strength}}</option>
             </select>
           </div>
-          <div class="relief-parent design-column-padding-adjust" *ngIf="seeyond.seeyond_feature_type ==='linear-partition'">
+          <div class="relief-parent design-column-padding-adjust" *ngIf="seeyond.seeyond_feature_type ==='linear-partition' || seeyond.seeyond_feature_type ==='curved-partition'">
             <span>Pattern Relief</span>
-            <select name="pattern-relief" id="pattern-relief" [(ngModel)]="patternRelief" [value]="relief" (change)="updatePatternRelief()" [disabled]="this.seeyond.quoted" class="form-control">
+            <select name="pattern-relief" id="pattern-relief" [(ngModel)]="patternRelief" (change)="updatePatternRelief()" [disabled]="this.seeyond.quoted" class="form-control">
               <option *ngFor="let relief of patternReliefOptions">{{relief}}</option>
             </select>
           </div>
