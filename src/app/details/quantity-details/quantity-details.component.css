@@ -28,7 +28,7 @@ hr {
 
 .mat-cell:first-child,
 .mat-header-cell:first-child {
-  flex: 0 0 30%;
+  flex: 0 0 25%;
 }
 
 .mat-cell:last-child,
@@ -69,10 +69,6 @@ hr {
 span.sm {
   font-size: 17px;
   font-weight: 300;
-}
-
-.pagebreak {
-  page-break-before: always;
 }
 
 .back-to-design span {

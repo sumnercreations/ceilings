@@ -3,6 +3,7 @@ import { TileRow } from './quantity.component';
 import { Feature } from './../feature';
 import { DebugService } from './../_services/debug.service';
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class QuantityService {
@@ -18,8 +19,8 @@ export class QuantityService {
   constructor(
     private debug: DebugService,
     public feature: Feature,
-
-  ) { }
+    private route: ActivatedRoute
+  ) {}
 
   setRowData(row) {
     this.debug.log('quantity', row);
