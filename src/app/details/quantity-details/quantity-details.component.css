@@ -12,8 +12,41 @@ hr {
   margin-bottom: 0;
 }
 
+.order-data {
+  margin: 15px 15px 15px 40px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  /* align-items: center; */
+}
+
+.summary {
+  width: 600px;
+}
+
+.totals {
+  margin: 15px 0px;
+  width: 600px;
+}
+
 .footer {
-  margin-top: 10px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.footer > * {
+  margin-right: 10px;
+}
+
+.footer :last-child {
+  margin-right: 0px;
+  min-width: 84px;
+}
+
+.logo img{
+  width: 85px;
 }
 
 .material-column {
@@ -61,8 +94,6 @@ hr {
 }
 
 .details-table-container {
-  /* max-width: 600px; */
-  min-height: 400px;
   margin-bottom: 15px;
 }
 
