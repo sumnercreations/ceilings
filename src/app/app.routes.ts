@@ -6,6 +6,7 @@ import { DesignComponent } from './design/design.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DetailsComponent } from './details/details.component';
 import { QuantityComponent } from './quantity/quantity.component';
+import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
 
 
 const appRoutes: Routes = [
@@ -14,6 +15,7 @@ const appRoutes: Routes = [
   { path: ':type/design', component: DesignComponent },
   { path: ':type/quantity', component: QuantityComponent },
   { path: ':type/quantity/:param1', component: QuantityComponent },
+  { path: ':type/quantity/:param1/details', component: QuantityDetailsComponent },
   { path: ':type/design/:param1', component: DesignComponent },
   { path: ':type/design/:param1/details', component: DetailsComponent },
   { path: ':type/design/:param1/:param2', component: DesignComponent },
