@@ -105,6 +105,31 @@ span.sm {
   border-radius: 50%;
 }
 
+.is-clear {
+  border-radius: 50%;
+  border: 2px solid #cdcdcd;
+}
+
+.no-color-selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-color-selection span {
+  font-size: 38px;
+  color: #cdcdcd !important;
+  height: 38px;
+  width: 38px;
+  border-radius: 50%;
+}
+
+.block-selected ::before {
+  border: 2px solid #ff9933;
+  font-size: 36px;
+  border-radius: 50%;
+}
+
 /* Actions */
 .actions {
   padding: 2px;

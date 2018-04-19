@@ -959,7 +959,8 @@ export class MaterialsService {
         246: { material: 'noir_n58', hex: '#6A675E', status: 'active', availableUntil: '', partId: 504 },
         247: { material: 'meteorite_n59', hex: '#4C4841', status: 'active', availableUntil: '', partId: 9953 },
         248: { material: 'nightshade_n60', hex: '#423A32', status: 'active', availableUntil: '', partId: 9960 },
-        249: { material: 'dust_n61', hex: '#EBE8E4', status: 'active', availableUntil: '', partId: 9895 }
+        249: { material: 'dust_n61', hex: '#EBE8E4', status: 'active', availableUntil: '', partId: 9895 },
+        250: { material: 'clear', hex: '#ffffff', status: 'active', availableUntil: '', partId: 464 }
       }
     }
   }
