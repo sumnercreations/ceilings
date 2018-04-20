@@ -1042,7 +1042,7 @@ export class Feature {
       acc[i] = cur;
       return acc;
     }, {});
-    // return the new object with 'no_color' added to the front
+    // return the new object with 'no_color' added to the end of the array
     return newVariaObj;
   }
 }
