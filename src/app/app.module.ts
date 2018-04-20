@@ -57,6 +57,7 @@ import { SeeyondDetailsComponent } from './details/seeyond-details/seeyond-detai
 import { QuantityComponent } from './quantity/quantity.component';
 import { AddQuantityComponent } from './quantity/add-quantity/add-quantity.component';
 import { RemoveQuantityComponent } from './quantity/remove-quantity/remove-quantity.component';
+import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -101,7 +102,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     SeeyondDetailsComponent,
     QuantityComponent,
     AddQuantityComponent,
-    RemoveQuantityComponent
+    RemoveQuantityComponent,
+    QuantityDetailsComponent
   ],
   imports: [
     BrowserModule,

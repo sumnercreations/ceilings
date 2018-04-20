@@ -19,6 +19,7 @@ export class QuoteDialogComponent implements OnInit {
   public tilesArray: any;
   public tileType: string;
   public units: string;
+  private uiType = 'design';
 
   constructor(
     private router: Router,
@@ -43,6 +44,7 @@ export class QuoteDialogComponent implements OnInit {
 
   public quoteConfirmed() {
     if (this.feature.feature_type === 'seeyond') { this.seeyondQuoteConfirmed(); return; }
+    if (this.feature.is_quantity_order) { this.uiType = 'quantity'; }
     // mark the design as quoted and save
     if (this.feature.id) {
       this.feature.quoted = true;
@@ -52,9 +54,9 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
         if (url !== this.router.url) {
-          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+          this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
         }
         this.alert.success('Your quote request has been sent.');
       });
@@ -72,7 +74,7 @@ export class QuoteDialogComponent implements OnInit {
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');
-        this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+        this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
       });
     }
     this.dialogRef.close();
@@ -88,7 +90,7 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // redirect to the new URL if we aren't already there.
-        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
         if (url !== this.router.url) {
           this.router.navigate([`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`]);
         }

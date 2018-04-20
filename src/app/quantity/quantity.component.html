@@ -23,7 +23,7 @@
     <div class="table-parent col-sm-12">
       <div class="table-header col-sm-12">
         <span class="order-name">
-          <input [(ngModel)]="feature.design_name" required placeholder="Design Name" type="text">
+          <input class="form-control square" [(ngModel)]="feature.design_name" required placeholder="Design Name" type="text" autofocus>
         </span>
         <span class="save-load">
             <a id="save-btn" title="save design" (click)="saveQuantity()"><span class="icomoon-folder orange"></span>
@@ -34,58 +34,56 @@
         <button class="button add-tiles" (click)="addToOrder()">Add Tiles</button>
       </div>
       <div class="table-container">
-        <div class="example-container">
-          <p *ngIf="(order.data.length === 0)" class="md center-text add-to-order">
-            Select "Add Tiles" to begin.
-          </p>
-          <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
+        <p *ngIf="(order.data.length === 0)" class="md center-text add-to-order">
+          Select "Add Tiles" to begin.
+        </p>
+        <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
 
-            <ng-container *ngIf="feature_type === 'hush'">
-              <ng-container matColumnDef="ordered">
-                <mat-header-cell *matHeaderCellDef> Receiving </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.purchased}}</mat-cell>
-              </ng-container>
+          <ng-container *ngIf="feature_type === 'hush'">
+            <ng-container matColumnDef="ordered">
+              <mat-header-cell *matHeaderCellDef> Receiving </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.purchased}}</mat-cell>
             </ng-container>
+          </ng-container>
+          <ng-container *ngIf="feature_type !== 'hush'">
+            <ng-container matColumnDef="ordered">
+              <mat-header-cell *matHeaderCellDef> Used / Receiving </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.used}} / {{element.purchased}}</mat-cell>
+            </ng-container>
+          </ng-container>
+
+          <ng-container matColumnDef="material">
+            <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
             <ng-container *ngIf="feature_type !== 'hush'">
-              <ng-container matColumnDef="ordered">
-                <mat-header-cell *matHeaderCellDef> Used / Receiving </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.used}} / {{element.purchased}}</mat-cell>
-              </ng-container>
-            </ng-container>
-
-            <ng-container matColumnDef="material">
-              <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
-              <ng-container *ngIf="feature_type !== 'hush'">
-                <mat-cell *matCellDef="let element" class="material-column">
-                  <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
-                  {{element.material | capitalize}}-{{element.tile}}
-                </mat-cell>
-              </ng-container>
-              <ng-container *ngIf="feature_type === 'hush'">
-                <mat-cell *matCellDef="let element" class="material-column">
-                  <img src="{{element.image}}" class="img-responsive table-img rotate-90" alt="{{element.material.name_str | capitalize}}">
-                  {{element.material | capitalize}}
-                </mat-cell>
-              </ng-container>
-            </ng-container>
-
-            <ng-container matColumnDef="total">
-              <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="edit">
-              <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
-              <mat-cell *matCellDef="let row; let i=index;" class="edit-column">
-                <span class='icomoon-pencil orange' (click)="editRow(i, row)"></span>
-                <span class='icomoon-remove2 delete-icon orange' (click)="deleteRow(i, row)"></span>
+              <mat-cell *matCellDef="let element" class="material-column">
+                <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+                {{element.material | capitalize}}-{{element.tile}}
               </mat-cell>
             </ng-container>
+            <ng-container *ngIf="feature_type === 'hush'">
+              <mat-cell *matCellDef="let element" class="material-column">
+                <img src="{{element.image}}" class="img-responsive table-img rotate-90" alt="{{element.material.name_str | capitalize}}">
+                {{element.material | capitalize}}
+              </mat-cell>
+            </ng-container>
+          </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-        </div>
+          <ng-container matColumnDef="total">
+            <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
+            <mat-cell *matCellDef="let row; let i=index;" class="edit-column">
+              <span class='icomoon-pencil orange' (click)="editRow(i, row)"></span>
+              <span class='icomoon-remove2 delete-icon orange' (click)="deleteRow(i, row)"></span>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
       </div>
     </div>
     <div class="filler"></div>
@@ -112,7 +110,7 @@
       </div>
       <div *ngIf="!!sqFootage" class="sq-footage-results">
         <p><strong>{{tilesNeeded}}</strong> tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
-        <p><strong>{{tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.<sup *ngIf="feature_type === 'clario'">*</sup></p>
+        <p><strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.<sup *ngIf="feature_type === 'clario'">*</sup></p>
         <p *ngIf="feature_type === 'clario'"><sup>*</sup>24x48 baffles count as 2 tiles.</p>
       </div>
     </div>
@@ -121,7 +119,7 @@
       <hr>
       <h3>Quantities</h3>
       <p class="">Tiles Used/Receiving: {{feature.qtyTilesUsed}}/{{feature.qtyTilesReceiving}}</p>
-      <p class="">SqFt. Used/Receiving: {{sqFtUsed}}/{{sqFtReceiving}}</p>
+      <p class="">SqFt. Used/Receiving: {{qtySrv.sqFtUsed}}/{{qtySrv.sqFtReceiving}}</p>
     </div>
   </div>
 </div>

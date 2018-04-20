@@ -25,10 +25,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 })
 export class QuantityComponent implements OnInit, OnDestroy {
   ngUnsubscribe: Subject<any> = new Subject();
-  feature_type: string;
   materials: any;
-  panelOpenState = false;
-  order = new MatTableDataSource();
+  order: any;
   orderName = '';
   headerTitle = '';
   addQtyDialogRef: MatDialogRef<any>;
@@ -39,18 +37,13 @@ export class QuantityComponent implements OnInit, OnDestroy {
   quoteDialogRef: MatDialogRef<any>;
   sqFootage: number;
   tilesNeeded: number;
-  estimatedPrice = 0;
-  tilesSelected: number;
-  sqFtUsed = 0;
-  sqFtReceiving = 0;
-  sqFtPerTile: number;
   tryingRequestQuote = false;
 
 
   // Table Properties
   dataSource: TableDataSource | null;
   dataSubject = new BehaviorSubject<Order[]>([]);
-  displayedColumns = [];
+  displayedColumns = ['ordered', 'material', 'total', 'edit'];
 
   constructor(
     private route: ActivatedRoute,
@@ -69,9 +62,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       // initial setup
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }
-      this.qtySrv.feature_type = this.feature_type = this.feature.setFeatureType(params['type']);
+      this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
-      this.setTableProperties();
+      this.setComponentProperties();
+      this.order = this.qtySrv.order;
 
       // load saved if included in params
       const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
@@ -81,9 +75,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
           if (!qtyOrder.is_quantity_order) {
             this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
           }
-          if (qtyOrder.feature_type !== this.feature_type) {
+          if (qtyOrder.feature_type !== this.qtySrv.feature_type) {
             this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
           }
+          this.feature.is_quantity_order = true;
           this.feature.id = qtyOrder.id;
           this.feature.uid = qtyOrder.uid;
           this.feature.design_name = qtyOrder.design_name;
@@ -94,18 +89,15 @@ export class QuantityComponent implements OnInit, OnDestroy {
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {
             const newRow = {[`${row.material}-${row.tile}`]: row };
-            this.doAddRow(newRow);
+            this.qtySrv.doAddRow(newRow);
           });
         })
       }
     })
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
-    this.feature.tile_size = 48; // for quantity messaging
-    this.feature.is_quantity_order = true;
 
     this.api.onUserLoggedIn
-      // .takeUntil(this.ngUnsubscribe)
       .subscribe(apiUser => {
         this.user.uid = apiUser.uid;
         this.user.email = apiUser.email;
@@ -119,20 +111,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  setTableProperties() {
+  setComponentProperties() {
     switch (this.qtySrv.feature_type) {
-      case 'hush':
-        this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
-        this.headerTitle = 'Hush Blocks Tiles ';
-        break;
-      case 'clario':
-        this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
-        this.headerTitle = 'Clario Tiles';
-        break;
-      case 'tetria':
-        this.displayedColumns = ['ordered', 'material', 'total', 'edit'];
-        this.headerTitle = 'Tetria Tiles';
-        break;
+      case 'hush': this.headerTitle = 'Hush Blocks Tiles '; break;
+      case 'clario': this.headerTitle = 'Clario Tiles'; break;
+      case 'tetria': this.headerTitle = 'Tetria Tiles'; break;
     }
   }
 
@@ -148,43 +131,17 @@ export class QuantityComponent implements OnInit, OnDestroy {
         if (!!requestedRow) {
           let isMultiple = false;
           const res = requestedRow[Object.keys(requestedRow)[0]];
-          this.order.data.map(row => {
+          this.qtySrv.order.data.map(row => {
             const rowStr = JSON.stringify(row);
             const newRow: TileRow = JSON.parse(rowStr);
             if (newRow.image === res.image) {
               isMultiple = true;
-              this.combineRows(requestedRow, row);
+              this.qtySrv.combineRows(requestedRow, row);
             }
           })
-          if (!isMultiple) { this.doAddRow(requestedRow); }
+          if (!isMultiple) { this.qtySrv.doAddRow(requestedRow); }
         }
       })
-  }
-
-  combineRows(requestedRow, matchedRow) {
-    const pkgQty = this.feature.getPackageQty(matchedRow.tile);
-    const requestedRowFmtd = this.setRowData(requestedRow);
-    matchedRow.used += requestedRowFmtd.used;
-    matchedRow.total += requestedRowFmtd.total;
-    matchedRow.purchased = pkgQty * Math.ceil(matchedRow.used / pkgQty);
-    this.updateSummary();
-  }
-
-  setRowData(row) {
-    this.debug.log('quantity', row);
-    this.getRowEstimate(row); // sets feature.estimated_amount
-    const newRow = row[Object.keys(row)[0]];
-    newRow.total = this.feature.estimated_amount;
-    newRow.tileSqFt = this.getTileSqFt(newRow.tile);
-    return newRow;
-  }
-
-  doAddRow(row) {
-    this.debug.log('quantity', row);
-    const newRow = this.setRowData(row);
-    this.order.data.push(newRow);
-    this.order.data = this.order.data.slice(); // refreshes the table
-    this.updateSummary();
   }
 
   editRow(index, row) {
@@ -193,19 +150,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (!!result) {
-          this.doEditRow(index, result);
+          this.qtySrv.doEditRow(index, result);
         }
       })
-  }
-
-  doEditRow(index, row) {
-    this.getRowEstimate(row); // sets feature.estimated_amount
-    const editRow = row[Object.keys(row)[0]];
-    editRow.total = this.feature.estimated_amount;
-    editRow.tileSqFt = this.getTileSqFt(editRow.tile);
-    this.order.data[index] = editRow;
-    this.order.data = this.order.data.slice(); // refreshes the table
-    this.updateSummary();
   }
 
   deleteRow(index, row) {
@@ -215,71 +162,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'remove') {
-          this.order.data.splice(index, 1);
+          this.qtySrv.order.data.splice(index, 1);
         }
-        this.order.data = this.order.data.slice();
-        this.updateSummary();
+        this.qtySrv.order.data = this.qtySrv.order.data.slice();
+        this.qtySrv.updateSummary();
       })
-  }
-
-  getRowEstimate(row) {
-    switch (this.qtySrv.feature_type) {
-      case 'hush': this.feature.getHushEstimate(row); break;
-      case 'tetria': this.feature.getTetriaEstimate(row); break;
-      case 'clario': this.feature.getClarioEstimate(row); break;
-    }
-  }
-
-  updateSummary() {
-    const summary = this.order.data;
-    this.debug.log('quantity', summary);
-    let estTotal = 0;
-    let tilesUsed = 0;
-    let tilesReceiving = 0;
-    let sqFtUsed = 0;
-    let sqFtReceiving = 0;
-    summary.map((row: any) => {
-      estTotal += row.total;
-      tilesUsed += row.used;
-      tilesReceiving += row.purchased;
-      sqFtUsed += (row.used * row.tileSqFt);
-      sqFtReceiving  += (row.purchased * row.tileSqFt);
-    });
-    this.estimatedPrice = estTotal;
-    this.feature.qtyTilesReceiving = tilesReceiving;
-    this.feature.qtyTilesUsed = tilesUsed;
-    this.sqFtUsed = sqFtUsed;
-    this.sqFtReceiving = sqFtReceiving;
-    this.tilesSelected = (sqFtUsed / 4) || null;
-    this.updateTilesArr();
-  }
-
-  updateTilesArr() {
-    const data = this.order.data;
-    const tilesArr = {};
-    data.map(row => {
-      const rowStr = JSON.stringify(row);
-      const newRow: TileRow = JSON.parse(rowStr);
-      const newObj = <TileRow>{};
-      newObj.purchased = newRow.purchased;
-      newObj.image = newRow.image;
-      newObj.used = newRow.used;
-      newObj.material = newRow.material;
-      newObj.tile = newRow.tile;
-      const objectKey = `${newObj.material}-${newObj.tile}`;
-      if (!tilesArr[objectKey]) {
-        tilesArr[objectKey] = newObj;
-      } else { // if tiles are already selected just add to the totals
-        tilesArr[objectKey].purchased += newObj.purchased;
-        tilesArr[objectKey].used += newObj.used;
-      }
-    })
-    this.getRowEstimate(tilesArr); // updates feature.ts with the totals
-    this.feature.tiles = tilesArr;
-  }
-
-  getTileSqFt(tile) {
-    return (tile === '48') ? 8 : 4;
   }
 
   requestQuote() {
@@ -292,7 +179,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   viewDetails() {
-    console.log('view details invoked');
+    let path = window.location.pathname;
+    path = `${path}/details`
+    this.router.navigate([path])
   }
 
   calcSqFootage() {
@@ -334,7 +223,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      // let loadDialog: MatDialog;
       this.api.getMyDesigns()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {

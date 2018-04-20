@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-sm-2">
+    <a class="hidden-print back-to-design" (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> Back to Design</a>
+  </div>
+</div>
+<div class="row header">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-6">
+        <p class="sm">Project: <span class="md info">{{feature.project_name}}</span></p>
+      </div>
+      <div class="col-sm-5">
+        <p class="sm">Feature: <span class="md info">{{feature.feature_type | capitalize}} - ID: {{feature.id}}</span></p>
+      </div>
+      <div class="col-sm-1 hidden-print">
+        <p class="sm bold print" (click)="print()"><span class="icomoon-print orange"></span> Print</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <p class="sm">Specifier: <span class="md info">{{feature.specifier}}</span></p>
+      </div>
+      <div class="col-sm-5">
+        <p class="sm">Order Total: <span class="md info">{{feature.estimated_amount | currency:'USD'}}<sup>*</sup> USD</span></p>
+      </div>
+      <div class="col-sm-1">
+        <p class="xs bold">{{feature.updated_at | date:'shortDate'}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="row order-data">
+  <div *ngIf="!!qtyOrder" class="details-table-container summary">
+    <h3>Order Summary</h3>
+    <mat-table #table [dataSource]="qtyOrder.data" *ngIf="(qtyOrder.data.length > 0)">
+      <!-- Ordered Column -->
+      <ng-container *ngIf="feature.feature_type === 'hush'">
+        <ng-container matColumnDef="ordered">
+          <mat-header-cell *matHeaderCellDef> Receiving </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.purchased}}</mat-cell>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="feature.feature_type !== 'hush'">
+        <ng-container matColumnDef="ordered">
+          <mat-header-cell *matHeaderCellDef> Used / Receiving </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.used}} / {{element.purchased}}</mat-cell>
+        </ng-container>
+      </ng-container>
+      <!-- Material Column -->
+      <ng-container matColumnDef="material">
+        <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+        <ng-container *ngIf="feature.feature_type !== 'hush'">
+          <mat-cell *matCellDef="let element" class="material-column">
+            <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+            {{element.material | capitalize}}-{{element.tile}}
+          </mat-cell>
+        </ng-container>
+        <ng-container *ngIf="feature.feature_type === 'hush'">
+          <mat-cell *matCellDef="let element" class="material-column">
+            <img src="{{element.image}}" class="img-responsive table-img rotate-90" alt="{{element.material.name_str | capitalize}}">
+            {{element.material | capitalize}}
+          </mat-cell>
+        </ng-container>
+      </ng-container>
+      <!-- Total Column -->
+      <ng-container matColumnDef="total">
+        <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+  <div class="totals">
+    <!-- <p class="sm md">Usage Totals</p> -->
+    <p class="sm">Tiles Used / Receiving: {{feature.qtyTilesUsed}} / {{feature.qtyTilesReceiving}}</p>
+    <p class="sm">SqFt. Used / Receiving: {{qtySrv.sqFtUsed}} / {{qtySrv.sqFtReceiving}}</p>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="logo">
+    <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
+  </div>
+  <div *ngIf="rep">
+    <p class="rep-name"><span class="bold">{{rep.name}}</span> Sales Rep</p>
+    <p class="rep-info">{{rep.phone}} | {{rep.email}}</p>
+  </div>
+  <div class="">
+    <p class=""><sup>*</sup>Taxes, Shipping and Handling not included</p>
+  </div>
+  <div class="">
+    <p class="orange pull-right">3-form.com</p>
+  </div>
+</div>

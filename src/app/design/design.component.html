@@ -86,9 +86,10 @@
           </mat-tab>
           <mat-tab label="Varia">
             <div class="varia-materials" *ngIf="materials.varia">
-              <div *ngFor="let varia of materials.varia.color | keys" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')">
+              <div *ngFor="let varia of materials.varia.color | keys last as isLast" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')">
                 <div *ngIf="varia.status === 'active'" matTooltip="{{varia.material | capitalize}}" [matTooltipPosition]="position" class="col-sm-2 material tooltip-host">
-                  <div class="circle" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex"></div>
+                  <div *ngIf="!isLast" class="circle" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex" [ngClass]="{'is-clear': varia.material==='clear'}"></div>
+                  <div *ngIf="isLast" class="circle no-color-selection" [ngClass]="{'block-selected': feature.material==varia.material}" ><span class="icomoon-blocked"></span></div>
                 </div>
               </div>
             </div>
