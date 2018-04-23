@@ -1,3 +1,5 @@
+import { ClarioGridsService } from './../_services/clario-grids.service';
+import { MaterialsService } from 'app/_services/materials.service';
 import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -37,7 +39,9 @@ export class OptionsComponent implements OnInit {
     public alert: AlertService,
     public seeyondService: SeeyondService,
     public seeyond: SeeyondFeature,
-    public location: Location
+    public location: Location,
+    public materials: MaterialsService,
+    public clarioGrids: ClarioGridsService
   ) { }
 
   ngOnInit() {

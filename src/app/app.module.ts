@@ -66,6 +66,7 @@ import { ApiService } from './_services/api.service';
 import { MaterialsService } from './_services/materials.service';
 import { SeeyondService } from './_services/seeyond.service';
 import { QuantityService } from './quantity/quantity.service';
+import { ClarioGridsService } from './_services/clario-grids.service';
 
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
@@ -133,7 +134,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     ApiService,
     MaterialsService,
     SeeyondService,
-    QuantityService
+    QuantityService,
+    ClarioGridsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

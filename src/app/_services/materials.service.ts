@@ -4,6 +4,65 @@ import { Injectable } from '@angular/core';
 export class MaterialsService {
   public parts_substitutes: PartsSubs[];
 
+  public clario_grids = {
+    '15-16': {
+      'name': '15/16\"',
+      'units': 'inches',
+      'tileSizes': {
+        0: {
+          'dimensions': '24\" X 24\"',
+          'cut_file': 'Clario 24x24 15_16 REV2.dxf'
+        },
+        1: {
+          'dimensions': '24\" X 48\"',
+          'cut_file': 'Clario 24x48 15_16 REV2.dxf',
+        }
+      }
+    },
+    '9-16': {
+      'name': '9/16\"',
+      'units': 'inches',
+      'tileSizes': {
+        0: {
+          'dimensions': '24\" X 24\"',
+          'cut_file': 'Clario 24x24 9_16 REV2.dxf',
+        },
+        1: {
+          'dimensions': '24\" X 48\"',
+          'cut_file': 'Clario 24x48 9_16 REV2.dxf',
+        }
+      }
+    },
+    '600': {
+      'name': '600? mm',
+      'units': 'centimeters',
+      'tileSizes': {
+        0: {
+          'dimensions': '600mm X 600mm',
+          'cut_file': 'Clario 600x600 REV2.dxf'
+        },
+        1: {
+          'dimensions': '625mm X 1250mm',
+          'cut_file': 'Clario 600x1200 REV2.dxf',
+        }
+      }
+    },
+    '625': {
+      'name': '625? mm',
+      'units': 'centimeters',
+      'tileSizes': {
+        0: {
+          'dimensions': '625mm X 625mm',
+          'cut_file': 'Clario 625x625 REV2.dxf'
+        },
+        1: {
+          'dimensions': '625mm X 1250mm',
+          'cut_file': 'Clario 625x1250 REV2.dxf',
+        }
+      }
+    }
+  };
+
   public seeyond_features: any = {
     '0': {
       'feature_type': 0,

@@ -25,7 +25,15 @@
     <hr>
     <div id="grid-dimensions">
       <h3>Design Dimensions</h3>
-      <p>A 15/16 grid system is required for this product.</p>
+      <p>Select the grid system and dimensions for your design.</p>
+      <div class="row">
+        <div class="col-sm-8 grid-dimensions">
+          <label for="grid">Grid System</label>
+          <select class="form-control" (change)="updateGridDimension($event.target.value)" id="grid">
+            <option *ngFor="let grid of clarioGrids.gridOptions | keys;" [value]="grid.name" [selected]="grid.name === clarioGrids.selectedGrid.name">{{grid.name}}</option>
+          </select>
+        </div>
+      </div>
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
@@ -53,17 +61,17 @@
       <hr>
       <h3>Tile Size</h3>
       <p>Please specify the size of your grid.</p>
-      <mat-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size">
+      <mat-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size" *ngIf="!!clarioGrids.selectedGrid">
         <div class="row">
           <div class="col-sm-4">
             <mat-radio-button class="radio-button" [value]="24">
-              24 X 24
+              {{clarioGrids.selectedGrid.tileSizes[0].dimensions}}
             </mat-radio-button>
             <p>Qty. 4 per package</p>
           </div>
           <div class="col-sm-4">
             <mat-radio-button class="radio-button" [value]="48">
-              24 X 48
+              {{clarioGrids.selectedGrid.tileSizes[1].dimensions}}
             </mat-radio-button>
             <p>Qty. 2 per package</p>
           </div>
