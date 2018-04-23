@@ -78,4 +78,9 @@ export class OptionsComponent implements OnInit {
     return valid;
   }
 
+  goToQty() {
+    const pathname = window.location.pathname.replace(/\/design/g, '/quantity');
+    this.router.navigate([pathname]);
+    this.dialogRef.close('cancel');
+  }
 }
