@@ -26,32 +26,7 @@ export class LandingComponent implements OnInit {
 
   public goTo(where: string, segment) {
     const subComponent = (!!segment) ? segment : 'design';
-    this.debug.log('landing-component', where);
-    switch (where) {
-      case 'seeyond':
-        this.router.navigate([`/seeyond/${subComponent}`]);
-        break;
-
-      case 'tetria':
-        this.router.navigate([`/tetria/${subComponent}`]);
-        break;
-
-      case 'clario':
-        this.router.navigate([`/clario/${subComponent}`]);
-        break;
-
-      case 'velo':
-        this.router.navigate([`/velo/${subComponent}`]);
-        break;
-
-      case 'hush-blocks':
-        this.router.navigate([`/hush-blocks/${subComponent}`]);
-        break;
-
-      default:
-        this.alert.error('Sorry we don\'t recognize the path: \'' + where + '\'');
-        break;
-    }
+    this.router.navigate([`/${where}/${subComponent}`]);
   }
 
 }
