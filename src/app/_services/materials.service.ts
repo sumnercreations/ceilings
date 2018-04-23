@@ -5,61 +5,49 @@ export class MaterialsService {
   public parts_substitutes: PartsSubs[];
 
   public clario_grids = {
-    '15-16': {
-      'name': '15/16\"',
-      'units': 'inches',
-      'tileSizes': {
-        0: {
-          'dimensions': '24\" X 24\"',
-          'cut_file': 'Clario 24x24 15_16 REV2.dxf'
-        },
-        1: {
-          'dimensions': '24\" X 48\"',
-          'cut_file': 'Clario 24x48 15_16 REV2.dxf',
-        }
-      }
+    '15_16': {
+      '24x24': {
+        'name': '24\"x24\"',
+        'units': 'inches',
+        'cut_file': 'Clario 24x24 15_16 Rev2.dxf'
+      },
+      '24x48': {
+        'name': '24\"x48\"',
+        'units': 'inches',
+        'cut_file': 'Clario 24x48 15_16 Rev2.dxf'
+      },
+      '600x600': {
+        'name': '600x600mm',
+        'units': 'centimeters',
+        'cut_file': 'Clario 600x600 Rev2.dxf'
+      },
+      '600x1200': {
+        'name': '600x1200mm',
+        'units': 'centimeters',
+        'cut_file': 'Clario 600x1200 Rev2.dxf'
+      },
+      '625x625': {
+        'name': '625x625mm',
+        'units': 'centimeters',
+        'cut_file': 'Clario 625x625 Rev2.dxf'
+      },
+      '625x1250': {
+        'name': '625x1250mm',
+        'units': 'centimeters',
+        'cut_file': 'Clario 625x1250 Rev2.dxf'
+      },
     },
-    '9-16': {
-      'name': '9/16\"',
-      'units': 'inches',
-      'tileSizes': {
-        0: {
-          'dimensions': '24\" X 24\"',
-          'cut_file': 'Clario 24x24 9_16 REV2.dxf',
-        },
-        1: {
-          'dimensions': '24\" X 48\"',
-          'cut_file': 'Clario 24x48 9_16 REV2.dxf',
-        }
-      }
-    },
-    '600': {
-      'name': '600? mm',
-      'units': 'centimeters',
-      'tileSizes': {
-        0: {
-          'dimensions': '600mm X 600mm',
-          'cut_file': 'Clario 600x600 REV2.dxf'
-        },
-        1: {
-          'dimensions': '625mm X 1250mm',
-          'cut_file': 'Clario 600x1200 REV2.dxf',
-        }
-      }
-    },
-    '625': {
-      'name': '625? mm',
-      'units': 'centimeters',
-      'tileSizes': {
-        0: {
-          'dimensions': '625mm X 625mm',
-          'cut_file': 'Clario 625x625 REV2.dxf'
-        },
-        1: {
-          'dimensions': '625mm X 1250mm',
-          'cut_file': 'Clario 625x1250 REV2.dxf',
-        }
-      }
+    '9_16': {
+      '24x24': {
+        'name': '24\"x24\"',
+        'units': 'inches',
+        'cut_file': 'Clario 24x24 9_16 Rev2.dxf'
+      },
+      '24x48': {
+        'name': '24\"x48',
+        'units': 'inches',
+        'cut_file': 'Clario 24x48 9_16 Rev2.dxf'
+      },
     }
   };
 

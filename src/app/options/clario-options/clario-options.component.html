@@ -26,12 +26,13 @@
     <hr>
     <div id="grid-dimensions">
       <h3>Design Dimensions</h3>
-      <p>Select the grid system and dimensions for your design.</p>
+      <p>Select the grid type and dimensions for your design.</p>
       <div class="row">
         <div class="col-sm-8 grid-dimensions">
-          <label for="grid">Grid System</label>
-          <select class="form-control" (change)="updateGridDimension($event.target.value)" id="grid">
-            <option *ngFor="let grid of clarioGrids.gridOptions | keys;" [value]="grid.name" [selected]="grid.name === clarioGrids.selectedGrid.name">{{grid.name}}</option>
+          <label for="grid">Ceiling Grid Type</label>
+          <select class="form-control" (change)="clarioGrids.updateGridDimension($event.target.value)" id="grid">
+            <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType">{{gridType}}</option>
+            <!-- [selected]="grid.name === clarioGrids.selectedGrid.name" -->
           </select>
         </div>
       </div>

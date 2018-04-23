@@ -172,8 +172,9 @@ export class ApiService {
   }
 
   public handleError(error: HttpErrorResponse) {
+    // this.debug.log('api', error.message);
     if (error.status === 500) { this.debug.log('api', error.message); return; }
-    if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
+    if (!!error.error.result.message && (typeof(error.error.result) !== 'undefined')) { this.alert.error(error.error.result.message); }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       this.debug.log('api', `An error occurred: ${error.error}`);

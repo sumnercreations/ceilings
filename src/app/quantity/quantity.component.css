@@ -63,6 +63,12 @@ span.sm {
   width: 250px;
 }
 
+.clario-grid-type {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .mat-header-row {
   position: sticky;
   top: 0;

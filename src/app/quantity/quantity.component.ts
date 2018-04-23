@@ -1,3 +1,4 @@
+import { ClarioGridsService } from './../_services/clario-grids.service';
 import { QuoteDialogComponent } from './../quote-dialog/quote-dialog.component';
 import { LoadDesignComponent } from './../load-design/load-design.component';
 import { LoginComponent } from './../login/login.component';
@@ -55,10 +56,12 @@ export class QuantityComponent implements OnInit, OnDestroy {
     private location: Location,
     private dialog: MatDialog,
     public qtySrv: QuantityService,
-    public user: User
+    public user: User,
+    public clarioGrids: ClarioGridsService,
   ) { }
 
   ngOnInit() {
+    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.setGridData('9/16\"'); }
     this.route.params.subscribe(params => {
       // initial setup
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }
@@ -94,6 +97,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
         })
       }
     })
+
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
 
