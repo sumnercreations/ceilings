@@ -50,6 +50,10 @@
   margin: 20px 0px;
 }
 
+.buttons > button {
+  margin: 0px 10px;
+}
+
 #seeyond {
   background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url(/assets/images/features/seeyond.png);
   background-size: cover;
