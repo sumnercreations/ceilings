@@ -36,7 +36,7 @@
     "syd-visualization": "0.0.85",
     "zone.js": "^0.8.4",
     "xml-writer": "1.7.0",
-    "syd-tessellation": "0.0.66"
+    "syd-tessellation": "0.0.67"
   },
   "devDependencies": {
     "@angular/cli": "1.2.7",
