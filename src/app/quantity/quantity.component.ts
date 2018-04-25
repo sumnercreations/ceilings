@@ -43,7 +43,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   // Table Properties
   dataSource: TableDataSource | null;
   dataSubject = new BehaviorSubject<Order[]>([]);
-  displayedColumns = ['ordered', 'material', 'total', 'edit'];
+  displayedColumns = ['used', 'receiving', 'unused', 'material', 'total', 'edit'];
 
   constructor(
     private route: ActivatedRoute,
@@ -113,14 +113,18 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
   setComponentProperties() {
     switch (this.qtySrv.feature_type) {
-      case 'hush': this.headerTitle = 'Hush Blocks Tiles '; break;
+      case 'hush':
+        this.headerTitle = 'Hush Blocks Tiles';
+        this.displayedColumns = ['hush-receiving', 'hush-material', 'total', 'edit'];
+        break;
       case 'clario': this.headerTitle = 'Clario Tiles'; break;
       case 'tetria': this.headerTitle = 'Tetria Tiles'; break;
     }
   }
 
-  backToDesign() {
+  backToDesign(reset?) {
     this.router.navigate([this.feature.feature_type, 'design']);
+    if (reset === 'reset') { this.feature.reset(); }
   }
 
   addToOrder() {
@@ -185,7 +189,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   calcSqFootage() {
-    this.tilesNeeded = this.sqFootage / 4;
+    this.tilesNeeded = Math.ceil(this.sqFootage / 4);
   }
 
   public saveQuantity() {

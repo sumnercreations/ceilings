@@ -1,6 +1,6 @@
 <div class="quantity-header">
   <div class="row">
-    <a (click)="backToDesign()"><span class="icomoon-chevron-left orange"></span> <span>Back to Design</span></a>
+    <a (click)="backToDesign('reset')"><span class="icomoon-chevron-left orange"></span> <span>Order by Designing Instead</span></a>
     <div class="header-row">
       <div class="">
         <p class="md title">Order {{headerTitle}} By Quantity</p>
@@ -39,33 +39,40 @@
         </p>
         <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
 
-          <ng-container *ngIf="feature_type === 'hush'">
-            <ng-container matColumnDef="ordered">
-              <mat-header-cell *matHeaderCellDef> Receiving </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.purchased}}</mat-cell>
-            </ng-container>
+          <ng-container matColumnDef="used">
+            <mat-header-cell *matHeaderCellDef> Used </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.used}}</mat-cell>
           </ng-container>
-          <ng-container *ngIf="feature_type !== 'hush'">
-            <ng-container matColumnDef="ordered">
-              <mat-header-cell *matHeaderCellDef> Used / Receiving </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.used}} / {{element.purchased}}</mat-cell>
-            </ng-container>
+
+          <ng-container matColumnDef="receiving">
+            <mat-header-cell *matHeaderCellDef> Receiving </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.purchased}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="hush-receiving">
+            <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.purchased}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="unused">
+            <mat-header-cell *matHeaderCellDef> Unused </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.purchased - element.used}}</mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="material">
             <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
-            <ng-container *ngIf="feature_type !== 'hush'">
-              <mat-cell *matCellDef="let element" class="material-column">
-                <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
-                {{element.material | capitalize}}-{{element.tile}}
-              </mat-cell>
-            </ng-container>
-            <ng-container *ngIf="feature_type === 'hush'">
-              <mat-cell *matCellDef="let element" class="material-column">
-                <img src="{{element.image}}" class="img-responsive table-img rotate-90" alt="{{element.material.name_str | capitalize}}">
-                {{element.material | capitalize}}
-              </mat-cell>
-            </ng-container>
+            <mat-cell *matCellDef="let element" class="material-column">
+              <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
+              {{element.material | capitalize}}-{{element.tile}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="hush-material">
+            <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="material-column">
+              <img src="{{element.image}}" class="img-responsive table-img rotate-90" alt="{{element.material.name_str | capitalize}}">
+              {{element.material | capitalize}}
+            </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="total">
@@ -88,15 +95,14 @@
     </div>
     <div class="filler"></div>
     <div class="left-footer">
-      <div class="">
+      <div>
         <div class="logo">
           <img src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
         </div>
       </div>
-      <div class="">
-        <p class="tile-package-information">
-          {{feature.packageInformation()}}
-        </p>
+      <div>
+        <p *ngIf="qtySrv.feature_type !=='clario'" class="tile-package-information">Tiles are sold in quanties of 4.</p>
+        <p *ngIf="qtySrv.feature_type ==='clario'" class="tile-package-information">24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.</p>
       </div>
     </div>
   </div>
@@ -110,8 +116,8 @@
       </div>
       <div *ngIf="!!sqFootage" class="sq-footage-results">
         <p><strong>{{tilesNeeded}}</strong> tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
-        <p><strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.<sup *ngIf="feature_type === 'clario'">*</sup></p>
-        <p *ngIf="feature_type === 'clario'"><sup>*</sup>24x48 baffles count as 2 tiles.</p>
+        <p><strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.<sup *ngIf="qtySrv.feature_type === 'clario'">*</sup></p>
+        <p *ngIf="qtySrv.feature_type === 'clario'"><sup>*</sup>24x48 baffles count as 2 tiles.</p>
       </div>
     </div>
     <div class="filler"></div>
