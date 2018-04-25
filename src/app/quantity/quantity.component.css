@@ -102,14 +102,26 @@ span.sm {
   margin-top: 30px;
 }
 
+
+.mat-cell:last-child * {
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
 .mat-cell:last-child,
 .mat-header-cell:last-child {
   flex: 0 0 8%;
 }
 
-.mat-cell:last-child * {
-  cursor: pointer;
-  font-size: 1.1em;
+.mat-column-used,
+.mat-column-receiving,
+.mat-column-unused {
+  flex: 0 0 10%;
+}
+
+.mat-column-hush-material,
+.mat-column-material {
+  flex: 0 0 40%;
 }
 
 .material-column {

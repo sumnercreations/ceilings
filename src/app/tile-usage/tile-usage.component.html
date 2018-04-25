@@ -9,7 +9,8 @@
   <tr>
     <th>{{feature.getTileType() | capitalize}}</th>
     <th *ngIf="feature.feature_type!='hush'">Used</th>
-    <th>Receiving</th>
+    <th *ngIf="feature.feature_type!='hush'">Receiving</th>
+    <th *ngIf="feature.feature_type=='hush'">Quantity</th>
     <th *ngIf="feature.feature_type!='hush'">Unused</th>
   </tr>
   <tr *ngFor="let tile of purchasedTiles | keys">

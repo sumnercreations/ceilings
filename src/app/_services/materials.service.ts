@@ -318,7 +318,7 @@ export class MaterialsService {
       2: {
         image: '/assets/images/tiles/00.png',
         tile: '00',
-        name: '00'
+        name: 'flat'
       }
     },
     velo: {

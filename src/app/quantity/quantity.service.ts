@@ -10,7 +10,7 @@ export class QuantityService {
   feature_type: string;
   qtyTilesArray = <TileObj[]>[];
   estimatedPrice = 0;
-  tilesSelected: number;
+  tilesSelected = 0;
   sqFtUsed = 0;
   sqFtReceiving = 0;
   sqFtPerTile: number;
