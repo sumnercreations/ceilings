@@ -140,7 +140,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
             const newRow: TileRow = JSON.parse(rowStr);
             if (newRow.image === res.image) {
               isMultiple = true;
-              this.qtySrv.combineRows(requestedRow, row);
+              this.qtySrv.combineRows(row, requestedRow);
             }
           })
           if (!isMultiple) { this.qtySrv.doAddRow(requestedRow); }
@@ -155,7 +155,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (!!result) {
           this.qtySrv.doEditRow(index, result);
-          this.qtySrv.checkDuplicates();
+          this.qtySrv.checkAndFixDuplicates();
         }
       })
   }

@@ -16,6 +16,7 @@ export class QuantityService {
   sqFtReceiving = 0;
   sqFtPerTile: number;
   order = new MatTableDataSource();
+  rowIndexNum = 1;
 
   constructor(
     private debug: DebugService,
@@ -31,6 +32,8 @@ export class QuantityService {
     this.feature.tile_size = (newRow.tile === '48') ? 48 : 24;
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
+    newRow.id = this.rowIndexNum++;
+    console.log('id:', newRow.id);
     return newRow;
   }
 
@@ -42,60 +45,42 @@ export class QuantityService {
     this.updateSummary();
   }
 
-  combineRows(requestedRow, matchedRow) {
+  combineRows(matchedRow, requestedRow) {
+    console.log('combineRows:', arguments);
+    // matchedRow is kept
     const pkgQty = this.feature.getPackageQty(matchedRow.tile);
-    const requestedRowFmtd = this.setRowData(requestedRow);
-    matchedRow.used += requestedRowFmtd.used;
+    const requestedRowConfigured = this.setRowData(requestedRow);
+    matchedRow.used += requestedRowConfigured.used;
     matchedRow.purchased = pkgQty * Math.ceil(matchedRow.used / pkgQty);
     const objectKey = `${matchedRow.material}-${matchedRow.tile}`;
     const matchedRowFmtd = {[objectKey]: matchedRow};
     this.getRowEstimate(matchedRowFmtd); // sets feature.estimated_amount
     matchedRow.total = this.feature.estimated_amount;
+    matchedRow.id = this.rowIndexNum++;
     this.updateSummary();
   }
 
-  checkDuplicates() {
-    let row1;
-    let row2;
-
-    // change typing to any
+  checkAndFixDuplicates() {
     const untypedData: any[] = this.order.data.slice();
-
-    // the image url is the best thing to compare for duplicates
     const dataImagesArr = untypedData.map(rowData => rowData.image);
-
     // new array of objects with number of instances of each image
     const dataImagesCounted = dataImagesArr.reduce((a, b) => Object.assign(a, {[b]: (a[b] || 0) + 1}), {});
-
     // an array of all the image values that have duplicates
-    const duplicatedValues = Object.keys(dataImagesCounted).filter((a) => dataImagesCounted[a] > 1);
-
-    // get the duplicated values and send them to this.combineRows()
-    if (!!duplicatedValues) {
+    const duplicatedValue = Object.keys(dataImagesCounted).filter((a) => dataImagesCounted[a] > 1)[0];
+    const duplicateIds = [];
+    if (!!duplicatedValue) {
       untypedData.map(row => {
-        if (row.image === duplicatedValues[0]) {
-          if (!row1) {
-            const objectKey = `${row.material}-${row.tile}`;
-            row1 = {[objectKey]: row};
-          } else {
-            row2 = row;
-            this.combineRows(row1, row2);
-
-            // after combining rows find the row to be removed and remove it
-            const newData: any[] = this.order.data.slice();
-            let valueToRemove;
-            newData.map((key1, index1) => {
-              newData.map((key2, index2) => {
-                if (key1.image === key2.image) {
-                  valueToRemove = Math.min(key1.purchased, key2.purchased);
-                }
-              })
-            });
-            const indexToRemove = newData.findIndex(remove => ((remove.purchased === valueToRemove) && (remove.image === duplicatedValues[0])));
-            this.order.data.splice(indexToRemove, 1);
-            this.order.data = this.order.data.slice();
-            this.updateSummary();
-          }
+        // send duplicated values to combineRows()
+        if (row.image === duplicatedValue) { duplicateIds.push(row.id); }
+        if (duplicateIds.length === 2) {
+          const objectKey = `${row.material}-${row.tile}`;
+          const row1 = this.order.data.filter(obj => obj.id === duplicateIds[0]);
+          const row2 = {[objectKey]: this.order.data.filter(obj => obj.id === duplicateIds[1])[0]};
+          this.combineRows(row1[0], row2);
+          const indexToRemove = this.order.data.findIndex(x => x.id === row2.id);
+          this.order.data.splice(indexToRemove, 1);
+          this.order.data = this.order.data.slice();
+          this.updateSummary();
         }
       })
     }
@@ -106,6 +91,7 @@ export class QuantityService {
     const editRow = row[Object.keys(row)[0]];
     editRow.total = this.feature.estimated_amount;
     editRow.tileSqFt = this.getTileSqFt(editRow.tile);
+    editRow.id = this.rowIndexNum++;
     this.order.data[index] = editRow;
     this.order.data = this.order.data.slice(); // refreshes the table
     this.updateSummary();
