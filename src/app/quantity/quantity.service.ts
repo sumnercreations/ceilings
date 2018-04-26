@@ -1,3 +1,4 @@
+import { TileObj } from './quantity.service';
 import { MatTableDataSource } from '@angular/material';
 import { TileRow } from './quantity.component';
 import { Feature } from './../feature';
@@ -45,9 +46,59 @@ export class QuantityService {
     const pkgQty = this.feature.getPackageQty(matchedRow.tile);
     const requestedRowFmtd = this.setRowData(requestedRow);
     matchedRow.used += requestedRowFmtd.used;
-    matchedRow.total += requestedRowFmtd.total;
     matchedRow.purchased = pkgQty * Math.ceil(matchedRow.used / pkgQty);
+    const objectKey = `${matchedRow.material}-${matchedRow.tile}`;
+    const matchedRowFmtd = {[objectKey]: matchedRow};
+    this.getRowEstimate(matchedRowFmtd); // sets feature.estimated_amount
+    matchedRow.total = this.feature.estimated_amount;
     this.updateSummary();
+  }
+
+  checkDuplicates() {
+    let row1;
+    let row2;
+
+    // change typing to any
+    const untypedData: any[] = this.order.data.slice();
+
+    // the image url is the best thing to compare for duplicates
+    const dataImagesArr = untypedData.map(rowData => rowData.image);
+
+    // new array of objects with number of instances of each image
+    const dataImagesCounted = dataImagesArr.reduce((a, b) => Object.assign(a, {[b]: (a[b] || 0) + 1}), {});
+
+    // an array of all the image values that have duplicates
+    const duplicatedValues = Object.keys(dataImagesCounted).filter((a) => dataImagesCounted[a] > 1);
+
+    // get the duplicated values and send them to this.combineRows()
+    if (!!duplicatedValues) {
+      untypedData.map(row => {
+        if (row.image === duplicatedValues[0]) {
+          if (!row1) {
+            const objectKey = `${row.material}-${row.tile}`;
+            row1 = {[objectKey]: row};
+          } else {
+            row2 = row;
+            this.combineRows(row1, row2);
+
+            // after combining rows find the row to be removed and remove it
+            const newData: any[] = this.order.data.slice();
+            let valueToRemove;
+            newData.map((key1, index1) => {
+              newData.map((key2, index2) => {
+                if (key1.image === key2.image) {
+                  valueToRemove = Math.min(key1.purchased, key2.purchased);
+                }
+              })
+            });
+            const indexToRemove = newData.findIndex(remove => ((remove.purchased === valueToRemove) && (remove.image === duplicatedValues[0])));
+            this.order.data.splice(indexToRemove, 1);
+            this.order.data = this.order.data.slice();
+            this.updateSummary();
+          }
+        }
+      })
+    }
   }
 
   doEditRow(index, row) {

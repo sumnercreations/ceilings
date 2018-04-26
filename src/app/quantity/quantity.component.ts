@@ -155,6 +155,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (!!result) {
           this.qtySrv.doEditRow(index, result);
+          this.qtySrv.checkDuplicates();
         }
       })
   }
