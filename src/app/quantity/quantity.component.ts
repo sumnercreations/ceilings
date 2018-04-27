@@ -78,7 +78,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
           if (qtyOrder.feature_type !== this.qtySrv.feature_type) {
             this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
           }
-          this.feature.is_quantity_order = true;
+          this.qtySrv.order.data = [];
           this.feature.id = qtyOrder.id;
           this.feature.uid = qtyOrder.uid;
           this.feature.design_name = qtyOrder.design_name;
@@ -94,8 +94,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
         })
       }
     })
+
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
+    this.feature.is_quantity_order = true;
 
     this.api.onUserLoggedIn
       .subscribe(apiUser => {

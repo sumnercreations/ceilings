@@ -62,7 +62,6 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
-    this.feature.is_quantity_order = false;
     this.route.params.subscribe(params => {
       // default the feature type
       let featureType;
