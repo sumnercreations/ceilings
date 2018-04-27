@@ -67,20 +67,22 @@ export class QuantityService {
     const dataImagesCounted = dataImagesArr.reduce((a, b) => Object.assign(a, {[b]: (a[b] || 0) + 1}), {});
     // an array of all the image values that have duplicates
     const duplicatedValue = Object.keys(dataImagesCounted).filter((a) => dataImagesCounted[a] > 1)[0];
-    const duplicateIds = [];
+    let duplicateIds = [];
     if (!!duplicatedValue) {
       untypedData.map(row => {
         // send duplicated values to combineRows()
         if (row.image === duplicatedValue) { duplicateIds.push(row.id); }
         if (duplicateIds.length === 2) {
           const objectKey = `${row.material}-${row.tile}`;
-          const row1 = this.order.data.filter(obj => obj.id === duplicateIds[0]);
-          const row2 = {[objectKey]: this.order.data.filter(obj => obj.id === duplicateIds[1])[0]};
+          const row1 = untypedData.filter(obj => obj.id === duplicateIds[0]);
+          const row2 = {[objectKey]: untypedData.filter(obj => obj.id === duplicateIds[1])[0]};
+
           this.combineRows(row1[0], row2);
-          const indexToRemove = this.order.data.findIndex(x => x.id === row2.id);
+          const indexToRemove = untypedData.findIndex(x => x.id === row2[objectKey].id);
           this.order.data.splice(indexToRemove, 1);
           this.order.data = this.order.data.slice();
           this.updateSummary();
+          duplicateIds = [];
         }
       })
     }
