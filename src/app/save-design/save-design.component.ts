@@ -61,7 +61,7 @@ export class SaveDesignComponent implements OnInit {
         // set the feature to what was returned from the API.
         this.feature = feature.ceiling;
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id]).toString();
         if (url !== this.router.url) {
           this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
         }

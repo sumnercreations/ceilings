@@ -42,6 +42,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   featureTiles: any;
   materials: any;
   tryingRequestQuote = false;
+  canQtyOrder = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -61,13 +62,13 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
-    this.feature.is_quantity_order = false;
     this.route.params.subscribe(params => {
       // default the feature type
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
         if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
+        this.setCanQtyOrder();
       }
       if (featureType === 'seeyond') { this.setSeeyondFeature(params); return; }
       // if one of the params are an integer we need to load the design
@@ -333,6 +334,17 @@ export class DesignComponent implements OnInit, OnDestroy {
       default: break;
     }
     this.feature.buildGrid();
+  }
+
+  setCanQtyOrder() {
+    const featuresWithQtyOrder = ['hush', 'clario', 'tetria'];
+    const featureType = this.feature.feature_type;
+    this.canQtyOrder = featuresWithQtyOrder.includes(featureType);
+  }
+
+  goToQtyOrder() {
+    this.router.navigate([`${this.feature.feature_type}/quantity`]);
+    this.feature.reset();
   }
 
   setSeeyondFeature(urlParams) {

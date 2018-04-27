@@ -509,6 +509,10 @@ export class Feature {
   }
 
   updateSelectedDiffusion(diffusion: string) {
+    if (this.materialType === 'felt') {
+      // a diffusion requires varia to be selected
+      this.updateSelectedMaterial('no_color', '#ffffff', 'varia');
+    }
     const hasColor = (this.material !== 'no_color') ? true : false;
     // if the diffusion they clicked on is already selected,
     // deselect it so they have a way to remove the diffusion

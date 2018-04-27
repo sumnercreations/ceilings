@@ -43,7 +43,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   // Table Properties
   dataSource: TableDataSource | null;
   dataSubject = new BehaviorSubject<Order[]>([]);
-  displayedColumns = ['ordered', 'material', 'total', 'edit'];
+  displayedColumns = ['used', 'receiving', 'unused', 'material', 'total', 'edit'];
 
   constructor(
     private route: ActivatedRoute,
@@ -78,7 +78,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
           if (qtyOrder.feature_type !== this.qtySrv.feature_type) {
             this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
           }
-          this.feature.is_quantity_order = true;
+          this.qtySrv.order.data = [];
           this.feature.id = qtyOrder.id;
           this.feature.uid = qtyOrder.uid;
           this.feature.design_name = qtyOrder.design_name;
@@ -94,8 +94,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
         })
       }
     })
+
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
+    this.feature.is_quantity_order = true;
 
     this.api.onUserLoggedIn
       .subscribe(apiUser => {
@@ -113,14 +115,18 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
   setComponentProperties() {
     switch (this.qtySrv.feature_type) {
-      case 'hush': this.headerTitle = 'Hush Blocks Tiles '; break;
+      case 'hush':
+        this.headerTitle = 'Hush Blocks Tiles';
+        this.displayedColumns = ['hush-receiving', 'hush-material', 'total', 'edit'];
+        break;
       case 'clario': this.headerTitle = 'Clario Tiles'; break;
       case 'tetria': this.headerTitle = 'Tetria Tiles'; break;
     }
   }
 
-  backToDesign() {
+  backToDesign(reset?) {
     this.router.navigate([this.feature.feature_type, 'design']);
+    if (reset === 'reset') { this.feature.reset(); }
   }
 
   addToOrder() {
@@ -136,7 +142,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
             const newRow: TileRow = JSON.parse(rowStr);
             if (newRow.image === res.image) {
               isMultiple = true;
-              this.qtySrv.combineRows(requestedRow, row);
+              this.qtySrv.combineRows(row, requestedRow);
             }
           })
           if (!isMultiple) { this.qtySrv.doAddRow(requestedRow); }
@@ -151,6 +157,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (!!result) {
           this.qtySrv.doEditRow(index, result);
+          this.qtySrv.checkAndFixDuplicates();
         }
       })
   }
@@ -185,7 +192,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   calcSqFootage() {
-    this.tilesNeeded = this.sqFootage / 4;
+    this.tilesNeeded = Math.ceil(this.sqFootage / 4);
   }
 
   public saveQuantity() {

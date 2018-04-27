@@ -1,3 +1,7 @@
+.navigation {
+  margin-left: 15px;
+}
+
 .velo-grid-container {
   position: relative;
   margin-left: -15px;
@@ -26,9 +30,13 @@ span.sm {
   font-size: 10px;
 }
 
+.back-to-design span {
+  font-size: 11px;
+}
+
 .design-header {
   background-color: #fff;
-  padding: 10px 15px;
+  padding: 3px 15px 10px 15px;
 }
 
 .design-header p {
