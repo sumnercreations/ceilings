@@ -34,12 +34,17 @@ export class LoginComponent implements OnInit {
     this.api.login(this.email, this.password)
       .subscribe(
         data => {
-          this.alert.success('Successfully logged in.');
+          if (!!data.result && !!data.result.user) {
+            this.alert.success('Successfully logged in.');
+            this.loading = false;
+            localStorage.setItem('3formUser', JSON.stringify(data.result.user));
+            this.api.onUserLoggedIn.emit(this.user);
+            this.debug.log('api', 'user successfully logged in');
+            this.dialogRef.close();
+          } else {
+            this.alert.error('Incorrect Username or Password');
+          }
           this.loading = false;
-          localStorage.setItem('3formUser', JSON.stringify(data.result.user));
-          this.api.onUserLoggedIn.emit(this.user);
-          this.debug.log('api', 'user successfully logged in');
-          this.dialogRef.close();
         },
         error => {
           if (error) {
