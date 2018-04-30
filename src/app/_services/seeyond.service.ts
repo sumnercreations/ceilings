@@ -12,7 +12,6 @@ import { SeeyondFeature } from 'app/seeyond-feature';
 import { User } from './../_models/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { MaterialsService } from './materials.service';
 
 @Injectable()
 export class SeeyondService {
@@ -24,7 +23,7 @@ export class SeeyondService {
     private http: Http,
     private seeyond: SeeyondFeature,
     private user: User,
-    private debug: DebugService,
+    public debug: DebugService,
     private materials: MaterialsService,
     private api: ApiService,
     private alert: AlertService
@@ -32,7 +31,7 @@ export class SeeyondService {
 
   getMyFeatures() {
     return this.http.get(this.apiUrl + 'list/' + this.user.uid)
-      .map((res: Response) => res.json())
+      .map((res: Response) => res)
       .catch(this.handleError)
   }
 
@@ -40,10 +39,10 @@ export class SeeyondService {
     this.debug.log('seeyond', 'Loading Feature');
     return this.http.get(this.apiUrl + id)
       .map((res: Response) => {
-        this.debug.log('seeyond', res.json());
+        this.debug.log('seeyond', res);
         this.onLoaded.emit();
         this.debug.log('seeyond', 'emitting onLoaded');
-        return res.json();
+        return res;
       })
       .catch(this.handleError);
   }
@@ -97,7 +96,7 @@ export class SeeyondService {
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('seeyond', 'emitting onSaved');
-        return res.json() || {};
+        return res || {};
       })
       .catch(this.handleError);
   }
@@ -144,7 +143,7 @@ export class SeeyondService {
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('seeyond', 'emitting onSaved');
-        return res.json() || {}
+        return res || {}
       })
       .catch(this.handleError);
   }
@@ -155,13 +154,13 @@ export class SeeyondService {
 
   sendEmail() {
     return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/feature/' + this.seeyond.id)
-      .map((res: Response) => res.json())
+      .map((res: Response) => res)
       .catch(this.handleError)
   }
 
   getPrices() {
     return this.http.get(this.apiUrl + 'prices')
-      .map((res: Response) => res.json())
+      .map((res: Response) => res)
       .catch(this.handleError)
   }
 
@@ -196,18 +195,18 @@ export class SeeyondService {
     return [year, month, day];
   }
 
-  handleError(error: any) {
-    const errorBody = error.json();
-    if (!!errorBody.error) { this.alert.error(errorBody.message); }
+  public handleError(error: HttpErrorResponse) {
+    // console.log(error);
+    if (error.status === 500) { this.debug.log('api', error.message); return; }
+    // if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      this.debug.log('seeyond', `An error occurred`);
+      this.debug.log('api', `An error occurred: ${error.statusText}`);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      this.debug.log('seeyond',
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.message}`);
+      this.debug.log('api',
+        `Backend returned code ${error.status}, body was: ${error.message}`);
     }
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(

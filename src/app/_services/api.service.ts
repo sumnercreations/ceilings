@@ -145,12 +145,6 @@ export class ApiService {
       .catch(this.handleError);
   }
 
-  getPartsSubstitutes() {
-    return this.http.get(this.partSubsUrl)
-      .map((res: Response) => res.json())
-      .catch(this.handleError);
-  }
-
 
   login(email: string, password: string) {
     this.debug.log('api', 'api login');
@@ -161,19 +155,18 @@ export class ApiService {
 
     return this.http.post(this.loginUrl, formData)
       .map((res: any) => {
+        console.log('login res:', res);
         if (res && !res.result.error) {
           localStorage.setItem('3formUser', JSON.stringify(res.result.user));
           this.user = res.result.user;
           this.onUserLoggedIn.emit(this.user);
-          this.debug.log('res', 'user successfully logged in');
           return res;
         } else {
           this.alert.apiAlert(res.result.error);
         }
       })
       .catch((res) => {
-        const api = res.json();
-        this.alert.error(api.result.message);
+        this.alert.error(res.error.result.message);
         return 'error';
       });
   }
