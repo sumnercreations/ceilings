@@ -33,7 +33,6 @@ export class QuantityService {
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
     newRow.id = this.rowIndexNum++;
-    console.log('id:', newRow.id);
     return newRow;
   }
 
@@ -46,7 +45,6 @@ export class QuantityService {
   }
 
   combineRows(matchedRow, requestedRow) {
-    console.log('combineRows:', arguments);
     // matchedRow is kept
     const pkgQty = this.feature.getPackageQty(matchedRow.tile);
     const requestedRowConfigured = this.setRowData(requestedRow);

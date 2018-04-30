@@ -673,6 +673,7 @@ export class Feature {
 
   public getTilesPurchasedObj() {
     let tiles: {};
+    if (this.is_quantity_order) { return; }
     if (this.feature_type === 'velo') {
       const pkgQty: number = this.getPackageQty('velo');
       const gridTiles = this.veloTiles();
