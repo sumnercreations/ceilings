@@ -34,6 +34,9 @@ export class Feature {
   public archived = false; // boolean
   public updated_at: string;
   public quantity = 1;
+  public is_quantity_order = false;
+  public qtyTilesUsed = 0;
+  public qtyTilesReceiving = 0;
 
   // attributes for the tool
   public tile_type = 'tile';
@@ -485,6 +488,12 @@ export class Feature {
     if (this.selectedTool !== '') {
       this.selectedTool = '';
     }
+
+    // handle no color for varia
+    if (material === 'no_color' && materialType === 'varia') {
+      // forces a diffusion to be selected if 'no_color' is chosen
+      if (!this.diffusion) { this.updateSelectedDiffusion('avalanche_d01'); }
+    }
   }
 
   updateSelectedTool(tool: string) {
@@ -500,9 +509,15 @@ export class Feature {
   }
 
   updateSelectedDiffusion(diffusion: string) {
+    if (this.materialType === 'felt') {
+      // a diffusion requires varia to be selected
+      this.updateSelectedMaterial('no_color', '#ffffff', 'varia');
+    }
+    const hasColor = (this.material !== 'no_color') ? true : false;
     // if the diffusion they clicked on is already selected,
     // deselect it so they have a way to remove the diffusion
-    if (this.diffusion === diffusion) {
+    // unless 'no_color' is selected
+    if (this.diffusion === diffusion && hasColor) {
       this.diffusion = '';
     } else {
       this.diffusion = diffusion;
@@ -658,6 +673,7 @@ export class Feature {
 
   public getTilesPurchasedObj() {
     let tiles: {};
+    if (this.is_quantity_order) { return; }
     if (this.feature_type === 'velo') {
       const pkgQty: number = this.getPackageQty('velo');
       const gridTiles = this.veloTiles();
@@ -991,6 +1007,7 @@ export class Feature {
 
   public setFeatureType(str: string) {
     if (str.indexOf('hush') > -1) { str = 'hush'; }
+    this.feature_type = str;
     return str;
   }
 
@@ -998,5 +1015,39 @@ export class Feature {
     const materialObject = this.materials[matFamily][matType][material];
     this.materialObj = materialObject;
     return materialObject;
+  }
+
+  public getFeatureMaterials() {
+    const featureType = this.feature_type;
+    let requiredMaterials: any;
+    switch (featureType) {
+      case 'hush': requiredMaterials = this.materials.felt.sola; break;
+      case 'seeyond': requiredMaterials = this.materials.felt.sola; break;
+      case 'tetria': requiredMaterials = this.materials.felt.merino; break;
+      case 'clario': requiredMaterials = this.materials.felt.sola; break;
+      case 'velo':
+        requiredMaterials = {felt: undefined, varia: undefined};
+        requiredMaterials.felt = this.materials.felt.merino;
+        this.materials.varia.color = this.addNoColorToVariaObj();
+        requiredMaterials.varia = this.materials.varia;
+      break;
+    }
+    return requiredMaterials;
+  }
+
+  addNoColorToVariaObj() {
+    // object to add
+    const variaWithoutColor = { material: 'no_color', hex: '#ffffff', status: 'active', availableUntil: '', partId: null };
+    // turn it into an array to enforce object order
+    const variaArr = Object.keys(this.materials.varia.color).map(key => this.materials.varia.color[key]);
+    // add object the end of the array
+    variaArr.push(variaWithoutColor);
+    // turn the array back into an object
+    const newVariaObj = variaArr.reduce(function(acc, cur, i) {
+      acc[i] = cur;
+      return acc;
+    }, {});
+    // return the new object with 'no_color' added to the end of the array
+    return newVariaObj;
   }
 }

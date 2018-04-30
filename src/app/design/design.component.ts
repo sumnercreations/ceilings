@@ -1,9 +1,9 @@
-import { MaterialsService } from 'app/_services/materials.service';
+import { MaterialsService } from './../_services/materials.service';
 import { SeeyondService } from './../_services/seeyond.service';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
@@ -31,17 +31,18 @@ import { AlertService } from 'app/_services/alert.service';
 export class DesignComponent implements OnInit, OnDestroy {
   syd_v = require('syd-visualization');
   ngUnsubscribe: Subject<any> = new Subject();
-  optionsDialogRef: MdDialogRef<any>;
-  loadDesignDialogRef: MdDialogRef<any>;
-  saveDesignDialogRef: MdDialogRef<any>;
-  loginDialogRef: MdDialogRef<any>;
-  view3dDialogRef: MdDialogRef<any>;
-  tileUsageDialogRef: MdDialogRef<any>;
+  optionsDialogRef: MatDialogRef<any>;
+  loadDesignDialogRef: MatDialogRef<any>;
+  saveDesignDialogRef: MatDialogRef<any>;
+  loginDialogRef: MatDialogRef<any>;
+  view3dDialogRef: MatDialogRef<any>;
+  tileUsageDialogRef: MatDialogRef<any>;
   position = 'above';
   FileSaver = FileSaver;
   featureTiles: any;
   materials: any;
   tryingRequestQuote = false;
+  canQtyOrder = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -49,7 +50,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     public debug: DebugService,
     public api: ApiService,
     public feature: Feature,
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     public user: User,
     public seeyond: SeeyondFeature,
     public seeyondService: SeeyondService,
@@ -66,25 +67,25 @@ export class DesignComponent implements OnInit, OnDestroy {
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
         if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
+        this.setCanQtyOrder();
       }
       if (featureType === 'seeyond') { this.setSeeyondFeature(params); return; }
       // if one of the params are an integer we need to load the design
       const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!designId) { // if designId is truthy
         this.api.loadDesign(designId).subscribe(design => {
-          if (design == null) {
+          if (design == null) { // design not found redirect to the design url
             this.debug.log('design-component', 'design not found');
-            // design not found redirect to the design url
             this.router.navigate([params['type'], 'design']);
-          } else {
-            // design was found so load it.
+          } else { // design was found so load it.
+            if (design.is_quantity_order) { this.router.navigate([`${design.feature_type}/quantity`, design.id]); return; }
             if (design.feature_type === params['type']) {
               design.feature_type = (design.feature_type === 'hush-blocks') ? 'hush' : design.feature_type;
               this.debug.log('design-component', 'setting the design.');
               design.feature_type = this.feature.setFeatureType(design.feature_type);
               this.feature.setDesign(design);
               this.featureTiles = this.feature.tilesArray[featureType];
-              this.materials = this.getFeatureMaterials();
+              this.materials = this.feature.getFeatureMaterials();
               if (this.feature.feature_type === 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
               }else if (this.feature.feature_type === 'velo') {
@@ -101,7 +102,9 @@ export class DesignComponent implements OnInit, OnDestroy {
               this.router.navigate([design.feature_type, 'design', design.id]);
             }
           }
-        });
+        },
+        err => this.api.handleError(err)
+      );
       } else {
         setTimeout(() => {
           this.feature.feature_type = this.feature.setFeatureType(params['type']);
@@ -125,7 +128,7 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
           }
-          this.materials = this.getFeatureMaterials();
+          this.materials = this.feature.getFeatureMaterials();
           this.debug.log('design-component', this.materials);
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
@@ -183,7 +186,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   public editOptions() {
     // load a dialog to edit the options
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     config.disableClose = true;
     config.height = '90%';
     config.width = '80%';
@@ -201,11 +204,11 @@ export class DesignComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      // let loadDialog: MdDialog;
+      // let loadDialog: MatDialog;
       this.api.getMyDesigns()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
-        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
+        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
         this.loadDesignDialogRef.componentInstance.designs = designs;
       });
     }
@@ -216,19 +219,19 @@ export class DesignComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      // let loadDialog: MdDialog;
+      // let loadDialog: MatDialog;
       this.seeyondService.getMyFeatures()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
-        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MdDialogConfig);
+        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
         this.loadDesignDialogRef.componentInstance.designs = designs;
       });
     }
   }
 
   public saveDesign() {
-    // let saveDialog: MdDialog;
-    this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MdDialogConfig);
+    // let saveDialog: MatDialog;
+    this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig);
     if (!this.user.isLoggedIn()) {
       this.loginDialog();
     }
@@ -236,7 +239,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   public loginDialog(load: boolean = false) {
     this.debug.log('design-component', 'displaying login dialog');
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
     this.loginDialogRef.afterClosed()
@@ -271,11 +274,11 @@ export class DesignComponent implements OnInit, OnDestroy {
   public view3d() {
     this.debug.log('design-component', 'displaying 3d dialog');
     // display the dialog where the 3d visualization will be rendered
-    this.view3dDialogRef = this.dialog.open(VisualizationComponent, new MdDialogConfig);
+    this.view3dDialogRef = this.dialog.open(VisualizationComponent, new MatDialogConfig);
   }
 
   public tileUsage() {
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     config.height = '700px';
     if (this.feature.feature_type === 'velo') {
       this.tileUsageDialogRef = this.dialog.open(VeloTileUsageComponent, config);
@@ -316,26 +319,9 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.downloadGridGuide();
     }
     // load the dialog to confirm the design we will be sending
-    const config = new MdDialogConfig();
+    const config = new MatDialogConfig();
     // config.height = '700px';
     const dialogRef = this.dialog.open(QuoteDialogComponent, config);
-  }
-
-  getFeatureMaterials() {
-    const featureType = this.feature.feature_type;
-    let requiredMaterials: any;
-    switch (featureType) {
-      case 'hush': requiredMaterials = this.feature.materials.felt.sola; break;
-      case 'seeyond': requiredMaterials = this.feature.materials.felt.sola; break;
-      case 'tetria': requiredMaterials = this.feature.materials.felt.merino; break;
-      case 'clario': requiredMaterials = this.feature.materials.felt.sola; break;
-      case 'velo':
-        requiredMaterials = {felt: undefined, varia: undefined};
-        requiredMaterials.felt = this.feature.materials.felt.merino;
-        requiredMaterials.varia = this.feature.materials.varia;
-      break;
-    }
-    return requiredMaterials;
   }
 
   adjustGridDimensions(tool) {
@@ -347,6 +333,17 @@ export class DesignComponent implements OnInit, OnDestroy {
       default: break;
     }
     this.feature.buildGrid();
+  }
+
+  setCanQtyOrder() {
+    const featuresWithQtyOrder = ['hush', 'clario', 'tetria'];
+    const featureType = this.feature.feature_type;
+    this.canQtyOrder = featuresWithQtyOrder.includes(featureType);
+  }
+
+  goToQtyOrder() {
+    this.router.navigate([`${this.feature.feature_type}/quantity`]);
+    this.feature.reset();
   }
 
   setSeeyondFeature(urlParams) {
@@ -373,7 +370,11 @@ export class DesignComponent implements OnInit, OnDestroy {
               seeyondFeature = seeyondFeaturesList[key]['name'];
             }
           })
+<<<<<<< HEAD
+          this.materials = this.feature.getFeatureMaterials();
+=======
           this.materials = this.getFeatureMaterials();
+>>>>>>> master
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
           this.seeyond.updateSeeyondFeature(seeyondFeature);
