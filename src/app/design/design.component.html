@@ -1,7 +1,7 @@
 <app-seeyond-design *ngIf="feature.feature_type=='seeyond'"></app-seeyond-design>
 <ng-container *ngIf="feature.feature_type!='seeyond'">
 <div class="row" *ngIf="canQtyOrder">
-  <div class="col-sm-4">
+  <div class="col-sm-4 navigation">
     <a class="hidden-print back-to-design" (click)="goToQtyOrder()"><span class="icomoon-chevron-left orange"></span>Order by Quantity Instead</a>
   </div>
 </div>

@@ -20,7 +20,8 @@ export class QuantityDetailsComponent implements OnInit {
 
   dataSource: TableDataSource | null;
   dataSubject = new BehaviorSubject<Order[]>([]);
-  displayedColumns = ['ordered', 'material', 'total'];
+  // displayedColumns = ['ordered', 'material', 'total'];
+  displayedColumns = ['used', 'receiving', 'unused', 'material', 'total'];
 
   constructor(
     private location: Location,
@@ -38,6 +39,7 @@ export class QuantityDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
       this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
+      if (this.qtySrv.feature_type === 'hush') { this.displayedColumns = ['hush-receiving', 'hush-material', 'total']; }
       const orderId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!orderId) {
         this.api.loadDesign(orderId).subscribe(qtyOrder => {

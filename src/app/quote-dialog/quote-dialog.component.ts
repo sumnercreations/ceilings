@@ -42,6 +42,16 @@ export class QuoteDialogComponent implements OnInit {
     this.units = (this.feature.units = 'inches') ? '\"' : 'cm';
   }
 
+  validInputs() {
+    let isValid = false;
+    if (this.feature.feature_type !== 'seeyond') {
+      isValid = (!!this.feature.project_name && !!this.feature.specifier);
+    } else {
+      isValid = (!!this.seeyond.project_name && !!this.seeyond.specifier);
+    }
+    return isValid;
+  }
+
   public quoteConfirmed() {
     if (this.feature.feature_type === 'seeyond') { this.seeyondQuoteConfirmed(); return; }
     if (this.feature.is_quantity_order) { this.uiType = 'quantity'; }

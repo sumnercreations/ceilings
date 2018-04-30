@@ -81,7 +81,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
           if (qtyOrder.feature_type !== this.qtySrv.feature_type) {
             this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
           }
-          this.feature.is_quantity_order = true;
+          this.qtySrv.order.data = [];
           this.feature.id = qtyOrder.id;
           this.feature.uid = qtyOrder.uid;
           this.feature.design_name = qtyOrder.design_name;
@@ -100,6 +100,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
+    this.feature.is_quantity_order = true;
 
     this.api.onUserLoggedIn
       .subscribe(apiUser => {
@@ -144,7 +145,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
             const newRow: TileRow = JSON.parse(rowStr);
             if (newRow.image === res.image) {
               isMultiple = true;
-              this.qtySrv.combineRows(requestedRow, row);
+              this.qtySrv.combineRows(row, requestedRow);
             }
           })
           if (!isMultiple) { this.qtySrv.doAddRow(requestedRow); }
@@ -159,6 +160,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       .subscribe(result => {
         if (!!result) {
           this.qtySrv.doEditRow(index, result);
+          this.qtySrv.checkAndFixDuplicates();
         }
       })
   }

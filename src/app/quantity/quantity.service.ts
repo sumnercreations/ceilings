@@ -1,3 +1,4 @@
+import { TileObj } from './quantity.service';
 import { MatTableDataSource } from '@angular/material';
 import { TileRow } from './quantity.component';
 import { Feature } from './../feature';
@@ -15,6 +16,7 @@ export class QuantityService {
   sqFtReceiving = 0;
   sqFtPerTile: number;
   order = new MatTableDataSource();
+  rowIndexNum = 1;
 
   constructor(
     private debug: DebugService,
@@ -30,6 +32,7 @@ export class QuantityService {
     this.feature.tile_size = (newRow.tile === '48') ? 48 : 24;
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
+    newRow.id = this.rowIndexNum++;
     return newRow;
   }
 
@@ -41,13 +44,46 @@ export class QuantityService {
     this.updateSummary();
   }
 
-  combineRows(requestedRow, matchedRow) {
+  combineRows(matchedRow, requestedRow) {
+    // matchedRow is kept
     const pkgQty = this.feature.getPackageQty(matchedRow.tile);
-    const requestedRowFmtd = this.setRowData(requestedRow);
-    matchedRow.used += requestedRowFmtd.used;
-    matchedRow.total += requestedRowFmtd.total;
+    const requestedRowConfigured = this.setRowData(requestedRow);
+    matchedRow.used += requestedRowConfigured.used;
     matchedRow.purchased = pkgQty * Math.ceil(matchedRow.used / pkgQty);
+    const objectKey = `${matchedRow.material}-${matchedRow.tile}`;
+    const matchedRowFmtd = {[objectKey]: matchedRow};
+    this.getRowEstimate(matchedRowFmtd); // sets feature.estimated_amount
+    matchedRow.total = this.feature.estimated_amount;
+    matchedRow.id = this.rowIndexNum++;
     this.updateSummary();
+  }
+
+  checkAndFixDuplicates() {
+    const untypedData: any[] = this.order.data.slice();
+    const dataImagesArr = untypedData.map(rowData => rowData.image);
+    // new array of objects with number of instances of each image
+    const dataImagesCounted = dataImagesArr.reduce((a, b) => Object.assign(a, {[b]: (a[b] || 0) + 1}), {});
+    // an array of all the image values that have duplicates
+    const duplicatedValue = Object.keys(dataImagesCounted).filter((a) => dataImagesCounted[a] > 1)[0];
+    let duplicateIds = [];
+    if (!!duplicatedValue) {
+      untypedData.map(row => {
+        // send duplicated values to combineRows()
+        if (row.image === duplicatedValue) { duplicateIds.push(row.id); }
+        if (duplicateIds.length === 2) {
+          const objectKey = `${row.material}-${row.tile}`;
+          const row1 = untypedData.filter(obj => obj.id === duplicateIds[0]);
+          const row2 = {[objectKey]: untypedData.filter(obj => obj.id === duplicateIds[1])[0]};
+
+          this.combineRows(row1[0], row2);
+          const indexToRemove = untypedData.findIndex(x => x.id === row2[objectKey].id);
+          this.order.data.splice(indexToRemove, 1);
+          this.order.data = this.order.data.slice();
+          this.updateSummary();
+          duplicateIds = [];
+        }
+      })
+    }
   }
 
   doEditRow(index, row) {
@@ -55,6 +91,7 @@ export class QuantityService {
     const editRow = row[Object.keys(row)[0]];
     editRow.total = this.feature.estimated_amount;
     editRow.tileSqFt = this.getTileSqFt(editRow.tile);
+    editRow.id = this.rowIndexNum++;
     this.order.data[index] = editRow;
     this.order.data = this.order.data.slice(); // refreshes the table
     this.updateSummary();

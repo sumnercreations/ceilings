@@ -1,6 +1,6 @@
 <div class="quantity-header">
   <div class="row">
-    <a (click)="backToDesign('reset')"><span class="icomoon-chevron-left orange"></span> <span>Order by Designing Instead</span></a>
+    <a (click)="backToDesign('reset')"><span class="icomoon-chevron-left orange navigation"></span> <span>Order by Designing Instead</span></a>
     <div class="header-row">
       <div class="">
         <p class="md title">Order {{headerTitle}} By Quantity</p>
@@ -123,9 +123,8 @@
         <input [(ngModel)]="sqFootage" (keyup)="calcSqFootage()" placeholder="Sq Footage" type="number">
       </div>
       <div *ngIf="!!sqFootage" class="sq-footage-results">
-        <p><strong>{{tilesNeeded}}</strong> tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
-        <p><strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.<sup *ngIf="qtySrv.feature_type === 'clario'">*</sup></p>
-        <p *ngIf="qtySrv.feature_type === 'clario'"><sup>*</sup>24x48 baffles count as 2 tiles.</p>
+        <p><strong>{{tilesNeeded}}</strong> 24x24 tiles are required to cover <strong>{{sqFootage}}</strong> square feet.</p>
+        <p><strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.</p>
       </div>
     </div>
     <div class="filler"></div>

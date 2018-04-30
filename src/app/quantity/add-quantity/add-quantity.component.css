@@ -49,6 +49,10 @@
   margin: 0px 5px;
 }
 
+.selection-img {
+  max-height: 48px;
+}
+
 .rotate-90 {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);

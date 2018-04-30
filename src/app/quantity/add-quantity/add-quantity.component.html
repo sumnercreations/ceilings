@@ -33,7 +33,7 @@
           <p class="md" *ngIf="(!!selectedQuantity && selectedQuantity > 0)">{{selectedQuantity}} x</p>
         </div>
         <div>
-          <img [ngClass]="{'rotate-90': selectedTile === '24'}" *ngIf="!!selectedMaterialImg && (selectedMaterialImg.indexOf('undefined') < 0)" src="{{selectedMaterialImg}}" matTooltip="{{selectedMaterial | capitalize}}" class="img-responsive tooltip-host" alt="{{selectedMaterial | capitalize}}" [matTooltipPosition]="position">
+          <img [ngClass]="{'rotate-90': selectedTile === '24'}" *ngIf="!!selectedMaterialImg && (selectedMaterialImg.indexOf('undefined') < 0)" src="{{selectedMaterialImg}}" matTooltip="{{selectedMaterial | capitalize}}" class="selection-img img-responsive tooltip-host" alt="{{selectedMaterial | capitalize}}" [matTooltipPosition]="position">
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@
     </div>
     <div *ngIf="isEditing" class="action-btns">
       <button class="button button-gray" (click)="cancel()">Cancel</button>
-      <button class="button button-gray" (click)="addToOrder()" [disabled]="!validateQtyInputs()">SAVE</button>
+      <button class="button button-gray" (click)="addToOrder()" [disabled]="!validateQtyInputs()">EDIT</button>
     </div>
   </div>
 </div>

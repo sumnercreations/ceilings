@@ -58,8 +58,8 @@ export class ApiService {
       'design_name': this.feature.design_name,
       'project_name': this.feature.project_name,
       'specifier': this.feature.specifier,
-      'width': this.feature.width,
-      'length': this.feature.length,
+      'width': this.feature.width || 0,
+      'length': this.feature.length || 0,
       'units': this.feature.units,
       'material': this.feature.material,
       'tile_size': this.feature.tile_size,
@@ -94,8 +94,8 @@ export class ApiService {
       'design_name': this.feature.design_name,
       'project_name': this.feature.project_name,
       'specifier': this.feature.specifier,
-      'width': this.feature.width,
-      'length': this.feature.length,
+      'width': this.feature.width || 0,
+      'length': this.feature.length || 0,
       'units': this.feature.units,
       'material': this.feature.material,
       'tile_size': this.feature.tile_size,
@@ -172,9 +172,9 @@ export class ApiService {
   }
 
   public handleError(error: HttpErrorResponse) {
-    // this.debug.log('api', error.message);
-    if (error.status === 500) { this.debug.log('api', error.message); return; }
-    if (!!error.error.result.message && (typeof(error.error.result) !== 'undefined')) { this.alert.error(error.error.result.message); }
+    console.log(error);
+    // if (error.status === 500) { this.debug.log('api', error.message); return; }
+    // if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       this.debug.log('api', `An error occurred: ${error.error}`);
