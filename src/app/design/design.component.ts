@@ -57,7 +57,6 @@ export class DesignComponent implements OnInit, OnDestroy {
     public alert: AlertService,
     public location: Location,
     public materialsService: MaterialsService
-
   ) { }
 
   ngOnInit() {

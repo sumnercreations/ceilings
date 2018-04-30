@@ -57,14 +57,30 @@ hr {
   margin-right: 10px;
 }
 
-.mat-cell:first-child,
-.mat-header-cell:first-child {
-  flex: 0 0 25%;
+.mat-cell:last-child * {
+  cursor: pointer;
+  font-size: 1.1em;
 }
 
-.mat-cell:last-child,
-.mat-header-cell:last-child {
-  flex: 0 0 15%;
+.mat-column-used,
+.mat-column-receiving,
+.mat-column-unused {
+  flex: 0 0 12%;
+}
+
+.mat-column-hush-material,
+.mat-column-material {
+  flex: 0 0 45%;
+}
+
+.material-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.material-column img {
+  margin-right: 10px;
 }
 
 .table-img {

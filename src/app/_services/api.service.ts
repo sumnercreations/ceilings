@@ -145,6 +145,7 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+
   login(email: string, password: string) {
     this.debug.log('api', 'api login');
     const formData = {
@@ -154,15 +155,19 @@ export class ApiService {
 
     return this.http.post(this.loginUrl, formData)
       .map((res: any) => {
+        console.log('login res:', res);
         if (res && !res.result.error) {
           localStorage.setItem('3formUser', JSON.stringify(res.result.user));
           this.user = res.result.user;
           this.onUserLoggedIn.emit(this.user);
-          this.debug.log('res', 'user successfully logged in');
           return res;
         } else {
           this.alert.apiAlert(res.result.error);
         }
+      })
+      .catch((res) => {
+        this.alert.error(res.error.result.message);
+        return 'error';
       });
   }
 
