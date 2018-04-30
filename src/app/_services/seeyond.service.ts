@@ -12,6 +12,7 @@ import { SeeyondFeature } from 'app/seeyond-feature';
 import { User } from './../_models/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { MaterialsService } from './materials.service';
 
 @Injectable()
 export class SeeyondService {
@@ -183,6 +184,7 @@ export class SeeyondService {
   }
 
   formattedTimeStamp() {
+    // returns today in [yyyy, mm, dd];
     const d = new Date();
     const year = d.getFullYear();
     let month = '' + (d.getMonth() + 1);

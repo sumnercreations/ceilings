@@ -145,6 +145,13 @@ export class ApiService {
       .catch(this.handleError);
   }
 
+  getPartsSubstitutes() {
+    return this.http.get(this.partSubsUrl)
+      .map((res: Response) => res.json())
+      .catch(this.handleError);
+  }
+
+
   login(email: string, password: string) {
     this.debug.log('api', 'api login');
     const formData = {
@@ -163,6 +170,11 @@ export class ApiService {
         } else {
           this.alert.apiAlert(res.result.error);
         }
+      })
+      .catch((res) => {
+        const api = res.json();
+        this.alert.error(api.result.message);
+        return 'error';
       });
   }
 

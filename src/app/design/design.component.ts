@@ -57,7 +57,6 @@ export class DesignComponent implements OnInit, OnDestroy {
     public alert: AlertService,
     public location: Location,
     public materialsService: MaterialsService
-
   ) { }
 
   ngOnInit() {
@@ -371,7 +370,11 @@ export class DesignComponent implements OnInit, OnDestroy {
               seeyondFeature = seeyondFeaturesList[key]['name'];
             }
           })
+<<<<<<< HEAD
           this.materials = this.feature.getFeatureMaterials();
+=======
+          this.materials = this.getFeatureMaterials();
+>>>>>>> master
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
           this.seeyond.updateSeeyondFeature(seeyondFeature);
