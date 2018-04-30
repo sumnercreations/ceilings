@@ -370,11 +370,7 @@ export class DesignComponent implements OnInit, OnDestroy {
               seeyondFeature = seeyondFeaturesList[key]['name'];
             }
           })
-<<<<<<< HEAD
           this.materials = this.feature.getFeatureMaterials();
-=======
-          this.materials = this.getFeatureMaterials();
->>>>>>> master
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();
           this.seeyond.updateSeeyondFeature(seeyondFeature);
