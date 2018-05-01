@@ -1,7 +1,7 @@
 import { ClarioGridsService } from './../_services/clario-grids.service';
 import { MaterialsService } from 'app/_services/materials.service';
 import { SeeyondService } from './../_services/seeyond.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
@@ -15,7 +15,7 @@ import { Location } from '@angular/common';
   templateUrl: './options.component.html',
   styleUrls: ['./options.component.css']
 })
-export class OptionsComponent implements OnInit {
+export class OptionsComponent implements OnInit, AfterContentInit {
   public title = 'Ceilings Design Tool';
   public modifyToolsArray = [
     'rotate',
@@ -47,8 +47,12 @@ export class OptionsComponent implements OnInit {
   ngOnInit() {
     this.debug.log('options-component', 'init');
     this.debug.log('options-component', this.feature.feature_type);
+  }
+
+  ngAfterContentInit() {
     const featureType = this.feature.feature_type;
     this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
+    console.log(this.title);
   }
 
   public goToLanding() {

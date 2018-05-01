@@ -1,3 +1,4 @@
+import { DebugService } from './debug.service';
 import { Feature } from 'app/feature';
 import { MaterialsService } from 'app/_services/materials.service';
 import { Injectable } from '@angular/core';
@@ -5,29 +6,32 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ClarioGridsService {
   gridTypes: any;
-  gridTypeOptions = [];
+  tileSizeOptions = [];
   selectedGrid: any;
   selectedTileSize: any;
 
   constructor(
     public materials: MaterialsService,
-    public feature: Feature
+    public feature: Feature,
+    public debug: DebugService
   ) {
     this.gridTypes = Object.keys(this.materials.clario_grids);
   }
 
-  setGridTypes(selection) {
-    this.gridTypeOptions = [];
+  gridTypeSelected(selection) {
+    this.tileSizeOptions = [];
     this.selectedGrid = selection;
     this.selectedTileSize = undefined;
     const gridOptionsArr = Object.keys(this.materials.clario_grids[selection]);
     gridOptionsArr.map(key => {
-      this.gridTypeOptions.push(this.materials.clario_grids[selection][key]);
+      this.tileSizeOptions.push(this.materials.clario_grids[selection][key]);
     });
   }
 
-  gridSelected(grid) {
-    this.selectedTileSize = grid;
+  tileSizeSelected(grid) {
+    this.debug.log('options-component', `grid selected: ${grid}`);
+    this.selectedTileSize = this.tileSizeOptions.filter(size => size.name === grid)[0];
+    this.feature.units = this.selectedTileSize.units;
   }
 
 }

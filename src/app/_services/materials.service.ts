@@ -9,44 +9,52 @@ export class MaterialsService {
       '24x24': {
         'name': '24\"x24\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x24 15_16 Rev2.dxf'
+        'cut_file': 'Clario 24x24 15_16 Rev2.dxf',
+        'image_type': '24'
       },
       '24x48': {
         'name': '24\"x48\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x48 15_16 Rev2.dxf'
+        'cut_file': 'Clario 24x48 15_16 Rev2.dxf',
+        'image_type': '48'
       },
       '600x600': {
         'name': '600x600mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 600x600 Rev2.dxf'
+        'cut_file': 'Clario 600x600 Rev2.dxf',
+        'image_type': '24'
       },
       '600x1200': {
         'name': '600x1200mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 600x1200 Rev2.dxf'
+        'cut_file': 'Clario 600x1200 Rev2.dxf',
+        'image_type': '48'
       },
       '625x625': {
         'name': '625x625mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 625x625 Rev2.dxf'
+        'cut_file': 'Clario 625x625 Rev2.dxf',
+        'image_type': '24'
       },
       '625x1250': {
         'name': '625x1250mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 625x1250 Rev2.dxf'
+        'cut_file': 'Clario 625x1250 Rev2.dxf',
+        'image_type': '48'
       },
     },
     '9/16': {
       '24x24': {
         'name': '24\"x24\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x24 9_16 Rev2.dxf'
+        'cut_file': 'Clario 24x24 9_16 Rev2.dxf',
+        'image_type': '24'
       },
       '24x48': {
         'name': '24\"x48\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x48 9_16 Rev2.dxf'
+        'cut_file': 'Clario 24x48 9_16 Rev2.dxf',
+        'image_type': '48'
       },
     }
   };

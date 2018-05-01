@@ -1,3 +1,4 @@
+import { QuantityOptionsComponent } from './quantity-options/quantity-options.component';
 import { ClarioGridsService } from './../_services/clario-grids.service';
 import { QuoteDialogComponent } from './../quote-dialog/quote-dialog.component';
 import { LoadDesignComponent } from './../load-design/load-design.component';
@@ -36,6 +37,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   loadQtyDialogRef: MatDialogRef<any>;
   loginDialogRef: MatDialogRef<any>;
   quoteDialogRef: MatDialogRef<any>;
+  clarioGridDialogRef: MatDialogRef<any>;
   sqFootage: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
@@ -61,7 +63,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.setGridTypes('15/16'); }
+    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.gridTypeSelected('15/16'); }
     this.route.params.subscribe(params => {
       // initial setup
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }
@@ -88,6 +90,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.feature.tiles = qtyOrder.tiles;
           this.feature.material = qtyOrder.material;
           this.feature.quoted = qtyOrder.quoted;
+          this.clarioGrids.selectedGrid = qtyOrder.grid_size;
+          this.clarioGrids.selectedTileSize = qtyOrder.tile_size;
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {
@@ -95,6 +99,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
             this.qtySrv.doAddRow(newRow);
           });
         })
+      } else {
+        setTimeout(() => {
+          // this.goToOptions();
+        }, 500);
       }
     })
 
@@ -114,6 +122,20 @@ export class QuantityComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  goToOptions() {
+    // this.debug.log('quantity-component', 'displaying options dialog');
+    const config = new MatDialogConfig();
+    config.height = '90%';
+    config.width = '80%';
+    config.disableClose = true;
+    this.clarioGridDialogRef = this.dialog.open(QuantityOptionsComponent, config);
+    // this.clarioGridDialogRef.afterClosed()
+    //   .takeUntil(this.ngUnsubscribe)
+    //   .subscribe(result => {
+    //     console.log('result:', result);
+    //   });
   }
 
   setComponentProperties() {

@@ -58,6 +58,7 @@ import { QuantityComponent } from './quantity/quantity.component';
 import { AddQuantityComponent } from './quantity/add-quantity/add-quantity.component';
 import { RemoveQuantityComponent } from './quantity/remove-quantity/remove-quantity.component';
 import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
+import { QuantityOptionsComponent } from './quantity/quantity-options/quantity-options.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -104,7 +105,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     QuantityComponent,
     AddQuantityComponent,
     RemoveQuantityComponent,
-    QuantityDetailsComponent
+    QuantityDetailsComponent,
+    QuantityOptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -150,7 +152,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     VeloTileUsageComponent,
     QuoteDialogComponent,
     AddQuantityComponent,
-    RemoveQuantityComponent
+    RemoveQuantityComponent,
+    QuantityOptionsComponent
   ]
 })
 export class AppModule { }
