@@ -5,7 +5,7 @@ export class MaterialsService {
   public parts_substitutes: PartsSubs[];
 
   public clario_grids = {
-    '15_16': {
+    '15/16': {
       '24x24': {
         'name': '24\"x24\"',
         'units': 'inches',
@@ -37,14 +37,14 @@ export class MaterialsService {
         'cut_file': 'Clario 625x1250 Rev2.dxf'
       },
     },
-    '9_16': {
+    '9/16': {
       '24x24': {
         'name': '24\"x24\"',
         'units': 'inches',
         'cut_file': 'Clario 24x24 9_16 Rev2.dxf'
       },
       '24x48': {
-        'name': '24\"x48',
+        'name': '24\"x48\"',
         'units': 'inches',
         'cut_file': 'Clario 24x48 9_16 Rev2.dxf'
       },

@@ -29,9 +29,9 @@
       <p>Select the grid type and dimensions for your design.</p>
       <div class="row">
         <div class="col-sm-8 grid-dimensions">
-          <label for="grid">Ceiling Grid Type</label>
-          <select class="form-control" (change)="clarioGrids.updateGridDimension($event.target.value)" id="grid">
-            <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType">{{gridType}}</option>
+          <label for="gridOptions">Ceiling Grid Type</label>
+          <select class="form-control" (change)="clarioGrids.setGridTypes($event.target.value)" id="gridOptions">
+            <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType" [selected]="clarioGrids.selectedGrid === gridType.name">{{gridType}}</option>
             <!-- [selected]="grid.name === clarioGrids.selectedGrid.name" -->
           </select>
         </div>
@@ -62,23 +62,16 @@
     <div id="grid-size">
       <hr>
       <h3>Tile Size</h3>
-      <p>Please specify the size of your grid.</p>
-      <mat-radio-group class="grid-size" [(ngModel)]="feature.tile_size" name="grid-size" *ngIf="!!clarioGrids.selectedGrid">
-        <div class="row">
-          <div class="col-sm-4">
-            <mat-radio-button class="radio-button" [value]="24">
-              {{clarioGrids.selectedGrid.tileSizes[0].dimensions}}
-            </mat-radio-button>
-            <p>Qty. 4 per package</p>
-          </div>
-          <div class="col-sm-4">
-            <mat-radio-button class="radio-button" [value]="48">
-              {{clarioGrids.selectedGrid.tileSizes[1].dimensions}}
-            </mat-radio-button>
-            <p>Qty. 2 per package</p>
-          </div>
+      <p>Specify your tile size.</p>
+      <div class="row" *ngIf="clarioGrids.gridTypeOptions.length > 0">
+        <div class="col-sm-8 grid-dimensions">
+          <label for="gridOptions">Tile Size</label>
+          <select class="form-control" (change)="clarioGrids.gridSelected($event.target.value)" id="gridOptions">
+            <option disabled hidden [value]="undefined">-- select --</option>
+            <option *ngFor="let gridOption of clarioGrids.gridTypeOptions | keys;" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize === gridOption.name">{{gridOption.name}}</option>
+          </select>
         </div>
-      </mat-radio-group>
+      </div>
     </div>
     <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="validateOptions()">start designing</button>
     <div class="back">

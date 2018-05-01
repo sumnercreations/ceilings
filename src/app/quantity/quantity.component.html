@@ -26,10 +26,10 @@
           <input class="form-control square" [(ngModel)]="feature.design_name" required placeholder="Design Name" type="text" autofocus>
         </span>
         <span class="clario-grid-type" *ngIf="qtySrv.feature_type === 'clario'">
-          <span>Grid Type:</span>
+          <span>Grid Type</span>
           <span>
-            <select class="form-control" (change)="clarioGrids.updateGridDimension($event.target.value)" id="grid">
-              <option *ngFor="let grid of clarioGrids.gridOptions | keys;" [value]="grid.name" [selected]="grid.name === clarioGrids.selectedGrid.name">{{grid.name}}</option>
+            <select class="form-control" (change)="clarioGrids.setGridTypes($event.target.value)" id="grid">
+              <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType" [selected]="clarioGrids.selectedGrid === gridType.name">{{gridType}}</option>
             </select>
           </span>
         </span>

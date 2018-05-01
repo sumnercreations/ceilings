@@ -61,7 +61,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.setGridData('9/16\"'); }
+    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.setGridTypes('15/16'); }
     this.route.params.subscribe(params => {
       // initial setup
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }

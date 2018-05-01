@@ -73,6 +73,10 @@ span.sm {
   align-items: center;
 }
 
+.clario-grid-type :first-child {
+  margin-right: 5px;
+}
+
 .mat-header-row {
   position: sticky;
   top: 0;
