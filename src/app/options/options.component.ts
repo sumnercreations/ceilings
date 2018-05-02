@@ -52,7 +52,6 @@ export class OptionsComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     const featureType = this.feature.feature_type;
     this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
-    console.log(this.title);
   }
 
   public goToLanding() {

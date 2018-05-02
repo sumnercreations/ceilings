@@ -18,10 +18,28 @@ span.sm {
   font-weight: 300;
 }
 
+.design-name {
+  margin: 0px;
+}
+
+.est-total {
+  border-left: 2px solid #cdcdcd;
+  padding-left: 15px;
+
+}
+
+.request-quote {
+  min-width: 160px;
+}
+
 .separator {
   background-color: #fff;
   border-bottom: 2px solid #cdcdcd;
   margin: 0 15px;
+}
+
+.edit-link {
+  font-size: 12px;
 }
 
 .no-padding {

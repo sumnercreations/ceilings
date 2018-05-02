@@ -19,6 +19,7 @@ import { QuantityService, TileObj } from './quantity.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { takeUntil } from 'rxjs/operator/takeUntil';
 
 @Component({
   selector: 'app-quantity',
@@ -101,10 +102,19 @@ export class QuantityComponent implements OnInit, OnDestroy {
         })
       } else {
         setTimeout(() => {
-          // this.goToOptions();
+          this.goToOptions();
         }, 500);
       }
-    })
+
+      this.clarioGrids.onTileSizeChange
+        .takeUntil(this.ngUnsubscribe)
+        .subscribe(result => {
+          // reset table data if the selected tile dimensions change
+          this.order.data = [];
+          this.qtySrv.updateSummary();
+        });
+
+    });
 
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
@@ -125,10 +135,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   goToOptions() {
-    // this.debug.log('quantity-component', 'displaying options dialog');
     const config = new MatDialogConfig();
-    config.height = '90%';
-    config.width = '80%';
+    config.height = '70%';
+    config.width = '60%';
     config.disableClose = true;
     this.clarioGridDialogRef = this.dialog.open(QuantityOptionsComponent, config);
     // this.clarioGridDialogRef.afterClosed()

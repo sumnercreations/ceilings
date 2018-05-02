@@ -1,3 +1,51 @@
-<p>
-  quantity-options works!
-</p>
+<div class="row">
+  <div class="col-xs-11">
+    <div class="intro">
+      <h2>{{title | capitalize}}</h2>
+    </div>
+  </div>
+</div>
+<div class="row col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
+      <p>Ordering by quantity allows you to bypass desiging in our design tool and assumes you have a basic understanding of the product you are ordering.  Begin by naming your order or by loading a saved one.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>Order Name</h3>
+    </div>
+    <div class="col-sm-7">
+      <div class="form-group">
+        <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+      </div>
+    </div>
+    <div class="col-sm-3 options-load">
+      <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+    </div>
+  </div>
+  <div *ngIf="feature.feature_type === 'clario'">
+    <hr>
+    <h3>Grid and Tile Size</h3>
+    <p>Select your ceiling grid type and tile size.</p>
+    <div class="row">
+      <div class="col-sm-7 grid-dimensions">
+        <label for="gridOptions">Ceiling Grid Type</label>
+        <select class="form-control" (change)="gridTypeChanged($event.target.value)" id="gridOptions">
+          <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType" [selected]="clarioGrids.selectedGrid === gridType.name">{{gridType}}</option>
+        </select>
+      </div>
+      <div class="col-sm-7 grid-dimensions">
+        <label for="gridOptions">Tile Size</label>
+        <select class="form-control" (change)="clarioGrids.tileSizeSelected($event.target.value)" id="gridOptions">
+          <option disabled [value]="undefined" [selected]="clarioGrids.selectedTileSize === undefined">-- select --</option>
+          <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys;" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize === gridOption.name">{{gridOption.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="!validateOptions()">Begin Order</button>
+  <div class="back">
+    <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Choose a Different Tool</a>
+  </div>
+</div>

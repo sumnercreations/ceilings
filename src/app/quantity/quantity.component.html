@@ -2,15 +2,15 @@
   <div class="row">
     <a (click)="backToDesign('reset')"><span class="icomoon-chevron-left orange navigation"></span> <span>Design your feature</span></a>
     <div class="header-row">
-      <div class="">
-        <p class="md title">Order {{headerTitle}} By Quantity</p>
+      <div class="col-sm-4">
+        <p class="md title design-name">{{feature.design_name}}</p>
+      </div>
+      <div class="col-sm-8">
+        <p class="md est-total">Est. Total: {{feature.estimated_amount | currency:'USD'}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
       </div>
       <div class="">
-        <p class="md">Est. Total: {{feature.estimated_amount | currency:'USD'}} USD <span class="sm"><sup>*</sup>Taxes, Shipping and Handling not included.</span></p>
-      </div>
-      <div class="">
-        <button *ngIf="!feature.quoted" class="button button-orange design-quote pull-right" [disabled]="((order.data.length === 0) || !feature.design_name)" (click)="requestQuote()">Request Quote</button>
-        <button *ngIf="feature.quoted" class="button button-orange design-quote pull-right" (click)="viewDetails()">View Details</button>
+        <button *ngIf="!feature.quoted" class="button button-orange request-quote pull-right" [disabled]="((order.data.length === 0) || !feature.design_name)" (click)="requestQuote()">Request Quote</button>
+        <button *ngIf="feature.quoted" class="button button-orange request-quote pull-right" (click)="viewDetails()">View Details</button>
       </div>
     </div>
   </div>
@@ -22,22 +22,14 @@
   <div class="col-sm-9 no-padding table-and-footer">
     <div class="table-parent col-sm-12">
       <div class="table-header col-sm-12">
-        <span class="order-name">
-          <input class="form-control square" [(ngModel)]="feature.design_name" required placeholder="Design Name" type="text" autofocus>
-        </span>
-        <span class="clario-grid-type" *ngIf="qtySrv.feature_type === 'clario'">
-          <span *ngIf="clarioGrids.selectedTileSize">Grid Type: {{clarioGrids.selectedTileSize.name}}</span>
-          <!-- <span>
-            <select class="form-control" (change)="clarioGrids.gridTypeSelected($event.target.value)" id="grid">
-              <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType" [selected]="clarioGrids.selectedGrid === gridType.name">{{gridType}}</option>
-            </select>
-          </span> -->
-        </span>
         <span class="save-load">
             <a id="save-btn" title="save design" (click)="saveQuantity()"><span class="icomoon-folder orange"></span>
               <span *ngIf="user.isLoggedIn()">Save</span>
               <span *ngIf="!user.isLoggedIn()">Login to save</span>
             </a> | <a id="load-btn" title="load saved designs" (click)="loadQtyDesigns()">Load</a>
+        </span>
+        <span class="clario-grid-type" *ngIf="qtySrv.feature_type === 'clario'">
+          <span *ngIf="clarioGrids.selectedTileSize">Grid Type: {{clarioGrids.selectedTileSize.name}} <a id="edit-project-name" class="edit-link" title="Edit Project Name" (click)="goToOptions()">Edit</a></span>
         </span>
         <button class="button add-tiles" (click)="addToOrder()">Add Tiles</button>
       </div>
