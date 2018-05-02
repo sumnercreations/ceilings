@@ -31,9 +31,9 @@
     <div class="row">
       <div class="col-sm-7 grid-dimensions">
         <label for="gridOptions">Ceiling Grid Type</label>
-        <select class="form-control" (change)="gridTypeChanged($event.target.value)" id="gridOptions">
+        <select class="form-control" (change)="gridSizeChanged($event.target.value)" id="gridOptions">
           <option disabled hidden [value]="undefined" [selected]="clarioGrids.selectedGrid === undefined">-- select --</option>
-          <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType" [selected]="clarioGrids.selectedGrid === gridType.name">{{gridType}}</option>
+          <option *ngFor="let gridSize of clarioGrids.gridSizes | keys;" [value]="gridSize" [selected]="clarioGrids.selectedGrid === gridSize.name">{{gridSize}}</option>
         </select>
       </div>
       <div class="col-sm-7 grid-dimensions">

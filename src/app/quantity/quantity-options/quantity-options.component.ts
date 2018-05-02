@@ -26,8 +26,8 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
     this.title =  (featureType !== 'hush') ? `Order ${featureType} Tiles By Quantity` : `Order ${featureType} Blocks By Quantity`;
   }
 
-  gridTypeChanged(selection) {
-    this.clarioGrids.gridTypeSelected(selection);
+  gridSizeChanged(selection) {
+    this.clarioGrids.gridSizeSelected(selection);
   }
 
   goToLanding() {
