@@ -7,8 +7,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 export class ClarioGridsService {
   gridTypes: any;
   tileSizeOptions = [];
-  selectedGrid: any;
-  selectedTileSize: any;
+  selectedGrid: any = undefined;
+  selectedTileSize: any = undefined;
   onTileSizeChange = new EventEmitter();
 
   constructor(

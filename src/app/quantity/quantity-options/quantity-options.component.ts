@@ -19,8 +19,7 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
     public clarioGrids: ClarioGridsService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterContentChecked() {
     const featureType = this.capitalizeFirstLetter(this.feature.feature_type);

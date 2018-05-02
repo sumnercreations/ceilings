@@ -32,6 +32,7 @@
       <div class="col-sm-7 grid-dimensions">
         <label for="gridOptions">Ceiling Grid Type</label>
         <select class="form-control" (change)="gridTypeChanged($event.target.value)" id="gridOptions">
+          <option disabled hidden [value]="undefined" [selected]="clarioGrids.selectedGrid === undefined">-- select --</option>
           <option *ngFor="let gridType of clarioGrids.gridTypes | keys;" [value]="gridType" [selected]="clarioGrids.selectedGrid === gridType.name">{{gridType}}</option>
         </select>
       </div>
@@ -39,7 +40,7 @@
         <label for="gridOptions">Tile Size</label>
         <select class="form-control" (change)="clarioGrids.tileSizeSelected($event.target.value)" id="gridOptions">
           <option disabled [value]="undefined" [selected]="clarioGrids.selectedTileSize === undefined">-- select --</option>
-          <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys;" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize === gridOption.name">{{gridOption.name}}</option>
+          <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys;" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize?.name === gridOption.name">{{gridOption.name}}</option>
         </select>
       </div>
     </div>

@@ -9,8 +9,6 @@ import { OptionsComponent } from 'app/options/options.component';
 })
 export class ClarioOptionsComponent extends OptionsComponent implements OnInit {
 
-  ngOnInit() {
-    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.gridTypeSelected('15/16'); }
-  }
+  ngOnInit() {}
 
 }
