@@ -64,6 +64,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.feature.is_quantity_order = true;
     if (!this.clarioGrids.selectedGrid) { this.clarioGrids.gridSizeSelected('15/16'); }
     this.route.params.subscribe(params => {
       // initial setup

@@ -26,18 +26,19 @@ export class ClarioGridsService {
     this.selectedGrid = selection;
     this.tileSizeSelected(undefined);
     const gridOptionsArr = Object.keys(this.materials.clario_grids[selection]);
-    console.log('gridOptionsArr:', gridOptionsArr);
     gridOptionsArr.map(key => {
       this.tileSizeOptions.push(this.materials.clario_grids[selection][key]);
     });
-    this.setTileSizeOptions(gridOptionsArr);
+    if (this.feature.is_quantity_order) {
+      this.setTileSizeOptions(gridOptionsArr);
+    }
   }
 
-  setTileSizeOptions(gridOptions) {
+  setTileSizeOptions(gridOptionsArr) {
     const selectedGrid = this.materials.clario_grids[this.selectedGrid]
     const sizeOptionsArr = [];
     const gridTypes = []; // ['imperial', 'metric', 'german']
-    gridOptions.map(option => {
+    gridOptionsArr.map(option => {
       if (gridTypes.indexOf(selectedGrid[option].grid_type) === -1) {
         gridTypes.push(selectedGrid[option].grid_type);
       }
@@ -45,13 +46,12 @@ export class ClarioGridsService {
     const tileSizeOptions = [];
     gridTypes.map(type => {
       let selectName = '';
-      gridOptions.map(size => {
+      gridOptionsArr.map(size => {
         const optionObj = selectedGrid[size];
         if (optionObj.grid_type === type) {
           if (selectName.length < 1) {
             selectName = optionObj.name;
           } else {
-            // selectName = `${selectName} and ${optionObj.name}`;
             tileSizeOptions.push({
               'type': type,
               'name': `${selectName} and ${optionObj.name}`,

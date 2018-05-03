@@ -17,4 +17,7 @@ export class ClarioOptionsComponent extends OptionsComponent implements OnInit {
     this.clarioGrids.gridSizeSelected(selection);
   }
 
+  tileSizeChanged(selection) {
+    this.clarioGrids.tileSizeSelected(selection);
+  }
 }

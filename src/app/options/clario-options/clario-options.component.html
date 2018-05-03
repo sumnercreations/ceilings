@@ -36,8 +36,8 @@
           </select>
         </div>
         <div class="col-sm-10 grid-dimensions">
-          <label for="gridOptions">Tile Sizes</label>
-          <select class="form-control" (change)="clarioGrids.tileSizeSelected($event.target.value)" id="gridOptions">
+          <label for="gridOptions">Tile Size</label>
+          <select class="form-control" (change)="tileSizeChanged($event.target.value)" id="gridOptions">
             <option disabled [value]="undefined" [selected]="clarioGrids.selectedTileSize === undefined">-- select --</option>
             <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys;" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize?.name === gridOption.name">{{gridOption.name}}</option>
           </select>
