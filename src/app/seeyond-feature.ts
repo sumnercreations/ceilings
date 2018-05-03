@@ -376,7 +376,7 @@ export class SeeyondFeature extends Feature {
       totalFootage = ((length - (inset * 2)) * 2) + ((width - (inset * 2)) * 2);
     }
     this.linear_feet = totalFootage / 12;
-    console.log(this.linear_feet);
+    this.debug.log('seeyond-feature', `linear feet: ${this.linear_feet}`);
     return this.linear_feet;
   }
 

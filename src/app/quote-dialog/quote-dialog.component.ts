@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdDialog, MdDialogConfig, MdDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { AlertService } from './../_services/alert.service';
@@ -19,6 +19,7 @@ export class QuoteDialogComponent implements OnInit {
   public tilesArray: any;
   public tileType: string;
   public units: string;
+  private uiType = 'design';
 
   constructor(
     private router: Router,
@@ -26,9 +27,9 @@ export class QuoteDialogComponent implements OnInit {
     private api: ApiService,
     private alert: AlertService,
     public feature: Feature,
-    public dialog: MdDialog,
+    public dialog: MatDialog,
     public user: User,
-    public dialogRef: MdDialogRef<QuoteDialogComponent>,
+    public dialogRef: MatDialogRef<QuoteDialogComponent>,
     public seeyond: SeeyondFeature,
     public seeyondApi: SeeyondService,
     public location: Location
@@ -41,8 +42,19 @@ export class QuoteDialogComponent implements OnInit {
     this.units = (this.feature.units = 'inches') ? '\"' : 'cm';
   }
 
+  validInputs() {
+    let isValid = false;
+    if (this.feature.feature_type !== 'seeyond') {
+      isValid = (!!this.feature.project_name && !!this.feature.specifier);
+    } else {
+      isValid = (!!this.seeyond.project_name && !!this.seeyond.specifier);
+    }
+    return isValid;
+  }
+
   public quoteConfirmed() {
     if (this.feature.feature_type === 'seeyond') { this.seeyondQuoteConfirmed(); return; }
+    if (this.feature.is_quantity_order) { this.uiType = 'quantity'; }
     // mark the design as quoted and save
     if (this.feature.id) {
       this.feature.quoted = true;
@@ -52,9 +64,9 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
         if (url !== this.router.url) {
-          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+          this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
         }
         this.alert.success('Your quote request has been sent.');
       });
@@ -72,7 +84,7 @@ export class QuoteDialogComponent implements OnInit {
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');
-        this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+        this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
       });
     }
     this.dialogRef.close();
@@ -88,7 +100,7 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // redirect to the new URL if we aren't already there.
-        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
         if (url !== this.router.url) {
           this.router.navigate([`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`]);
         }
@@ -102,7 +114,7 @@ export class QuoteDialogComponent implements OnInit {
         // set the feature to what was returned.
         this.seeyond.id = feature.seeyond.id;
         this.seeyondApi.sendEmail().subscribe(response => {
-          console.log(response);
+          this.debug.log('quote-dialog', response);
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');
