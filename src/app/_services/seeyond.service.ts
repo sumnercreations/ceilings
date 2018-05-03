@@ -1,3 +1,8 @@
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AlertService } from './alert.service';
+import { ApiService } from './api.service';
+import { MaterialsService } from './materials.service';
 import { DebugService } from './debug.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -7,7 +12,6 @@ import { SeeyondFeature } from 'app/seeyond-feature';
 import { User } from './../_models/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { MaterialsService } from './materials.service';
 
 @Injectable()
 export class SeeyondService {
@@ -19,8 +23,10 @@ export class SeeyondService {
     private http: Http,
     private seeyond: SeeyondFeature,
     private user: User,
-    private debug: DebugService,
-    private materials: MaterialsService
+    public debug: DebugService,
+    private materials: MaterialsService,
+    private api: ApiService,
+    private alert: AlertService
   ) {}
 
   getMyFeatures() {
@@ -90,7 +96,7 @@ export class SeeyondService {
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('seeyond', 'emitting onSaved');
-        return res.json() || {}
+        return res.json() || {};
       })
       .catch(this.handleError);
   }
@@ -169,7 +175,7 @@ export class SeeyondService {
         const effectiveDate = new Date(Number(effectiveArr[0]), Number(effectiveArr[1]), Number(effectiveArr[2]));
         const isEffective = effectiveDate.getTime() <= todayFmt.getTime();
         if ((obj.partId === partId) && isEffective) {
-          this.debug.log('feature', `replacing sheet_part_id ${this.seeyond.sheet_part_id} with ${partId}`)
+          this.debug.log('seeyond', `replacing sheet_part_id ${this.seeyond.sheet_part_id} with ${partId}`)
           this.seeyond.sheet_part_id = obj.replacementPartId
         }
       })
@@ -189,15 +195,22 @@ export class SeeyondService {
     return [year, month, day];
   }
 
-
-  private handleError(error: any) {
-    const errorJson = error.json();
-    if (errorJson) {
-      return Observable.throw(errorJson.message || 'Server Error');
+  public handleError(error: HttpErrorResponse) {
+    // console.log(error);
+    if (error.status === 500) { this.debug.log('api', error.message); return; }
+    // if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      this.debug.log('api', `An error occurred: ${error.statusText}`);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      this.debug.log('api',
+        `Backend returned code ${error.status}, body was: ${error.message}`);
     }
-
-    return Observable.throw('Unknown Error');
-  }
-
+    // return an ErrorObservable with a user-facing error message
+    return new ErrorObservable(
+      'Something bad happened; please try again later.');
+  };
 
 }
