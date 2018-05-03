@@ -4,18 +4,29 @@
 </div>
 
 <div *ngIf="user.uid">
-  <p class="text-center md" [ngClass]="{'hidden': feature.quoted}">Confirm Your Design</p>
-  <h2 md-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
-  <div md-dialog-content>
+  <ng-container *ngIf="!feature.quoted">
+    <p class="text-center md" *ngIf="!feature.is_quantity_order">Confirm Your Design</p>
+    <p class="text-center md" *ngIf="feature.is_quantity_order">Confirm Your Quantity Order</p>
+  </ng-container>
+  <h2 mat-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
+  <div mat-dialog-content>
     <dl class="dl-horizontal"  *ngIf="feature.feature_type !== 'seeyond'">
       <dt>Feature</dt>
       <dd>{{feature.feature_type | capitalize}}</dd>
-      <dt>Width</dt>
-      <dd>{{feature.width}}{{units}}</dd>
-      <dt>Length</dt>
-      <dd>{{feature.length}}{{units}}</dd>
+      <ng-container *ngIf="!feature.is_quantity_order">
+        <dt>Width</dt>
+        <dd>{{feature.width}}{{units}}</dd>
+        <dt>Length</dt>
+        <dd>{{feature.length}}{{units}}</dd>
+      </ng-container>
+      <ng-container *ngIf="feature.is_quantity_order">
+        <dt>Tiles Used</dt>
+        <dd>{{feature.qtyTilesUsed}}</dd>
+        <dt>Tiles Receiving</dt>
+        <dd>{{feature.qtyTilesReceiving}}</dd>
+      </ng-container>
       <dt>Estimated Amount</dt>
-      <dd>{{feature.estimated_amount | currency:'USD':true}} USD</dd>
+      <dd>{{feature.estimated_amount | currency:'USD'}} USD</dd>
       <dt *ngIf="feature.quoted">Project Name</dt>
       <dd *ngIf="feature.quoted">{{feature.project_name}}</dd>
       <dt *ngIf="feature.quoted">Specifier</dt>
@@ -43,13 +54,13 @@
       <dd *ngIf="!seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">No</dd>
       <dd *ngIf="seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">Yes</dd>
       <dt>Estimated Amount</dt>
-      <dd>{{seeyond.estimated_amount | currency:'USD':true}} USD</dd>
+      <dd>{{seeyond.estimated_amount | currency:'USD'}} USD</dd>
       <dt *ngIf="seeyond.quoted">Project Name</dt>
       <dd *ngIf="seeyond.quoted">{{seeyond.project_name}}</dd>
       <dt *ngIf="seeyond.quoted">Specifier</dt>
       <dd *ngIf="seeyond.quoted">{{seeyond.specifier}}</dd>
     </dl>
-    <div class="row multiples-section">
+    <div class="row multiples-section" *ngIf="!feature.is_quantity_order">
       <p class="multiples md">Order Multiples of Your Design</p>
       <div class="multiples">
         <div class="multiples-row">
@@ -59,8 +70,8 @@
         </div>
         <div class="multiples-row">
           <span>Estimated Total</span>
-          <span *ngIf="feature.feature_type !== 'seeyond'">{{(feature.estimated_amount * feature.quantity) | currency:'USD':true }}</span>
-          <span *ngIf="feature.feature_type === 'seeyond'">{{(seeyond.estimated_amount * feature.quantity) | currency:'USD':true }}</span>
+          <span *ngIf="feature.feature_type !== 'seeyond'">{{(feature.estimated_amount * feature.quantity) | currency:'USD'}}</span>
+          <span *ngIf="feature.feature_type === 'seeyond'">{{(seeyond.estimated_amount * feature.quantity) | currency:'USD'}}</span>
         </div>
       </div>
       <hr>
@@ -70,30 +81,31 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
-            <md-input-container class="full-width">
-              <input  *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="feature.project_name">
-              <input  *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" mdInput md-input required [(ngModel)]="seeyond.project_name">
-            </md-input-container>
+            <mat-input-container class="full-width">
+              <input  *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" matInput mat-input required [(ngModel)]="feature.project_name">
+              <input  *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" matInput mat-input required [(ngModel)]="seeyond.project_name">
+            </mat-input-container>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
-            <md-input-container class="full-width">
-              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="feature.specifier">
-              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" mdInput md-input required [(ngModel)]="seeyond.specifier">
-            </md-input-container>
+            <mat-input-container class="full-width">
+              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput mat-input required [(ngModel)]="feature.specifier">
+              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput mat-input required [(ngModel)]="seeyond.specifier">
+            </mat-input-container>
           </div>
         </div>
       </div>
       <div class="text-center confirm-cancel">
-        <button md-button type="submit" class="button button-gray" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
-        <button md-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
+        <button mat-button type="submit" class="button button-gray" [disabled]="!validInputs()" [ngClass]="{'hidden': feature.quoted}">Confirm</button>
+        <button mat-button type="button" (click)="dialogRef.close('cancel')" class="button button-gray">Cancel</button>
       </div>
     </form>
-      <app-tile-usage *ngIf="feature.feature_type !=='velo' && feature.feature_type !=='seeyond'"></app-tile-usage>
-      <!--VELO-->
-      <app-velo-tile-usage *ngIf="feature.feature_type === 'velo' && feature.feature_type !=='seeyond'"></app-velo-tile-usage>
+    <ng-container *ngIf="feature.feature_type !=='seeyond' && !feature.is_quantity_order">
+      <app-tile-usage *ngIf="feature.feature_type !=='velo'"></app-tile-usage>
+      <app-velo-tile-usage *ngIf="feature.feature_type === 'velo'"></app-velo-tile-usage>
+    </ng-container>
   </div>
 </div>

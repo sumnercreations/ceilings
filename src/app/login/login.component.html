@@ -1,34 +1,34 @@
 <div class="dialog-header text-center">
   <p>My3form Account</p>
-  <h3 md-dialog-title>Sign In</h3>
+  <h3 mat-dialog-title>Sign In</h3>
 </div>
-<div md-dialog-content>
+<div mat-dialog-content>
   <form (ngSubmit)="login()" #loginForm="ngForm">
     <div class="col-sm-12">
       <div class="form-group">
-        <md-input-container class="full-width">
+        <mat-input-container class="full-width">
           <input placeholder="Email" type="email" name="email" id="email"
-          mdInput
-          md-input
+          matInput
+          mat-input
           required
           [(ngModel)]="email">
-        </md-input-container>
+        </mat-input-container>
       </div>
       <div class="form-group">
-        <md-input-container class="full-width">
+        <mat-input-container class="full-width">
           <input placeholder="Password" type="password" name="password" id="password"
-          mdInput
-          md-input
+          matInput
+          mat-input
           required
           [(ngModel)]="password">
-        </md-input-container>
+        </mat-input-container>
       </div>
     </div>
     <div class="text-center">
-      <button md-button type="submit" class="button button-gray" [hidden]="loading">Submit</button>
-      <button md-button type="button" class="button button-gray" [hidden]="loading" (click)="dialogRef.close('cancel')">Cancel</button>
-      <div class="center-div" [hidden]="!loading">
-        <md-progress-spinner color="primary" mode="indeterminate"></md-progress-spinner>
+      <button mat-button type="submit" class="button button-gray" *ngIf="!loading">Submit</button>
+      <button mat-button type="button" class="button button-gray" *ngIf="!loading" (click)="dialogRef.close('cancel')">Cancel</button>
+      <div class="center-div" *ngIf="loading">
+        <mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-spinner>
       </div>
     </div>
   </form>
