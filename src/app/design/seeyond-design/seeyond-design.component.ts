@@ -23,7 +23,20 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   selectedFeature: any;
   dimensionsString: string;
   patternRelief: string;
-  patternReliefOptions = ['both', 'front', 'back'];
+  patternReliefOptions = [
+    {
+      'value': 'both',
+      'name': 'front & back'
+    },
+    {
+      'value': 'front',
+      'name': 'front'
+    },
+    {
+      'value': 'back',
+      'name': 'back'
+    }
+  ];
 
   ngOnInit() {
     this.seeyond.onDimensionsChange
