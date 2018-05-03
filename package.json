@@ -33,7 +33,7 @@
     "jszip": "^3.1.4",
     "point-in-polygon": "^1.0.1",
     "rxjs": "^5.5.6",
-    "syd-tessellation": "0.0.66",
+    "syd-tessellation": "0.0.69",
     "syd-tiling": "0.0.15",
     "syd-visualization": "0.0.85",
     "zone.js": "^0.8.4",
