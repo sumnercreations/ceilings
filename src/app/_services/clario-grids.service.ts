@@ -7,10 +7,11 @@ import { Options } from 'selenium-webdriver/safari';
 @Injectable()
 export class ClarioGridsService {
   gridSizes: any;
-  tileSizeOptions = [];
+  // tileSizeOptions = [];
   selectedGrid: any = undefined;
   selectedTileSize: any = undefined;
   onTileSizeChange = new EventEmitter();
+  tileSizeOptions = [];
 
   constructor(
     public materials: MaterialsService,
@@ -41,33 +42,29 @@ export class ClarioGridsService {
         gridTypes.push(selectedGrid[option].grid_type);
       }
     });
-    console.log('gridTypes:', gridTypes);
+    const tileSizeOptions = [];
     gridTypes.map(type => {
-      const tempArr = [];
-      const sizeOption = gridOptions.map(obj => {
-        console.log(type, obj);
-        // const tempObj: any = {};
-        // if (selectedGrid[obj].grid_type === type) {
-        //   tempObj.gridType = type;
-
-        // }
+      let selectName = '';
+      gridOptions.map(size => {
+        const optionObj = selectedGrid[size];
+        if (optionObj.grid_type === type) {
+          if (selectName.length < 1) {
+            selectName = optionObj.name;
+          } else {
+            // selectName = `${selectName} and ${optionObj.name}`;
+            tileSizeOptions.push({
+              'type': type,
+              'name': `${selectName} and ${optionObj.name}`,
+              'units': optionObj.units,
+              '24': selectName,
+              '48': optionObj.name
+            });
+            selectName = '';
+          }
+        }
       })
-      console.log('sizeOption:', sizeOption);
-    })
-
-    // const tempSizeArr = [];
-    // const namesArr = [];
-    // gridOptionsArr.map(key => {
-    //   const sizeOptionData = this.materials.clario_grids[selection][key];
-    //   let sizeOption: TileSizeOption;
-    //   sizeOption.grid_type = sizeOptionData.grid_type;
-    //   sizeOption.name = sizeOptionData.name;
-    //   if (namesArr.indexOf(sizeOption.name) < 0) { namesArr.push(sizeOption.name); }
-    //   tempSizeArr.push(sizeOption);
-    // });
-    // const sizeOptions = tempSizeArr.map(option => {
-    //   console.log(option);
-    // })
+    });
+    this.tileSizeOptions = tileSizeOptions;
   }
 
   tileSizeSelected(grid) {
@@ -76,11 +73,7 @@ export class ClarioGridsService {
     if (grid === undefined) { this.selectedTileSize = grid; return; }
     this.selectedTileSize = this.tileSizeOptions.filter(size => size.name === grid)[0];
     this.feature.units = this.selectedTileSize.units;
+    console.log('selectedTileSize:', this.selectedTileSize);
   }
 
-}
-
-export interface TileSizeOption {
-  grid_type: string;
-  name: string;
 }
