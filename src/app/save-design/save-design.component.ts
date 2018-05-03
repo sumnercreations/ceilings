@@ -1,4 +1,4 @@
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { Location } from '@angular/common';
 import { SeeyondFeature } from './../seeyond-feature';
 import { Component, OnInit } from '@angular/core';
@@ -18,6 +18,7 @@ import { SeeyondService } from '../_services/seeyond.service';
 export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;
   public newButton = false;
+  private uiType = this.feature.is_quantity_order ? '/quantity' : '/design';
 
   constructor(
     private router: Router,
@@ -28,7 +29,7 @@ export class SaveDesignComponent implements OnInit {
     public seeyond: SeeyondFeature,
     public user: User,
     private location: Location,
-    private dialogRef: MdDialogRef<SaveDesignComponent>
+    private dialogRef: MatDialogRef<SaveDesignComponent>
   ) { }
 
   ngOnInit() {
@@ -60,9 +61,9 @@ export class SaveDesignComponent implements OnInit {
         // set the feature to what was returned from the API.
         this.feature = feature.ceiling;
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([this.feature.feature_type + '/design', this.feature.id]).toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id]).toString();
         if (url !== this.router.url) {
-          this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+          this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
         }
       });
     }
@@ -77,7 +78,7 @@ export class SaveDesignComponent implements OnInit {
       // set the feature to what was returned from the API.
       this.feature = feature.ceiling;
       // redirect to the new design
-      this.router.navigate([this.feature.feature_type + '/design', this.feature.id]);
+      this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
     });
   }
 
@@ -88,9 +89,8 @@ export class SaveDesignComponent implements OnInit {
       this.seeyondApi.updateFeature().subscribe(feature => {
         // notify the user that we saved their design
         this.alert.success('Successfully saved your design');
-        // set the feature up according to what is returned from the API after save.
-        this.seeyond = feature.seeyond;
-        this.location.go(`seeyond/design/${this.seeyond.name}/${this.seeyond.id}`);
+        // redirect to the new design
+        this.location.go(`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`);
       });
     }
   }
@@ -103,8 +103,6 @@ export class SaveDesignComponent implements OnInit {
     this.seeyondApi.saveFeature().subscribe(feature => {
       // notify the user that we saved their design
       this.alert.success('Successfully saved your design');
-      // set the feature up according to what is returned from the API after save.
-      // this.seeyond = feature.seeyond;
       // redirect to the new design
       this.router.navigate(['/seeyond/design', feature.seeyond.id]);
     });

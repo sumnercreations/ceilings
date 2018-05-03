@@ -1,7 +1,7 @@
 import { SeeyondService } from './../_services/seeyond.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { SeeyondFeature } from '../seeyond-feature';
@@ -33,7 +33,7 @@ export class OptionsComponent implements OnInit {
     private router: Router,
     private debug: DebugService,
     public feature: Feature,
-    public dialogRef: MdDialogRef<OptionsComponent>,
+    public dialogRef: MatDialogRef<OptionsComponent>,
     public alert: AlertService,
     public seeyondService: SeeyondService,
     public seeyond: SeeyondFeature,
@@ -74,4 +74,9 @@ export class OptionsComponent implements OnInit {
     return valid;
   }
 
+  goToQty() {
+    const pathname = window.location.pathname.replace(/\/design/g, '/quantity');
+    this.router.navigate([pathname]);
+    this.dialogRef.close('cancel');
+  }
 }
