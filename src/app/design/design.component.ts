@@ -22,6 +22,7 @@ import 'rxjs/add/operator/takeUntil';
 import * as FileSaver from 'file-saver';
 import * as html2canvas from 'html2canvas';
 import { AlertService } from 'app/_services/alert.service';
+import { ClarioGridsService } from '../_services/clario-grids.service';
 
 @Component({
   // selector: 'app-design',
@@ -56,7 +57,8 @@ export class DesignComponent implements OnInit, OnDestroy {
     public seeyondService: SeeyondService,
     public alert: AlertService,
     public location: Location,
-    public materialsService: MaterialsService
+    public materialsService: MaterialsService,
+    public clarioSrv: ClarioGridsService
   ) { }
 
   ngOnInit() {

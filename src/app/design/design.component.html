@@ -30,12 +30,13 @@
   <div class="row full-height">
     <div class="col-sm-9 full-height">
       <div class="grid-wrapper col-sm-12">
-        <div class="row grid-header">
-          <div class="col-sm-5" *ngIf="feature.feature_type!='velo'">
-            <p *ngIf="feature.feature_type!='hush'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+        <div class="grid-header">
+          <div *ngIf="feature.feature_type!='velo'">
+            <p *ngIf="feature.feature_type!='hush' && feature.feature_type!='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            <p *ngIf="feature.feature_type=='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | {{clarioSrv.selectedTileSize?.name}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
             <p *ngIf="feature.feature_type=='hush'">{{feature.width}} W x {{feature.length}} H ({{feature.units}}) | 24 x {{feature.tile_size}} Hush Blocks &nbsp;<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
-          <div class="col-sm-3">
+          <div>
             <p>
               <a id="save-btn" title="save design" (click)="saveDesign()"><span class="icomoon-folder orange"></span>
                 <span *ngIf="user.isLoggedIn()">Save</span>
@@ -43,7 +44,7 @@
                 </a> | <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
             </p>
           </div>
-          <div *ngIf="feature.feature_type=='velo'" class="col-sm-7 pull-right">
+          <div *ngIf="feature.feature_type=='velo'">
             <div class="toggle-button-form-wrapper">
               <mat-button-toggle-group #units="matButtonToggleGroup" (change)="feature.updateGridUnits(units.value)" value="{{feature.units}}">
                 <mat-button-toggle value="inches" id="inches-toggle" class="small-toggle">IN</mat-button-toggle>
@@ -53,7 +54,7 @@
             <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
             <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" [disabled]="(!feature.tiles)" (click)="feature.view3d()">3D View</button>
           </div>
-          <div *ngIf="feature.feature_type!='velo'" class="col-sm-4">
+          <div *ngIf="feature.feature_type!='velo'">
             <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
             <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" [disabled]="(!feature.tiles)" (click)="feature.view3d()">3D View</button>
           </div>
@@ -71,10 +72,12 @@
         <p class="md">Design</p>
         <ng-container *ngIf="feature.feature_type !== 'hush'">
           <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" [class.col-sm-5]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host" [class.hide]="feature.tile_size==24 && tile.tile==48">
-            <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
-              <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
-            </div>
-            <p class="text-center xs">{{tile.name | capitalize}}</p>
+            <ng-container *ngIf="tile.tile_size_type === clarioSrv.tile_size_type">
+              <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
+                <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
+              </div>
+              <p class="text-center xs">{{tile.name | capitalize}}</p>
+            </ng-container>
           </div>
         </ng-container>
       </div>

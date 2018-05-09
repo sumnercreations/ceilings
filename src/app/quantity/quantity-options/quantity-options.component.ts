@@ -31,7 +31,8 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
   }
 
   tileSizeChanged(selection) {
-    this.clarioGrids.tileSizeSelected(selection)
+    this.clarioGrids.tileSizeSelected(selection);
+    this.clarioGrids.setGridTileSizeOptions();
   }
 
   goToLanding() {

@@ -9,60 +9,52 @@ export class MaterialsService {
       '24x24': {
         'name': '24\"x24\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x24 15_16 Rev2.dxf',
         'image_type': '24',
-        'grid_type': 'imperial'
+        'tile_size_type': 'imperial'
       },
       '24x48': {
         'name': '24\"x48\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x48 15_16 Rev2.dxf',
         'image_type': '48',
-        'grid_type': 'imperial'
+        'tile_size_type': 'imperial'
       },
       '600x600': {
         'name': '600x600mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 600x600 Rev2.dxf',
         'image_type': '24',
-        'grid_type': 'metric'
+        'tile_size_type': 'metric'
       },
       '600x1200': {
         'name': '600x1200mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 600x1200 Rev2.dxf',
         'image_type': '48',
-        'grid_type': 'metric'
+        'tile_size_type': 'metric'
       },
       '625x625': {
         'name': '625x625mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 625x625 Rev2.dxf',
         'image_type': '24',
-        'grid_type': 'german'
+        'tile_size_type': 'german'
       },
       '625x1250': {
         'name': '625x1250mm',
         'units': 'centimeters',
-        'cut_file': 'Clario 625x1250 Rev2.dxf',
         'image_type': '48',
-        'grid_type': 'german'
+        'tile_size_type': 'german'
       },
     },
     '9/16': {
       '24x24': {
         'name': '24\"x24\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x24 9_16 Rev2.dxf',
         'image_type': '24',
-        'grid_type': 'imperial'
+        'tile_size_type': 'imperial'
       },
       '24x48': {
         'name': '24\"x48\"',
         'units': 'inches',
-        'cut_file': 'Clario 24x48 9_16 Rev2.dxf',
         'image_type': '48',
-        'grid_type': 'imperial'
+        'tile_size_type': 'imperial'
       },
     }
   };
@@ -324,17 +316,56 @@ export class MaterialsService {
       0: {
         image: '/assets/images/baffles/baffle_24_x_48.png',
         tile: '48',
-        name: '24x48'
+        name: '24x48',
+        tile_size_type: 'standard'
       },
       1: {
         image: '/assets/images/baffles/baffle_24_x_24.png',
         tile: '24',
-        name: '24x24'
+        name: '24x24',
+        tile_size_type: 'standard'
       },
       2: {
         image: '/assets/images/tiles/00.png',
         tile: '00',
-        name: 'flat'
+        name: 'flat',
+        tile_size_type: 'standard'
+      },
+      3: {
+        image: '/assets/images/baffles/baffle_24_x_48.png',
+        tile: '48',
+        name: '600x1200',
+        tile_size_type: 'metric'
+      },
+      4: {
+        image: '/assets/images/baffles/baffle_24_x_24.png',
+        tile: '24',
+        name: '600x600',
+        tile_size_type: 'metric'
+      },
+      5: {
+        image: '/assets/images/tiles/00.png',
+        tile: '00',
+        name: 'flat',
+        tile_size_type: 'metric'
+      },
+      6: {
+        image: '/assets/images/baffles/baffle_24_x_48.png',
+        tile: '48',
+        name: '625x1250',
+        tile_size_type: 'german'
+      },
+      7: {
+        image: '/assets/images/baffles/baffle_24_x_24.png',
+        tile: '24',
+        name: '625x625',
+        tile_size_type: 'german'
+      },
+      8: {
+        image: '/assets/images/tiles/00.png',
+        tile: '00',
+        name: 'flat',
+        tile_size_type: 'german'
       }
     },
     velo: {

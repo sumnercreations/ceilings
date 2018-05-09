@@ -1,3 +1,4 @@
+import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { DebugService } from './../../_services/debug.service';
 import { Feature } from './../../feature';
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
@@ -27,7 +28,8 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     public materialsService: MaterialsService,
     public qtySrv: QuantityService,
     public feature: Feature,
-    public debug: DebugService
+    public debug: DebugService,
+    public clarioSrv: ClarioGridsService
   ) { }
 
   ngOnInit() {

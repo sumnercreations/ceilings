@@ -12,6 +12,7 @@ export class ClarioGridsService {
   selectedTileSize: any = undefined;
   onTileSizeChange = new EventEmitter();
   tileSizeOptions = [];
+  tile_size_type = 'standard';
 
   constructor(
     public materials: MaterialsService,
@@ -39,8 +40,8 @@ export class ClarioGridsService {
     const sizeOptionsArr = [];
     const gridTypes = []; // ['imperial', 'metric', 'german']
     gridOptionsArr.map(option => {
-      if (gridTypes.indexOf(selectedGrid[option].grid_type) === -1) {
-        gridTypes.push(selectedGrid[option].grid_type);
+      if (gridTypes.indexOf(selectedGrid[option].tile_size_type) === -1) {
+        gridTypes.push(selectedGrid[option].tile_size_type);
       }
     });
     const tileSizeOptions = [];
@@ -48,12 +49,12 @@ export class ClarioGridsService {
       let selectName = '';
       gridOptionsArr.map(size => {
         const optionObj = selectedGrid[size];
-        if (optionObj.grid_type === type) {
+        if (optionObj.tile_size_type === type) {
           if (selectName.length < 1) {
             selectName = optionObj.name;
           } else {
             tileSizeOptions.push({
-              'type': type,
+              'tile_size_type': type,
               'name': `${selectName} and ${optionObj.name}`,
               'units': optionObj.units,
               '24': selectName,
@@ -72,8 +73,21 @@ export class ClarioGridsService {
     this.onTileSizeChange.emit();
     if (grid === undefined) { this.selectedTileSize = grid; return; }
     this.selectedTileSize = this.tileSizeOptions.filter(size => size.name === grid)[0];
+    this.tile_size_type = this.selectedTileSize.tile_size_type;
     this.feature.units = this.selectedTileSize.units;
+    this.feature.tile_size = this.selectedTileSize.image_type;
     console.log('selectedTileSize:', this.selectedTileSize);
+  }
+
+  setGridTileSizeOptions() {
+    const clarioTilesArr = Object.keys(this.feature.tilesArray.clario).map(key => this.feature.tilesArray.clario[key]);
+    const selectedGridTileOptions = [];
+    clarioTilesArr.map(tileOption => {
+      if (tileOption.tile_size_type === this.tile_size_type) {
+        selectedGridTileOptions.push(tileOption);
+      }
+    });
+    console.log('selectedGridTileOptions:', selectedGridTileOptions);
   }
 
 }
