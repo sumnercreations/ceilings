@@ -7,16 +7,16 @@ export class MaterialsService {
   public clario_grids = {
     '15/16': {
       '24x24': {
-        'name': '24\"x24\"',
+        'name': '24x24in',
         'units': 'inches',
         'image_type': '24',
-        'tile_size_type': 'imperial'
+        'tile_size_type': 'standard'
       },
       '24x48': {
-        'name': '24\"x48\"',
+        'name': '24x48in',
         'units': 'inches',
         'image_type': '48',
-        'tile_size_type': 'imperial'
+        'tile_size_type': 'standard'
       },
       '600x600': {
         'name': '600x600mm',
@@ -48,13 +48,13 @@ export class MaterialsService {
         'name': '24\"x24\"',
         'units': 'inches',
         'image_type': '24',
-        'tile_size_type': 'imperial'
+        'tile_size_type': 'standard'
       },
       '24x48': {
         'name': '24\"x48\"',
         'units': 'inches',
         'image_type': '48',
-        'tile_size_type': 'imperial'
+        'tile_size_type': 'standard'
       },
     }
   };

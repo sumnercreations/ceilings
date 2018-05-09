@@ -1,3 +1,4 @@
+import { ClarioGridsService } from './../_services/clario-grids.service';
 import { TileObj } from './quantity.service';
 import { MatTableDataSource } from '@angular/material';
 import { TileRow } from './quantity.component';
@@ -21,7 +22,8 @@ export class QuantityService {
   constructor(
     private debug: DebugService,
     public feature: Feature,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private clarioGrids: ClarioGridsService
   ) {}
 
   setRowData(row) {
@@ -33,6 +35,7 @@ export class QuantityService {
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
     newRow.id = this.rowIndexNum++;
+    newRow.material_size = this.getMaterialSize(newRow);
     return newRow;
   }
 
@@ -55,6 +58,7 @@ export class QuantityService {
     this.getRowEstimate(matchedRowFmtd); // sets feature.estimated_amount
     matchedRow.total = this.feature.estimated_amount;
     matchedRow.id = this.rowIndexNum++;
+    matchedRow.material_size = this.getMaterialSize(matchedRow);
     this.updateSummary();
   }
 
@@ -92,6 +96,7 @@ export class QuantityService {
     editRow.total = this.feature.estimated_amount;
     editRow.tileSqFt = this.getTileSqFt(editRow.tile);
     editRow.id = this.rowIndexNum++;
+    editRow.material_size = this.getMaterialSize(editRow);
     this.order.data[index] = editRow;
     this.order.data = this.order.data.slice(); // refreshes the table
     this.updateSummary();
@@ -156,6 +161,14 @@ export class QuantityService {
 
   getTileSqFt(tile) {
     return (tile === '48') ? 8 : 4;
+  }
+
+  getMaterialSize(row) {
+    let material_size = row.tile;
+    if (this.feature.feature_type === 'clario') {
+      material_size = this.clarioGrids.selectedTileSize[row.tile] || this.clarioGrids.selectedTileSize[24];
+    }
+    return material_size;
   }
 }
 

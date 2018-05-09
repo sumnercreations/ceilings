@@ -70,16 +70,28 @@
     <div class="col-sm-3 full-height" *ngIf="featureTiles">
       <div class="row tiles">
         <p class="md">Design</p>
-        <ng-container *ngIf="feature.feature_type !== 'hush'">
-          <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" [class.col-sm-5]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host" [class.hide]="feature.tile_size==24 && tile.tile==48">
-            <ng-container *ngIf="tile.tile_size_type === clarioSrv.tile_size_type">
+
+        <!-- Clario -->
+        <div *ngIf="feature.feature_type === 'clario'" class="tile-options">
+          <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" class="tile-option-row" [class.hide]="feature.tile_size==24 && tile.tile==48">
+            <div *ngIf="tile.tile_size_type === clarioSrv.tile_size_type">
               <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
                 <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
               </div>
               <p class="text-center xs">{{tile.name | capitalize}}</p>
-            </ng-container>
+            </div>
           </div>
-        </ng-container>
+        </div>
+
+        <!-- Not Clario or Hush -->
+        <div *ngIf="(feature.feature_type !== 'hush') && (feature.feature_type !== 'clario')" class="tile-options">
+          <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" class="tile-option-row tooltip-host">
+            <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
+              <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
+            </div>
+            <p class="text-center xs">{{tile.name | capitalize}}</p>
+          </div>
+        </div>
       </div>
       <div class="row velo-materials" *ngIf="feature.feature_type === 'velo'">
         <mat-tab-group class="velo-materials-tab-group" mat-stretch-tabs>

@@ -1,8 +1,10 @@
 <div class="addQty-dialog-container form-group">
   <div *ngIf="qtySrv.feature_type !== 'hush'" class="row section">
     <p class="md">Tile Type</p>
+
+    <!-- Clario -->
     <div *ngIf="feature.feature_type === 'clario'" class="tile-options">
-      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" class="tile-option-row tooltip-host">
+      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" class="tile-option-row tooltip-host">
         <ng-container *ngIf="tile.tile_size_type === clarioSrv.tile_size_type">
           <div class="tile" [class.selected]="selectedTile==tile.tile">
             <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
@@ -11,6 +13,8 @@
         </ng-container>
       </div>
     </div>
+
+    <!-- All Others -->
     <div *ngIf="feature.feature_type !== 'clario'" class="tile-options">
       <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" class="tile-option-row tooltip-host">
         <ng-container>

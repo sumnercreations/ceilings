@@ -15,8 +15,9 @@
 }
 
 .tile-option-row {
-  width: fit-content;
+  width: auto;
 }
+
 
 /* Materials */
 .materials {

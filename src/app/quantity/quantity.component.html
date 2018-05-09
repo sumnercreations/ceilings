@@ -63,7 +63,7 @@
             <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
             <mat-cell *matCellDef="let element" class="material-column">
               <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}">
-              {{element.material | capitalize}}-{{element.tile}}
+              {{element.material | capitalize}} {{element.material_size}}
             </mat-cell>
           </ng-container>
 

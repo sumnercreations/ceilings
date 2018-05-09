@@ -30,6 +30,16 @@ span.sm {
   font-size: 10px;
 }
 
+.tile-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tile-option-row {
+  width: auto;
+}
+
 .back-to-design span {
   font-size: 11px;
 }
@@ -88,6 +98,7 @@ span.sm {
   border: 2px solid #e7e7e7;
   cursor: pointer;
   padding: 5px;
+  margin: 0px 5px;
 }
 
 /* Materials */

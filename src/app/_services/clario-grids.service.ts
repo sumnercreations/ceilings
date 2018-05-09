@@ -38,7 +38,7 @@ export class ClarioGridsService {
   setTileSizeOptions(gridOptionsArr) {
     const selectedGrid = this.materials.clario_grids[this.selectedGrid]
     const sizeOptionsArr = [];
-    const gridTypes = []; // ['imperial', 'metric', 'german']
+    const gridTypes = []; // ['standard', 'metric', 'german']
     gridOptionsArr.map(option => {
       if (gridTypes.indexOf(selectedGrid[option].tile_size_type) === -1) {
         gridTypes.push(selectedGrid[option].tile_size_type);
