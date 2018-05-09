@@ -8,6 +8,16 @@
   margin: 10px 15px;
 }
 
+.tile-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tile-option-row {
+  width: fit-content;
+}
+
 /* Materials */
 .materials {
   margin-bottom: 10px;
@@ -22,7 +32,6 @@
   width: 38px;
   border-radius: 50%;
 }
-
 
 .action-btns {
   width: 100%;

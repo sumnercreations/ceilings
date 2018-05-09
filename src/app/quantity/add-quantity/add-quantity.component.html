@@ -1,13 +1,25 @@
 <div class="addQty-dialog-container form-group">
   <div *ngIf="qtySrv.feature_type !== 'hush'" class="row section">
     <p class="md">Tile Type</p>
-    <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" [class.col-sm-5]="tile.tile==48" [class.col-sm-3]="tile.tile!=48" class="tile-container tooltip-host">
-      <ng-container *ngIf="tile.tile_size_type === clarioSrv.tile_size_type">
-        <div class="tile" [class.selected]="selectedTile==tile.tile">
-          <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
-        </div>
-        <p class="text-center xs">{{tile.name | capitalize}}</p>
-      </ng-container>
+    <div *ngIf="feature.feature_type === 'clario'" class="tile-options">
+      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" class="tile-option-row tooltip-host">
+        <ng-container *ngIf="tile.tile_size_type === clarioSrv.tile_size_type">
+          <div class="tile" [class.selected]="selectedTile==tile.tile">
+            <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
+          </div>
+          <p class="text-center xs">{{tile.name | capitalize}}</p>
+        </ng-container>
+      </div>
+    </div>
+    <div *ngIf="feature.feature_type !== 'clario'" class="tile-options">
+      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)" class="tile-option-row tooltip-host">
+        <ng-container>
+          <div class="tile" [class.selected]="selectedTile==tile.tile">
+            <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
+          </div>
+          <p class="text-center xs">{{tile.name | capitalize}}</p>
+        </ng-container>
+      </div>
     </div>
   </div>
 
