@@ -102,7 +102,7 @@
       </div>
       <div>
         <p *ngIf="qtySrv.feature_type !=='clario'" class="tile-package-information">Tiles are sold in quanties of 4.</p>
-        <p *ngIf="qtySrv.feature_type ==='clario'" class="tile-package-information">24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.</p>
+        <p *ngIf="(qtySrv.feature_type ==='clario') && !!clarioGrids.selectedTileSize" class="tile-package-information">{{clarioGrids.selectedTileSize['24']}} baffles are sold in qty of 4, and {{clarioGrids.selectedTileSize['48']}} baffles are sold in qty of 2.</p>
       </div>
     </div>
   </div>
