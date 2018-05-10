@@ -9,7 +9,6 @@ import { AlertService } from '../_services/alert.service';
 import { ApiService } from '../_services/api.service';
 import { SeeyondService } from '../_services/seeyond.service';
 
-
 @Component({
   selector: 'app-save-design',
   templateUrl: './save-design.component.html',
@@ -30,11 +29,13 @@ export class SaveDesignComponent implements OnInit {
     public user: User,
     private location: Location,
     private dialogRef: MatDialogRef<SaveDesignComponent>
-  ) { }
+  ) {}
 
   ngOnInit() {
     // if the design already has an ID then it's not new.
-    if (this.feature.feature_type === 'seeyond') { this.feature = this.seeyond; }
+    if (this.feature.feature_type === 'seeyond') {
+      this.feature = this.seeyond;
+    }
     this.newDesign = this.feature.id ? false : true;
   }
 
@@ -48,7 +49,7 @@ export class SaveDesignComponent implements OnInit {
     } else {
       this.saveFeature();
     }
-    this.dialogRef.close()
+    this.dialogRef.close();
   }
 
   saveFeature() {
@@ -61,7 +62,9 @@ export class SaveDesignComponent implements OnInit {
         // set the feature to what was returned from the API.
         this.feature = feature.ceiling;
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id]).toString();
+        const url = this.router
+          .createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id])
+          .toString();
         if (url !== this.router.url) {
           this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
         }
@@ -85,7 +88,7 @@ export class SaveDesignComponent implements OnInit {
   saveSeeyond() {
     if (this.newDesign || this.newButton) {
       this.saveNewSeeyond();
-    }else {
+    } else {
       this.seeyondApi.updateFeature().subscribe(feature => {
         // notify the user that we saved their design
         this.alert.success('Successfully saved your design');
@@ -107,5 +110,4 @@ export class SaveDesignComponent implements OnInit {
       this.router.navigate(['/seeyond/design', feature.seeyond.id]);
     });
   }
-
 }

@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
 // material.angular.io
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonToggleModule,
   MatRadioModule,
@@ -20,7 +20,7 @@ import {
 } from '@angular/material';
 
 // routing
-import {Routing} from './app.routes';
+import { Routing } from './app.routes';
 
 // classes
 import { Feature } from './feature';
@@ -156,4 +156,4 @@ import { KeysPipe } from './_pipes/keys.pipe';
     QuantityOptionsComponent
   ]
 })
-export class AppModule { }
+export class AppModule {}

@@ -8,7 +8,6 @@ import { DetailsComponent } from './details/details.component';
 import { QuantityComponent } from './quantity/quantity.component';
 import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
 
-
 const appRoutes: Routes = [
   // note: param1 and param2 are meant to be interchangable
   { path: '', component: LandingComponent },
@@ -20,12 +19,12 @@ const appRoutes: Routes = [
   { path: ':type/design/:param1/details', component: DetailsComponent },
   { path: ':type/design/:param1/:param2', component: DesignComponent },
   { path: ':type/design/:param1/:param2/details', component: DetailsComponent },
-  { path: 'clario', redirectTo: '/clario/design', pathMatch: 'full'},
+  { path: 'clario', redirectTo: '/clario/design', pathMatch: 'full' },
   { path: 'tetria', redirectTo: '/tetria/design', pathMatch: 'full' },
   { path: 'seeyond', redirectTo: '/seeyond/design', pathMatch: 'full' },
   { path: 'hush-blocks', redirectTo: '/hush-blocks/design', pathMatch: 'full' },
   { path: 'velo', redirectTo: '/velo/design', pathMatch: 'full' },
-  { path: 'landing', redirectTo: '', pathMatch: 'full'},
+  { path: 'landing', redirectTo: '', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

@@ -31,7 +31,7 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
     this.feature.material = newRow.material;
-    this.feature.tile_size = (newRow.tile === '48') ? 48 : 24;
+    this.feature.tile_size = newRow.tile === '48' ? 48 : 24;
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
     newRow.id = this.rowIndexNum++;
@@ -54,7 +54,7 @@ export class QuantityService {
     matchedRow.used += requestedRowConfigured.used;
     matchedRow.purchased = pkgQty * Math.ceil(matchedRow.used / pkgQty);
     const objectKey = `${matchedRow.material}-${matchedRow.tile}`;
-    const matchedRowFmtd = {[objectKey]: matchedRow};
+    const matchedRowFmtd = { [objectKey]: matchedRow };
     this.getRowEstimate(matchedRowFmtd); // sets feature.estimated_amount
     matchedRow.total = this.feature.estimated_amount;
     matchedRow.id = this.rowIndexNum++;
@@ -66,18 +66,20 @@ export class QuantityService {
     const untypedData: any[] = this.order.data.slice();
     const dataImagesArr = untypedData.map(rowData => rowData.image);
     // new array of objects with number of instances of each image
-    const dataImagesCounted = dataImagesArr.reduce((a, b) => Object.assign(a, {[b]: (a[b] || 0) + 1}), {});
+    const dataImagesCounted = dataImagesArr.reduce((a, b) => Object.assign(a, { [b]: (a[b] || 0) + 1 }), {});
     // an array of all the image values that have duplicates
-    const duplicatedValue = Object.keys(dataImagesCounted).filter((a) => dataImagesCounted[a] > 1)[0];
+    const duplicatedValue = Object.keys(dataImagesCounted).filter(a => dataImagesCounted[a] > 1)[0];
     let duplicateIds = [];
     if (!!duplicatedValue) {
       untypedData.map(row => {
         // send duplicated values to combineRows()
-        if (row.image === duplicatedValue) { duplicateIds.push(row.id); }
+        if (row.image === duplicatedValue) {
+          duplicateIds.push(row.id);
+        }
         if (duplicateIds.length === 2) {
           const objectKey = `${row.material}-${row.tile}`;
           const row1 = untypedData.filter(obj => obj.id === duplicateIds[0]);
-          const row2 = {[objectKey]: untypedData.filter(obj => obj.id === duplicateIds[1])[0]};
+          const row2 = { [objectKey]: untypedData.filter(obj => obj.id === duplicateIds[1])[0] };
 
           this.combineRows(row1[0], row2);
           const indexToRemove = untypedData.findIndex(x => x.id === row2[objectKey].id);
@@ -86,7 +88,7 @@ export class QuantityService {
           this.updateSummary();
           duplicateIds = [];
         }
-      })
+      });
     }
   }
 
@@ -104,9 +106,15 @@ export class QuantityService {
 
   getRowEstimate(row) {
     switch (this.feature_type) {
-      case 'hush': this.feature.getHushEstimate(row); break;
-      case 'tetria': this.feature.getTetriaEstimate(row); break;
-      case 'clario': this.feature.getClarioEstimate(row); break;
+      case 'hush':
+        this.feature.getHushEstimate(row);
+        break;
+      case 'tetria':
+        this.feature.getTetriaEstimate(row);
+        break;
+      case 'clario':
+        this.feature.getClarioEstimate(row);
+        break;
     }
   }
 
@@ -122,15 +130,15 @@ export class QuantityService {
       estTotal += row.total;
       tilesUsed += row.used;
       tilesReceiving += row.purchased;
-      sqFtUsed += (row.used * row.tileSqFt);
-      sqFtReceiving  += (row.purchased * row.tileSqFt);
+      sqFtUsed += row.used * row.tileSqFt;
+      sqFtReceiving += row.purchased * row.tileSqFt;
     });
     this.estimatedPrice = estTotal;
     this.feature.qtyTilesReceiving = tilesReceiving;
     this.feature.qtyTilesUsed = tilesUsed;
     this.sqFtUsed = sqFtUsed;
     this.sqFtReceiving = sqFtReceiving;
-    this.tilesSelected = (sqFtUsed / 4) || null;
+    this.tilesSelected = sqFtUsed / 4 || null;
     this.updateTilesArr();
   }
 
@@ -149,21 +157,23 @@ export class QuantityService {
       const objectKey = `${newObj.material}-${newObj.tile}`;
       if (!tilesArr[objectKey]) {
         tilesArr[objectKey] = newObj;
-      } else { // if tiles are already selected just add to the totals
+      } else {
+        // if tiles are already selected just add to the totals
         tilesArr[objectKey].purchased += newObj.purchased;
         tilesArr[objectKey].used += newObj.used;
       }
-    })
+    });
 
     this.getRowEstimate(tilesArr); // updates feature.ts with the totals
     this.feature.tiles = tilesArr;
   }
 
   getTileSqFt(tile) {
-    return (tile === '48') ? 8 : 4;
+    return tile === '48' ? 8 : 4;
   }
 
   getMaterialSize(row) {
+    console.log('getMaterialSize:', row);
     let material_size = row.tile;
     if (this.feature.feature_type === 'clario') {
       material_size = this.clarioGrids.selectedTileSize[row.tile] || this.clarioGrids.selectedTileSize[24];
@@ -173,9 +183,9 @@ export class QuantityService {
 }
 
 export interface TileObj {
-  'purchased': number,
-  'image': string,
-  'used': number,
-  'material': string,
-  'tile': string
+  purchased: number;
+  image: string;
+  used: number;
+  material: string;
+  tile: string;
 }

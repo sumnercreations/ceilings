@@ -43,7 +43,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   tilesNeeded: number;
   tryingRequestQuote = false;
 
-
   // Table Properties
   dataSource: TableDataSource | null;
   dataSubject = new BehaviorSubject<Order[]>([]);
@@ -60,25 +59,29 @@ export class QuantityComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     public qtySrv: QuantityService,
     public user: User,
-    public clarioGrids: ClarioGridsService,
-  ) { }
+    public clarioGrids: ClarioGridsService
+  ) {}
 
   ngOnInit() {
     this.feature.is_quantity_order = true;
-    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.gridSizeSelected('15/16'); }
+    if (!this.feature.grid_type) {
+      this.clarioGrids.gridSizeSelected('15/16');
+    }
     this.route.params.subscribe(params => {
       // initial setup
-      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }
+      if (params['type'] === 'hush') {
+        this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity'));
+      }
       this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();
       this.order = this.qtySrv.order;
 
       // load saved if included in params
-      const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      const qtyId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!qtyId) {
         this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          this.debug.log('quantity', `qtyOrder`);
+          this.debug.log('quantity', qtyOrder);
           if (!qtyOrder.is_quantity_order) {
             this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
           }
@@ -92,42 +95,38 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.feature.tiles = qtyOrder.tiles;
           this.feature.material = qtyOrder.material;
           this.feature.quoted = qtyOrder.quoted;
-          this.clarioGrids.selectedGrid = qtyOrder.grid_size;
-          this.clarioGrids.selectedTileSize = qtyOrder.tile_size;
+          this.clarioGrids.gridSizeSelected(qtyOrder.grid_size);
+          this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size, qtyOrder.is_quantity_order);
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {
-            const newRow = {[`${row.material}-${row.tile}`]: row };
+            const newRow = { [`${row.material}-${row.tile}`]: row };
             this.qtySrv.doAddRow(newRow);
           });
-        })
+        });
       } else {
         setTimeout(() => {
           this.goToOptions();
         }, 500);
       }
 
-      this.clarioGrids.onTileSizeChange
-        .takeUntil(this.ngUnsubscribe)
-        .subscribe(result => {
-          // reset table data if the selected tile dimensions change
-          this.order.data = [];
-          this.qtySrv.updateSummary();
-        });
-
+      this.clarioGrids.onTileSizeChange.takeUntil(this.ngUnsubscribe).subscribe(result => {
+        // reset table data if the selected tile dimensions change
+        this.order.data = [];
+        this.qtySrv.updateSummary();
+      });
     });
 
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
     this.feature.is_quantity_order = true;
 
-    this.api.onUserLoggedIn
-      .subscribe(apiUser => {
-        this.user.uid = apiUser.uid;
-        this.user.email = apiUser.email;
-        this.user.firstname = apiUser.firstname;
-        this.user.lastname = apiUser.lastname;
-      });
+    this.api.onUserLoggedIn.subscribe(apiUser => {
+      this.user.uid = apiUser.uid;
+      this.user.email = apiUser.email;
+      this.user.firstname = apiUser.firstname;
+      this.user.lastname = apiUser.lastname;
+    });
   }
 
   ngOnDestroy() {
@@ -154,19 +153,26 @@ export class QuantityComponent implements OnInit, OnDestroy {
         this.headerTitle = 'Hush Blocks Tiles';
         this.displayedColumns = ['hush-receiving', 'hush-material', 'total', 'edit'];
         break;
-      case 'clario': this.headerTitle = 'Clario Tiles'; break;
-      case 'tetria': this.headerTitle = 'Tetria Tiles'; break;
+      case 'clario':
+        this.headerTitle = 'Clario Tiles';
+        break;
+      case 'tetria':
+        this.headerTitle = 'Tetria Tiles';
+        break;
     }
   }
 
   backToDesign(reset?) {
     this.router.navigate([this.feature.feature_type, 'design']);
-    if (reset === 'reset') { this.feature.reset(); }
+    if (reset === 'reset') {
+      this.feature.reset();
+    }
   }
 
   addToOrder() {
     this.addQtyDialogRef = this.dialog.open(AddQuantityComponent);
-    this.addQtyDialogRef.afterClosed()
+    this.addQtyDialogRef
+      .afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(requestedRow => {
         if (!!requestedRow) {
@@ -179,28 +185,32 @@ export class QuantityComponent implements OnInit, OnDestroy {
               isMultiple = true;
               this.qtySrv.combineRows(row, requestedRow);
             }
-          })
-          if (!isMultiple) { this.qtySrv.doAddRow(requestedRow); }
+          });
+          if (!isMultiple) {
+            this.qtySrv.doAddRow(requestedRow);
+          }
         }
-      })
+      });
   }
 
   editRow(index, row) {
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: row});
-    this.addQtyDialogRef.afterClosed()
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, { data: row });
+    this.addQtyDialogRef
+      .afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (!!result) {
           this.qtySrv.doEditRow(index, result);
           this.qtySrv.checkAndFixDuplicates();
         }
-      })
+      });
   }
 
   deleteRow(index, row) {
-    const removeRow = {index: index, row: row};
-    this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, {data: removeRow});
-    this.removeQtyDialogRef.afterClosed()
+    const removeRow = { index: index, row: row };
+    this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, { data: removeRow });
+    this.removeQtyDialogRef
+      .afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'remove') {
@@ -208,7 +218,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
         }
         this.qtySrv.order.data = this.qtySrv.order.data.slice();
         this.qtySrv.updateSummary();
-      })
+      });
   }
 
   requestQuote() {
@@ -217,13 +227,13 @@ export class QuantityComponent implements OnInit, OnDestroy {
       this.loginDialog();
       return;
     }
-    this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, new MatDialogConfig);
+    this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, new MatDialogConfig());
   }
 
   viewDetails() {
     let path = window.location.pathname;
-    path = `${path}/details`
-    this.router.navigate([path])
+    path = `${path}/details`;
+    this.router.navigate([path]);
   }
 
   calcSqFootage() {
@@ -231,7 +241,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   public saveQuantity() {
-    this.saveQtyDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig);
+    this.saveQtyDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig());
     if (!this.user.isLoggedIn()) {
       this.loginDialog();
     }
@@ -242,20 +252,24 @@ export class QuantityComponent implements OnInit, OnDestroy {
     const config = new MatDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
-    this.loginDialogRef.afterClosed()
+    this.loginDialogRef
+      .afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'cancel') {
           this.tryingRequestQuote = false;
           // we need to close the savedDialog too if it's open.
-          if (this.saveQtyDialogRef) { this.saveQtyDialogRef.close(); return; }
+          if (this.saveQtyDialogRef) {
+            this.saveQtyDialogRef.close();
+            return;
+          }
         } else if (load) {
           // the user should be logged in now, so show the load dialog
           this.loadQtyDesigns();
         }
         if (this.tryingRequestQuote) {
           this.tryingRequestQuote = false;
-          this.requestQuote()
+          this.requestQuote();
         }
       });
   }
@@ -265,24 +279,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      this.api.getMyDesigns()
+      this.api
+        .getMyDesigns()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
-        this.loadQtyDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
-        this.loadQtyDialogRef.componentInstance.designs = designs;
-      });
+          this.loadQtyDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig());
+          this.loadQtyDialogRef.componentInstance.designs = designs;
+        });
     }
   }
-
 }
 
-
 export class TableDataSource extends MatTableDataSource<any> {
-
   constructor(private subject: BehaviorSubject<Order[]>) {
-    super ();
+    super();
   }
-
 }
 
 export interface Order {
