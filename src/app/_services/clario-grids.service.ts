@@ -76,7 +76,7 @@ export class ClarioGridsService {
     this.tile_size_type = this.selectedTileSize.tile_size_type;
     this.feature.units = this.selectedTileSize.units;
     this.feature.tile_size = this.selectedTileSize.image_type;
-    console.log('selectedTileSize:', this.selectedTileSize);
+    this.debug.log('clario-grid', this.selectedTileSize);
   }
 
   setGridTileSizeOptions() {
@@ -87,7 +87,7 @@ export class ClarioGridsService {
         selectedGridTileOptions.push(tileOption);
       }
     });
-    console.log('selectedGridTileOptions:', selectedGridTileOptions);
+    this.debug.log('clario-grid', selectedGridTileOptions);
   }
 
 }
