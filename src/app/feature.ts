@@ -37,6 +37,7 @@ export class Feature {
   public is_quantity_order = false;
   public qtyTilesUsed = 0;
   public qtyTilesReceiving = 0;
+  public grid_type: string = undefined;
 
   // attributes for the tool
   public tile_type = 'tile';

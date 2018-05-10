@@ -10,7 +10,7 @@ import { OptionsComponent } from 'app/options/options.component';
 export class ClarioOptionsComponent extends OptionsComponent implements OnInit {
 
   ngOnInit() {
-    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.gridSizeSelected('15/16'); }
+    if (!this.feature.grid_type) { this.clarioGrids.gridSizeSelected('15/16'); }
   }
 
   gridSizeChanged(selection) {

@@ -58,7 +58,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     public alert: AlertService,
     public location: Location,
     public materialsService: MaterialsService,
-    public clarioSrv: ClarioGridsService
+    public clarioGrids: ClarioGridsService
   ) { }
 
   ngOnInit() {
@@ -90,6 +90,7 @@ export class DesignComponent implements OnInit, OnDestroy {
               this.materials = this.feature.getFeatureMaterials();
               if (this.feature.feature_type === 'clario') {
                 this.feature.selectedTile = this.feature.tile_size.toString();
+                if (!this.feature.grid_type) { this.clarioGrids.gridSizeSelected('15/16'); }
               }else if (this.feature.feature_type === 'velo') {
                 // velo defaults
                 this.feature.selectedTile = 'concave';

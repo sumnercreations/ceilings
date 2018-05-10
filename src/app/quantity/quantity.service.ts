@@ -164,6 +164,7 @@ export class QuantityService {
   }
 
   getMaterialSize(row) {
+    console.log('getMaterialSize:', row);
     let material_size = row.tile;
     if (this.feature.feature_type === 'clario') {
       material_size = this.clarioGrids.selectedTileSize[row.tile] || this.clarioGrids.selectedTileSize[24];

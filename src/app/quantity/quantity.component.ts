@@ -65,7 +65,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.feature.is_quantity_order = true;
-    if (!this.clarioGrids.selectedGrid) { this.clarioGrids.gridSizeSelected('15/16'); }
+    if (!this.feature.grid_type) { this.clarioGrids.gridSizeSelected('15/16'); }
     this.route.params.subscribe(params => {
       // initial setup
       if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }
@@ -78,7 +78,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
       if (!!qtyId) {
         this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          this.debug.log('quantity', `qtyOrder`);
+          this.debug.log('quantity', qtyOrder);
           if (!qtyOrder.is_quantity_order) {
             this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
           }
@@ -92,8 +92,8 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.feature.tiles = qtyOrder.tiles;
           this.feature.material = qtyOrder.material;
           this.feature.quoted = qtyOrder.quoted;
-          this.clarioGrids.selectedGrid = qtyOrder.grid_size;
-          this.clarioGrids.selectedTileSize = qtyOrder.tile_size;
+          this.clarioGrids.gridSizeSelected(qtyOrder.grid_size);
+          this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size, qtyOrder.is_quantity_order);
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {

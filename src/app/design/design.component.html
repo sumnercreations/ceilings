@@ -33,7 +33,7 @@
         <div class="grid-header">
           <div *ngIf="feature.feature_type!='velo'">
             <p *ngIf="feature.feature_type!='hush' && feature.feature_type!='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
-            <p *ngIf="feature.feature_type=='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | {{clarioSrv.selectedTileSize?.name}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
+            <p *ngIf="feature.feature_type=='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | {{clarioGrids.selectedTileSize?.name}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
             <p *ngIf="feature.feature_type=='hush'">{{feature.width}} W x {{feature.length}} H ({{feature.units}}) | 24 x {{feature.tile_size}} Hush Blocks &nbsp;<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
           <div>
@@ -74,7 +74,7 @@
         <!-- Clario -->
         <div *ngIf="feature.feature_type === 'clario'" class="tile-options">
           <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile.tile)" class="tile-option-row" [class.hide]="feature.tile_size==24 && tile.tile==48">
-            <div *ngIf="tile.tile_size_type === clarioSrv.tile_size_type">
+            <div *ngIf="tile.tile_size_type === clarioGrids.tile_size_type">
               <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
                 <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
               </div>

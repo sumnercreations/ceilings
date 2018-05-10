@@ -29,7 +29,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     public qtySrv: QuantityService,
     public feature: Feature,
     public debug: DebugService,
-    public clarioSrv: ClarioGridsService
+    public clarioGrids: ClarioGridsService
   ) { }
 
   ngOnInit() {
