@@ -323,7 +323,7 @@ export class SeeyondFeature extends Feature {
     const baseplates: number = this.getBaseplates(this.seeyond_feature_index);
     const fabricationCost: number = this.getFabricationCost(this.seeyond_feature_index);
 
-    this.services_amount = (staples * stapleCost) + (magnets * magnetCost) + (backplates * backplateCost) + (baseplates * baseplateCost) + (frames * frameCost) + fabricationCost;
+    this.services_amount = (staples * stapleCost) + (backplates * backplateCost) + (baseplates * baseplateCost) + (frames * frameCost) + fabricationCost;
 
     this.estimated_amount = totalProductsCost + totalHardwareCost + this.services_amount;
     this.debug.log('seeyond', `estimated amount: ${this.estimated_amount}`);
