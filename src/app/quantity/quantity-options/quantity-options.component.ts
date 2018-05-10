@@ -17,13 +17,14 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
     public dialogRef: MatDialogRef<QuantityOptionsComponent>,
     public location: Location,
     public clarioGrids: ClarioGridsService
-  ) { }
+  ) {}
 
   ngOnInit() {}
 
   ngAfterContentChecked() {
     const featureType = this.capitalizeFirstLetter(this.feature.feature_type);
-    this.title =  (featureType !== 'hush') ? `Order ${featureType} Tiles By Quantity` : `Order ${featureType} Blocks By Quantity`;
+    this.title =
+      featureType !== 'hush' ? `Order ${featureType} Tiles By Quantity` : `Order ${featureType} Blocks By Quantity`;
   }
 
   gridSizeChanged(selection) {
@@ -44,7 +45,7 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
   validateOptions() {
     let valid = !!this.feature.design_name;
     if (this.feature.feature_type === 'clario') {
-      valid = (valid && !!this.clarioGrids.selectedGrid && !!this.clarioGrids.selectedTileSize);
+      valid = valid && !!this.feature.grid_type && !!this.clarioGrids.selectedTileSize;
     }
     return valid;
   }

@@ -32,15 +32,22 @@ export class QuantityDetailsComponent implements OnInit {
     public feature: Feature,
     public qtySrv: QuantityService,
     private debug: DebugService
-  ) { }
+  ) {}
 
   ngOnInit() {
-    if (!window.location.pathname.includes('quantity')) { this.location.go(window.location.pathname || ''); return; }
+    if (!window.location.pathname.includes('quantity')) {
+      this.location.go(window.location.pathname || '');
+      return;
+    }
     this.route.params.subscribe(params => {
-      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
+      if (params['type'] === 'hush') {
+        this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
+      }
       this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
-      if (this.qtySrv.feature_type === 'hush') { this.displayedColumns = ['hush-receiving', 'hush-material', 'total']; }
-      const orderId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      if (this.qtySrv.feature_type === 'hush') {
+        this.displayedColumns = ['hush-receiving', 'hush-material', 'total'];
+      }
+      const orderId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!orderId) {
         this.api.loadDesign(orderId).subscribe(qtyOrder => {
           this.debug.log('quantity', qtyOrder);
@@ -51,13 +58,13 @@ export class QuantityDetailsComponent implements OnInit {
             this.api.getUserRep(qtyOrder.uid).subscribe(rep => {
               this.rep = rep;
               this.setOrderData(qtyOrder);
-            })
+            });
           }
           this.dataSource = new TableDataSource(this.dataSubject);
           this.dataSource.connect();
           this.feature.is_quantity_order = true;
           this.qtyOrder = this.qtySrv.order;
-        })
+        });
       }
     });
   }
@@ -75,7 +82,7 @@ export class QuantityDetailsComponent implements OnInit {
     const tilesObj = JSON.parse(qtyOrder.tiles);
     const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
     rowsToAdd.map(row => {
-      const newRow = {[`${row.material}-${row.tile}`]: row };
+      const newRow = { [`${row.material}-${row.tile}`]: row };
       this.qtySrv.doAddRow(newRow);
     });
   }

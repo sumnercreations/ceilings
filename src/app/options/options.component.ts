@@ -17,16 +17,9 @@ import { Location } from '@angular/common';
 })
 export class OptionsComponent implements OnInit, AfterContentInit {
   public title = 'Ceilings Design Tool';
-  public modifyToolsArray = [
-    'rotate',
-    'remove'
-  ];
+  public modifyToolsArray = ['rotate', 'remove'];
 
-  public fixturesToolsArray = [
-    'light',
-    'vent',
-    'sprinkler'
-  ];
+  public fixturesToolsArray = ['light', 'vent', 'sprinkler'];
 
   // debugging
   public params: any;
@@ -42,7 +35,7 @@ export class OptionsComponent implements OnInit, AfterContentInit {
     public location: Location,
     public materials: MaterialsService,
     public clarioGrids: ClarioGridsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.debug.log('options-component', 'init');
@@ -51,11 +44,13 @@ export class OptionsComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     const featureType = this.feature.feature_type;
-    this.title =  (featureType !== 'hush') ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
+    this.title = featureType !== 'hush' ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
   }
 
   public goToLanding() {
-    if (this.feature.feature_type === 'seeyond') { this.seeyond.resetSeeyond(); }
+    if (this.feature.feature_type === 'seeyond') {
+      this.seeyond.resetSeeyond();
+    }
     this.dialogRef.close('cancel');
     this.location.go('/');
     window.location.reload();
@@ -75,10 +70,13 @@ export class OptionsComponent implements OnInit, AfterContentInit {
 
   validateOptions() {
     // name, width, and length are required
-    const valid = (this.feature.width === 0 || typeof this.feature.width === 'undefined')
-             || (this.feature.length === 0 || typeof this.feature.length === 'undefined')
-             || (typeof this.feature.design_name === 'undefined')
-              ? true : false;
+    const valid =
+      this.feature.width === 0 ||
+      typeof this.feature.width === 'undefined' ||
+      (this.feature.length === 0 || typeof this.feature.length === 'undefined') ||
+      typeof this.feature.design_name === 'undefined'
+        ? true
+        : false;
 
     return valid;
   }

@@ -12,11 +12,7 @@ export class ClarioGridsService {
   tileSizeOptions = [];
   tile_size_type = 'standard';
 
-  constructor(
-    public materials: MaterialsService,
-    public feature: Feature,
-    public debug: DebugService
-  ) {
+  constructor(public materials: MaterialsService, public feature: Feature, public debug: DebugService) {
     this.gridSizes = Object.keys(this.materials.clario_grids);
   }
 
@@ -55,16 +51,16 @@ export class ClarioGridsService {
             selectName = optionObj.name;
           } else {
             tileSizeOptions.push({
-              'tile_size_type': type,
-              'name': `${selectName} and ${optionObj.name}`,
-              'units': optionObj.units,
+              tile_size_type: type,
+              name: `${selectName} and ${optionObj.name}`,
+              units: optionObj.units,
               '24': selectName,
               '48': optionObj.name
             });
             selectName = '';
           }
         }
-      })
+      });
     });
     this.tileSizeOptions = tileSizeOptions;
   }
@@ -72,7 +68,10 @@ export class ClarioGridsService {
   tileSizeSelected(grid) {
     this.debug.log('clario-grid', `grid selected: ${grid}`);
     this.onTileSizeChange.emit();
-    if (grid === undefined) { this.selectedTileSize = grid; return; }
+    if (grid === undefined) {
+      this.selectedTileSize = grid;
+      return;
+    }
     this.selectedTileSize = this.tileSizeOptions.filter(size => size.name === grid)[0];
     this.tile_size_type = this.selectedTileSize.tile_size_type;
     this.feature.units = this.selectedTileSize.units;
@@ -94,8 +93,10 @@ export class ClarioGridsService {
   loadSelectedTileSize(tile_size, is_quantity_order) {
     const tileSizes = Object.keys(this.tileSizeOptions).map(key => this.tileSizeOptions[key].name);
     tileSizes.map(size => {
-      if (size.includes(tile_size)) { this.tileSizeSelected(size); return; }
-    })
+      if (size.includes(tile_size)) {
+        this.tileSizeSelected(size);
+        return;
+      }
+    });
   }
-
 }

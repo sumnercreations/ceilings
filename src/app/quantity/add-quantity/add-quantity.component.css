@@ -18,8 +18,8 @@
   width: auto;
 }
 
-
 /* Materials */
+
 .materials {
   margin-bottom: 10px;
 }
@@ -72,6 +72,7 @@
 }
 
 /* Keep below other borders so it will override the default border */
+
 .selected {
   border: 2px solid #ff9933;
 }

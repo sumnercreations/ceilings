@@ -21,10 +21,7 @@ export class VisualizationComponent implements OnInit {
   private tilingVersion = '';
   private visualizationVersion = '';
 
-  constructor(
-    private debug: DebugService,
-    public feature: Feature
-  ) { }
+  constructor(private debug: DebugService, public feature: Feature) {}
 
   ngOnInit() {
     // log the versions for future debugging purposes
@@ -53,9 +50,9 @@ export class VisualizationComponent implements OnInit {
 
   downloadImages() {
     let left = this.vis.QT.Visualization.TakeSnapshot(270);
-    let back  = this.vis.QT.Visualization.TakeSnapshot(180);
+    let back = this.vis.QT.Visualization.TakeSnapshot(180);
     let right = this.vis.QT.Visualization.TakeSnapshot(90);
-    let front  = this.vis.QT.Visualization.TakeSnapshot(0);
+    let front = this.vis.QT.Visualization.TakeSnapshot(0);
     const filename = this.feature.feature_type + '.zip';
     const zip = new jszip();
 
@@ -63,14 +60,12 @@ export class VisualizationComponent implements OnInit {
     front = front.replace(/^data:image\/(png|jpg);base64,/, '');
     back = back.replace(/^data:image\/(png|jpg);base64,/, '');
     left = left.replace(/^data:image\/(png|jpg);base64,/, '');
-    zip.file('right.png', right, {base64: true});
-    zip.file('front.png', front, {base64: true});
-    zip.file('back.png', back, {base64: true});
-    zip.file('left.png', left, {base64: true});
-    zip.generateAsync({type: 'blob'})
-    .then(function (blob) {
-        FileSaver.saveAs(blob, filename);
+    zip.file('right.png', right, { base64: true });
+    zip.file('front.png', front, { base64: true });
+    zip.file('back.png', back, { base64: true });
+    zip.file('left.png', left, { base64: true });
+    zip.generateAsync({ type: 'blob' }).then(function(blob) {
+      FileSaver.saveAs(blob, filename);
     });
   }
-
 }

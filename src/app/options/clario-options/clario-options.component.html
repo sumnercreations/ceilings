@@ -3,7 +3,9 @@
     <div class="intro">
       <h2>{{title | capitalize}}</h2>
     </div>
-    <p>Would you rather order by quantity? <a (click)="goToQty()">Click Here</a></p>
+    <p>Would you rather order by quantity?
+      <a (click)="goToQty()">Click Here</a>
+    </p>
   </div>
 </div>
 <div class="row">
@@ -16,11 +18,13 @@
     <div class="row">
       <div class="col-sm-9">
         <div class="form-group">
-          <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+          <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input"
+            autofocus>
         </div>
       </div>
       <div class="col-sm-3 options-load">
-        <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+        <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()">
+          <span class="icomoon-folder orange"></span> Load</a>
       </div>
     </div>
     <hr>
@@ -52,13 +56,15 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label for="width">Width</label>
-            <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Width" name="width" id="width">
+            <input [(ngModel)]="feature.width" type="text" class="form-control number-input square" placeholder="Width" name="width"
+              id="width">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
             <label for="length">Length</label>
-            <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Length" name="length" id="length">
+            <input [(ngModel)]="feature.length" type="text" class="form-control number-input square" placeholder="Length" name="length"
+              id="length">
           </div>
         </div>
         <div class="col-sm-4">
@@ -73,15 +79,15 @@
     </div>
     <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="validateOptions()">start designing</button>
     <div class="back">
-      <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Choose a New Design Tool</a>
+      <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">
+        < Choose a New Design Tool</a>
     </div>
   </div>
   <div class="col-xs-12 col-sm-5 col-sm-offset-1 right-pane">
     <div class="grid-guides clearfix">
       <h3>Grid and Guides</h3>
       <p>Design dimensions are shown by a blue guide.</p>
-      <img src="/assets/images/grid-and-guide.png" alt="Grid with Blue Guides"
-          class="pull-left">
+      <img src="/assets/images/grid-and-guide.png" alt="Grid with Blue Guides" class="pull-left">
       <aside class="note">Tiles extending past the blue guide must be flat tiles to allow cutting.</aside>
     </div>
     <div id="design">

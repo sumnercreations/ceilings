@@ -8,7 +8,8 @@
 <div class="row col-sm-12">
   <div class="row">
     <div class="col-sm-12">
-      <p>Ordering by quantity allows you to bypass desiging in our design tool and assumes you have a basic understanding of the product you are ordering.  Begin by naming your order or by loading a saved one.</p>
+      <p>Ordering by quantity allows you to bypass desiging in our design tool and assumes you have a basic understanding of
+        the product you are ordering. Begin by naming your order or by loading a saved one.</p>
     </div>
   </div>
   <div class="row">
@@ -17,11 +18,13 @@
     </div>
     <div class="col-sm-7">
       <div class="form-group">
-        <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+        <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input"
+          autofocus>
       </div>
     </div>
     <div class="col-sm-3 options-load">
-      <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+      <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()">
+        <span class="icomoon-folder orange"></span> Load</a>
     </div>
   </div>
   <div *ngIf="feature.feature_type === 'clario'">
@@ -32,8 +35,8 @@
       <div class="col-sm-7 grid-dimensions">
         <label for="gridOptions">Ceiling Grid Type</label>
         <select class="form-control" (change)="gridSizeChanged($event.target.value)" id="gridOptions">
-          <option disabled hidden [value]="undefined" [selected]="clarioGrids.selectedGrid === undefined">-- select --</option>
-          <option *ngFor="let gridSize of clarioGrids.gridSizes | keys;" [value]="gridSize" [selected]="clarioGrids.selectedGrid === gridSize.name">{{gridSize}}</option>
+          <option disabled hidden [value]="undefined" [selected]="feature.grid_type === undefined">-- select --</option>
+          <option *ngFor="let gridSize of clarioGrids.gridSizes | keys;" [value]="gridSize" [selected]="feature.grid_type === gridSize.name">{{gridSize}}</option>
         </select>
       </div>
       <div class="col-sm-7 grid-dimensions">
@@ -47,6 +50,7 @@
   </div>
   <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="!validateOptions()">Begin Order</button>
   <div class="back">
-    <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Choose a Different Tool</a>
+    <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">
+      < Choose a Different Tool</a>
   </div>
 </div>

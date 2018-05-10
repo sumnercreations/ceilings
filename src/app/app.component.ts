@@ -8,12 +8,10 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor(
-    public user: User
-  ) {
+  constructor(public user: User) {
     window['environment'] = () => {
       return environment;
-    }
+    };
   }
 
   ngOnInit() {
@@ -28,7 +26,7 @@ export class AppComponent implements OnInit {
       this.user.lastname = parsedUser.lastname;
     } else {
       // create a new empty user
-      this.user = new User;
+      this.user = new User();
     }
   }
 }
