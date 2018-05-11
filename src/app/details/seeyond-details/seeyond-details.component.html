@@ -58,13 +58,13 @@
         <dd>{{design.name | capitalize}}</dd>
         <dt *ngIf="design.name === 'ceiling'">Length</dt>
         <dt *ngIf="design.name !== 'ceiling'">Height</dt>
-        <dd>{{design.height}} {{design.units}}</dd>
+        <dd>{{design.height}} {{design.units | shortendUnits}}</dd>
         <dt>Width</dt>
-        <dd>{{design.width}} {{design.units}}</dd>
+        <dd>{{design.width}} {{design.units | shortendUnits}}</dd>
         <dt *ngIf="design.name === 'curved-partition'">Radius</dt>
-        <dd *ngIf="design.name === 'curved-partition'">{{design.radius}} {{design.units}}</dd>
+        <dd *ngIf="design.name === 'curved-partition'">{{design.radius}} {{design.units | shortendUnits}}</dd>
         <dt *ngIf="design.name === 'wall-to-ceiling'">Ceiling Length</dt>
-        <dd *ngIf="design.name === 'wall-to-ceiling'">{{design.ceiling_length}} {{design.units}}</dd>
+        <dd *ngIf="design.name === 'wall-to-ceiling'">{{design.ceiling_length}} {{design.units | shortendUnits}}</dd>
         <dt>Pattern</dt>
         <dd>{{tessellationStr | capitalize}}</dd>
         <dt>Pattern Strength</dt>
