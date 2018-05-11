@@ -95,7 +95,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.feature.tiles = qtyOrder.tiles;
           this.feature.material = qtyOrder.material;
           this.feature.quoted = qtyOrder.quoted;
-          this.clarioGrids.gridSizeSelected(qtyOrder.grid_size);
+          this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
           this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size, qtyOrder.is_quantity_order);
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
