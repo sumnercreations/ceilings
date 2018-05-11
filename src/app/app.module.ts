@@ -72,6 +72,7 @@ import { ClarioGridsService } from './_services/clario-grids.service';
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { KeysPipe } from './_pipes/keys.pipe';
+import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     AddQuantityComponent,
     RemoveQuantityComponent,
     QuantityDetailsComponent,
-    QuantityOptionsComponent
+    QuantityOptionsComponent,
+    ShortendUnitsPipe
   ],
   imports: [
     BrowserModule,

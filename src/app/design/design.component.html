@@ -38,15 +38,16 @@
         <div class="grid-wrapper col-sm-12">
           <div class="grid-header">
             <div *ngIf="feature.feature_type!='velo'">
-              <p *ngIf="feature.feature_type!='hush' && feature.feature_type!='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type
-                | capitalize}}
+              <p *ngIf="feature.feature_type!='hush' && feature.feature_type!='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units | shortendUnits}}) | 24 x {{feature.tile_size}}
+                {{feature.feature_type | capitalize}}
                 <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a>
               </p>
-              <p *ngIf="feature.feature_type=='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | {{clarioGrids.selectedTileSize?.name}} {{feature.feature_type
-                | capitalize}}
+              <p *ngIf="feature.feature_type=='clario'">{{feature.width}} W x {{feature.length}} L ({{feature.units | shortendUnits}}) | {{clarioGrids.selectedTileSize?.name}}
+                {{feature.feature_type | capitalize}}
                 <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a>
               </p>
-              <p *ngIf="feature.feature_type=='hush'">{{feature.width}} W x {{feature.length}} H ({{feature.units}}) | 24 x {{feature.tile_size}} Hush Blocks &nbsp;
+              <p *ngIf="feature.feature_type=='hush'">{{feature.width}} W x {{feature.length}} H ({{feature.units | shortendUnits}}) | 24 x {{feature.tile_size}}
+                Hush Blocks &nbsp;
                 <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a>
               </p>
             </div>
