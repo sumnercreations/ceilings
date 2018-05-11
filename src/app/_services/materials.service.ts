@@ -10,37 +10,43 @@ export class MaterialsService {
         name: '24x24in',
         units: 'inches',
         image_type: '24',
-        tile_size_type: 'standard'
+        tile_size_type: 'standard',
+        tile_size: '24'
       },
       '24x48': {
         name: '24x48in',
         units: 'inches',
         image_type: '48',
-        tile_size_type: 'standard'
+        tile_size_type: 'standard',
+        tile_size: '48'
       },
       '600x600': {
         name: '600x600mm',
         units: 'centimeters',
         image_type: '24',
-        tile_size_type: 'metric'
+        tile_size_type: 'metric',
+        tile_size: '600'
       },
       '600x1200': {
         name: '600x1200mm',
         units: 'centimeters',
         image_type: '48',
-        tile_size_type: 'metric'
+        tile_size_type: 'metric',
+        tile_size: '1200'
       },
       '625x625': {
         name: '625x625mm',
         units: 'centimeters',
         image_type: '24',
-        tile_size_type: 'german'
+        tile_size_type: 'german',
+        tile_size: '625'
       },
       '625x1250': {
         name: '625x1250mm',
         units: 'centimeters',
         image_type: '48',
-        tile_size_type: 'german'
+        tile_size_type: 'german',
+        tile_size: '1250'
       }
     },
     '9/16': {
@@ -48,13 +54,15 @@ export class MaterialsService {
         name: '24"x24"',
         units: 'inches',
         image_type: '24',
-        tile_size_type: 'standard'
+        tile_size_type: 'standard',
+        tile_size: '24'
       },
       '24x48': {
         name: '24"x48"',
         units: 'inches',
         image_type: '48',
-        tile_size_type: 'standard'
+        tile_size_type: 'standard',
+        tile_size: '48'
       }
     }
   };

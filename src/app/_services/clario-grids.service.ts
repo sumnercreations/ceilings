@@ -51,6 +51,7 @@ export class ClarioGridsService {
             selectName = optionObj.name;
           } else {
             tileSizeOptions.push({
+              tile_size: optionObj.tile_size,
               tile_size_type: type,
               name: `${selectName} and ${optionObj.name}`,
               units: optionObj.units,
@@ -65,16 +66,18 @@ export class ClarioGridsService {
     this.tileSizeOptions = tileSizeOptions;
   }
 
-  tileSizeSelected(grid) {
-    this.debug.log('clario-grid', `grid selected: ${grid}`);
+  tileSizeSelected(size) {
+    this.debug.log('clario-grid', `size selected: ${size}`);
     this.onTileSizeChange.emit();
-    if (grid === undefined) {
-      this.selectedTileSize = grid;
+    if (size === undefined) {
+      this.selectedTileSize = size;
       return;
     }
-    this.selectedTileSize = this.tileSizeOptions.filter(size => size.name === grid)[0];
+    this.selectedTileSize = this.tileSizeOptions.filter(option => option.name === size)[0];
+    this.feature.tile_size = this.selectedTileSize.tile_size;
     this.tile_size_type = this.selectedTileSize.tile_size_type;
     this.feature.units = this.selectedTileSize.units;
+    this.feature.tile_image_type = this.selectedTileSize.image_type;
     this.debug.log('clario-grid', this.selectedTileSize);
   }
 

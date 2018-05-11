@@ -224,7 +224,7 @@ export class GridComponent implements OnInit, OnDestroy {
                 this.feature.gridData[row][column].setTile(this.feature.selectedTile);
                 this.feature.gridData[row][column].setMaterial(this.feature.material);
                 // for 24x24 tiles in a 24x48 grid
-                if (this.feature.tile_size === 48) {
+                if (this.feature.tile_image_type === 48) {
                   this.feature.gridData[row][column].setRotation(270);
                 }
                 this.debug.log('grid-component', this.feature.gridData[row][column]);

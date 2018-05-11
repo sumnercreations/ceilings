@@ -31,7 +31,7 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
     this.feature.material = newRow.material;
-    this.feature.tile_size = newRow.tile === '48' ? 48 : 24;
+    this.feature.tile_image_type = newRow.tile === '48' ? 48 : 24;
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile);
     newRow.id = this.rowIndexNum++;

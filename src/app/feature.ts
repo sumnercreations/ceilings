@@ -42,6 +42,7 @@ export class Feature {
   // attributes for the tool
   public tile_type = 'tile';
   public selectedTile = '01';
+  public tile_image_type = 24;
   public selectedTool: string;
   public showGuide = true;
   public materialHex: string;
@@ -111,7 +112,7 @@ export class Feature {
     this.length = undefined;
     this.units = 'inches';
     this.material = undefined;
-    this.tile_size = 24;
+    this.tile_image_type = 24;
     this.tiles = undefined;
     this.design_data_url = undefined;
     this.hardware = undefined;
@@ -1029,11 +1030,11 @@ export class Feature {
       info = 'Tiles are sold in quanties of 4.';
     }
 
-    if (this.feature_type === 'clario' && this.tile_size === 24) {
+    if (this.feature_type === 'clario' && this.tile_image_type === 24) {
       info = 'Baffles are sold in quantities of 4.';
     }
 
-    if (this.feature_type === 'clario' && this.tile_size === 48) {
+    if (this.feature_type === 'clario' && this.tile_image_type === 48) {
       info = '24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.';
     }
 

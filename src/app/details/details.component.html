@@ -54,7 +54,7 @@
       <img class="grid-guide img-responsive" src="{{feature.design_data_url}}" alt="Grid Guide Image">
     </div>
     <div class="col-sm-6">
-      <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_size===24)">24" x 24" {{feature.getTileType('plural') | capitalize}}
+      <p class="md info" *ngIf="feature.feature_type=='tetria' || (feature.feature_type=='clario' && feature.tile_image_type === 24)">24" x 24" {{feature.getTileType('plural') | capitalize}}
         <span class="sm">(sold in quantities of {{feature.getPackageQty()}})</span>
       </p>
       <div class="row tile-info-header">
