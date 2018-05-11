@@ -75,7 +75,6 @@ export class ClarioGridsService {
     this.selectedTileSize = this.tileSizeOptions.filter(size => size.name === grid)[0];
     this.tile_size_type = this.selectedTileSize.tile_size_type;
     this.feature.units = this.selectedTileSize.units;
-    this.feature.tile_size = this.selectedTileSize.image_type;
     this.debug.log('clario-grid', this.selectedTileSize);
   }
 
