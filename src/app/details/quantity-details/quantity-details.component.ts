@@ -87,12 +87,15 @@ export class QuantityDetailsComponent implements OnInit {
     this.feature.tiles = qtyOrder.tiles;
     this.feature.material = qtyOrder.material;
     this.feature.quoted = qtyOrder.quoted;
-    const tilesObj = JSON.parse(qtyOrder.tiles);
-    const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
-    rowsToAdd.map(row => {
-      const newRow = { [`${row.material}-${row.tile}`]: row };
-      this.qtySrv.doAddRow(newRow);
-    });
+
+    if (this.qtyOrder.data.length < 1) {
+      const tilesObj = JSON.parse(qtyOrder.tiles);
+      const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
+      rowsToAdd.map(row => {
+        const newRow = { [`${row.material}-${row.tile}`]: row };
+        this.qtySrv.doAddRow(newRow);
+      });
+    }
   }
 
   backToDesign() {

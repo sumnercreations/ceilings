@@ -175,7 +175,14 @@ export class QuantityService {
   getMaterialSize(row) {
     let material_size = row.tile;
     if (this.feature.feature_type === 'clario') {
-      material_size = this.clarioGrids.selectedTileSize[row.tile] || this.clarioGrids.selectedTileSize[24];
+      const tile_size_type = this.clarioGrids.selectedTileSize.tile_size_type;
+      const selectedTile = row.tile;
+      const grids = this.feature.materialsService.tilesArray.clario;
+      const gridsArr = Object.keys(grids).map(key => grids[key]);
+
+      // find the object whose tile_size_type and tile match the current selections
+      const foundTileObj = gridsArr.find(x => x.tile_size_type === tile_size_type && x.tile === selectedTile);
+      material_size = foundTileObj.name;
     }
     return material_size;
   }
