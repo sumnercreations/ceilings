@@ -101,7 +101,7 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.featureTiles = this.feature.tilesArray[featureType];
                 this.materials = this.feature.getFeatureMaterials();
                 this.clarioGrids.gridSizeSelected(design.grid_type);
-                this.clarioGrids.loadSelectedTileSize(design.tile_size, design.is_quantity_order);
+                this.clarioGrids.loadSelectedTileSize(design.tile_size);
                 if (this.feature.feature_type === 'clario') {
                   this.feature.selectedTile = this.feature.tile_size.toString();
                   if (!this.feature.grid_type) {

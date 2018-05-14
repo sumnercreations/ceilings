@@ -59,6 +59,10 @@ export class DetailsComponent implements OnInit {
           });
         } else {
           this.api.loadDesign(designId).subscribe(design => {
+            if (design.is_quantity_order) {
+              const newUrl = window.location.pathname.replace(/design/, 'quantity');
+              this.router.navigate([newUrl]);
+            }
             if (!design.quoted) {
               // not quoted
               this.alert.error('Details are not available until a request for a quote is processed.');

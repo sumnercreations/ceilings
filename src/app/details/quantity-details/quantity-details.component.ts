@@ -1,3 +1,4 @@
+import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { DebugService } from './../../_services/debug.service';
 import { QuantityService } from './../../quantity/quantity.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -31,7 +32,8 @@ export class QuantityDetailsComponent implements OnInit {
     private alert: AlertService,
     public feature: Feature,
     public qtySrv: QuantityService,
-    private debug: DebugService
+    private debug: DebugService,
+    private clarioGrids: ClarioGridsService
   ) {}
 
   ngOnInit() {
@@ -51,6 +53,10 @@ export class QuantityDetailsComponent implements OnInit {
       if (!!orderId) {
         this.api.loadDesign(orderId).subscribe(qtyOrder => {
           this.debug.log('quantity', qtyOrder);
+          if (!qtyOrder.is_quantity_order) {
+            const newUrl = window.location.pathname.replace(/quantity/, 'design');
+            this.router.navigate([newUrl]);
+          }
           if (!qtyOrder.quoted) {
             this.alert.error('Details are not available until a request for a quote is processed.');
             this.router.navigate([qtyOrder.feature_type, 'quantity', qtyOrder.id]);
@@ -60,6 +66,8 @@ export class QuantityDetailsComponent implements OnInit {
               this.setOrderData(qtyOrder);
             });
           }
+          this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
+          this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
           this.dataSource = new TableDataSource(this.dataSubject);
           this.dataSource.connect();
           this.feature.is_quantity_order = true;

@@ -92,7 +92,7 @@ export class ClarioGridsService {
     this.debug.log('clario-grid', selectedGridTileOptions);
   }
 
-  loadSelectedTileSize(tile_size, is_quantity_order) {
+  loadSelectedTileSize(tile_size) {
     const tileSizes = Object.keys(this.tileSizeOptions).map(key => this.tileSizeOptions[key].name);
     tileSizes.map(size => {
       if (size.includes(tile_size)) {

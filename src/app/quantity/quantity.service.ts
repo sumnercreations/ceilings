@@ -26,6 +26,14 @@ export class QuantityService {
     private clarioGrids: ClarioGridsService
   ) {}
 
+  doAddRow(row) {
+    this.debug.log('quantity', row);
+    const newRow = this.setRowData(row);
+    this.order.data.push(newRow);
+    this.order.data = this.order.data.slice(); // refreshes the table
+    this.updateSummary();
+  }
+
   setRowData(row) {
     this.debug.log('quantity', row);
     this.getRowEstimate(row); // sets feature.estimated_amount
@@ -37,14 +45,6 @@ export class QuantityService {
     newRow.id = this.rowIndexNum++;
     newRow.material_size = this.getMaterialSize(newRow);
     return newRow;
-  }
-
-  doAddRow(row) {
-    this.debug.log('quantity', row);
-    const newRow = this.setRowData(row);
-    this.order.data.push(newRow);
-    this.order.data = this.order.data.slice(); // refreshes the table
-    this.updateSummary();
   }
 
   combineRows(matchedRow, requestedRow) {
@@ -173,7 +173,6 @@ export class QuantityService {
   }
 
   getMaterialSize(row) {
-    console.log('getMaterialSize:', row);
     let material_size = row.tile;
     if (this.feature.feature_type === 'clario') {
       material_size = this.clarioGrids.selectedTileSize[row.tile] || this.clarioGrids.selectedTileSize[24];
