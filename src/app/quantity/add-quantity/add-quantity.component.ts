@@ -1,3 +1,4 @@
+import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { DebugService } from './../../_services/debug.service';
 import { Feature } from './../../feature';
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
@@ -27,8 +28,9 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     public materialsService: MaterialsService,
     public qtySrv: QuantityService,
     public feature: Feature,
-    public debug: DebugService
-  ) { }
+    public debug: DebugService,
+    public clarioGrids: ClarioGridsService
+  ) {}
 
   ngOnInit() {
     this.getFeatureMaterials();
@@ -36,7 +38,9 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit() {
-    if (!!this.inputRow) { this.loadRowForEdit(); }
+    if (!!this.inputRow) {
+      this.loadRowForEdit();
+    }
   }
 
   loadRowForEdit() {
@@ -50,9 +54,15 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   getFeatureMaterials() {
     let requiredMaterials: any;
     switch (this.qtySrv.feature_type) {
-      case 'hush': requiredMaterials = this.materialsService.materials.felt.sola; break;
-      case 'tetria': requiredMaterials = this.materialsService.materials.felt.merino; break;
-      case 'clario': requiredMaterials = this.materialsService.materials.felt.sola; break;
+      case 'hush':
+        requiredMaterials = this.materialsService.materials.felt.sola;
+        break;
+      case 'tetria':
+        requiredMaterials = this.materialsService.materials.felt.merino;
+        break;
+      case 'clario':
+        requiredMaterials = this.materialsService.materials.felt.sola;
+        break;
     }
     this.materials = requiredMaterials;
   }
@@ -64,11 +74,17 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   updateMaterialImg() {
     let materialImg;
-    const tileType = (this.selectedTile === '24' || this.selectedTile === '48') ? 'baffles' : 'tiles';
+    const tileType = this.selectedTile === '24' || this.selectedTile === '48' ? 'baffles' : 'tiles';
     switch (this.qtySrv.feature_type) {
-      case 'hush': materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`; break;
-      case 'tetria': materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
-      case 'clario': materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`; break; // TODO FIX THIS
+      case 'hush':
+        materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`;
+        break;
+      case 'tetria':
+        materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`;
+        break; // TODO FIX THIS
+      case 'clario':
+        materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`;
+        break; // TODO FIX THIS
     }
     this.selectedMaterialImg = materialImg;
   }
@@ -85,9 +101,15 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   validateQtyInputs() {
     let isValid = false;
     switch (this.qtySrv.feature_type) {
-      case 'hush': isValid = (!!this.selectedMaterial && (this.selectedQuantity > 0)); break;
-      case 'tetria': isValid = (!!this.selectedMaterial && (this.selectedQuantity > 0)); break; // TODO FIX THIS
-      case 'clario': isValid = (!!this.selectedMaterial && (this.selectedQuantity > 0)); break; // TODO FIX THIS
+      case 'hush':
+        isValid = !!this.selectedMaterial && this.selectedQuantity > 0;
+        break;
+      case 'tetria':
+        isValid = !!this.selectedMaterial && this.selectedQuantity > 0;
+        break; // TODO FIX THIS
+      case 'clario':
+        isValid = !!this.selectedMaterial && this.selectedQuantity > 0;
+        break; // TODO FIX THIS
     }
     return isValid;
   }
@@ -100,14 +122,16 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   addToOrder() {
     const pkgQty = this.feature.getPackageQty(this.selectedTile);
-    const key = `${this.selectedMaterial}-${this.selectedTile}`
-    const selections = {[key]: {
-      purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
-      image: this.selectedMaterialImg,
-      used: this.selectedQuantity,
-      material: this.selectedMaterial,
-      tile: this.selectedTile
-    }}
+    const key = `${this.selectedMaterial}-${this.selectedTile}`;
+    const selections = {
+      [key]: {
+        purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
+        image: this.selectedMaterialImg,
+        used: this.selectedQuantity,
+        material: this.selectedMaterial,
+        tile: this.selectedTile
+      }
+    };
     this.dialogRef.close(selections);
   }
 }

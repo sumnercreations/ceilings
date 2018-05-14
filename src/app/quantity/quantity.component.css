@@ -18,10 +18,27 @@ span.sm {
   font-weight: 300;
 }
 
+.design-name {
+  margin: 0px;
+}
+
+.est-total {
+  border-left: 2px solid #cdcdcd;
+  padding-left: 15px;
+}
+
+.request-quote {
+  min-width: 160px;
+}
+
 .separator {
   background-color: #fff;
   border-bottom: 2px solid #cdcdcd;
   margin: 0 15px;
+}
+
+.edit-link {
+  font-size: 12px;
 }
 
 .no-padding {
@@ -67,6 +84,16 @@ span.sm {
   width: 250px;
 }
 
+.clario-grid-type {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* .clario-grid-type :first-child {
+  margin-right: 5px;
+} */
+
 .mat-header-row {
   position: sticky;
   top: 0;
@@ -99,7 +126,6 @@ span.sm {
 .add-to-order {
   margin-top: 30px;
 }
-
 
 .mat-cell:last-child * {
   cursor: pointer;

@@ -11,22 +11,20 @@ import { Feature } from '../feature';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private debug: DebugService,
     private alert: AlertService,
     public feature: Feature
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.feature.reset();
   }
 
   public goTo(where: string, segment) {
-    const subComponent = (!!segment) ? segment : 'design';
+    const subComponent = !!segment ? segment : 'design';
     this.router.navigate([`/${where}/${subComponent}`]);
   }
-
 }

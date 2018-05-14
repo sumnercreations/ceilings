@@ -33,28 +33,33 @@ export class QuoteDialogComponent implements OnInit {
     public seeyond: SeeyondFeature,
     public seeyondApi: SeeyondService,
     public location: Location
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.debug.log('quote-dialog', 'init quote-dialog');
     this.tilesArray = this.feature.getTilesPurchasedObj();
     this.tileType = this.feature.getTileType('plural');
-    this.units = (this.feature.units = 'inches') ? '\"' : 'cm';
+    this.units = this.feature.units === 'inches' ? '"' : 'cm';
   }
 
   validInputs() {
     let isValid = false;
     if (this.feature.feature_type !== 'seeyond') {
-      isValid = (!!this.feature.project_name && !!this.feature.specifier);
+      isValid = !!this.feature.project_name && !!this.feature.specifier;
     } else {
-      isValid = (!!this.seeyond.project_name && !!this.seeyond.specifier);
+      isValid = !!this.seeyond.project_name && !!this.seeyond.specifier;
     }
     return isValid;
   }
 
   public quoteConfirmed() {
-    if (this.feature.feature_type === 'seeyond') { this.seeyondQuoteConfirmed(); return; }
-    if (this.feature.is_quantity_order) { this.uiType = 'quantity'; }
+    if (this.feature.feature_type === 'seeyond') {
+      this.seeyondQuoteConfirmed();
+      return;
+    }
+    if (this.feature.is_quantity_order) {
+      this.uiType = 'quantity';
+    }
     // mark the design as quoted and save
     if (this.feature.id) {
       this.feature.quoted = true;
@@ -64,7 +69,9 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
+        const url = this.router
+          .createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`])
+          .toString();
         if (url !== this.router.url) {
           this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
         }
@@ -72,7 +79,7 @@ export class QuoteDialogComponent implements OnInit {
       });
     } else {
       // set the design name to something simple
-      this.feature.design_name = this.feature.feature_type + ' - ' +  this.getToday();
+      this.feature.design_name = this.feature.feature_type + ' - ' + this.getToday();
       this.feature.quoted = true;
       this.api.saveDesign().subscribe(feature => {
         // send ceilings design email after we have saved.
@@ -100,7 +107,9 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // redirect to the new URL if we aren't already there.
-        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
+        const url = this.router
+          .createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`])
+          .toString();
         if (url !== this.router.url) {
           this.router.navigate([`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`]);
         }
@@ -108,7 +117,7 @@ export class QuoteDialogComponent implements OnInit {
       });
     } else {
       // set the design name to something simple
-      this.seeyond.design_name = this.seeyond.seeyond_feature_type + ' - ' +  this.getToday();
+      this.seeyond.design_name = this.seeyond.seeyond_feature_type + ' - ' + this.getToday();
       this.seeyondApi.saveFeature().subscribe(feature => {
         // send seeyond design email after we have saved.
         // set the feature to what was returned.
@@ -118,7 +127,7 @@ export class QuoteDialogComponent implements OnInit {
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');
-        this.location.go(`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`)
+        this.location.go(`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`);
       });
     }
     this.dialogRef.close();
@@ -132,15 +141,14 @@ export class QuoteDialogComponent implements OnInit {
     const yyyy = today.getFullYear();
 
     if (dd < 10) {
-        dd = '0' + dd
+      dd = '0' + dd;
     }
 
     if (mm < 10) {
-        mm = '0' + mm
+      mm = '0' + mm;
     }
 
     todayString = mm + '/' + dd + '/' + yyyy;
     return todayString;
   }
-
 }

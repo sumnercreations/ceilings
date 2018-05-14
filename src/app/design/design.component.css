@@ -30,6 +30,16 @@ span.sm {
   font-size: 10px;
 }
 
+.tile-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tile-option-row {
+  width: auto;
+}
+
 .back-to-design span {
   font-size: 11px;
 }
@@ -62,9 +72,12 @@ span.sm {
 
 .grid-header {
   padding: 2px 0 5px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.full-height{
+.full-height {
   height: 100%;
 }
 
@@ -73,6 +86,7 @@ span.sm {
 }
 
 /* Tiles */
+
 .tiles p {
   margin: 0;
 }
@@ -85,9 +99,11 @@ span.sm {
   border: 2px solid #e7e7e7;
   cursor: pointer;
   padding: 5px;
+  margin: 0px 5px;
 }
 
 /* Materials */
+
 .materials {
   margin-bottom: 10px;
 }
@@ -139,11 +155,13 @@ span.sm {
 }
 
 /* Actions */
+
 .actions {
   padding: 2px;
 }
 
 /* Tools */
+
 .tools-header {
   padding: 2px;
 }
@@ -188,7 +206,7 @@ span.sm {
   margin: 0;
 }
 
- .velo-diffusion-list p {
+.velo-diffusion-list p {
   font-size: 10px;
 }
 
@@ -212,13 +230,15 @@ hr.nine-pixels {
 }
 
 /* Keep below other borders so it will override the default border */
+
 .selected {
   border: 2px solid #ff9933;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }

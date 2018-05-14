@@ -4,18 +4,81 @@ import { Injectable } from '@angular/core';
 export class MaterialsService {
   public parts_substitutes: PartsSubs[];
 
+  public clario_grids = {
+    '15/16': {
+      '24x24': {
+        name: '24x24in',
+        units: 'inches',
+        image_type: '24',
+        tile_size_type: 'standard',
+        tile_size: '24'
+      },
+      '24x48': {
+        name: '24x48in',
+        units: 'inches',
+        image_type: '48',
+        tile_size_type: 'standard',
+        tile_size: '48'
+      },
+      '600x600': {
+        name: '600x600mm',
+        units: 'centimeters',
+        image_type: '24',
+        tile_size_type: 'metric',
+        tile_size: '600'
+      },
+      '600x1200': {
+        name: '600x1200mm',
+        units: 'centimeters',
+        image_type: '48',
+        tile_size_type: 'metric',
+        tile_size: '1200'
+      },
+      '625x625': {
+        name: '625x625mm',
+        units: 'centimeters',
+        image_type: '24',
+        tile_size_type: 'german',
+        tile_size: '625'
+      },
+      '625x1250': {
+        name: '625x1250mm',
+        units: 'centimeters',
+        image_type: '48',
+        tile_size_type: 'german',
+        tile_size: '1250'
+      }
+    },
+    '9/16': {
+      '24x24': {
+        name: '24"x24"',
+        units: 'inches',
+        image_type: '24',
+        tile_size_type: 'standard',
+        tile_size: '24'
+      },
+      '24x48': {
+        name: '24"x48"',
+        units: 'inches',
+        image_type: '48',
+        tile_size_type: 'standard',
+        tile_size: '48'
+      }
+    }
+  };
+
   public seeyond_features: any = {
     '0': {
-      'feature_type': 0,
-      'name': 'linear-partition',
-      'title': 'Freestanding Linear Partition',
-      'image': '/assets/images/renderings/freestanding_linear_partition.png',
-      'width': 96,
-      'height': 72,
-      'angle': '',
-      'radius': '',
-      'ceiling_length': '',
-      'hardware': {
+      feature_type: 0,
+      name: 'linear-partition',
+      title: 'Freestanding Linear Partition',
+      image: '/assets/images/renderings/freestanding_linear_partition.png',
+      width: 96,
+      height: 72,
+      angle: '',
+      radius: '',
+      ceiling_length: '',
+      hardware: {
         '3-85-101': {},
         '3-15-0842': {},
         '3-85-105': {},
@@ -23,16 +86,16 @@ export class MaterialsService {
         '3-85-102': {} // zipties
       }
     },
-   '1': {
-      'name': 'curved-partition',
-      'title': 'Freestanding Curved Partition',
-      'image': '/assets/images/renderings/freestanding_curved_partition.png',
-      'width': 96,
-      'height': 72,
-      'radius': 60,
-      'angle': '',
-      'ceiling_length': '',
-      'hardware': {
+    '1': {
+      name: 'curved-partition',
+      title: 'Freestanding Curved Partition',
+      image: '/assets/images/renderings/freestanding_curved_partition.png',
+      width: 96,
+      height: 72,
+      radius: 60,
+      angle: '',
+      ceiling_length: '',
+      hardware: {
         '3-85-101': {},
         '3-15-0842': {},
         '3-85-105': {},
@@ -40,34 +103,34 @@ export class MaterialsService {
         '3-85-102': {} // zipties
       }
     },
-   '2': {
-      'feature_type': 2,
-      'name': 'wall',
-      'title': 'Wall Feature',
-      'image': '/assets/images/renderings/wall.png',
-      'width': 50,
-      'height': 50,
-      'radius': '',
-      'angle': '',
-      'ceiling_length': '',
-      'hardware': {
+    '2': {
+      feature_type: 2,
+      name: 'wall',
+      title: 'Wall Feature',
+      image: '/assets/images/renderings/wall.png',
+      width: 50,
+      height: 50,
+      radius: '',
+      angle: '',
+      ceiling_length: '',
+      hardware: {
         '3-85-101': {},
         '3-15-1606': {},
         '3-85-104': {},
         '3-85-109': {}
       }
     },
-   '3': {
-      'feature_type': 3,
-      'name': 'wall-to-ceiling',
-      'title': 'Wall-to-Ceiling Feature',
-      'image': '/assets/images/renderings/wall_to_ceiling.png',
-      'width': 72,
-      'height': 96,
-      'angle': 90,
-      'radius': '',
-      'ceiling_length': 72,
-      'hardware': {
+    '3': {
+      feature_type: 3,
+      name: 'wall-to-ceiling',
+      title: 'Wall-to-Ceiling Feature',
+      image: '/assets/images/renderings/wall_to_ceiling.png',
+      width: 72,
+      height: 96,
+      angle: 90,
+      radius: '',
+      ceiling_length: 72,
+      hardware: {
         '3-85-101': {},
         '3-15-1606': {},
         '3-85-104': {},
@@ -82,16 +145,16 @@ export class MaterialsService {
       }
     },
     '4': {
-      'feature_type': 4,
-      'name': 'ceiling',
-      'title': 'Ceiling Feature',
-      'image': '/assets/images/renderings/ceiling.png',
-      'width': 50,
-      'height': 50,
-      'radius': '',
-      'angle': '',
-      'ceiling_length': '',
-      'hardware': {
+      feature_type: 4,
+      name: 'ceiling',
+      title: 'Ceiling Feature',
+      image: '/assets/images/renderings/ceiling.png',
+      width: 50,
+      height: 50,
+      radius: '',
+      angle: '',
+      ceiling_length: '',
+      hardware: {
         '3-85-101': {},
         '3-85-107': {},
         '3-85-108': {},
@@ -101,17 +164,11 @@ export class MaterialsService {
         '3-15-0842': {},
         '3-85-102': {} // zipties
       }
-    },
+    }
   };
 
   // 0 = court, 1 = cusp, 2 = kink, 3 = tilt, 4 = billow
-  public seeyondPatternsArray = [
-    'court',
-    'cusp',
-    'kink',
-    'tilt',
-    'billow'
-  ]
+  public seeyondPatternsArray = ['court', 'cusp', 'kink', 'tilt', 'billow'];
 
   public seeyondMinMaxDimensions = {
     0: {
@@ -224,15 +281,9 @@ export class MaterialsService {
         radiusMax: null
       }
     }
-  }
+  };
 
-  public toolsArray = [
-    'rotate',
-    'remove',
-    'light',
-    'vent',
-    'sprinkler'
-  ];
+  public toolsArray = ['rotate', 'remove', 'light', 'vent', 'sprinkler'];
 
   public tilesArray = {
     tetria: {
@@ -261,17 +312,56 @@ export class MaterialsService {
       0: {
         image: '/assets/images/baffles/baffle_24_x_48.png',
         tile: '48',
-        name: '24x48'
+        name: '24x48',
+        tile_size_type: 'standard'
       },
       1: {
         image: '/assets/images/baffles/baffle_24_x_24.png',
         tile: '24',
-        name: '24x24'
+        name: '24x24',
+        tile_size_type: 'standard'
       },
       2: {
         image: '/assets/images/tiles/00.png',
         tile: '00',
-        name: 'flat'
+        name: 'flat',
+        tile_size_type: 'standard'
+      },
+      3: {
+        image: '/assets/images/baffles/baffle_24_x_48.png',
+        tile: '48',
+        name: '600x1200',
+        tile_size_type: 'metric'
+      },
+      4: {
+        image: '/assets/images/baffles/baffle_24_x_24.png',
+        tile: '24',
+        name: '600x600',
+        tile_size_type: 'metric'
+      },
+      5: {
+        image: '/assets/images/tiles/00.png',
+        tile: '00',
+        name: 'flat',
+        tile_size_type: 'metric'
+      },
+      6: {
+        image: '/assets/images/baffles/baffle_24_x_48.png',
+        tile: '48',
+        name: '625x1250',
+        tile_size_type: 'german'
+      },
+      7: {
+        image: '/assets/images/baffles/baffle_24_x_24.png',
+        tile: '24',
+        name: '625x625',
+        tile_size_type: 'german'
+      },
+      8: {
+        image: '/assets/images/tiles/00.png',
+        tile: '00',
+        name: 'flat',
+        tile_size_type: 'german'
       }
     },
     velo: {
@@ -298,7 +388,7 @@ export class MaterialsService {
   public materials = {
     felt: {
       sola: {
-        'ruby': {
+        ruby: {
           material: 'ruby',
           image: '/assets/images/materials/felt/sola/ruby.png',
           status: 'active',
@@ -306,7 +396,7 @@ export class MaterialsService {
           name_str: 'Ruby',
           sheet_part_id: '0-51-916'
         },
-        'aries': {
+        aries: {
           material: 'aries',
           image: '/assets/images/materials/felt/sola/aries.png',
           status: 'active',
@@ -314,7 +404,7 @@ export class MaterialsService {
           name_str: 'Aries',
           sheet_part_id: '0-51-917'
         },
-        'citrine': {
+        citrine: {
           material: 'citrine',
           image: '/assets/images/materials/felt/sola/citrine.png',
           status: 'active',
@@ -322,7 +412,7 @@ export class MaterialsService {
           name_str: 'Citrine',
           sheet_part_id: '0-51-918'
         },
-        'admiral': {
+        admiral: {
           material: 'admiral',
           image: '/assets/images/materials/felt/sola/admiral.png',
           status: 'active',
@@ -330,7 +420,7 @@ export class MaterialsService {
           name_str: 'Admiral',
           sheet_part_id: '0-51-920'
         },
-        'oxford': {
+        oxford: {
           material: 'oxford',
           image: '/assets/images/materials/felt/sola/oxford.png',
           status: 'active',
@@ -338,7 +428,7 @@ export class MaterialsService {
           name_str: 'Oxford',
           sheet_part_id: '0-51-919'
         },
-        'hunter': {
+        hunter: {
           material: 'hunter',
           image: '/assets/images/materials/felt/sola/hunter.png',
           status: 'active',
@@ -346,7 +436,7 @@ export class MaterialsService {
           name_str: 'Hunter',
           sheet_part_id: '0-51-921'
         },
-        'burnt_umber': {
+        burnt_umber: {
           material: 'burnt_umber',
           image: '/assets/images/materials/felt/sola/burnt_umber.png',
           status: 'active',
@@ -354,7 +444,7 @@ export class MaterialsService {
           name_str: 'Burnt Umber',
           sheet_part_id: '0-51-930'
         },
-        'nickel': {
+        nickel: {
           material: 'nickel',
           image: '/assets/images/materials/felt/sola/nickel.png',
           status: 'active',
@@ -362,7 +452,7 @@ export class MaterialsService {
           name_str: 'Nickel',
           sheet_part_id: '0-51-926'
         },
-        'armor': {
+        armor: {
           material: 'armor',
           image: '/assets/images/materials/felt/sola/armor.png',
           status: 'active',
@@ -370,7 +460,7 @@ export class MaterialsService {
           name_str: 'Armor',
           sheet_part_id: '0-51-924'
         },
-        'mineral': {
+        mineral: {
           material: 'mineral',
           image: '/assets/images/materials/felt/sola/mineral.png',
           status: 'active',
@@ -378,7 +468,7 @@ export class MaterialsService {
           name_str: 'Mineral',
           sheet_part_id: '0-51-923'
         },
-        'cast': {
+        cast: {
           material: 'cast',
           image: '/assets/images/materials/felt/sola/cast.png',
           status: 'active',
@@ -386,7 +476,7 @@ export class MaterialsService {
           name_str: 'Cast',
           sheet_part_id: '0-51-929'
         },
-        'ebony': {
+        ebony: {
           material: 'ebony',
           image: '/assets/images/materials/felt/sola/ebony.png',
           status: 'active',
@@ -394,7 +484,7 @@ export class MaterialsService {
           name_str: 'Ebony',
           sheet_part_id: '0-51-927'
         },
-        'cashmere': {
+        cashmere: {
           material: 'cashmere',
           image: '/assets/images/materials/felt/sola/cashmere.png',
           status: 'active',
@@ -402,7 +492,7 @@ export class MaterialsService {
           name_str: 'Cashmere',
           sheet_part_id: '0-51-928'
         },
-        'moon': {
+        moon: {
           material: 'moon',
           image: '/assets/images/materials/felt/sola/moon.png',
           status: 'active',
@@ -410,7 +500,7 @@ export class MaterialsService {
           name_str: 'Moon',
           sheet_part_id: '0-51-922'
         },
-        'zinc': {
+        zinc: {
           material: 'zinc',
           image: '/assets/images/materials/felt/sola/zinc.png',
           status: 'active',
@@ -418,7 +508,7 @@ export class MaterialsService {
           name_str: 'Zinc',
           sheet_part_id: '0-51-925'
         },
-        'ore': {
+        ore: {
           material: 'ore',
           image: '/assets/images/materials/felt/sola/ore.png',
           status: 'inactive',
@@ -426,14 +516,14 @@ export class MaterialsService {
           name_str: 'Ore',
           sheet_part_id: '0-51-802'
         },
-        'dark_gray': {
+        dark_gray: {
           material: 'dark_gray',
           image: '/assets/images/materials/felt/sola/dark_gray.png',
           status: 'inactive',
           available_until: 'March 2019',
           name_str: 'Dark Gray',
           sheet_part_id: '0-51-801'
-        },
+        }
       },
       merino: {
         0: {
@@ -706,7 +796,7 @@ export class MaterialsService {
           availableUntil: '',
           partId: ''
         }
-      },
+      }
     },
     varia: {
       color: {
@@ -963,12 +1053,12 @@ export class MaterialsService {
         250: { material: 'clear', hex: '#ffffff', status: 'active', availableUntil: '', partId: 464 }
       }
     }
-  }
-  constructor() { }
+  };
+  constructor() {}
 }
 
 export interface PartsSubs {
-  'partId': string,
-  'replacementPartId': string,
-  'effectiveDate': string
+  partId: string;
+  replacementPartId: string;
+  effectiveDate: string;
 }

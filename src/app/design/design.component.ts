@@ -22,6 +22,7 @@ import 'rxjs/add/operator/takeUntil';
 import * as FileSaver from 'file-saver';
 import * as html2canvas from 'html2canvas';
 import { AlertService } from 'app/_services/alert.service';
+import { ClarioGridsService } from '../_services/clario-grids.service';
 
 @Component({
   // selector: 'app-design',
@@ -56,8 +57,9 @@ export class DesignComponent implements OnInit, OnDestroy {
     public seeyondService: SeeyondService,
     public alert: AlertService,
     public location: Location,
-    public materialsService: MaterialsService
-  ) { }
+    public materialsService: MaterialsService,
+    public clarioGrids: ClarioGridsService
+  ) {}
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
@@ -66,45 +68,62 @@ export class DesignComponent implements OnInit, OnDestroy {
       let featureType;
       if (params['type']) {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
-        if (featureType === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
+        if (featureType === 'hush') {
+          this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
+        }
         this.setCanQtyOrder();
       }
-      if (featureType === 'seeyond') { this.setSeeyondFeature(params); return; }
+      if (featureType === 'seeyond') {
+        this.setSeeyondFeature(params);
+        return;
+      }
       // if one of the params are an integer we need to load the design
-      const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-      if (!!designId) { // if designId is truthy
-        this.api.loadDesign(designId).subscribe(design => {
-          if (design == null) { // design not found redirect to the design url
-            this.debug.log('design-component', 'design not found');
-            this.router.navigate([params['type'], 'design']);
-          } else { // design was found so load it.
-            if (design.is_quantity_order) { this.router.navigate([`${design.feature_type}/quantity`, design.id]); return; }
-            if (design.feature_type === params['type']) {
-              design.feature_type = (design.feature_type === 'hush-blocks') ? 'hush' : design.feature_type;
-              this.debug.log('design-component', 'setting the design.');
-              design.feature_type = this.feature.setFeatureType(design.feature_type);
-              this.feature.setDesign(design);
-              this.featureTiles = this.feature.tilesArray[featureType];
-              this.materials = this.feature.getFeatureMaterials();
-              if (this.feature.feature_type === 'clario') {
-                this.feature.selectedTile = this.feature.tile_size.toString();
-              }else if (this.feature.feature_type === 'velo') {
-                // velo defaults
-                this.feature.selectedTile = 'concave';
-                this.feature.material = 'milky-white';
-                this.feature.materialHex = '#dfdee0';
-                this.feature.materialType = 'felt';
-              }else if (this.feature.feature_type === 'hush') {
-                this.feature.selectedTile = '00';
-                this.feature.toolsArray = ['remove'];
-              }
+      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
+      if (!!designId) {
+        // if designId is truthy
+        this.api.loadDesign(designId).subscribe(
+          design => {
+            if (design == null) {
+              // design not found redirect to the design url
+              this.debug.log('design-component', 'design not found');
+              this.router.navigate([params['type'], 'design']);
             } else {
-              this.router.navigate([design.feature_type, 'design', design.id]);
+              // design was found so load it.
+              if (design.is_quantity_order) {
+                this.router.navigate([`${design.feature_type}/quantity`, design.id]);
+                return;
+              }
+              if (design.feature_type === params['type']) {
+                design.feature_type = design.feature_type === 'hush-blocks' ? 'hush' : design.feature_type;
+                this.debug.log('design-component', 'setting the design.');
+                design.feature_type = this.feature.setFeatureType(design.feature_type);
+                this.feature.setDesign(design);
+                this.featureTiles = this.feature.tilesArray[featureType];
+                this.materials = this.feature.getFeatureMaterials();
+                this.clarioGrids.gridSizeSelected(design.grid_type);
+                this.clarioGrids.loadSelectedTileSize(design.tile_size);
+                if (this.feature.feature_type === 'clario') {
+                  this.feature.selectedTile = this.feature.tile_size.toString();
+                  if (!this.feature.grid_type) {
+                    this.clarioGrids.gridSizeSelected('15/16');
+                  }
+                } else if (this.feature.feature_type === 'velo') {
+                  // velo defaults
+                  this.feature.selectedTile = 'concave';
+                  this.feature.material = 'milky-white';
+                  this.feature.materialHex = '#dfdee0';
+                  this.feature.materialType = 'felt';
+                } else if (this.feature.feature_type === 'hush') {
+                  this.feature.selectedTile = '00';
+                  this.feature.toolsArray = ['remove'];
+                }
+              } else {
+                this.router.navigate([design.feature_type, 'design', design.id]);
+              }
             }
-          }
-        },
-        err => this.api.handleError(err)
-      );
+          },
+          err => this.api.handleError(err)
+        );
       } else {
         setTimeout(() => {
           this.feature.feature_type = this.feature.setFeatureType(params['type']);
@@ -113,16 +132,16 @@ export class DesignComponent implements OnInit, OnDestroy {
           if (this.feature.feature_type === 'tetria') {
             this.feature.selectedTile = '01';
             this.feature.material = 'milky-white';
-          }else if (this.feature.feature_type === 'hush') {
+          } else if (this.feature.feature_type === 'hush') {
             this.feature.selectedTile = '00';
             this.feature.material = 'zinc';
             this.feature.toolsArray = ['remove'];
-          }else if (this.feature.feature_type === 'seeyond') {
+          } else if (this.feature.feature_type === 'seeyond') {
             this.setSeeyondFeature(params);
-          }else if (this.feature.feature_type === 'clario') {
+          } else if (this.feature.feature_type === 'clario') {
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';
-          }else if (this.feature.feature_type === 'velo') {
+          } else if (this.feature.feature_type === 'velo') {
             this.feature.selectedTile = 'concave';
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
@@ -137,10 +156,10 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
 
     // subscribe to the saved event to close the save dialog
-    this.api.onSaved
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(success => {
-        if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close(); }
+    this.api.onSaved.takeUntil(this.ngUnsubscribe).subscribe(success => {
+      if (this.saveDesignDialogRef) {
+        this.saveDesignDialogRef.close();
+      }
     });
 
     // subscribe to the loadDesigns event to handle it all here.
@@ -148,17 +167,21 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.feature.onLoadDesigns
       // .takeUntil(this.ngUnsubscribe)
       .subscribe(success => {
-      this.debug.log('design-component', 'loading design event subscription');
-      this.loadDesigns();
-    });
+        this.debug.log('design-component', 'loading design event subscription');
+        this.loadDesigns();
+      });
 
     // subscribe to the loaded event to close the load dialog
     this.api.onLoaded
       // .takeUntil(this.ngUnsubscribe)
       .subscribe(success => {
-        if (this.loadDesignDialogRef) { this.loadDesignDialogRef.close(); }
-        if (this.optionsDialogRef) { this.optionsDialogRef.close(); }
-    });
+        if (this.loadDesignDialogRef) {
+          this.loadDesignDialogRef.close();
+        }
+        if (this.optionsDialogRef) {
+          this.optionsDialogRef.close();
+        }
+      });
 
     // subscribe to the loggedIn event and set the user attributes
     // and close the dialog
@@ -170,14 +193,11 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
 
     // subscribe to the onView3d event and build the dialog
-    this.feature.onView3d
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe( result => {
+    this.feature.onView3d.takeUntil(this.ngUnsubscribe).subscribe(result => {
       this.debug.log('design-component', 'view 3d event');
       this.view3d();
     });
-
-  }  // end ngOnInit()
+  } // end ngOnInit()
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
@@ -191,26 +211,31 @@ export class DesignComponent implements OnInit, OnDestroy {
     config.height = '90%';
     config.width = '80%';
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
-    this.optionsDialogRef.afterClosed()
+    this.optionsDialogRef
+      .afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
-      this.feature.buildGrid();
-    });
+        this.feature.buildGrid();
+      });
   }
 
   public loadDesigns() {
-    if (this.feature.feature_type === 'seeyond') { this.loadSeeyondDesigns(); return; }
+    if (this.feature.feature_type === 'seeyond') {
+      this.loadSeeyondDesigns();
+      return;
+    }
     // If the user is not logged in then present the login dialog
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
       // let loadDialog: MatDialog;
-      this.api.getMyDesigns()
+      this.api
+        .getMyDesigns()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
-        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
-        this.loadDesignDialogRef.componentInstance.designs = designs;
-      });
+          this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig());
+          this.loadDesignDialogRef.componentInstance.designs = designs;
+        });
     }
   }
 
@@ -220,18 +245,19 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.loginDialog(true);
     } else {
       // let loadDialog: MatDialog;
-      this.seeyondService.getMyFeatures()
+      this.seeyondService
+        .getMyFeatures()
         .takeUntil(this.ngUnsubscribe)
         .subscribe(designs => {
-        this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
-        this.loadDesignDialogRef.componentInstance.designs = designs;
-      });
+          this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig());
+          this.loadDesignDialogRef.componentInstance.designs = designs;
+        });
     }
   }
 
   public saveDesign() {
     // let saveDialog: MatDialog;
-    this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig);
+    this.saveDesignDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig());
     if (!this.user.isLoggedIn()) {
       this.loginDialog();
     }
@@ -242,39 +268,43 @@ export class DesignComponent implements OnInit, OnDestroy {
     const config = new MatDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
-    this.loginDialogRef.afterClosed()
+    this.loginDialogRef
+      .afterClosed()
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         if (result === 'cancel') {
           this.tryingRequestQuote = false;
           // we need to close the savedDialog too if it's open.
-          if (this.saveDesignDialogRef) { this.saveDesignDialogRef.close(); return; }
+          if (this.saveDesignDialogRef) {
+            this.saveDesignDialogRef.close();
+            return;
+          }
         } else if (load) {
           // the user should be logged in now, so show the load dialog
           this.loadDesigns();
         }
         if (this.tryingRequestQuote) {
           this.tryingRequestQuote = false;
-          this.requestQuote()
+          this.requestQuote();
         }
       });
   }
 
-  viewDetails () {
+  viewDetails() {
     let path = window.location.pathname;
-    path = `${path}/details`
-    this.router.navigate([path])
+    path = `${path}/details`;
+    this.router.navigate([path]);
   }
 
   public logout() {
     this.api.logout();
-    this.user = new User;
+    this.user = new User();
   }
 
   public view3d() {
     this.debug.log('design-component', 'displaying 3d dialog');
     // display the dialog where the 3d visualization will be rendered
-    this.view3dDialogRef = this.dialog.open(VisualizationComponent, new MatDialogConfig);
+    this.view3dDialogRef = this.dialog.open(VisualizationComponent, new MatDialogConfig());
   }
 
   public tileUsage() {
@@ -326,11 +356,20 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   adjustGridDimensions(tool) {
     switch (tool) {
-      case 'addColumn': this.feature.width = this.feature.width + 24; break;
-      case 'removeColumn': this.feature.width = this.feature.width - 24; break;
-      case 'addRow': this.feature.length = this.feature.length + 24; break;
-      case 'removeRow': this.feature.length = this.feature.length - 24; break;
-      default: break;
+      case 'addColumn':
+        this.feature.width = this.feature.width + 24;
+        break;
+      case 'removeColumn':
+        this.feature.width = this.feature.width - 24;
+        break;
+      case 'addRow':
+        this.feature.length = this.feature.length + 24;
+        break;
+      case 'removeRow':
+        this.feature.length = this.feature.length - 24;
+        break;
+      default:
+        break;
     }
     this.feature.buildGrid();
   }
@@ -352,24 +391,31 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.api.getPartsSubstitutes().subscribe(partsSubs => {
         this.materialsService.parts_substitutes = partsSubs;
         const params = Object.assign({}, urlParams);
-        const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
-        if (!!designId) {   // load requested id
+        const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
+        if (!!designId) {
+          // load requested id
           this.seeyondService.loadFeature(designId).subscribe(design => {
             this.location.go(`seeyond/design/${design.name}/${design.id}`);
             this.seeyond.loadSeeyondDesign(design);
           });
         } else {
           // Set default param to wall if not specified
-          if ((params['type'] === 'seeyond') && !(params['param1'] || params['param2'])) { params['param1'] = 'wall'; }
+          if (params['type'] === 'seeyond' && !(params['param1'] || params['param2'])) {
+            params['param1'] = 'wall';
+          }
 
           // Determine the seeyond feature to load
           let seeyondFeature;
           const seeyondFeaturesList = this.seeyond.seeyond_features;
           Object.keys(seeyondFeaturesList).forEach(key => {
-            if (Object.keys(params).map(feature => params[feature]).indexOf(seeyondFeaturesList[key]['name']) > -1) {
+            if (
+              Object.keys(params)
+                .map(feature => params[feature])
+                .indexOf(seeyondFeaturesList[key]['name']) > -1
+            ) {
               seeyondFeature = seeyondFeaturesList[key]['name'];
             }
-          })
+          });
           this.materials = this.feature.getFeatureMaterials();
           this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
           this.editOptions();

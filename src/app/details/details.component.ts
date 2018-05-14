@@ -31,12 +31,14 @@ export class DetailsComponent implements OnInit {
     public seeyondApi: SeeyondService,
     public seeyond: SeeyondFeature,
     public alert: AlertService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
-      const designId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      if (params['type'] === 'hush') {
+        this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
+      }
+      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!designId) {
         if (params['type'] === 'seeyond') {
           this.isSeeyond = true;
@@ -57,6 +59,10 @@ export class DetailsComponent implements OnInit {
           });
         } else {
           this.api.loadDesign(designId).subscribe(design => {
+            if (design.is_quantity_order) {
+              const newUrl = window.location.pathname.replace(/design/, 'quantity');
+              this.router.navigate([newUrl]);
+            }
             if (!design.quoted) {
               // not quoted
               this.alert.error('Details are not available until a request for a quote is processed.');
@@ -85,5 +91,4 @@ export class DetailsComponent implements OnInit {
     const newUrl = window.location.pathname.replace(/details/, '');
     this.router.navigate([newUrl]);
   }
-
 }
