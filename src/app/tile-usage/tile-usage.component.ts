@@ -14,10 +14,7 @@ export class TileUsageComponent implements OnInit {
   public totalReceiving: number;
   public totalUnused: number;
 
-  constructor(
-    private debug: DebugService,
-    public feature: Feature
-  ) { }
+  constructor(private debug: DebugService, public feature: Feature) {}
 
   ngOnInit() {
     this.purchasedTiles = this.feature.getTilesPurchasedObj();
@@ -38,7 +35,7 @@ export class TileUsageComponent implements OnInit {
         totalReceiving += incrementReceiving;
         incrementUsed = purchased[tileType].used;
         totalUsed += incrementUsed;
-        incrementUnused = (purchased[tileType].purchased - purchased[tileType].used);
+        incrementUnused = purchased[tileType].purchased - purchased[tileType].used;
         totalUnused += incrementUnused;
       }
     }
@@ -50,5 +47,4 @@ export class TileUsageComponent implements OnInit {
   public tooltip(tile) {
     return `${tile.material}-${tile.tile}`;
   }
-
 }

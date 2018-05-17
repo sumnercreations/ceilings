@@ -25,36 +25,37 @@ export class LoadDesignComponent implements OnInit {
     public feature: Feature,
     public user: User,
     private dialogRef: MatDialogRef<LoadDesignComponent>
-  ) { }
+  ) {}
 
   ngOnInit() {}
 
   load(id: number) {
     this.debug.log('load-design', 'loading id: ' + id);
     this.router.navigate([this.feature.feature_type + '/design', id]);
-    this.dialogRef.close()
+    this.dialogRef.close();
   }
 
   delete(id: number, target: any) {
-    const dialogRef = this.dialog.open(ConfirmDeleteComponent, new MatDialogConfig);
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent, new MatDialogConfig());
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
         this.debug.log('load-design', 'User has confirmed delete');
-        this.api.deleteDesign(id).subscribe(response => {
-          if (this.feature.id === id) {
-            this.debug.log('load-design', 'Deleting the design we are currently on');
-            this.router.navigate([this.feature.feature_type, 'design']);
+        this.api.deleteDesign(id).subscribe(
+          response => {
+            if (this.feature.id === id) {
+              this.debug.log('load-design', 'Deleting the design we are currently on');
+              this.router.navigate([this.feature.feature_type, 'design']);
+            }
+            target.remove();
+            this.alert.success('Design ID: ' + id + ' has been deleted');
+          },
+          error => {
+            if (error) {
+              this.alert.apiAlert(error);
+            }
           }
-          target.remove();
-          this.alert.success('Design ID: ' + id + ' has been deleted');
-        },
-        error => {
-          if (error) {
-            this.alert.apiAlert(error);
-          }
-        });
+        );
       }
     });
   }
-
 }

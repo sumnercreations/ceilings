@@ -7,13 +7,9 @@ import { SeeyondFeature } from 'app/seeyond-feature';
   styleUrls: ['./seeyond-visualization.component.css']
 })
 export class SeeyondVisualizationComponent implements OnInit {
-
-  constructor(
-    public seeyondFeature: SeeyondFeature
-  ) { }
+  constructor(public seeyondFeature: SeeyondFeature) {}
 
   ngOnInit() {
     this.seeyondFeature.syd_v.QT.Visualization.SetCanvasSize(818, 523);
   }
-
 }

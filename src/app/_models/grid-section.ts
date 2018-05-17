@@ -17,10 +17,10 @@ export class GridSection {
     _texture: string = '',
     _rotation: number = 0,
     _material: string = '',
-    _tile: string = '',
+    _tile: string = ''
   ) {
     this.setBackgroundImage(_backgroundImage);
-    this.setTexture(_texture),
+    this.setTexture(_texture);
     this.setRotation(_rotation);
     this.setMaterial(_material);
     this.setTile(_tile);

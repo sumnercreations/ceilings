@@ -8,9 +8,14 @@
     <p class="text-center md" *ngIf="!feature.is_quantity_order">Confirm Your Design</p>
     <p class="text-center md" *ngIf="feature.is_quantity_order">Confirm Your Quantity Order</p>
   </ng-container>
-  <h2 mat-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received <p class="subtitle">Check your inbox for details</p><p class="subtitle"><a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a></p></h2>
+  <h2 mat-dialog-title class="text-center" [ngClass]="{'hidden': !feature.quoted}">Your Design Has Been Received
+    <p class="subtitle">Check your inbox for details</p>
+    <p class="subtitle">
+      <a href="{{this.feature.feature_type}}/design/{{this.feature.id}}/details">View Printable Details Page</a>
+    </p>
+  </h2>
   <div mat-dialog-content>
-    <dl class="dl-horizontal"  *ngIf="feature.feature_type !== 'seeyond'">
+    <dl class="dl-horizontal" *ngIf="feature.feature_type !== 'seeyond'">
       <dt>Feature</dt>
       <dd>{{feature.feature_type | capitalize}}</dd>
       <ng-container *ngIf="!feature.is_quantity_order">
@@ -82,8 +87,10 @@
         <div class="col-sm-12">
           <div class="form-group">
             <mat-input-container class="full-width">
-              <input  *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" matInput mat-input required [(ngModel)]="feature.project_name">
-              <input  *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name" matInput mat-input required [(ngModel)]="seeyond.project_name">
+              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name"
+                matInput mat-input required [(ngModel)]="feature.project_name">
+              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name"
+                matInput mat-input required [(ngModel)]="seeyond.project_name">
             </mat-input-container>
           </div>
         </div>
@@ -92,8 +99,10 @@
         <div class="col-sm-12">
           <div class="form-group">
             <mat-input-container class="full-width">
-              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput mat-input required [(ngModel)]="feature.specifier">
-              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput mat-input required [(ngModel)]="seeyond.specifier">
+              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput
+                mat-input required [(ngModel)]="feature.specifier">
+              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput
+                mat-input required [(ngModel)]="seeyond.specifier">
             </mat-input-container>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { DebugService } from './../../_services/debug.service';
 import { QuantityService } from './../../quantity/quantity.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -31,19 +32,31 @@ export class QuantityDetailsComponent implements OnInit {
     private alert: AlertService,
     public feature: Feature,
     public qtySrv: QuantityService,
-    private debug: DebugService
-  ) { }
+    private debug: DebugService,
+    private clarioGrids: ClarioGridsService
+  ) {}
 
   ngOnInit() {
-    if (!window.location.pathname.includes('quantity')) { this.location.go(window.location.pathname || ''); return; }
+    if (!window.location.pathname.includes('quantity')) {
+      this.location.go(window.location.pathname || '');
+      return;
+    }
     this.route.params.subscribe(params => {
-      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design')); }
+      if (params['type'] === 'hush') {
+        this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
+      }
       this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
-      if (this.qtySrv.feature_type === 'hush') { this.displayedColumns = ['hush-receiving', 'hush-material', 'total']; }
-      const orderId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      if (this.qtySrv.feature_type === 'hush') {
+        this.displayedColumns = ['hush-receiving', 'hush-material', 'total'];
+      }
+      const orderId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!orderId) {
         this.api.loadDesign(orderId).subscribe(qtyOrder => {
           this.debug.log('quantity', qtyOrder);
+          if (!qtyOrder.is_quantity_order) {
+            const newUrl = window.location.pathname.replace(/quantity/, 'design');
+            this.router.navigate([newUrl]);
+          }
           if (!qtyOrder.quoted) {
             this.alert.error('Details are not available until a request for a quote is processed.');
             this.router.navigate([qtyOrder.feature_type, 'quantity', qtyOrder.id]);
@@ -51,13 +64,15 @@ export class QuantityDetailsComponent implements OnInit {
             this.api.getUserRep(qtyOrder.uid).subscribe(rep => {
               this.rep = rep;
               this.setOrderData(qtyOrder);
-            })
+            });
           }
+          this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
+          this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
           this.dataSource = new TableDataSource(this.dataSubject);
           this.dataSource.connect();
           this.feature.is_quantity_order = true;
           this.qtyOrder = this.qtySrv.order;
-        })
+        });
       }
     });
   }
@@ -72,12 +87,15 @@ export class QuantityDetailsComponent implements OnInit {
     this.feature.tiles = qtyOrder.tiles;
     this.feature.material = qtyOrder.material;
     this.feature.quoted = qtyOrder.quoted;
-    const tilesObj = JSON.parse(qtyOrder.tiles);
-    const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
-    rowsToAdd.map(row => {
-      const newRow = {[`${row.material}-${row.tile}`]: row };
-      this.qtySrv.doAddRow(newRow);
-    });
+
+    if (this.qtyOrder.data.length < 1) {
+      const tilesObj = JSON.parse(qtyOrder.tiles);
+      const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
+      rowsToAdd.map(row => {
+        const newRow = { [`${row.material}-${row.tile}`]: row };
+        this.qtySrv.doAddRow(newRow);
+      });
+    }
   }
 
   backToDesign() {

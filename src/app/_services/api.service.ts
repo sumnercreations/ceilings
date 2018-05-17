@@ -28,17 +28,15 @@ export class ApiService {
     private user: User,
     private debug: DebugService,
     private alert: AlertService
-  ) { }
+  ) {}
 
   getMyDesigns() {
-    return this.http.get(this.apiUrl + 'list/' + this.user.uid)
-      .catch(this.handleError);
+    return this.http.get(this.apiUrl + 'list/' + this.user.uid).catch(this.handleError);
   }
 
   getUserRep(uid: number) {
     this.debug.log('api', 'getting user rep');
-    return this.http.get(this.userUrl + uid + '/rep')
-      .catch(this.handleError);
+    return this.http.get(this.userUrl + uid + '/rep').catch(this.handleError);
   }
 
   loadDesign(id: number) {
@@ -50,36 +48,40 @@ export class ApiService {
     this.debug.log('api', 'updating design');
     // we can't forget about the hardware...
     this.debug.log('api', this.feature.tiles);
-    if (this.feature.is_quantity_order) { this.prepDataForQtyOrder(); }
+    if (this.feature.is_quantity_order) {
+      this.prepDataForQtyOrder();
+    }
     const patchData = {
-      'id': this.feature.id,
-      'uid': this.user.uid,
-      'feature_type': this.feature.feature_type,
-      'design_name': this.feature.design_name,
-      'project_name': this.feature.project_name,
-      'specifier': this.feature.specifier,
-      'width': this.feature.width || 0,
-      'length': this.feature.length || 0,
-      'units': this.feature.units,
-      'material': this.feature.material,
-      'tile_size': this.feature.tile_size,
-      'tiles': JSON.stringify(this.feature.tiles),
-      'design_data_url': this.feature.design_data_url,
-      'hardware': (!!this.feature.hardware) ? JSON.stringify(this.feature.hardware) : null,
-      'estimated_amount': this.feature.estimated_amount,
-      'services_amount': this.feature.services_amount,
-      'grid_data': JSON.stringify(this.feature.gridData),
-      'quoted': this.feature.quoted,
-      'archived': this.feature.archived,
-      'quantity': this.feature.quantity,
-      'is_quantity_order': this.feature.is_quantity_order
+      id: this.feature.id,
+      uid: this.user.uid,
+      feature_type: this.feature.feature_type,
+      design_name: this.feature.design_name,
+      project_name: this.feature.project_name,
+      specifier: this.feature.specifier,
+      width: this.feature.width || 0,
+      length: this.feature.length || 0,
+      units: this.feature.units,
+      material: this.feature.material,
+      tile_size: this.feature.tile_size,
+      grid_type: this.feature.grid_type,
+      tiles: JSON.stringify(this.feature.tiles),
+      design_data_url: this.feature.design_data_url,
+      hardware: !!this.feature.hardware ? JSON.stringify(this.feature.hardware) : null,
+      estimated_amount: this.feature.estimated_amount,
+      services_amount: this.feature.services_amount,
+      grid_data: JSON.stringify(this.feature.gridData),
+      quoted: this.feature.quoted,
+      archived: this.feature.archived,
+      quantity: this.feature.quantity,
+      is_quantity_order: this.feature.is_quantity_order
     };
 
-    return this.http.patch(this.apiUrl + this.feature.id, patchData)
-      .map((res) => {
+    return this.http
+      .patch(this.apiUrl + this.feature.id, patchData)
+      .map(res => {
         this.onSaved.emit();
         this.debug.log('api', 'emitting onSaved in updateDesign');
-        return res || {}
+        return res || {};
       })
       .catch(this.handleError);
   }
@@ -87,35 +89,39 @@ export class ApiService {
   saveDesign() {
     this.debug.log('api', 'saving design');
     const featureType = this.feature.setFeatureType(this.feature.feature_type);
-    if (this.feature.is_quantity_order) { this.prepDataForQtyOrder(); }
-    const patchData = {
-      'uid': this.user.uid,
-      'feature_type': featureType,
-      'design_name': this.feature.design_name,
-      'project_name': this.feature.project_name,
-      'specifier': this.feature.specifier,
-      'width': this.feature.width || 0,
-      'length': this.feature.length || 0,
-      'units': this.feature.units,
-      'material': this.feature.material,
-      'tile_size': this.feature.tile_size,
-      'tiles': JSON.stringify(this.feature.tiles),
-      'design_data_url': this.feature.design_data_url,
-      'hardware': (!!this.feature.hardware) ? JSON.stringify(this.feature.hardware) : null,
-      'estimated_amount': this.feature.estimated_amount,
-      'services_amount': this.feature.services_amount,
-      'grid_data': JSON.stringify(this.feature.gridData),
-      'quoted': this.feature.quoted,
-      'archived': this.feature.archived,
-      'quantity': this.feature.quantity,
-      'is_quantity_order': this.feature.is_quantity_order
+    if (this.feature.is_quantity_order) {
+      this.prepDataForQtyOrder();
     }
+    const patchData = {
+      uid: this.user.uid,
+      feature_type: featureType,
+      design_name: this.feature.design_name,
+      project_name: this.feature.project_name,
+      specifier: this.feature.specifier,
+      width: this.feature.width || 0,
+      length: this.feature.length || 0,
+      units: this.feature.units,
+      material: this.feature.material,
+      tile_size: this.feature.tile_size,
+      grid_type: this.feature.grid_type,
+      tiles: JSON.stringify(this.feature.tiles),
+      design_data_url: this.feature.design_data_url,
+      hardware: !!this.feature.hardware ? JSON.stringify(this.feature.hardware) : null,
+      estimated_amount: this.feature.estimated_amount,
+      services_amount: this.feature.services_amount,
+      grid_data: JSON.stringify(this.feature.gridData),
+      quoted: this.feature.quoted,
+      archived: this.feature.archived,
+      quantity: this.feature.quantity,
+      is_quantity_order: this.feature.is_quantity_order
+    };
 
-    return this.http.post(this.apiUrl, patchData)
+    return this.http
+      .post(this.apiUrl, patchData)
       .map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('api', 'emitting onSaved in saveDesign');
-        return res || {}
+        return res || {};
       })
       .catch(this.handleError);
   }
@@ -130,30 +136,32 @@ export class ApiService {
   }
 
   sendEmail() {
-    return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/design/' + this.feature.id)
+    return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/design/' + this.feature.id);
   }
 
   getPrices() {
-    return this.http.get(this.apiUrl + 'prices')
+    return this.http
+      .get(this.apiUrl + 'prices')
       .map((res: Response) => res)
       .catch(this.handleError);
   }
 
   getPartsSubstitutes() {
-    return this.http.get(this.partSubsUrl)
+    return this.http
+      .get(this.partSubsUrl)
       .map((res: Response) => res)
       .catch(this.handleError);
   }
 
-
   login(email: string, password: string) {
     this.debug.log('api', 'api login');
     const formData = {
-      'email': email,
-      'password': password
-    }
+      email: email,
+      password: password
+    };
 
-    return this.http.post(this.loginUrl, formData)
+    return this.http
+      .post(this.loginUrl, formData)
       .map((res: any) => {
         console.log('login res:', res);
         if (res && !res.result.error) {
@@ -165,7 +173,7 @@ export class ApiService {
           this.alert.apiAlert(res.result.error);
         }
       })
-      .catch((res) => {
+      .catch(res => {
         this.alert.error(res.error.result.message);
         return 'error';
       });
@@ -173,7 +181,7 @@ export class ApiService {
 
   logout() {
     localStorage.removeItem('3formUser');
-    this.user = new User;
+    this.user = new User();
   }
 
   public handleError(error: HttpErrorResponse) {
@@ -186,12 +194,9 @@ export class ApiService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      this.debug.log('api',
-        `Backend returned code ${error.status}, body was: ${error.message}`);
+      this.debug.log('api', `Backend returned code ${error.status}, body was: ${error.message}`);
     }
     // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable(
-      'Something bad happened; please try again later.');
-  };
-
+    return new ErrorObservable('Something bad happened; please try again later.');
+  }
 }

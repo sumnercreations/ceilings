@@ -6,14 +6,14 @@ import { Subject } from 'rxjs/Subject';
 export class AlertService {
   private subject = new Subject<any>();
 
-  constructor() { }
+  constructor() {}
 
   success(message: string) {
-    this.subject.next({type: 'success', text: message});
+    this.subject.next({ type: 'success', text: message });
   }
 
   error(message: string) {
-    this.subject.next({type: 'error', text: message});
+    this.subject.next({ type: 'error', text: message });
   }
 
   getMessage(): Observable<any> {
@@ -28,7 +28,7 @@ export class AlertService {
 
     if (body.result && body.result.error) {
       this.error(body.result.message);
-    }else if (body.error) {
+    } else if (body.error) {
       this.error(body.message);
     } else {
       this.success(body.result.message);

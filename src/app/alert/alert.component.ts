@@ -10,10 +10,7 @@ import { AlertService } from '../_services/alert.service';
 export class AlertComponent implements OnInit {
   message: any;
 
-  constructor(
-    private alert: AlertService,
-    public snackBar: MatSnackBar
-  ) { }
+  constructor(private alert: AlertService, public snackBar: MatSnackBar) {}
 
   ngOnInit() {
     this.alert.getMessage().subscribe(message => {
@@ -24,5 +21,4 @@ export class AlertComponent implements OnInit {
       this.snackBar.open(message.text, 'dismiss', config);
     });
   }
-
 }

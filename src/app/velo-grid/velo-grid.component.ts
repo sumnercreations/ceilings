@@ -12,14 +12,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class VeloGridComponent implements OnInit {
   context: CanvasRenderingContext2D;
-  strokeStyle =  '#cdcdcd';
-  fillStyle =  '#ffffff';
+  strokeStyle = '#cdcdcd';
+  fillStyle = '#ffffff';
   canvasWidth = 820;
   canvasHeight = 500;
   newDesign = true;
   guide: any = {
-    'top': this.sanitizer.bypassSecurityTrustStyle('10'),
-    'left': this.sanitizer.bypassSecurityTrustStyle('10')
+    top: this.sanitizer.bypassSecurityTrustStyle('10'),
+    left: this.sanitizer.bypassSecurityTrustStyle('10')
   };
 
   @ViewChild('veloCanvas') canvas;
@@ -29,12 +29,12 @@ export class VeloGridComponent implements OnInit {
     private alert: AlertService,
     private sanitizer: DomSanitizer,
     public feature: Feature
-  ) { }
+  ) {}
 
   ngOnInit() {
     // subscribe to the buildVeloGrid event
     this.debug.log('velo-grid', 'setting veloGrid Subscription');
-    this.feature.onBuildVeloGrid.subscribe( result => {
+    this.feature.onBuildVeloGrid.subscribe(result => {
       this.debug.log('velo-grid-component', 'building the velo grid');
       this.renderGrid();
     });
@@ -56,7 +56,7 @@ export class VeloGridComponent implements OnInit {
 
     // new design
     if (typeof this.feature.gridData === 'undefined') {
-      this.feature.gridData = []
+      this.feature.gridData = [];
       this.newDesign = true;
     } else {
       this.newDesign = false;
@@ -118,7 +118,10 @@ export class VeloGridComponent implements OnInit {
           foundTile = true;
           for (const neighbor in this.feature.gridData[el].neighbors) {
             if (this.feature.gridData[el].neighbors.hasOwnProperty(neighbor)) {
-              const index = this.feature.findVeloTileAt(this.feature.gridData[el].neighbors[neighbor][0], this.feature.gridData[el].neighbors[neighbor][1]);
+              const index = this.feature.findVeloTileAt(
+                this.feature.gridData[el].neighbors[neighbor][0],
+                this.feature.gridData[el].neighbors[neighbor][1]
+              );
             }
           }
         }
@@ -136,9 +139,9 @@ export class VeloGridComponent implements OnInit {
     const y = event.offsetY;
 
     this.guide = {
-      'top': this.sanitizer.bypassSecurityTrustStyle(y + 10),
-      'left': this.sanitizer.bypassSecurityTrustStyle(x + 10)
-    }
+      top: this.sanitizer.bypassSecurityTrustStyle(y + 10),
+      left: this.sanitizer.bypassSecurityTrustStyle(x + 10)
+    };
   }
 
   private createPentagonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
@@ -165,31 +168,52 @@ export class VeloGridComponent implements OnInit {
     // pentagon points
     const xcoords = [0, -23.9, -15.95, 15.95, 23.9];
     const ycoords = [15.94, 7.96, -15.94, -15.94, 7.96];
-    const tilesOutsideBoundary = [1, 2, 69, 70, 73, 74, 145, 146, 213, 141, 142, 214, 217, 218, 285, 286, 289, 290, 357, 358];
+    const tilesOutsideBoundary = [
+      1,
+      2,
+      69,
+      70,
+      73,
+      74,
+      145,
+      146,
+      213,
+      141,
+      142,
+      214,
+      217,
+      218,
+      285,
+      286,
+      289,
+      290,
+      357,
+      358
+    ];
 
     // set the grid section information
     // add x,y to all the pentagon points
     const pentagon = [];
     for (let i = 0; i < xcoords.length; ++i) {
-      pentagon[i] = [ xcoords[i] + x, ycoords[i] + y ];
+      pentagon[i] = [xcoords[i] + x, ycoords[i] + y];
     }
 
     if (this.newDesign) {
       this.feature.gridData.push({
-        'index': index,
-        'row': row,
-        'column': column,
-        'x': x,
-        'y': y,
-        'pentagon': pentagon,
-        'texture': '',
-        'rotation': this.toDegrees(rotateAngle),
-        'material': '',
-        'tile': '',
-        'diffusion': '',
-        'neighbors': this.getNeighbors(x, y, index, this.toDegrees(rotateAngle)),
-        'width': this.getTileWidth(this.toDegrees(rotateAngle)),
-        'height': this.getTileHeight(this.toDegrees(rotateAngle))
+        index: index,
+        row: row,
+        column: column,
+        x: x,
+        y: y,
+        pentagon: pentagon,
+        texture: '',
+        rotation: this.toDegrees(rotateAngle),
+        material: '',
+        tile: '',
+        diffusion: '',
+        neighbors: this.getNeighbors(x, y, index, this.toDegrees(rotateAngle)),
+        width: this.getTileWidth(this.toDegrees(rotateAngle)),
+        height: this.getTileHeight(this.toDegrees(rotateAngle))
       });
     }
 
@@ -404,9 +428,9 @@ export class VeloGridComponent implements OnInit {
   getRoomGuideWidth() {
     let guideWidth: number;
     if (this.feature.units === 'inches') {
-      guideWidth = ( this.feature.width / 12 / 2 ) * 48;
+      guideWidth = this.feature.width / 12 / 2 * 48;
     } else {
-      guideWidth = ( this.feature.convertCMtoIN(this.feature.width) / 12 / 2 ) * 48;
+      guideWidth = this.feature.convertCMtoIN(this.feature.width) / 12 / 2 * 48;
     }
     return guideWidth;
   }
@@ -414,20 +438,19 @@ export class VeloGridComponent implements OnInit {
   getRoomGuideHeight() {
     let guideHeight: number;
     if (this.feature.units === 'inches') {
-      guideHeight = ( this.feature.length / 12 / 2 ) * 48;
+      guideHeight = this.feature.length / 12 / 2 * 48;
     } else {
-      guideHeight = ( this.feature.convertCMtoIN(this.feature.length) / 12 / 2 ) * 48;
+      guideHeight = this.feature.convertCMtoIN(this.feature.length) / 12 / 2 * 48;
     }
 
     return guideHeight;
   }
 
   getRoomGuideLeftAdjustment() {
-    return ( this.canvasWidth - this.getRoomGuideWidth() ) / 2;
+    return (this.canvasWidth - this.getRoomGuideWidth()) / 2;
   }
 
   getRoomGuideTopAdjustment() {
-    return ( this.canvasHeight - this.getRoomGuideHeight() ) / 2;
+    return (this.canvasHeight - this.getRoomGuideHeight()) / 2;
   }
-
 }
