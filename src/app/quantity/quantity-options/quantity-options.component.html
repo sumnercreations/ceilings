@@ -1,56 +1,57 @@
-<div class="row">
-  <div class="col-xs-11">
-    <div class="intro">
-      <h2>{{title | capitalize}}</h2>
-    </div>
-  </div>
-</div>
-<div class="row col-sm-12">
+<div class="quantity-options">
   <div class="row">
-    <div class="col-sm-12">
-      <p>Ordering by quantity allows you to bypass desiging in our design tool and assumes you have a basic understanding of
-        the product you are ordering. Begin by naming your order or by loading a saved one.</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <h3>Order Name</h3>
-    </div>
-    <div class="col-sm-7">
-      <div class="form-group">
-        <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input"
-          autofocus>
+    <div class="col-xs-11">
+      <div class="intro">
+        <h2>{{title | capitalize}}</h2>
       </div>
     </div>
-    <div class="col-sm-3 options-load">
-      <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()">
-        <span class="icomoon-folder orange"></span> Load</a>
-    </div>
   </div>
-  <div *ngIf="feature.feature_type === 'clario'">
-    <hr>
-    <h3>Grid and Tile Size</h3>
-    <p>Select your ceiling grid type and tile size.</p>
+  <div class="row col-sm-12">
     <div class="row">
-      <div class="col-sm-7 grid-dimensions">
-        <label for="gridOptions">Ceiling Grid Type</label>
-        <select class="form-control" (change)="gridSizeChanged($event.target.value)" id="gridOptions">
-          <option disabled hidden [value]="undefined" [selected]="feature.grid_type === undefined">-- select --</option>
-          <option *ngFor="let gridSize of clarioGrids.gridSizes | keys;" [value]="gridSize" [selected]="feature.grid_type === gridSize.name">{{gridSize}}</option>
-        </select>
-      </div>
-      <div class="col-sm-7 grid-dimensions">
-        <label for="gridOptions">Tile Sizes</label>
-        <select class="form-control" (change)="tileSizeChanged($event.target.value)" id="gridOptions">
-          <option disabled [value]="undefined" [selected]="clarioGrids.selectedTileSize === undefined">-- select --</option>
-          <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys;" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize?.name === gridOption.name">{{gridOption.name}}</option>
-        </select>
+      <div class="col-sm-12">
+        <p>Already know your design? Simply order the number of tiles you need.</p>
       </div>
     </div>
-  </div>
-  <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="!validateOptions()">Begin Order</button>
-  <div class="back">
-    <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">
-      < Choose a Different Tool</a>
+    <div class="row">
+      <div class="col-sm-12">
+        <h3>Quantity Order Name</h3>
+      </div>
+      <div class="col-sm-7">
+        <div class="form-group">
+          <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input"
+            autofocus>
+        </div>
+      </div>
+      <div class="col-sm-3 options-load">
+        <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()">
+          <span class="icomoon-folder orange"></span> Load</a>
+      </div>
+    </div>
+    <div *ngIf="feature.feature_type === 'clario'">
+      <hr>
+      <h3>Grid and Tile Size</h3>
+      <p>Select your ceiling grid type and tile size.</p>
+      <div class="row">
+        <div class="col-sm-7 grid-dimensions">
+          <label for="gridOptions">Ceiling Grid Type</label>
+          <select class="form-control" (change)="gridSizeChanged($event.target.value)" id="gridOptions">
+            <option disabled hidden [value]="undefined" [selected]="feature.grid_type === undefined">select tile size</option>
+            <option *ngFor="let gridSize of clarioGrids.gridSizes | keys;" [value]="gridSize" [selected]="feature.grid_type === gridSize.name">{{gridSize}}</option>
+          </select>
+        </div>
+        <div class="col-sm-7 grid-dimensions">
+          <label for="gridOptions">Tile Sizes</label>
+          <select class="form-control" (change)="tileSizeChanged($event.target.value)" id="gridOptions">
+            <option disabled [value]="undefined" [selected]="clarioGrids.selectedTileSize === undefined">-- select --</option>
+            <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys;" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize?.name === gridOption.name">{{gridOption.name}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="!validateOptions()">Next</button>
+    <div class="back">
+      <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">
+        < Choose a Different Tool</a>
+    </div>
   </div>
 </div>

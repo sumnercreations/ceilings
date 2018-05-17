@@ -23,8 +23,7 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
 
   ngAfterContentChecked() {
     const featureType = this.capitalizeFirstLetter(this.feature.feature_type);
-    this.title =
-      featureType !== 'hush' ? `Order ${featureType} Tiles By Quantity` : `Order ${featureType} Blocks By Quantity`;
+    this.title = featureType !== 'hush' ? `${featureType} Tiles By Quantity` : `${featureType} Blocks By Quantity`;
   }
 
   gridSizeChanged(selection) {
