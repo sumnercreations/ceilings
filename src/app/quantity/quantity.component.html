@@ -41,7 +41,7 @@
         </span>
         <span class="clario-grid-type" *ngIf="qtySrv.feature_type === 'clario'">
           <span *ngIf="clarioGrids.selectedTileSize">Tile Sizes: {{clarioGrids.selectedTileSize.name}}
-            <a id="edit-project-name" class="edit-link" title="Edit Project Name" (click)="goToOptions()">Edit</a>
+            <a id="edit-project-name" class="edit-link" title="Edit Project Name" (click)="goToOptions()" *ngIf="!feature.quoted">Edit</a>
           </span>
         </span>
         <button class="button add-tiles" (click)="addToOrder()">Add Tiles</button>

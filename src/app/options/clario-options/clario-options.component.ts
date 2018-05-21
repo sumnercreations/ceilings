@@ -9,7 +9,6 @@ import { OptionsComponent } from 'app/options/options.component';
 })
 export class ClarioOptionsComponent extends OptionsComponent implements OnInit {
   ngOnInit() {
-    // see https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
     setTimeout(() => {
       this.gridSizeChanged(this.feature.grid_type);
     });

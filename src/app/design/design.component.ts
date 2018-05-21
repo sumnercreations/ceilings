@@ -89,11 +89,11 @@ export class DesignComponent implements OnInit, OnDestroy {
               this.router.navigate([params['type'], 'design']);
             } else {
               // design was found so load it.
+              this.feature.is_quantity_order = design.is_quantity_order;
               if (design.is_quantity_order) {
                 this.router.navigate([`${design.feature_type}/quantity`, design.id]);
                 return;
               }
-              this.feature.is_quantity_order = design.is_quantity_order;
               if (design.feature_type === params['type']) {
                 design.feature_type = design.feature_type === 'hush-blocks' ? 'hush' : design.feature_type;
                 this.debug.log('design-component', 'setting the design.');
@@ -101,13 +101,12 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.feature.setDesign(design);
                 this.featureTiles = this.feature.tilesArray[featureType];
                 this.materials = this.feature.getFeatureMaterials();
-                this.clarioGrids.gridSizeSelected(design.grid_type);
-                this.clarioGrids.loadSelectedTileSize(design.tile_size);
                 if (this.feature.feature_type === 'clario') {
                   this.feature.selectedTile = this.feature.tile_size.toString();
-                  if (!this.feature.grid_type) {
-                    this.clarioGrids.gridSizeSelected('15/16');
-                  }
+                  this.feature.grid_type = design.grid_type;
+                  this.feature.tile_size = design.tile_size;
+                  this.clarioGrids.gridSizeSelected(design.grid_type);
+                  this.clarioGrids.loadSelectedTileSize(design.tile_size);
                 } else if (this.feature.feature_type === 'velo') {
                   // velo defaults
                   this.feature.selectedTile = 'concave';
