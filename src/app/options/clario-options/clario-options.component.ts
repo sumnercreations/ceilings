@@ -9,9 +9,10 @@ import { OptionsComponent } from 'app/options/options.component';
 })
 export class ClarioOptionsComponent extends OptionsComponent implements OnInit {
   ngOnInit() {
-    if (!this.feature.grid_type) {
-      this.clarioGrids.gridSizeSelected('15/16');
-    }
+    // see https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
+    setTimeout(() => {
+      this.gridSizeChanged(this.feature.grid_type);
+    });
   }
 
   gridSizeChanged(selection) {

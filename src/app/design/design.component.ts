@@ -93,6 +93,7 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.router.navigate([`${design.feature_type}/quantity`, design.id]);
                 return;
               }
+              this.feature.is_quantity_order = design.is_quantity_order;
               if (design.feature_type === params['type']) {
                 design.feature_type = design.feature_type === 'hush-blocks' ? 'hush' : design.feature_type;
                 this.debug.log('design-component', 'setting the design.');
@@ -139,6 +140,7 @@ export class DesignComponent implements OnInit, OnDestroy {
           } else if (this.feature.feature_type === 'seeyond') {
             this.setSeeyondFeature(params);
           } else if (this.feature.feature_type === 'clario') {
+            this.clarioGrids.gridSizeSelected('15/16');
             this.feature.selectedTile = this.feature.tile_size.toString();
             this.feature.material = 'zinc';
           } else if (this.feature.feature_type === 'velo') {
