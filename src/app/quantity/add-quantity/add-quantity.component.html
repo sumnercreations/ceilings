@@ -4,7 +4,7 @@
 
     <!-- Clario -->
     <div *ngIf="feature.feature_type === 'clario'" class="tile-options">
-      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)"
+      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile)"
         class="tile-option-row tooltip-host">
         <ng-container *ngIf="tile.tile_size_type === clarioGrids.tile_size_type">
           <div class="tile" [class.selected]="selectedTile==tile.tile">
@@ -17,7 +17,7 @@
 
     <!-- All Others -->
     <div *ngIf="feature.feature_type !== 'clario'" class="tile-options">
-      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile.tile)"
+      <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.tile | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile)"
         class="tile-option-row tooltip-host">
         <ng-container>
           <div class="tile" [class.selected]="selectedTile==tile.tile">

@@ -39,11 +39,14 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
     this.feature.material = newRow.material;
-    this.feature.tile_image_type = newRow.tile === '48' ? 48 : 24;
+    this.feature.tile_image_type = newRow.tile_image_type === '48' ? 48 : 24;
+    newRow.tile =
+      this.feature.feature_type === 'clario' ? this.clarioGrids.selectedTileSize.tile_size : newRow.tile_image_type;
     newRow.total = this.feature.estimated_amount;
-    newRow.tileSqFt = this.getTileSqFt(newRow.tile);
+    newRow.tileSqFt = this.getTileSqFt(newRow.tile_image_type);
     newRow.id = this.rowIndexNum++;
     newRow.material_size = this.getMaterialSize(newRow);
+    console.log('setRowData:', newRow);
     return newRow;
   }
 
@@ -96,7 +99,7 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const editRow = row[Object.keys(row)[0]];
     editRow.total = this.feature.estimated_amount;
-    editRow.tileSqFt = this.getTileSqFt(editRow.tile);
+    editRow.tileSqFt = this.getTileSqFt(editRow.tile_image_type);
     editRow.id = this.rowIndexNum++;
     editRow.material_size = this.getMaterialSize(editRow);
     this.order.data[index] = editRow;
@@ -180,8 +183,10 @@ export class QuantityService {
       const grids = this.feature.materialsService.tilesArray.clario;
       const gridsArr = Object.keys(grids).map(key => grids[key]);
 
-      // find the object whose tile_size_type and tile match the current selections
-      const foundTileObj = gridsArr.find(x => x.tile_size_type === tile_size_type && x.tile === selectedTile);
+      // find the object whose tile_size_type and tile_size match the current selections
+      const foundTileObj = gridsArr.find(x => {
+        return x.tile_size_type === tile_size_type && x.tile_size === selectedTile;
+      });
       material_size = foundTileObj.name;
     }
     return material_size;

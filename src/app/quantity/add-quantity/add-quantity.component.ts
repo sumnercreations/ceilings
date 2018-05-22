@@ -74,23 +74,34 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   updateMaterialImg() {
     let materialImg;
-    const tileType = this.selectedTile === '24' || this.selectedTile === '48' ? 'baffles' : 'tiles';
     switch (this.qtySrv.feature_type) {
       case 'hush':
-        materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`;
+        materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`;
         break;
       case 'tetria':
-        materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`;
-        break; // TODO FIX THIS
+        materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`;
+        break;
       case 'clario':
-        materialImg = `/assets/images/${tileType}/${this.selectedTile}/${this.selectedMaterial}.png`;
-        break; // TODO FIX THIS
+        let tileType;
+        let tileImageType;
+        if (this.selectedTile === '00') {
+          // flat tile selected
+          tileType = 'tiles';
+          tileImageType = '00';
+        } else {
+          tileType = 'baffles';
+          const squareImgs = ['24', '600', '625'];
+          tileImageType = squareImgs.includes(this.selectedTile) ? '24' : '48';
+        }
+        materialImg = `/assets/images/${tileType}/${tileImageType}/${this.selectedMaterial}.png`;
+        break;
     }
     this.selectedMaterialImg = materialImg;
   }
 
   updateSelectedTile(tile) {
-    this.selectedTile = tile;
+    console.log('updateSelectedTile:', tile);
+    this.selectedTile = tile.tile;
     this.updateMaterialImg();
   }
 

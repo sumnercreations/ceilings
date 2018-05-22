@@ -15,7 +15,7 @@ import { ApiService } from './../_services/api.service';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { Location } from '@angular/common';
-import { QuantityService, TileObj } from './quantity.service';
+import { QuantityService } from './quantity.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
