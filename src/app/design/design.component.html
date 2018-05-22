@@ -93,7 +93,7 @@
             <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)"
               class="tile-option-row" [class.hide]="feature.tile_image_type==24 && tile.tile_size==48">
               <div *ngIf="tile.tile_size_type === clarioGrids.tile_size_type">
-                <div class="tile" [class.selected]="feature.selectedTile==tile.tile_size">
+                <div class="tile" [class.selected]="feature.selectedTile?.tile_size==tile.tile_size">
                   <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
                 </div>
                 <p class="text-center xs">{{tile.name | capitalize}}</p>
@@ -105,7 +105,7 @@
           <div *ngIf="(feature.feature_type !== 'hush') && (feature.feature_type !== 'clario')" class="tile-options">
             <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)"
               class="tile-option-row tooltip-host">
-              <div class="tile" [class.selected]="feature.selectedTile==tile.tile">
+              <div class="tile" [class.selected]="feature.selectedTile?.tile==tile.tile">
                 <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}" class="img-responsive">
               </div>
               <p class="text-center xs">{{tile.name | capitalize}}</p>

@@ -102,19 +102,18 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.featureTiles = this.feature.tilesArray[featureType];
                 this.materials = this.feature.getFeatureMaterials();
                 if (this.feature.feature_type === 'clario') {
-                  this.feature.selectedTile = this.feature.tile_size.toString();
                   this.feature.grid_type = design.grid_type;
                   this.feature.tile_size = design.tile_size;
                   this.clarioGrids.gridSizeSelected(design.grid_type);
                   this.clarioGrids.loadSelectedTileSize(design.tile_size);
                 } else if (this.feature.feature_type === 'velo') {
                   // velo defaults
-                  this.feature.selectedTile = 'concave';
+                  this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
                   this.feature.material = 'milky-white';
                   this.feature.materialHex = '#dfdee0';
                   this.feature.materialType = 'felt';
                 } else if (this.feature.feature_type === 'hush') {
-                  this.feature.selectedTile = '00';
+                  this.feature.updateSelectedTile(this.materialsService.tilesArray.hush[0]);
                   this.feature.toolsArray = ['remove'];
                 }
               } else {
@@ -130,20 +129,20 @@ export class DesignComponent implements OnInit, OnDestroy {
           // set the default values for tile and material
           this.debug.log('design-component', `feature_type: ${this.feature.feature_type}`);
           if (this.feature.feature_type === 'tetria') {
-            this.feature.selectedTile = '01';
+            this.feature.updateSelectedTile(this.materialsService.tilesArray.tetria[0]);
             this.feature.material = 'milky-white';
           } else if (this.feature.feature_type === 'hush') {
-            this.feature.selectedTile = '00';
+            this.feature.updateSelectedTile(this.materialsService.tilesArray.hush[0]);
             this.feature.material = 'zinc';
             this.feature.toolsArray = ['remove'];
           } else if (this.feature.feature_type === 'seeyond') {
             this.setSeeyondFeature(params);
           } else if (this.feature.feature_type === 'clario') {
             this.clarioGrids.gridSizeSelected('15/16');
-            this.feature.selectedTile = this.feature.tile_size.toString();
+            this.feature.updateSelectedTile(this.materialsService.tilesArray.clario[1]);
             this.feature.material = 'zinc';
           } else if (this.feature.feature_type === 'velo') {
-            this.feature.selectedTile = 'concave';
+            this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';

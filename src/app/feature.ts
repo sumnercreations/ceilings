@@ -41,7 +41,7 @@ export class Feature {
 
   // attributes for the tool
   public tile_type = 'tile';
-  public selectedTile = '01';
+  public selectedTile: any;
   public tile_image_type = 24;
   public selectedTool: string;
   public showGuide = true;
@@ -492,8 +492,8 @@ export class Feature {
   }
 
   updateSelectedTile(tile) {
-    console.log('updateSelectedTile:', tile);
-    this.selectedTile = this.feature_type !== 'clario' ? tile.tile : tile.tile_size;
+    this.selectedTile = tile;
+
     // if a tool is selected then remove it
     if (this.selectedTool !== '') {
       this.selectedTool = '';
