@@ -11,6 +11,7 @@ export class ClarioGridsService {
   onTileSizeChange = new EventEmitter();
   tileSizeOptions = [];
   tile_size_type = 'standard';
+  tile_image_size: string;
 
   constructor(public materials: MaterialsService, public feature: Feature, public debug: DebugService) {
     this.gridSizes = Object.keys(this.materials.clario_grids);

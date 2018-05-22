@@ -491,9 +491,9 @@ export class Feature {
     this.debug.log('feature', '=====feature END HARDWARE =====');
   }
 
-  updateSelectedTile(tile: string) {
-    this.selectedTile = tile;
-
+  updateSelectedTile(tile) {
+    console.log('updateSelectedTile:', tile);
+    this.selectedTile = this.feature_type !== 'clario' ? tile.tile : tile.tile_size;
     // if a tool is selected then remove it
     if (this.selectedTool !== '') {
       this.selectedTool = '';
