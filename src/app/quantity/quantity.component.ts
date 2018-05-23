@@ -100,7 +100,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {
-            const newRow = { [`${row.material}-${row.tile}`]: row };
+            const newRow = { [`${row.material}-${row.tile.tile}`]: row };
             this.qtySrv.doAddRow(newRow);
           });
         });
@@ -308,5 +308,5 @@ export interface TileRow {
   image: string;
   used: number;
   material: string;
-  tile: string;
+  tile: any;
 }

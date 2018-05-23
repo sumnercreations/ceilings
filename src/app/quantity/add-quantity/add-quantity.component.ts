@@ -20,7 +20,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   selectedMaterial: string;
   selectedMaterialImg: string;
   selectedQuantity: number;
-  selectedTile = '00';
+  // selectedTile: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public inputRow: any,
@@ -76,22 +76,22 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     let materialImg;
     switch (this.qtySrv.feature_type) {
       case 'hush':
-        materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`;
+        materialImg = `/assets/images/tiles/${this.feature.selectedTile.tile}/${this.selectedMaterial}.png`;
         break;
       case 'tetria':
-        materialImg = `/assets/images/tiles/${this.selectedTile}/${this.selectedMaterial}.png`;
+        materialImg = `/assets/images/tiles/${this.feature.selectedTile.tile}/${this.selectedMaterial}.png`;
         break;
       case 'clario':
         let tileType;
         let tileImageType;
-        if (this.selectedTile === '00') {
+        if (this.feature.selectedTile.tile_size === '00') {
           // flat tile selected
           tileType = 'tiles';
           tileImageType = '00';
         } else {
           tileType = 'baffles';
           const squareImgs = ['24', '600', '625'];
-          tileImageType = squareImgs.includes(this.selectedTile) ? '24' : '48';
+          tileImageType = squareImgs.includes(this.feature.selectedTile.tile_size) ? '24' : '48';
         }
         materialImg = `/assets/images/${tileType}/${tileImageType}/${this.selectedMaterial}.png`;
         break;
@@ -100,7 +100,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   updateSelectedTile(tile) {
-    this.selectedTile = tile.tile;
+    this.feature.updateSelectedTile(tile);
     this.updateMaterialImg();
   }
 
@@ -131,15 +131,17 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   addToOrder() {
-    const pkgQty = this.feature.getPackageQty(this.selectedTile);
-    const key = `${this.selectedMaterial}-${this.selectedTile}`;
+    const pkgQty = this.feature.getPackageQty(this.feature.selectedTile.tile_size || this.feature.selectedTile.tile);
+    const key = `${this.selectedMaterial}-${this.feature.selectedTile.tile}`;
+    const tile = this.feature.feature_type === 'clario' ? this.feature.selectedTile.tile : this.feature.selectedTile;
     const selections = {
       [key]: {
         purchased: pkgQty * Math.ceil(this.selectedQuantity / pkgQty),
         image: this.selectedMaterialImg,
         used: this.selectedQuantity,
         material: this.selectedMaterial,
-        tile: this.selectedTile
+        tile: tile,
+        tile_size: this.feature.selectedTile.tile_size || ''
       }
     };
     this.dialogRef.close(selections);

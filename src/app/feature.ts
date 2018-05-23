@@ -313,13 +313,13 @@ export class Feature {
     for (const tile in tilesArray) {
       if (tilesArray.hasOwnProperty(tile)) {
         const currentTile = tilesArray[tile];
-        if (currentTile.tile === '24') {
+        if (currentTile.tile === '24' || currentTile.tile === '600' || currentTile.tile === '625') {
           // 24x24 prices
           clario24TileCount += currentTile.purchased;
           // what part_id is the material?
           // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
           sheetsNeeded = currentTile.purchased / 4;
-        } else if (currentTile.tile === '48') {
+        } else if (currentTile.tile === '48' || currentTile.tile === '1200' || currentTile.tile === '1250') {
           // 24x48 prices
           clario48TileCount += currentTile.purchased;
           sheetsNeeded = currentTile.purchased / 2;
