@@ -19,12 +19,7 @@ export class GridComponent implements OnInit, OnDestroy {
   public mouseIsDown = false;
   showGridRoomGuide = true;
 
-  constructor(
-    private debug: DebugService,
-    private sanitizer: DomSanitizer,
-    private alert: AlertService,
-    public feature: Feature
-  ) {}
+  constructor(private debug: DebugService, private sanitizer: DomSanitizer, private alert: AlertService, public feature: Feature) {}
 
   ngOnInit() {
     // subscribe to the buildGrid event
@@ -154,9 +149,7 @@ export class GridComponent implements OnInit, OnDestroy {
           this.feature.gridData[row][column].setBackgroundImage(
             'url(/assets/icons/tools/light.png), url(/assets/images/tiles/00/' + this.feature.material + '.png'
           );
-          this.feature.gridData[row][column].setTexture(
-            '/assets/images/tiles/00/light/' + this.feature.material + '.png'
-          );
+          this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/light/' + this.feature.material + '.png');
           this.feature.gridData[row][column].setTile('00');
           this.feature.gridData[row][column].setMaterial(this.feature.material);
           this.debug.log('grid-component', this.feature.gridData[row][column]);
@@ -166,9 +159,7 @@ export class GridComponent implements OnInit, OnDestroy {
           this.feature.gridData[row][column].setBackgroundImage(
             `url(/assets/icons/tools/sprinkler.png), url('/assets/images/tiles/00/${this.feature.material}.png')`
           );
-          this.feature.gridData[row][column].setTexture(
-            '/assets/images/tiles/00/sprinkler/' + this.feature.material + '.png'
-          );
+          this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/sprinkler/' + this.feature.material + '.png');
           this.feature.gridData[row][column].setTile('00');
           this.feature.gridData[row][column].setMaterial(this.feature.material);
           this.debug.log('grid-component', this.feature.gridData[row][column]);
@@ -179,15 +170,15 @@ export class GridComponent implements OnInit, OnDestroy {
           // outside edges can only be flat tiles
           if (
             (this.getGridHeight() !== this.getRoomGuideHeight() && (row === 0 || row === this.feature.getRows() - 1)) ||
-            (this.getGridWidth() !== this.getRoomGuideWidth() &&
-              (column === 0 || column === this.feature.getColumns() - 1))
+            (this.getGridWidth() !== this.getRoomGuideWidth() && (column === 0 || column === this.feature.getColumns() - 1))
           ) {
-            this.feature.gridData[row][column].setBackgroundImage(
-              'url(/assets/images/tiles/00/' + this.feature.material + '.png)'
-            );
+            this.feature.gridData[row][column].setBackgroundImage('url(/assets/images/tiles/00/' + this.feature.material + '.png)');
             this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
             this.feature.gridData[row][column].setTile('00');
             this.feature.gridData[row][column].setMaterial(this.feature.material);
+            if (this.feature.feature_type === 'clario') {
+              this.feature.gridData[row][column].setTileSize('00');
+            }
             this.alert.error('Tiles on the outside must be flat.');
           } else {
             // specific tile for each feature type
@@ -195,21 +186,17 @@ export class GridComponent implements OnInit, OnDestroy {
               this.feature.gridData[row][column].setBackgroundImage(
                 'url(/assets/images/tiles/' + this.feature.selectedTile.tile + '/' + this.feature.material + '.png)'
               );
-              this.feature.gridData[row][column].setTexture(
-                '/assets/images/tiles/00/' + this.feature.material + '.png'
-              );
+              this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
               this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
               this.debug.log('grid-component', this.feature.gridData[row][column]);
             } else if (this.feature.feature_type === 'clario') {
               if (this.feature.selectedTile.tile_size === '00') {
-                this.feature.gridData[row][column].setBackgroundImage(
-                  `url(/assets/images/tiles/${this.feature.selectedTile.tile_size}/${this.feature.material}.png`
-                );
+                this.feature.gridData[row][column].setBackgroundImage(`url(/assets/images/tiles/00/${this.feature.material}.png`);
                 this.feature.gridData[row][column].setTile('00');
                 this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
                 this.feature.gridData[row][column].setMaterial(this.feature.material);
-                this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
+                this.feature.gridData[row][column].setTileSize('00');
                 this.debug.log('grid-component', this.feature.gridData[row][column]);
               } else if (this.feature.selectedTile.tile_size === '24') {
                 // 24x24 baffle
@@ -222,7 +209,6 @@ export class GridComponent implements OnInit, OnDestroy {
 
                 this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
                 this.feature.gridData[row][column].setMaterial(this.feature.material);
-                console.log('selectedTile:', this.feature.selectedTile);
                 this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
                 // for 24x24 tiles in a 24x48 grid
                 if (this.feature.tile_image_type === 48) {
@@ -249,19 +235,13 @@ export class GridComponent implements OnInit, OnDestroy {
               this.feature.gridData[row][column].setBackgroundImage(
                 'url(/assets/images/velo/' + this.feature.selectedTile.tile + '/' + this.feature.material + '.png)'
               );
-              this.feature.gridData[row][column].setTexture(
-                '/assets/images/tiles/00/' + this.feature.material + '.png'
-              );
+              this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
               this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
               this.debug.log('grid-component', this.feature.gridData[row][column]);
             } else if (this.feature.feature_type === 'hush') {
-              this.feature.gridData[row][column].setBackgroundImage(
-                `url(/assets/images/materials/felt/sola/${this.feature.material}.png)`
-              );
-              this.feature.gridData[row][column].setTexture(
-                '/assets/images/tiles/00/' + this.feature.material + '.png'
-              );
+              this.feature.gridData[row][column].setBackgroundImage(`url(/assets/images/materials/felt/sola/${this.feature.material}.png)`);
+              this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
               this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
               this.debug.log('grid-component', this.feature.gridData[row][column]);

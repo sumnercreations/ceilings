@@ -19,12 +19,7 @@ export class QuantityService {
   order = new MatTableDataSource();
   rowIndexNum = 1;
 
-  constructor(
-    private debug: DebugService,
-    public feature: Feature,
-    private route: ActivatedRoute,
-    private clarioGrids: ClarioGridsService
-  ) {}
+  constructor(private debug: DebugService, public feature: Feature, private route: ActivatedRoute, private clarioGrids: ClarioGridsService) {}
 
   doAddRow(row) {
     this.debug.log('quantity', row);
@@ -40,13 +35,11 @@ export class QuantityService {
     const newRow = row[Object.keys(row)[0]];
     this.feature.material = newRow.material;
     this.feature.tile_image_type = newRow.tile_image_type === '48' ? 48 : 24;
-    newRow.tile =
-      this.feature.feature_type === 'clario' ? this.clarioGrids.selectedTileSize.tile_size : newRow.tile_image_type;
+    newRow.tile = this.feature.feature_type === 'clario' ? this.clarioGrids.selectedTileSize.tile_size : newRow.tile_image_type;
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile_image_type);
     newRow.id = this.rowIndexNum++;
     newRow.material_size = this.getMaterialSize(newRow);
-    console.log('setRowData:', newRow);
     return newRow;
   }
 

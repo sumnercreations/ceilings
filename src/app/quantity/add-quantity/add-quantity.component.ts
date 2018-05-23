@@ -100,7 +100,6 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   updateSelectedTile(tile) {
-    console.log('updateSelectedTile:', tile);
     this.selectedTile = tile.tile;
     this.updateMaterialImg();
   }
