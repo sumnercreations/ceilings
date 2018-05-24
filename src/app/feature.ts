@@ -263,10 +263,10 @@ export class Feature {
     for (const tile in tilesArray) {
       if (tilesArray.hasOwnProperty(tile)) {
         const currentTile = tilesArray[tile];
-        if (tetriaTiles.indexOf(currentTile.tile) !== -1) {
+        if (tetriaTiles.indexOf(currentTile.tile.tile) !== -1) {
           // add the purchased amount to the tetria tile count
           tetriaTileCount += currentTile.purchased;
-        } else if (currentTile.tile === '00') {
+        } else if (currentTile.tile.tile === '00') {
           // add the purchased amount to the flat tile count
           flatTileCount += currentTile.purchased;
         }
