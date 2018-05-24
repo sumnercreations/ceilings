@@ -15,12 +15,16 @@ export class ClarioOptionsComponent extends OptionsComponent implements OnInit {
   }
 
   gridSizeChanged(selection) {
-    this.feature.clearAll();
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
     this.clarioGrids.gridSizeSelected(selection);
   }
 
   tileSizeChanged(selection) {
-    this.feature.clearAll();
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
     this.clarioGrids.tileSizeSelected(selection);
   }
 }
