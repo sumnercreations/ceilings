@@ -20,7 +20,6 @@ export class ClarioGridsService {
   gridSizeSelected(selection) {
     if (!!selection) {
       this.debug.log('clario-grid', `grid size selected: ${selection}`);
-      this.feature.clearAll();
       this.tileSizeOptions = []; // clear the array when a new selection is made
       this.feature.grid_type = selection;
       const gridOptionsArr = Object.keys(this.materials.clario_grids[selection]);
@@ -69,7 +68,6 @@ export class ClarioGridsService {
 
   tileSizeSelected(size) {
     this.debug.log('clario-grid', `size selected: ${size}`);
-    this.feature.clearAll();
     this.onTileSizeChange.emit();
     if (size === undefined) {
       this.selectedTileSize = size;
