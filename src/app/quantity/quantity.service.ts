@@ -54,7 +54,7 @@ export class QuantityService {
     this.getRowEstimate(matchedRowFmtd); // sets feature.estimated_amount
     matchedRow.total = this.feature.estimated_amount;
     matchedRow.id = this.rowIndexNum++;
-    matchedRow.material_size = matchedRow.tile.tile;
+    matchedRow.material_size = typeof matchedRow.tile === 'string' ? matchedRow.tile : matchedRow.tile.tile;
     this.updateSummary();
   }
 
@@ -92,9 +92,9 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const editRow = row[Object.keys(row)[0]];
     editRow.total = this.feature.estimated_amount;
-    editRow.tileSqFt = this.getTileSqFt(editRow.tile_image_type);
+    editRow.tileSqFt = this.getTileSqFt(editRow.tile_image_type || editRow.tile_size);
     editRow.id = this.rowIndexNum++;
-    editRow.material_size = editRow.tile.tile;
+    editRow.material_size = typeof editRow.tile === 'string' ? editRow.tile : editRow.tile.tile;
     this.order.data[index] = editRow;
     this.order.data = this.order.data.slice(); // refreshes the table
     this.updateSummary();
