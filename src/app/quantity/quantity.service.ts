@@ -39,7 +39,7 @@ export class QuantityService {
     newRow.total = this.feature.estimated_amount;
     newRow.tileSqFt = this.getTileSqFt(newRow.tile_image_type || newRow.tile_size);
     newRow.id = this.rowIndexNum++;
-    newRow.material_size = newRow.tile;
+    newRow.material_size = typeof newRow.tile === 'string' ? newRow.tile : newRow.tile.tile;
     return newRow;
   }
 
