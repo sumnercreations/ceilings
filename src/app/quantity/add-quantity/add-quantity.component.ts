@@ -39,7 +39,9 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     if (!!this.inputRow) {
-      this.loadRowForEdit();
+      setTimeout(() => {
+        this.loadRowForEdit();
+      });
     }
   }
 
@@ -47,6 +49,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     this.debug.log('quantity', this.inputRow);
     this.isEditing = true;
     this.updateSelectedMaterial(this.inputRow.material);
+    this.updateSelectedTile(this.feature.selectedTile);
     this.quantityDidChange(this.inputRow.used);
     this.updateSelectedTile(this.inputRow.tile);
   }
