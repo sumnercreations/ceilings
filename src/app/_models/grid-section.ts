@@ -9,6 +9,7 @@ export class GridSection {
   rotation: number;
   material: string;
   tile: string;
+  tileSize: string;
 
   constructor(
     _row: number,
@@ -17,7 +18,8 @@ export class GridSection {
     _texture: string = '',
     _rotation: number = 0,
     _material: string = '',
-    _tile: string = ''
+    _tile: string = '',
+    _tileSize: string = ''
   ) {
     this.setBackgroundImage(_backgroundImage);
     this.setTexture(_texture);
@@ -26,6 +28,7 @@ export class GridSection {
     this.setTile(_tile);
     this.setRow(_row);
     this.setColumn(_column);
+    this.setTileSize(_tileSize);
   }
 
   //               __  __
@@ -60,6 +63,10 @@ export class GridSection {
 
   setTile(type: string) {
     this.tile = type;
+  }
+
+  setTileSize(size: string) {
+    this.tileSize = size;
   }
 
   //                __  __

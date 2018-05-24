@@ -101,7 +101,7 @@ export class VeloGridComponent implements OnInit {
           // set the texture for the 3D view.
           this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
           // set the tile
-          this.feature.gridData[el].tile = this.feature.selectedTile;
+          this.feature.gridData[el].tile = this.feature.selectedTile.tile;
           // set material
           this.feature.gridData[el].material = this.feature.material;
           // set materialType

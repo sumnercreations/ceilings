@@ -41,7 +41,7 @@ export class Feature {
 
   // attributes for the tool
   public tile_type = 'tile';
-  public selectedTile = '01';
+  public selectedTile: any;
   public tile_image_type = 24;
   public selectedTool: string;
   public showGuide = true;
@@ -59,12 +59,7 @@ export class Feature {
   public materialObj: any;
   public seeyond_features = this.materialsService.seeyond_features;
 
-  constructor(
-    public materialsService: MaterialsService,
-    public debug: DebugService,
-    public location: Location,
-    public alert: AlertService
-  ) {}
+  constructor(public materialsService: MaterialsService, public debug: DebugService, public location: Location, public alert: AlertService) {}
 
   setDesign(design: any) {
     this.id = design.id;
@@ -160,10 +155,7 @@ export class Feature {
                   inactiveMaterials.push(materialsObj[mat][matType][matTypeColor].name_str);
                 }
                 if (materialsObj[mat][matType][matTypeColor].status === 'discontinued') {
-                  discontinuedMaterials.push(
-                    materialsObj[mat][matType][matTypeColor].name_str ||
-                      materialsObj[mat][matType][matTypeColor].material
-                  );
+                  discontinuedMaterials.push(materialsObj[mat][matType][matTypeColor].name_str || materialsObj[mat][matType][matTypeColor].material);
                 }
               }
             }
@@ -212,9 +204,7 @@ export class Feature {
       });
       // alert users if inactive materials are being used
       if (matchedInactiveMaterials.length === 1) {
-        this.alert.error(
-          `${matchedInactiveMaterials[0]} is being discontinued and is only available while supplies last.`
-        );
+        this.alert.error(`${matchedInactiveMaterials[0]} is being discontinued and is only available while supplies last.`);
       } else if (matchedInactiveMaterials.length > 1) {
         alertStr = matchedInactiveMaterials.toString();
         alertStr = alertStr.replace(/,/g, ' and ');
@@ -250,9 +240,7 @@ export class Feature {
       if (matchedDiscontinuedMaterials.length > 0) {
         this.canQuote = false;
         if (matchedDiscontinuedMaterials.length === 1) {
-          this.alert.error(
-            `The ${matchedDiscontinuedMaterials[0]} material has been discontinued. Select a new color to proceed.`
-          );
+          this.alert.error(`The ${matchedDiscontinuedMaterials[0]} material has been discontinued. Select a new color to proceed.`);
         } else if (matchedDiscontinuedMaterials.length > 1) {
           alertStr = matchedDiscontinuedMaterials.toString();
           alertStr = alertStr.replace(/,/g, ' and ');
@@ -278,7 +266,7 @@ export class Feature {
         if (tetriaTiles.indexOf(currentTile.tile) !== -1) {
           // add the purchased amount to the tetria tile count
           tetriaTileCount += currentTile.purchased;
-        } else if (currentTile.tile === '00') {
+        } else if (currentTile.tile.tile === '00') {
           // add the purchased amount to the flat tile count
           flatTileCount += currentTile.purchased;
         }
@@ -325,13 +313,13 @@ export class Feature {
     for (const tile in tilesArray) {
       if (tilesArray.hasOwnProperty(tile)) {
         const currentTile = tilesArray[tile];
-        if (currentTile.tile === '24') {
+        if (currentTile.tile === '24' || currentTile.tile === '600' || currentTile.tile === '625') {
           // 24x24 prices
           clario24TileCount += currentTile.purchased;
           // what part_id is the material?
           // how many sheets do we need? sheetsNeeded = (currentTile.purchased / 4);
           sheetsNeeded = currentTile.purchased / 4;
-        } else if (currentTile.tile === '48') {
+        } else if (currentTile.tile === '48' || currentTile.tile === '1200' || currentTile.tile === '1250') {
           // 24x48 prices
           clario48TileCount += currentTile.purchased;
           sheetsNeeded = currentTile.purchased / 2;
@@ -348,11 +336,14 @@ export class Feature {
     }
 
     // SERVICES AMOUNT
-    const clarioBaffleServiceCost = 46.13;
-    const clarioFlatTileServiceCost = 23.81;
-    const totalClarioBaffles = clario24TileCount + clario48TileCount;
+    const clarioFlatServiceCost = 23.81;
+    const clario24ServiceCost = 46.13;
+    const clario48ServiceCost = 92.26;
+    const clario24Total = clario24ServiceCost * clario24TileCount;
+    const clario48Total = clario48ServiceCost * clario48TileCount;
+    const clarioFlatTotal = clario00TileCount * clarioFlatServiceCost;
 
-    this.services_amount = totalClarioBaffles * clarioBaffleServiceCost + clario00TileCount * clarioFlatTileServiceCost;
+    this.services_amount = clarioFlatTotal + clario24Total + clario48Total;
     // END SERVICES AMOUNT
 
     this.estimated_amount = this.services_amount + products_amount;
@@ -393,8 +384,7 @@ export class Feature {
     // SERVICES AMOUNT
     const veloFeltServiceCost = 77.25;
     const veloVariaServiceCost = 78.75;
-    this.services_amount =
-      veloFeltTiles * veloFeltServiceCost + (veloVariaTiles + veloVariaDiffusionTiles) * veloVariaServiceCost;
+    this.services_amount = veloFeltTiles * veloFeltServiceCost + (veloVariaTiles + veloVariaDiffusionTiles) * veloVariaServiceCost;
     // this.debug.logfeature', ('=== SERVICES AMOUNT ===');
     // this.debug.logfeature', (this.services_amount);
 
@@ -491,7 +481,7 @@ export class Feature {
     this.debug.log('feature', '=====feature END HARDWARE =====');
   }
 
-  updateSelectedTile(tile: string) {
+  updateSelectedTile(tile) {
     this.selectedTile = tile;
 
     // if a tool is selected then remove it
@@ -723,8 +713,7 @@ export class Feature {
           }
           if (!!purchasedTiles[key]) {
             purchasedTiles[key][gridTiles[tile].tile] += 1;
-            purchasedTiles[key].purchased =
-              pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
+            purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
           } else {
             purchasedTiles[key] = {
               purchased: pkgQty,
@@ -747,7 +736,6 @@ export class Feature {
     } else {
       // Determine the number of unique tiles (color and tile)
       let pkgQty: number;
-      let tileType = this.getTileType('plural');
       if (this.gridData) {
         for (let i = this.gridData.length - 1; i >= 0; i--) {
           for (let j = this.gridData[i].length - 1; j >= 0; j--) {
@@ -761,21 +749,14 @@ export class Feature {
                 tiles[key].used += 1;
                 tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
               } else {
-                if (this.gridData[i][j]['tile'] === '00') {
-                  tileType = 'tiles';
-                } else {
-                  tileType = this.getTileType('plural');
-                }
+                const tileType = this.gridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
+                const imageUrl =
+                  this.feature_type === 'clario'
+                    ? `/assets/images/${tileType}/${this.gridData[i][j]['tileSize']}/${this.gridData[i][j]['material']}.png`
+                    : `/assets/images/${tileType}/${this.gridData[i][j]['tile']}/${this.gridData[i][j]['material']}.png`;
                 tiles[key] = {
                   purchased: pkgQty,
-                  image:
-                    '/assets/images/' +
-                    tileType +
-                    '/' +
-                    this.gridData[i][j]['tile'] +
-                    '/' +
-                    this.gridData[i][j]['material'] +
-                    '.png',
+                  image: imageUrl,
                   used: 1,
                   material: this.gridData[i][j]['material'],
                   tile: this.gridData[i][j]['tile']

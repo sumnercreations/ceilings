@@ -11,6 +11,7 @@ export class ClarioGridsService {
   onTileSizeChange = new EventEmitter();
   tileSizeOptions = [];
   tile_size_type = 'standard';
+  tile_image_size: string;
 
   constructor(public materials: MaterialsService, public feature: Feature, public debug: DebugService) {
     this.gridSizes = Object.keys(this.materials.clario_grids);
@@ -21,7 +22,6 @@ export class ClarioGridsService {
       this.debug.log('clario-grid', `grid size selected: ${selection}`);
       this.tileSizeOptions = []; // clear the array when a new selection is made
       this.feature.grid_type = selection;
-      this.tileSizeSelected(undefined);
       const gridOptionsArr = Object.keys(this.materials.clario_grids[selection]);
       gridOptionsArr.map(key => {
         this.tileSizeOptions.push(this.materials.clario_grids[selection][key]);
@@ -74,6 +74,9 @@ export class ClarioGridsService {
       return;
     }
     this.selectedTileSize = this.tileSizeOptions.filter(option => option.name === size)[0];
+    const tileSizes = Object.keys(this.materials.tilesArray.clario).map(key => this.materials.tilesArray.clario[key]);
+    const tileToSelect = tileSizes.find(x => x.tile === this.selectedTileSize.tile_size);
+    this.feature.updateSelectedTile(tileToSelect);
     this.feature.tile_size = this.selectedTileSize.tile_size;
     this.tile_size_type = this.selectedTileSize.tile_size_type;
     this.feature.units = this.selectedTileSize.units;
