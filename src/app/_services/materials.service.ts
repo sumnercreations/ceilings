@@ -290,77 +290,90 @@ export class MaterialsService {
       0: {
         image: '/assets/images/tiles/01.png',
         tile: '01',
+        tile_size: '01',
         name: '01'
       },
       1: {
         image: '/assets/images/tiles/02.png',
         tile: '02',
+        tile_size: '02',
         name: '02'
       },
       2: {
         image: '/assets/images/tiles/03.png',
         tile: '03',
+        tile_size: '03',
         name: '03'
       },
       3: {
         image: '/assets/images/tiles/00.png',
         tile: '00',
+        tile_size: '00',
         name: '00'
       }
     },
     clario: {
       0: {
         image: '/assets/images/baffles/baffle_24_x_48.png',
-        tile: '48',
         name: '24x48',
+        tile: '48',
+        tile_size: '48',
         tile_size_type: 'standard'
       },
       1: {
         image: '/assets/images/baffles/baffle_24_x_24.png',
-        tile: '24',
         name: '24x24',
+        tile: '24',
+        tile_size: '24',
         tile_size_type: 'standard'
       },
       2: {
         image: '/assets/images/tiles/00.png',
-        tile: '00',
         name: 'flat',
+        tile: '00',
+        tile_size: '00',
         tile_size_type: 'standard'
       },
       3: {
         image: '/assets/images/baffles/baffle_24_x_48.png',
-        tile: '48',
         name: '600x1200',
+        tile: '1200',
+        tile_size: '48',
         tile_size_type: 'metric'
       },
       4: {
         image: '/assets/images/baffles/baffle_24_x_24.png',
-        tile: '24',
         name: '600x600',
+        tile: '600',
+        tile_size: '24',
         tile_size_type: 'metric'
       },
       5: {
         image: '/assets/images/tiles/00.png',
-        tile: '00',
         name: 'flat',
+        tile: '00',
+        tile_size: '00',
         tile_size_type: 'metric'
       },
       6: {
         image: '/assets/images/baffles/baffle_24_x_48.png',
-        tile: '48',
         name: '625x1250',
+        tile: '1250',
+        tile_size: '48',
         tile_size_type: 'german'
       },
       7: {
         image: '/assets/images/baffles/baffle_24_x_24.png',
-        tile: '24',
         name: '625x625',
+        tile: '625',
+        tile_size: '24',
         tile_size_type: 'german'
       },
       8: {
         image: '/assets/images/tiles/00.png',
-        tile: '00',
         name: 'flat',
+        tile: '00',
+        tile_size: '00',
         tile_size_type: 'german'
       }
     },
@@ -380,6 +393,7 @@ export class MaterialsService {
       0: {
         image: '',
         tile: '24',
+        tile_size: '24',
         name: '24x24'
       }
     }

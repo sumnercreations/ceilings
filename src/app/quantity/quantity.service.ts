@@ -19,12 +19,7 @@ export class QuantityService {
   order = new MatTableDataSource();
   rowIndexNum = 1;
 
-  constructor(
-    private debug: DebugService,
-    public feature: Feature,
-    private route: ActivatedRoute,
-    private clarioGrids: ClarioGridsService
-  ) {}
+  constructor(private debug: DebugService, public feature: Feature, private route: ActivatedRoute, private clarioGrids: ClarioGridsService) {}
 
   doAddRow(row) {
     this.debug.log('quantity', row);
@@ -39,26 +34,27 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const newRow = row[Object.keys(row)[0]];
     this.feature.material = newRow.material;
-    this.feature.tile_image_type = newRow.tile === '48' ? 48 : 24;
+    this.feature.tile_image_type = newRow.tile_image_type === '48' ? 48 : 24;
+    // newRow.tile = this.feature.feature_type === 'clario' ? this.clarioGrids.selectedTileSize.tile_size : newRow.tile_image_type;
     newRow.total = this.feature.estimated_amount;
-    newRow.tileSqFt = this.getTileSqFt(newRow.tile);
+    newRow.tileSqFt = this.getTileSqFt(newRow.tile_image_type || newRow.tile_size);
     newRow.id = this.rowIndexNum++;
-    newRow.material_size = this.getMaterialSize(newRow);
+    newRow.material_size = typeof newRow.tile === 'string' ? newRow.tile : newRow.tile.tile;
     return newRow;
   }
 
   combineRows(matchedRow, requestedRow) {
     // matchedRow is kept
-    const pkgQty = this.feature.getPackageQty(matchedRow.tile);
+    const pkgQty = this.feature.getPackageQty(matchedRow.tile.tile);
     const requestedRowConfigured = this.setRowData(requestedRow);
     matchedRow.used += requestedRowConfigured.used;
     matchedRow.purchased = pkgQty * Math.ceil(matchedRow.used / pkgQty);
-    const objectKey = `${matchedRow.material}-${matchedRow.tile}`;
+    const objectKey = `${matchedRow.material}-${matchedRow.tile.tile}`;
     const matchedRowFmtd = { [objectKey]: matchedRow };
     this.getRowEstimate(matchedRowFmtd); // sets feature.estimated_amount
     matchedRow.total = this.feature.estimated_amount;
     matchedRow.id = this.rowIndexNum++;
-    matchedRow.material_size = this.getMaterialSize(matchedRow);
+    matchedRow.material_size = typeof matchedRow.tile === 'string' ? matchedRow.tile : matchedRow.tile.tile;
     this.updateSummary();
   }
 
@@ -77,7 +73,7 @@ export class QuantityService {
           duplicateIds.push(row.id);
         }
         if (duplicateIds.length === 2) {
-          const objectKey = `${row.material}-${row.tile}`;
+          const objectKey = `${row.material}-${row.tile.tile}`;
           const row1 = untypedData.filter(obj => obj.id === duplicateIds[0]);
           const row2 = { [objectKey]: untypedData.filter(obj => obj.id === duplicateIds[1])[0] };
 
@@ -96,9 +92,9 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const editRow = row[Object.keys(row)[0]];
     editRow.total = this.feature.estimated_amount;
-    editRow.tileSqFt = this.getTileSqFt(editRow.tile);
+    editRow.tileSqFt = this.getTileSqFt(editRow.tile_image_type || editRow.tile_size);
     editRow.id = this.rowIndexNum++;
-    editRow.material_size = this.getMaterialSize(editRow);
+    editRow.material_size = typeof editRow.tile === 'string' ? editRow.tile : editRow.tile.tile;
     this.order.data[index] = editRow;
     this.order.data = this.order.data.slice(); // refreshes the table
     this.updateSummary();
@@ -170,21 +166,6 @@ export class QuantityService {
 
   getTileSqFt(tile) {
     return tile === '48' ? 8 : 4;
-  }
-
-  getMaterialSize(row) {
-    let material_size = row.tile;
-    if (this.feature.feature_type === 'clario') {
-      const tile_size_type = this.clarioGrids.selectedTileSize.tile_size_type;
-      const selectedTile = row.tile;
-      const grids = this.feature.materialsService.tilesArray.clario;
-      const gridsArr = Object.keys(grids).map(key => grids[key]);
-
-      // find the object whose tile_size_type and tile match the current selections
-      const foundTileObj = gridsArr.find(x => x.tile_size_type === tile_size_type && x.tile === selectedTile);
-      material_size = foundTileObj.name;
-    }
-    return material_size;
   }
 }
 
