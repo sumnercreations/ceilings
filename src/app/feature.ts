@@ -656,10 +656,14 @@ export class Feature {
       case '02':
       case '03':
       case '24':
+      case '600':
+      case '625':
         qty = 4;
         break;
 
       case '48':
+      case '1200':
+      case '1250':
         qty = 2;
         break;
 
