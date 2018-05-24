@@ -152,6 +152,7 @@ export class GridComponent implements OnInit, OnDestroy {
           this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/light/' + this.feature.material + '.png');
           this.feature.gridData[row][column].setTile('00');
           this.feature.gridData[row][column].setMaterial(this.feature.material);
+          this.feature.gridData[row][column].setTileSize('00');
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
@@ -162,6 +163,7 @@ export class GridComponent implements OnInit, OnDestroy {
           this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/sprinkler/' + this.feature.material + '.png');
           this.feature.gridData[row][column].setTile('00');
           this.feature.gridData[row][column].setMaterial(this.feature.material);
+          this.feature.gridData[row][column].setTileSize('00');
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
 
@@ -176,9 +178,7 @@ export class GridComponent implements OnInit, OnDestroy {
             this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
             this.feature.gridData[row][column].setTile('00');
             this.feature.gridData[row][column].setMaterial(this.feature.material);
-            if (this.feature.feature_type === 'clario') {
-              this.feature.gridData[row][column].setTileSize('00');
-            }
+            this.feature.gridData[row][column].setTileSize('00');
             this.alert.error('Tiles on the outside must be flat.');
           } else {
             // specific tile for each feature type
@@ -189,6 +189,7 @@ export class GridComponent implements OnInit, OnDestroy {
               this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
               this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
+              this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
               this.debug.log('grid-component', this.feature.gridData[row][column]);
             } else if (this.feature.feature_type === 'clario') {
               if (this.feature.selectedTile.tile_size === '00') {
@@ -244,6 +245,7 @@ export class GridComponent implements OnInit, OnDestroy {
               this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
               this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
               this.feature.gridData[row][column].setMaterial(this.feature.material);
+              this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
               this.debug.log('grid-component', this.feature.gridData[row][column]);
             }
           }

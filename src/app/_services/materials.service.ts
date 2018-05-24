@@ -290,21 +290,25 @@ export class MaterialsService {
       0: {
         image: '/assets/images/tiles/01.png',
         tile: '01',
+        tile_size: '01',
         name: '01'
       },
       1: {
         image: '/assets/images/tiles/02.png',
         tile: '02',
+        tile_size: '02',
         name: '02'
       },
       2: {
         image: '/assets/images/tiles/03.png',
         tile: '03',
+        tile_size: '03',
         name: '03'
       },
       3: {
         image: '/assets/images/tiles/00.png',
         tile: '00',
+        tile_size: '00',
         name: '00'
       }
     },
@@ -389,6 +393,7 @@ export class MaterialsService {
       0: {
         image: '',
         tile: '24',
+        tile_size: '24',
         name: '24x24'
       }
     }

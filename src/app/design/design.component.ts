@@ -216,6 +216,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       .takeUntil(this.ngUnsubscribe)
       .subscribe(result => {
         this.feature.buildGrid();
+        this.feature.updateSelectedTile(this.feature.selectedTile);
       });
   }
 
