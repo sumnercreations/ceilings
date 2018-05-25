@@ -72,7 +72,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       if (params['type'] === 'hush') {
         this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity'));
       }
-      this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
+      this.qtySrv.feature_type = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();
       this.order = this.qtySrv.order;
@@ -108,6 +108,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.goToOptions();
         }, 500);
+      }
+
+      if (this.feature.feature_type === 'hush') {
+        this.feature.updateSelectedTile(this.feature.tilesArray.hush[0]);
       }
 
       this.clarioGrids.onTileSizeChange.takeUntil(this.ngUnsubscribe).subscribe(result => {
