@@ -202,6 +202,7 @@ export class GridComponent implements OnInit, OnDestroy {
               this.debug.log('grid-component', this.feature.gridData[row][column]);
             } else if (this.feature.feature_type === 'clario') {
               if (this.feature.feature_type === 'clario' && this.feature.gridData[row][column].tileNumber !== 0) {
+                // look to see if the left or right tile was part of a '48' tile
                 const tile48Match = this.feature.gridData[row][column].tileNumber;
                 const leftMatch: boolean = tile48Match === this.feature.gridData[row][column - 1].tileNumber;
                 const rightMatch: boolean = tile48Match === this.feature.gridData[row][column + 1].tileNumber;
