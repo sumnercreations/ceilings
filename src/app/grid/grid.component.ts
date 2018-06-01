@@ -19,6 +19,7 @@ export class GridComponent implements OnInit, OnDestroy {
   public mouseIsDown = false;
   public gridTileNumber = 0;
   showGridRoomGuide = true;
+  oldGridData = [];
 
   constructor(private debug: DebugService, private sanitizer: DomSanitizer, private alert: AlertService, public feature: Feature) {}
 
@@ -50,6 +51,7 @@ export class GridComponent implements OnInit, OnDestroy {
     this.rows = new Array(this.feature.getRows());
     this.columns = new Array(this.feature.getColumns());
     this.showGridRoomGuide = this.feature.feature_type !== 'hush';
+    this.oldGridData = [];
     // new design
     if (typeof this.feature.gridData === 'undefined') {
       this.feature.gridData = [];
@@ -94,7 +96,8 @@ export class GridComponent implements OnInit, OnDestroy {
                 this.feature.gridData[r][c]['texture'],
                 this.feature.gridData[r][c]['rotation'],
                 this.feature.gridData[r][c]['material'],
-                this.feature.gridData[r][c]['tile']
+                this.feature.gridData[r][c]['tile'],
+                this.feature.gridData[r][c]['tileSize']
               );
             }
           }
@@ -125,7 +128,8 @@ export class GridComponent implements OnInit, OnDestroy {
       this.debug.log('grid-component', 'tool: ' + this.feature.selectedTool);
       this.debug.log('grid-component', 'tile: ' + this.feature.selectedTile.tile);
       this.debug.log('grid-component', 'material: ' + this.feature.material);
-
+      console.log('updateTile row:', this.feature.gridData[row]);
+      console.log('updateTile oldRow:', this.oldGridData[row]);
       // give each tile a unique identifier
       this.gridTileNumber++;
 
@@ -201,7 +205,18 @@ export class GridComponent implements OnInit, OnDestroy {
               this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
               this.debug.log('grid-component', this.feature.gridData[row][column]);
             } else if (this.feature.feature_type === 'clario') {
-              if (this.feature.feature_type === 'clario' && this.feature.gridData[row][column].tileNumber !== 0) {
+              // console.log(this.feature.gridData[row]);
+              if (this.feature.gridData[row][column].tileNumber !== 0) {
+                const colNum = this.feature.gridData[row][column].column;
+
+                // this.feature.gridData[row].map(col => {
+                //   console.log('in map:', col);
+                //   if (col.tileNumber === this.feature.gridData[row][column].tileNumber) {
+                //     col = new GridSection(col.row, col.column);
+                //   }
+                // });
+              }
+              if (this.feature.selectedTile.tile_size !== '48' && this.feature.gridData[row][column].tileNumber !== 0) {
                 // look to see if the left or right tile was part of a '48' tile
                 const tile48Match = this.feature.gridData[row][column].tileNumber;
                 const leftMatch: boolean = tile48Match === this.feature.gridData[row][column - 1].tileNumber;
@@ -246,16 +261,12 @@ export class GridComponent implements OnInit, OnDestroy {
                 // 24x48 baffle
                 this.debug.log('grid-component', 'is perfect grid: ' + this.isPerfectGrid());
                 this.debug.log('grid-component', 'is column odd: ' + this.isOdd(column));
-                if (this.isPerfectGrid() && this.isOdd(column)) {
+                if (this.isLastFullColumn(column)) {
                   this.debug.log('grid-component', 'this and column to left');
-                  this.set48TileLeft(row, column);
-                } else if (this.isPerfectGrid() && !this.isOdd(column)) {
-                  this.set48TileRight(row, column);
-                  this.debug.log('grid-component', 'this and column to right');
-                } else if (!this.isPerfectGrid() && !this.isOdd(column)) {
                   this.set48TileLeft(row, column);
                 } else {
                   this.set48TileRight(row, column);
+                  this.debug.log('grid-component', 'this and column to right');
                 }
               }
             } else if (this.feature.feature_type === 'velo') {
@@ -283,6 +294,7 @@ export class GridComponent implements OnInit, OnDestroy {
         // update the estimated amount
         this.feature.updateEstimatedAmount();
       }
+      this.oldGridData = this.feature.gridData.slice();
     }
   }
 
@@ -349,6 +361,13 @@ export class GridComponent implements OnInit, OnDestroy {
     return column % 2;
   }
 
+  isLastFullColumn(column: number) {
+    const numOfCols = this.feature.getColumns();
+    const lastFullCol = this.isPerfectGrid() ? numOfCols : numOfCols - 1;
+    // column + 1 due to column being the index
+    return lastFullCol === column + 1;
+  }
+
   set48TileRight(row, column) {
     // this and the column to the right must match
     if (column + 1 === this.feature.getColumns() - 1) {
@@ -356,38 +375,64 @@ export class GridComponent implements OnInit, OnDestroy {
       this.alert.error('This tile must be a 24x24 tile');
       return;
     }
-    this.feature.gridData[row][column].setBackgroundImage(
-      'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    );
-    this.feature.gridData[row][column + 1].setBackgroundImage(
-      'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    );
-    this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
-    this.feature.gridData[row][column + 1].setTexture('');
+    if (
+      this.feature.gridData[row][column + 1].tileNumber === this.feature.gridData[row][column + 2].tileNumber &&
+      this.feature.gridData[row][column + 2].tileNumber !== 0
+    ) {
+      this.feature.gridData[row][column + 2] = new GridSection(row, column);
+    }
+    this.setClarioTile(this.feature.gridData[row][column]);
+    this.setClarioTile(this.feature.gridData[row][column + 1]);
+    // this.feature.gridData[row][column].setBackgroundImage(
+    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
+    // );
+    // this.feature.gridData[row][column + 1].setBackgroundImage(
+    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
+    // );
+    // this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+    // this.feature.gridData[row][column + 1].setTexture('');
 
-    this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
-    this.feature.gridData[row][column].setTileNumber(this.gridTileNumber);
-    this.feature.gridData[row][column + 1].setTileNumber(this.gridTileNumber);
-    this.feature.gridData[row][column].setMaterial(this.feature.material);
-    this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
-    this.debug.log('grid-component', this.feature.gridData[row][column]);
+    // this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
+    // this.feature.gridData[row][column].setTileNumber(this.gridTileNumber);
+    // this.feature.gridData[row][column + 1].setTileNumber(this.gridTileNumber);
+    // this.feature.gridData[row][column].setMaterial(this.feature.material);
+    // this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
+    // this.debug.log('grid-component', this.feature.gridData[row][column]);
   }
 
   set48TileLeft(row, column) {
-    // odd column. this and the column to the left must match
-    this.feature.gridData[row][column].setBackgroundImage(
-      'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    );
-    this.feature.gridData[row][column].setTexture('');
-    this.feature.gridData[row][column - 1].setBackgroundImage(
-      'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    );
-    this.feature.gridData[row][column - 1].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
-    this.feature.gridData[row][column - 1].setTile(this.feature.selectedTile.tile);
-    this.feature.gridData[row][column].setTileNumber(this.gridTileNumber);
-    this.feature.gridData[row][column - 1].setTileNumber(this.gridTileNumber);
-    this.feature.gridData[row][column - 1].setMaterial(this.feature.material);
-    this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
-    this.debug.log('grid-component', this.feature.gridData[row][column]);
+    if (
+      this.feature.gridData[row][column - 1].tileNumber === this.feature.gridData[row][column - 2].tileNumber &&
+      this.feature.gridData[row][column - 2].tileNumber !== 0
+    ) {
+      this.feature.gridData[row][column - 2] = new GridSection(row, column);
+    }
+    this.setClarioTile(this.feature.gridData[row][column]);
+    this.setClarioTile(this.feature.gridData[row][column - 1]);
+    // // odd column. this and the column to the left must match
+    // this.feature.gridData[row][column].setBackgroundImage(
+    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
+    // );
+    // this.feature.gridData[row][column].setTexture('');
+    // this.feature.gridData[row][column - 1].setBackgroundImage(
+    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
+    // );
+    // this.feature.gridData[row][column - 1].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+    // this.feature.gridData[row][column - 1].setTile(this.feature.selectedTile.tile);
+    // this.feature.gridData[row][column].setTileNumber(this.gridTileNumber);
+    // this.feature.gridData[row][column - 1].setTileNumber(this.gridTileNumber);
+    // this.feature.gridData[row][column - 1].setMaterial(this.feature.material);
+    // this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
+    // this.debug.log('grid-component', this.feature.gridData[row][column]);
+  }
+
+  setClarioTile(gridTile) {
+    gridTile.setBackgroundImage('url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)');
+    // gridTile.setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+    gridTile.setTile(this.feature.selectedTile.tile);
+    gridTile.setTileNumber(this.gridTileNumber);
+    gridTile.setMaterial(this.feature.material);
+    gridTile.setTileSize(this.feature.selectedTile.tile_size);
+    this.debug.log('grid-component', gridTile);
   }
 }
