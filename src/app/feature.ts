@@ -757,8 +757,8 @@ export class Feature {
                 const tileType = this.gridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
                 const imageUrl =
                   this.feature_type === 'clario'
-                    ? `/assets/images/${tileType}/${this.gridData[i][j]['tileSize']}/${this.gridData[i][j]['material']}.png`
-                    : `/assets/images/${tileType}/${this.gridData[i][j]['tile']}/${this.gridData[i][j]['material']}.png`;
+                    ? this.getClarioImgUrl(this.gridData[i][j].tile, this.gridData[i][j]['material'])
+                    : `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
                 tiles[key] = {
                   purchased: pkgQty,
                   image: imageUrl,
@@ -774,6 +774,21 @@ export class Feature {
     }
     this.tiles = tiles;
     return tiles;
+  }
+
+  public getClarioImgUrl(tileSize, material) {
+    let tileType;
+    let tileImageType;
+    if (tileSize === '00') {
+      // flat tile selected
+      tileType = 'tiles';
+      tileImageType = '00';
+    } else {
+      tileType = 'baffles';
+      const squareImgs = ['24', '600', '625'];
+      tileImageType = squareImgs.includes(tileSize) ? '24' : '48';
+    }
+    return `/assets/images/${tileType}/${tileImageType}/${material}.png`;
   }
 
   public getPurchasedVeloTiles(materialType: string) {
