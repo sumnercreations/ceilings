@@ -52,8 +52,7 @@ export class VeloTileUsageComponent implements OnInit {
       if (purchasedFelt.hasOwnProperty(felt)) {
         incrementTotalFeltConvex = purchasedFelt[felt].convex;
         incrementTotalFeltConcave = purchasedFelt[felt].concave;
-        incrementTotalFeltUnused =
-          purchasedFelt[felt].purchased - (purchasedFelt[felt].concave + purchasedFelt[felt].concave);
+        incrementTotalFeltUnused = purchasedFelt[felt].purchased - (purchasedFelt[felt].concave + purchasedFelt[felt].convex);
         incrementTotalFeltReceiving = purchasedFelt[felt].purchased;
         totalFeltConvex += incrementTotalFeltConvex;
         totalFeltConcave += incrementTotalFeltConcave;
@@ -65,8 +64,7 @@ export class VeloTileUsageComponent implements OnInit {
       if (purchasedVaria.hasOwnProperty(varia)) {
         incrementTotalVariaConvex = purchasedVaria[varia].convex;
         incrementTotalVariaConcave = purchasedVaria[varia].concave;
-        incrementTotalVariaUnused =
-          purchasedVaria[varia].purchased - (purchasedVaria[varia].concave + purchasedVaria[varia].concave);
+        incrementTotalVariaUnused = purchasedVaria[varia].purchased - (purchasedVaria[varia].concave + purchasedVaria[varia].convex);
         incrementTotalVariaReceiving = purchasedVaria[varia].purchased;
         totalVariaConvex += incrementTotalVariaConvex;
         totalVariaConcave += incrementTotalVariaConcave;
