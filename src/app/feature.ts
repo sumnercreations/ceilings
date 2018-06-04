@@ -262,13 +262,14 @@ export class Feature {
 
     for (const tile in tilesArray) {
       if (tilesArray.hasOwnProperty(tile)) {
-        const currentTile = tilesArray[tile];
-        if (tetriaTiles.indexOf(currentTile.tile) !== -1) {
+        const currentTile = typeof tilesArray[tile].tile === 'string' ? tilesArray[tile].tile : tilesArray[tile].tile.tile_size;
+        const purchased = typeof tilesArray[tile].tile === 'string' ? tilesArray[tile].purchased : tilesArray[tile].purchased;
+        if (tetriaTiles.indexOf(currentTile) !== -1) {
           // add the purchased amount to the tetria tile count
-          tetriaTileCount += currentTile.purchased;
-        } else if (currentTile.tile.tile === '00') {
+          tetriaTileCount += purchased;
+        } else if (currentTile === '00') {
           // add the purchased amount to the flat tile count
-          flatTileCount += currentTile.purchased;
+          flatTileCount += purchased;
         }
       }
     }
@@ -756,8 +757,8 @@ export class Feature {
                 const tileType = this.gridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
                 const imageUrl =
                   this.feature_type === 'clario'
-                    ? `/assets/images/${tileType}/${this.gridData[i][j]['tileSize']}/${this.gridData[i][j]['material']}.png`
-                    : `/assets/images/${tileType}/${this.gridData[i][j]['tile']}/${this.gridData[i][j]['material']}.png`;
+                    ? this.getClarioImgUrl(this.gridData[i][j].tile, this.gridData[i][j]['material'])
+                    : `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
                 tiles[key] = {
                   purchased: pkgQty,
                   image: imageUrl,
@@ -773,6 +774,21 @@ export class Feature {
     }
     this.tiles = tiles;
     return tiles;
+  }
+
+  public getClarioImgUrl(tileSize, material) {
+    let tileType;
+    let tileImageType;
+    if (tileSize === '00') {
+      // flat tile selected
+      tileType = 'tiles';
+      tileImageType = '00';
+    } else {
+      tileType = 'baffles';
+      const squareImgs = ['24', '600', '625'];
+      tileImageType = squareImgs.includes(tileSize) ? '24' : '48';
+    }
+    return `/assets/images/${tileType}/${tileImageType}/${material}.png`;
   }
 
   public getPurchasedVeloTiles(materialType: string) {
