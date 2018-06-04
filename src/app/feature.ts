@@ -262,13 +262,14 @@ export class Feature {
 
     for (const tile in tilesArray) {
       if (tilesArray.hasOwnProperty(tile)) {
-        const currentTile = tilesArray[tile];
-        if (tetriaTiles.indexOf(currentTile.tile) !== -1) {
+        const currentTile = typeof tilesArray[tile].tile === 'string' ? tilesArray[tile].tile : tilesArray[tile].tile.tile_size;
+        const purchased = typeof tilesArray[tile].tile === 'string' ? tilesArray[tile].purchased : tilesArray[tile].purchased;
+        if (tetriaTiles.indexOf(currentTile) !== -1) {
           // add the purchased amount to the tetria tile count
-          tetriaTileCount += currentTile.purchased;
-        } else if (currentTile.tile.tile === '00') {
+          tetriaTileCount += purchased;
+        } else if (currentTile === '00') {
           // add the purchased amount to the flat tile count
-          flatTileCount += currentTile.purchased;
+          flatTileCount += purchased;
         }
       }
     }
