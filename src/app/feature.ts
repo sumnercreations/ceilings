@@ -811,6 +811,9 @@ export class Feature {
       case 'hush':
         tiles = this.hushTiles();
         break;
+      case 'clario':
+        tiles = this.clarioTiles();
+        break;
       default:
         tiles = this.gridData;
         break;
@@ -860,6 +863,27 @@ export class Feature {
       }
     }
     return hushTiles;
+  }
+
+  public clarioTiles() {
+    const clarioTiles = this.gridData.slice(0);
+
+    for (let i = 0; i < clarioTiles.length; i++) {
+      for (let j = 0; j < clarioTiles[i].length; j++) {
+        if (clarioTiles[i][j].tile !== '') {
+          const squareImgs = ['24', '600', '625'];
+          const rectImgs = ['48', '1200', '1250'];
+          if (squareImgs.includes(clarioTiles[i][j].tile)) {
+            clarioTiles[i][j].tile = '24';
+          } else if (rectImgs.includes(clarioTiles[i][j].tile)) {
+            clarioTiles[i][j].tile = '48';
+          } else {
+            clarioTiles[i][j].tile = '00';
+          }
+        }
+      }
+    }
+    return clarioTiles;
   }
 
   public findVeloTileAt(x, y) {
