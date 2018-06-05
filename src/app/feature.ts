@@ -321,8 +321,8 @@ export class Feature {
     }
 
     // SERVICES AMOUNT
-    const clarioBaffleServiceCost = 46.13;
-    const clarioFlatTileServiceCost = 23.81;
+    const clarioBaffleServiceCost = 49.88;
+    const clarioFlatTileServiceCost = 99.75;
     const totalClarioBaffles = clario24TileCount + clario48TileCount;
 
     this.services_amount = (totalClarioBaffles * clarioBaffleServiceCost) + (clario00TileCount * clarioFlatTileServiceCost);
