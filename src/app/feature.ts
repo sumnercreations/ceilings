@@ -338,8 +338,8 @@ export class Feature {
 
     // SERVICES AMOUNT
     const clarioFlatServiceCost = 23.81;
-    const clario24ServiceCost = 46.13;
-    const clario48ServiceCost = 92.26;
+    const clario24ServiceCost = 49.88;
+    const clario48ServiceCost = 99.75;
     const clario24Total = clario24ServiceCost * clario24TileCount;
     const clario48Total = clario48ServiceCost * clario48TileCount;
     const clarioFlatTotal = clario00TileCount * clarioFlatServiceCost;
