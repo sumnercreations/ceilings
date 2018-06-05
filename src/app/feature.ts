@@ -30,6 +30,8 @@ export class Feature {
   public hardware: any;
   public estimated_amount = 0.00;
   public services_amount = 0.00;
+  public front_relief = true; // boolean
+  public back_relief = false; // boolean
   public quoted = false; // boolean
   public archived = false; // boolean
   public updated_at: string;
@@ -82,6 +84,8 @@ export class Feature {
     this.estimated_amount = design.estimated_amount;
     this.services_amount = design.services_amount;
     this.gridData = JSON.parse(design.grid_data);
+    this.front_relief = design.front_relief;
+    this.back_relief = design.back_relief;
     this.quoted = design.quoted;
     this.archived = design.archived;
     this.updated_at = design.updated_at;
@@ -116,6 +120,8 @@ export class Feature {
     this.hardware = undefined;
     this.estimated_amount = 0.00;
     this.services_amount = 0.00;
+    this.front_relief = true; // boolean
+    this.back_relief = false; // boolean
     this.quoted = false; // boolean
     this.archived = false; // boolean
     this.updated_at = undefined;

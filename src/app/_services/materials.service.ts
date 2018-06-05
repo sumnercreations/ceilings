@@ -45,8 +45,8 @@ export class MaterialsService {
       'name': 'wall',
       'title': 'Wall Feature',
       'image': '/assets/images/renderings/wall.png',
-      'width': 50,
-      'height': 50,
+      'width': 32,
+      'height': 32,
       'radius': '',
       'angle': '',
       'ceiling_length': '',
@@ -160,9 +160,9 @@ export class MaterialsService {
     },
     2: {
       inches: {
-        widthMin: 50,
+        widthMin: 32,
         widthMax: 480,
-        heightMin: 50,
+        heightMin: 32,
         heightMax: 480,
         ceilLengthMin: null,
         ceilLengthMax: null,
@@ -170,9 +170,9 @@ export class MaterialsService {
         radiusMax: null
       },
       centimeters: {
-        widthMin: 127,
+        widthMin: 81,
         widthMax: 1220,
-        heightMin: 127,
+        heightMin: 81,
         heightMax: 1220,
         ceilLengthMin: null,
         ceilLengthMax: null,

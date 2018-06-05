@@ -22,12 +22,28 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   params: any;
   selectedFeature: any;
   dimensionsString: string;
+  patternRelief: string;
+  patternReliefOptions = [
+    {
+      'value': 'both',
+      'name': 'front & back'
+    },
+    {
+      'value': 'front',
+      'name': 'front'
+    },
+    {
+      'value': 'back',
+      'name': 'back'
+    }
+  ];
 
   ngOnInit() {
     this.seeyond.onDimensionsChange
       .takeUntil(this.ngUnsubscribe)
       .subscribe(data => {
         this.dimensionsString = this.seeyond.getDimensionString();
+        this.patternRelief = this.getPatternReliefString();
       });
   }
 
@@ -101,5 +117,44 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
       this.seeyond.calcLightingFootage();
     }
     this.seeyond.updateEstimatedAmount();
+  }
+
+  public updatePatternRelief() {
+    switch (this.patternRelief) {
+      case 'front':
+        this.seeyond.front_relief = true;
+        this.seeyond.back_relief = false;
+      break;
+
+      case 'back':
+        this.seeyond.front_relief = false;
+        this.seeyond.back_relief = true;
+      break;
+
+      default:
+        this.seeyond.front_relief = true;
+        this.seeyond.back_relief = true;
+      break;
+    }
+
+    this.debug.log('seeyond-design', this.seeyond.front_relief);
+    this.debug.log('seeyond-design', this.seeyond.back_relief);
+
+    // update the visualization
+    this.seeyond.reloadVisualization();
+  }
+
+  private getPatternReliefString() {
+    if (this.seeyond.front_relief === true && this.seeyond.back_relief === true) {
+      return 'both';
+    }
+
+    if (this.seeyond.front_relief === true && this.seeyond.back_relief === false) {
+      return 'front';
+    }
+
+    if (this.seeyond.front_relief === false && this.seeyond.back_relief === true) {
+      return 'back';
+    }
   }
 }
