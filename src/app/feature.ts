@@ -321,11 +321,14 @@ export class Feature {
     }
 
     // SERVICES AMOUNT
-    const clarioBaffleServiceCost = 49.88;
-    const clarioFlatTileServiceCost = 99.75;
-    const totalClarioBaffles = clario24TileCount + clario48TileCount;
+    const clarioFlatServiceCost = 23.81;
+    const clario24ServiceCost = 49.88;
+    const clario48ServiceCost = 99.75;
+    const clario24Total = clario24ServiceCost * clario24TileCount;
+    const clario48Total = clario48ServiceCost * clario48TileCount;
+    const clarioFlatTotal = clario00TileCount * clarioFlatServiceCost;
 
-    this.services_amount = (totalClarioBaffles * clarioBaffleServiceCost) + (clario00TileCount * clarioFlatTileServiceCost);
+    this.services_amount = clarioFlatTotal + clario24Total + clario48Total;
     // END SERVICES AMOUNT
 
     this.estimated_amount = this.services_amount + products_amount;
