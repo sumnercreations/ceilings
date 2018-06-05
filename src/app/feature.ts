@@ -742,6 +742,15 @@ export class Feature {
       // Determine the number of unique tiles (color and tile)
       let pkgQty: number;
       if (this.gridData) {
+        // let filteredGridData = Object.keys(this.gridData).map(key => {
+        //   return this.gridData[key];
+        // });
+        // filteredGridData = filteredGridData.map(r =>
+        //   r.filter((obj, index, arr) => {
+        //     return arr.map(tile => tile.tileGridId).indexOf(obj.tileGridId) === index;
+        //   })
+        // );
+        // console.log(filteredGridData);
         for (let i = this.gridData.length - 1; i >= 0; i--) {
           for (let j = this.gridData[i].length - 1; j >= 0; j--) {
             if (this.gridData[i][j].tile) {
