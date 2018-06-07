@@ -1,3 +1,5 @@
+import { element } from 'protractor';
+import { MaterialsService } from './../_services/materials.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DebugService } from './../_services/debug.service';
@@ -20,7 +22,13 @@ export class GridComponent implements OnInit, OnDestroy {
   public gridTileNumber = 0;
   showGridRoomGuide = true;
 
-  constructor(private debug: DebugService, private sanitizer: DomSanitizer, private alert: AlertService, public feature: Feature) {}
+  constructor(
+    private debug: DebugService,
+    private sanitizer: DomSanitizer,
+    private alert: AlertService,
+    public feature: Feature,
+    private materials: MaterialsService
+  ) {}
 
   ngOnInit() {
     // subscribe to the buildGrid event
@@ -97,16 +105,22 @@ export class GridComponent implements OnInit, OnDestroy {
                   this.removeFlag(r, c);
                 }
                 if (c === this.feature.getColumns() - 2) {
-                  // this.feature.selectedTile
-                  // this.feature.selectedTile
-                  // this.feature.selectedTile
-                  // this.feature.selectedTile
-                  // this.feature.selectedTile
-                  // this.feature.selectedTile
-                  // this.feature.selectedTile
-                  // set selected tile to 24 equivalent
-                  // set/remove flag
-                  // reset selected tile
+                  const currentTile = JSON.stringify(this.feature.selectedTile);
+                  const storedCurrentTile = JSON.parse(currentTile);
+                  console.log('currentTile:', currentTile);
+                  const tileOptions = this.materials.clario_grids[this.feature.grid_type];
+                  for (const tile in tileOptions) {
+                    if (tileOptions.hasOwnProperty(tile)) {
+                      const element = tileOptions[tile];
+                      if (element.tile_size_type === storedCurrentTile.tile_size_type && element.tile_size === '24') {
+                        console.log('got here');
+                        this.feature.selectedTile = element;
+                      }
+                    }
+                  }
+                  this.setFlag(r, c);
+                  this.removeFlag(r, c);
+                  this.feature.selectedTile = storedCurrentTile;
                 }
               }
             } else {
