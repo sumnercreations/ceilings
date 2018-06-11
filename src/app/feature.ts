@@ -928,7 +928,7 @@ export class Feature {
 
   public clarioTiles() {
     const clarioTiles = this.gridData.slice(0);
-
+    const tileIds = [];
     for (let i = 0; i < clarioTiles.length; i++) {
       for (let j = 0; j < clarioTiles[i].length; j++) {
         if (clarioTiles[i][j].tile !== '') {
@@ -941,6 +941,11 @@ export class Feature {
           } else {
             clarioTiles[i][j].tile = '00';
           }
+        }
+        if (tileIds.includes(clarioTiles[i][j].gridTileID)) {
+          clarioTiles[i][j].texture = '';
+        } else {
+          tileIds.push(clarioTiles[i][j].gridTileID);
         }
       }
     }

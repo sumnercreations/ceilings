@@ -467,7 +467,7 @@ export class GridComponent implements OnInit, OnDestroy {
 
   setClarioTile(gridTile) {
     gridTile.setBackgroundImage('url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)');
-    // gridTile.setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
+    gridTile.setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
     gridTile.setTile(this.feature.selectedTile.tile);
     gridTile.setgridTileID(this.gridTileNumber);
     gridTile.setMaterial(this.feature.material);
