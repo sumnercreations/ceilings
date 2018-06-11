@@ -169,6 +169,11 @@ export class GridComponent implements OnInit, OnDestroy {
           break;
 
         case 'remove':
+          this.feature.gridData[row].map(c => {
+            if (this.feature.gridData[row][column].gridTileID === c.gridTileID) {
+              this.feature.gridData[row][c.column] = new GridSection(row, c.column);
+            }
+          });
           this.feature.gridData[row][column] = new GridSection(row, column);
           this.debug.log('grid-component', this.feature.gridData[row][column]);
           break;
