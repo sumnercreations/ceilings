@@ -563,6 +563,7 @@ export class Feature {
 
   applyAll() {
     this.updateEstimatedAmount();
+    this.clearAll();
     this.onApplyAll.emit();
   }
 
