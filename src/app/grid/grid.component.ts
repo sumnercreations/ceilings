@@ -299,7 +299,8 @@ export class GridComponent implements OnInit, OnDestroy {
                 this.debug.log('grid-component', this.feature.gridData[row][column]);
               } else if (this.feature.selectedTile.tile_size === '48') {
                 // 24x48 baffle
-                this.debug.log('grid-component', 'is perfect grid: ' + this.isPerfectGridWidth());
+                this.debug.log('grid-component', 'is perfect grid width: ' + this.isPerfectGridWidth());
+                this.debug.log('grid-component', 'is perfect grid height: ' + this.isPerfectGridHeight());
                 this.debug.log('grid-component', 'is column odd: ' + this.isOdd(column));
                 if (this.isLastFullColumn(column)) {
                   this.debug.log('grid-component', 'this and column to left');
@@ -404,7 +405,7 @@ export class GridComponent implements OnInit, OnDestroy {
 
   isPerfectGridHeight() {
     if (this.feature.feature_type === 'clario') {
-      return this.isClarioPerfectGrid('height');
+      return this.isClarioPerfectGrid('length');
     }
     return this.getGridHeight() === this.getRoomGuideHeight();
   }
@@ -445,55 +446,29 @@ export class GridComponent implements OnInit, OnDestroy {
       this.alert.error('This tile must be a 24x24 tile');
       return;
     }
-    if (
-      this.feature.gridData[row][column + 1].tileGridId === this.feature.gridData[row][column + 2].tileGridId &&
-      this.feature.gridData[row][column + 2].tileGridId !== 0
-    ) {
-      this.feature.gridData[row][column + 2] = new GridSection(row, column);
+    if (!!this.feature.gridData[row][column + 1] && !!this.feature.gridData[row][column + 2]) {
+      if (
+        this.feature.gridData[row][column + 1].tileGridId === this.feature.gridData[row][column + 2].tileGridId &&
+        this.feature.gridData[row][column + 2].tileGridId !== 0
+      ) {
+        this.feature.gridData[row][column + 2] = new GridSection(row, column);
+      }
     }
     this.setClarioTile(this.feature.gridData[row][column]);
     this.setClarioTile(this.feature.gridData[row][column + 1]);
-    // this.feature.gridData[row][column].setBackgroundImage(
-    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    // );
-    // this.feature.gridData[row][column + 1].setBackgroundImage(
-    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    // );
-    // this.feature.gridData[row][column].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
-    // this.feature.gridData[row][column + 1].setTexture('');
-
-    // this.feature.gridData[row][column].setTile(this.feature.selectedTile.tile);
-    // this.feature.gridData[row][column].setTileGridId(this.gridTileNumber);
-    // this.feature.gridData[row][column + 1].setTileGridId(this.gridTileNumber);
-    // this.feature.gridData[row][column].setMaterial(this.feature.material);
-    // this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
-    // this.debug.log('grid-component', this.feature.gridData[row][column]);
   }
 
   set48TileLeft(row, column) {
-    if (
-      this.feature.gridData[row][column - 1].tileGridId === this.feature.gridData[row][column - 2].tileGridId &&
-      this.feature.gridData[row][column - 2].tileGridId !== 0
-    ) {
-      this.feature.gridData[row][column - 2] = new GridSection(row, column);
+    if (!!this.feature.gridData[row][column - 1] && !!this.feature.gridData[row][column - 2]) {
+      if (
+        this.feature.gridData[row][column - 1].tileGridId === this.feature.gridData[row][column - 2].tileGridId &&
+        this.feature.gridData[row][column - 2].tileGridId !== 0
+      ) {
+        this.feature.gridData[row][column - 2] = new GridSection(row, column);
+      }
     }
     this.setClarioTile(this.feature.gridData[row][column]);
     this.setClarioTile(this.feature.gridData[row][column - 1]);
-    // // odd column. this and the column to the left must match
-    // this.feature.gridData[row][column].setBackgroundImage(
-    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    // );
-    // this.feature.gridData[row][column].setTexture('');
-    // this.feature.gridData[row][column - 1].setBackgroundImage(
-    //   'url(/assets/images/baffles/' + this.feature.selectedTile.tile_size + '/' + this.feature.material + '.png)'
-    // );
-    // this.feature.gridData[row][column - 1].setTexture('/assets/images/tiles/00/' + this.feature.material + '.png');
-    // this.feature.gridData[row][column - 1].setTile(this.feature.selectedTile.tile);
-    // this.feature.gridData[row][column].setTileGridId(this.gridTileNumber);
-    // this.feature.gridData[row][column - 1].setTileGridId(this.gridTileNumber);
-    // this.feature.gridData[row][column - 1].setMaterial(this.feature.material);
-    // this.feature.gridData[row][column].setTileSize(this.feature.selectedTile.tile_size);
-    // this.debug.log('grid-component', this.feature.gridData[row][column]);
   }
 
   setClarioTile(gridTile) {
