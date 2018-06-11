@@ -4,6 +4,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
 import * as _ from 'lodash';
 import { Location } from '@angular/common';
+import { GridSection } from './_models/grid-section';
 
 @Injectable()
 export class Feature {
@@ -738,19 +739,59 @@ export class Feature {
         }
       }
       tiles = purchasedTiles;
+    } else if (this.feature_type === 'clario') {
+      const filteredGridData = [];
+      this.debug.log('grid-component', 'gridData is undefined');
+      for (let r = 0; r < this.getRows(); r++) {
+        filteredGridData[r] = [];
+        for (let c = 0; c < this.getColumns(); c++) {
+          filteredGridData[r][c] = new GridSection(r, c);
+        }
+      }
+      const gridIds = [];
+      this.gridData.map(r =>
+        r.map(c => {
+          if (gridIds.includes(c.tileGridId)) {
+            return;
+          }
+          gridIds.push(c.tileGridId);
+          filteredGridData[c.column][c.row] = this.gridData[c.column][c.row];
+        })
+      );
+      console.log('filteredGridData:', filteredGridData);
+      // Determine the number of unique tiles (color and tile)
+      let pkgQty: number;
+      if (filteredGridData) {
+        for (let i = filteredGridData.length - 1; i >= 0; i--) {
+          for (let j = filteredGridData[i].length - 1; j >= 0; j--) {
+            if (filteredGridData[i][j].tile) {
+              const key = filteredGridData[i][j]['material'] + '-' + filteredGridData[i][j]['tile'];
+              pkgQty = this.getPackageQty(filteredGridData[i][j]['tile']);
+              if (tiles === undefined) {
+                tiles = {};
+              }
+              if (!!tiles[key]) {
+                tiles[key].used += 1;
+                tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
+              } else {
+                const tileType = filteredGridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
+                const imageUrl = this.getClarioImgUrl(filteredGridData[i][j].tile, filteredGridData[i][j]['material']);
+                tiles[key] = {
+                  purchased: pkgQty,
+                  image: imageUrl,
+                  used: 1,
+                  material: filteredGridData[i][j]['material'],
+                  tile: filteredGridData[i][j]['tile']
+                };
+              }
+            }
+          }
+        }
+      }
     } else {
       // Determine the number of unique tiles (color and tile)
       let pkgQty: number;
       if (this.gridData) {
-        // let filteredGridData = Object.keys(this.gridData).map(key => {
-        //   return this.gridData[key];
-        // });
-        // filteredGridData = filteredGridData.map(r =>
-        //   r.filter((obj, index, arr) => {
-        //     return arr.map(tile => tile.tileGridId).indexOf(obj.tileGridId) === index;
-        //   })
-        // );
-        // console.log(filteredGridData);
         for (let i = this.gridData.length - 1; i >= 0; i--) {
           for (let j = this.gridData[i].length - 1; j >= 0; j--) {
             if (this.gridData[i][j].tile) {
@@ -764,10 +805,7 @@ export class Feature {
                 tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
               } else {
                 const tileType = this.gridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
-                const imageUrl =
-                  this.feature_type === 'clario'
-                    ? this.getClarioImgUrl(this.gridData[i][j].tile, this.gridData[i][j]['material'])
-                    : `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
+                const imageUrl = `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
                 tiles[key] = {
                   purchased: pkgQty,
                   image: imageUrl,
