@@ -355,7 +355,7 @@ export class GridComponent implements OnInit, OnDestroy {
 
   isPerfectGridHeight() {
     if (this.feature.feature_type === 'clario') {
-      return this.isClarioPerfectGrid('height');
+      return this.isClarioPerfectGrid('length');
     }
     return this.getGridHeight() === this.getRoomGuideHeight();
   }
