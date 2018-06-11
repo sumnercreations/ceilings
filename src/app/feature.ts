@@ -4,6 +4,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { DebugService } from './_services/debug.service';
 import * as _ from 'lodash';
 import { Location } from '@angular/common';
+import { GridSection } from './_models/grid-section';
 
 @Injectable()
 export class Feature {
@@ -562,6 +563,7 @@ export class Feature {
 
   applyAll() {
     this.updateEstimatedAmount();
+    this.clearAll();
     this.onApplyAll.emit();
   }
 
@@ -738,6 +740,68 @@ export class Feature {
         }
       }
       tiles = purchasedTiles;
+    } else if (this.feature_type === 'clario') {
+      const filteredGridData = [];
+      // populate filteredGridData with empty GridSections
+      for (let r = 0; r < this.getRows(); r++) {
+        filteredGridData[r] = [];
+        for (let c = 0; c < this.getColumns(); c++) {
+          filteredGridData[r][c] = new GridSection(r, c);
+        }
+      }
+      const gridIds = [];
+      this.gridData.map(r => {
+        r.map(c => {
+          if (c.gridTileID) {
+            // use the gridTileID if it has one
+            if (c.gridTileID === 0 || gridIds.includes(c.gridTileID)) {
+              return;
+            }
+            gridIds.push(c.gridTileID);
+            filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
+          } else if (c.tile) {
+            // if there is no gridTileID make assumptions based off the backgroundImage
+            if (c.tileSize === '48') {
+              // if it's a 48 tile remove it's companion
+              if (!!filteredGridData[c.row][c.column + 1] && filteredGridData[c.row][c.column + 1].backgroundImage === c.backgroundImage) {
+                filteredGridData[c.row][c.column + 1] = new GridSection(c.row, c.column + 1);
+              } else if (!!filteredGridData[c.row][c.column - 1] && filteredGridData[c.row][c.column - 1].backgroundImage === c.backgroundImage) {
+                filteredGridData[c.row][c.column - 1] = new GridSection(c.row, c.column - 1);
+              }
+            }
+            filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
+          }
+        });
+      });
+      // Determine the number of unique tiles (color and tile)
+      let pkgQty: number;
+      if (filteredGridData) {
+        for (let i = filteredGridData.length - 1; i >= 0; i--) {
+          for (let j = filteredGridData[i].length - 1; j >= 0; j--) {
+            if (filteredGridData[i][j].tile) {
+              const key = filteredGridData[i][j]['material'] + '-' + filteredGridData[i][j]['tile'];
+              pkgQty = this.getPackageQty(filteredGridData[i][j]['tile']);
+              if (tiles === undefined) {
+                tiles = {};
+              }
+              if (!!tiles[key]) {
+                tiles[key].used += 1;
+                tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
+              } else {
+                const tileType = filteredGridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
+                const imageUrl = this.getClarioImgUrl(filteredGridData[i][j].tile, filteredGridData[i][j]['material']);
+                tiles[key] = {
+                  purchased: pkgQty,
+                  image: imageUrl,
+                  used: 1,
+                  material: filteredGridData[i][j]['material'],
+                  tile: filteredGridData[i][j]['tile']
+                };
+              }
+            }
+          }
+        }
+      }
     } else {
       // Determine the number of unique tiles (color and tile)
       let pkgQty: number;
@@ -755,10 +819,7 @@ export class Feature {
                 tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
               } else {
                 const tileType = this.gridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
-                const imageUrl =
-                  this.feature_type === 'clario'
-                    ? this.getClarioImgUrl(this.gridData[i][j].tile, this.gridData[i][j]['material'])
-                    : `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
+                const imageUrl = `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
                 tiles[key] = {
                   purchased: pkgQty,
                   image: imageUrl,
@@ -867,7 +928,7 @@ export class Feature {
 
   public clarioTiles() {
     const clarioTiles = this.gridData.slice(0);
-
+    const tileIds = [];
     for (let i = 0; i < clarioTiles.length; i++) {
       for (let j = 0; j < clarioTiles[i].length; j++) {
         if (clarioTiles[i][j].tile !== '') {
@@ -880,6 +941,11 @@ export class Feature {
           } else {
             clarioTiles[i][j].tile = '00';
           }
+        }
+        if (tileIds.includes(clarioTiles[i][j].gridTileID)) {
+          clarioTiles[i][j].texture = '';
+        } else {
+          tileIds.push(clarioTiles[i][j].gridTileID);
         }
       }
     }
