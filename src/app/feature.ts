@@ -741,7 +741,7 @@ export class Feature {
       tiles = purchasedTiles;
     } else if (this.feature_type === 'clario') {
       const filteredGridData = [];
-      this.debug.log('grid-component', 'gridData is undefined');
+      // populate filteredGridData with empty GridSections
       for (let r = 0; r < this.getRows(); r++) {
         filteredGridData[r] = [];
         for (let c = 0; c < this.getColumns(); c++) {
@@ -749,16 +749,29 @@ export class Feature {
         }
       }
       const gridIds = [];
-      this.gridData.map(r =>
+      this.gridData.map(r => {
         r.map(c => {
-          if (gridIds.includes(c.tileGridId)) {
-            return;
+          if (c.gridTileID) {
+            // use the gridTileID if it has one
+            if (c.gridTileID === 0 || gridIds.includes(c.gridTileID)) {
+              return;
+            }
+            gridIds.push(c.gridTileID);
+            filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
+          } else if (c.tile) {
+            // if there is no gridTileID make assumptions based off the backgroundImage
+            if (c.tileSize === '48') {
+              // if it's a 48 tile remove it's companion
+              if (!!filteredGridData[c.row][c.column + 1] && filteredGridData[c.row][c.column + 1].backgroundImage === c.backgroundImage) {
+                filteredGridData[c.row][c.column + 1] = new GridSection(c.row, c.column + 1);
+              } else if (!!filteredGridData[c.row][c.column - 1] && filteredGridData[c.row][c.column - 1].backgroundImage === c.backgroundImage) {
+                filteredGridData[c.row][c.column - 1] = new GridSection(c.row, c.column - 1);
+              }
+            }
+            filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
           }
-          gridIds.push(c.tileGridId);
-          filteredGridData[c.column][c.row] = this.gridData[c.column][c.row];
-        })
-      );
-      console.log('filteredGridData:', filteredGridData);
+        });
+      });
       // Determine the number of unique tiles (color and tile)
       let pkgQty: number;
       if (filteredGridData) {

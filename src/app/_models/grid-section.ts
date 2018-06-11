@@ -10,7 +10,7 @@ export class GridSection {
   material: string;
   tile: string;
   tileSize: string;
-  tileGridId: number;
+  gridTileID: number;
 
   constructor(
     _row: number,
@@ -31,7 +31,7 @@ export class GridSection {
     this.setRow(_row);
     this.setColumn(_column);
     this.setTileSize(_tileSize);
-    this.setTileGridId(_tileNumber);
+    this.setgridTileID(_tileNumber);
   }
 
   //               __  __
@@ -72,8 +72,8 @@ export class GridSection {
     this.tileSize = size;
   }
 
-  setTileGridId(num: number) {
-    this.tileGridId = num;
+  setgridTileID(num: number) {
+    this.gridTileID = num;
   }
 
   //                __  __
@@ -112,6 +112,6 @@ export class GridSection {
   }
 
   getTileNumber() {
-    return this.tileGridId;
+    return this.gridTileID;
   }
 }
