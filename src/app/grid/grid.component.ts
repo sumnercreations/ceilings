@@ -204,8 +204,10 @@ export class GridComponent implements OnInit, OnDestroy {
               if (this.feature.feature_type === 'clario' && this.feature.gridData[row][column].tileNumber !== 0) {
                 // look to see if the left or right tile was part of a '48' tile
                 const tile48Match = this.feature.gridData[row][column].tileNumber;
-                const leftMatch: boolean = tile48Match === this.feature.gridData[row][column - 1].tileNumber;
-                const rightMatch: boolean = tile48Match === this.feature.gridData[row][column + 1].tileNumber;
+                const leftTileNumber = !!this.feature.gridData[row][column - 1] ? this.feature.gridData[row][column - 1].tileNumber : -1;
+                const rightTileNumber = !!this.feature.gridData[row][column + 1] ? this.feature.gridData[row][column + 1].tileNumber : -1;
+                const leftMatch: boolean = tile48Match === leftTileNumber;
+                const rightMatch: boolean = tile48Match === rightTileNumber;
                 if (leftMatch) {
                   this.feature.gridData[row][column - 1] = new GridSection(row, column);
                   this.debug.log('grid-component', 'left side removed');
@@ -244,15 +246,15 @@ export class GridComponent implements OnInit, OnDestroy {
                 this.debug.log('grid-component', this.feature.gridData[row][column]);
               } else if (this.feature.selectedTile.tile_size === '48') {
                 // 24x48 baffle
-                this.debug.log('grid-component', 'is perfect grid: ' + this.isPerfectGrid());
+                this.debug.log('grid-component', 'is perfect grid: ' + this.isPerfectGridWidth());
                 this.debug.log('grid-component', 'is column odd: ' + this.isOdd(column));
-                if (this.isPerfectGrid() && this.isOdd(column)) {
+                if (this.isPerfectGridWidth() && this.isOdd(column)) {
                   this.debug.log('grid-component', 'this and column to left');
                   this.set48TileLeft(row, column);
-                } else if (this.isPerfectGrid() && !this.isOdd(column)) {
+                } else if (this.isPerfectGridWidth() && !this.isOdd(column)) {
                   this.set48TileRight(row, column);
                   this.debug.log('grid-component', 'this and column to right');
-                } else if (!this.isPerfectGrid() && !this.isOdd(column)) {
+                } else if (!this.isPerfectGridWidth() && !this.isOdd(column)) {
                   this.set48TileLeft(row, column);
                 } else {
                   this.set48TileRight(row, column);
@@ -304,12 +306,10 @@ export class GridComponent implements OnInit, OnDestroy {
 
   getGridWidth() {
     return this.feature.getColumns() * 48;
-    // return Math.ceil( this.feature.width / 12 / 2 ) * 48;
   }
 
   getGridHeight() {
     return this.feature.getRows() * 48;
-    // return Math.ceil( this.feature.length / 12 / 2 ) * 48;
   }
 
   getRoomGuideWidth() {
@@ -318,6 +318,9 @@ export class GridComponent implements OnInit, OnDestroy {
       guideWidth = this.feature.width / 12 / 2 * 48;
     } else {
       guideWidth = this.feature.convertCMtoIN(this.feature.width) / 12 / 2 * 48;
+    }
+    if (this.isPerfectGridWidth()) {
+      guideWidth = this.getGridWidth();
     }
     return guideWidth;
   }
@@ -329,7 +332,9 @@ export class GridComponent implements OnInit, OnDestroy {
     } else {
       guideHeight = this.feature.convertCMtoIN(this.feature.length) / 12 / 2 * 48;
     }
-
+    if (this.isPerfectGridHeight()) {
+      guideHeight = this.getGridHeight();
+    }
     return guideHeight;
   }
 
@@ -341,8 +346,36 @@ export class GridComponent implements OnInit, OnDestroy {
     return (this.getGridHeight() - this.getRoomGuideHeight()) / 2;
   }
 
-  isPerfectGrid() {
+  isPerfectGridWidth() {
+    if (this.feature.feature_type === 'clario') {
+      return this.isClarioPerfectGrid('width');
+    }
     return this.getGridWidth() === this.getRoomGuideWidth();
+  }
+
+  isPerfectGridHeight() {
+    if (this.feature.feature_type === 'clario') {
+      return this.isClarioPerfectGrid('height');
+    }
+    return this.getGridHeight() === this.getRoomGuideHeight();
+  }
+
+  isClarioPerfectGrid(dimension) {
+    let isPerfect = false;
+    if (!!this.feature.selectedTile) {
+      switch (this.feature.selectedTile.tile_size_type) {
+        case 'standard':
+          isPerfect = this.feature[dimension] % 24 === 0;
+          break;
+        case 'metric':
+          isPerfect = this.feature[dimension] % 60 === 0;
+          break;
+        case 'german':
+          isPerfect = this.feature[dimension] % 62.5 === 0;
+          break;
+      }
+    }
+    return isPerfect;
   }
 
   isOdd(column: number) {
@@ -351,7 +384,7 @@ export class GridComponent implements OnInit, OnDestroy {
 
   set48TileRight(row, column) {
     // this and the column to the right must match
-    if (column + 1 === this.feature.getColumns() - 1) {
+    if (column + 1 === this.feature.getColumns() - 1 && !this.isPerfectGridWidth()) {
       this.debug.log('grid-component', 'the column to the right of this must be flat, so this can not be 48 tile');
       this.alert.error('This tile must be a 24x24 tile');
       return;
