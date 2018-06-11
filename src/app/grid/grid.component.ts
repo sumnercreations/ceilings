@@ -363,8 +363,10 @@ export class GridComponent implements OnInit, OnDestroy {
     } else {
       guideWidth = this.feature.convertCMtoIN(this.feature.width) / 12 / 2 * 48;
     }
-    if (guideWidth === this.getGridWidth()) {
-      guideWidth = this.getGridWidth();
+    if (this.feature.feature_type === 'clario') {
+      if (this.isPerfectGridHeight()) {
+        guideWidth = this.getGridWidth();
+      }
     }
     return guideWidth;
   }
@@ -376,8 +378,10 @@ export class GridComponent implements OnInit, OnDestroy {
     } else {
       guideHeight = this.feature.convertCMtoIN(this.feature.length) / 12 / 2 * 48;
     }
-    if (guideHeight === this.getGridHeight()) {
-      guideHeight = this.getGridHeight();
+    if (this.feature.feature_type === 'clario') {
+      if (this.isPerfectGridHeight()) {
+        guideHeight = this.getGridHeight();
+      }
     }
     return guideHeight;
   }
