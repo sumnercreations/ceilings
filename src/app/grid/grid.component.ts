@@ -363,7 +363,7 @@ export class GridComponent implements OnInit, OnDestroy {
     } else {
       guideWidth = this.feature.convertCMtoIN(this.feature.width) / 12 / 2 * 48;
     }
-    if (this.isPerfectGridWidth()) {
+    if (guideWidth === this.getGridWidth()) {
       guideWidth = this.getGridWidth();
     }
     return guideWidth;
@@ -376,7 +376,7 @@ export class GridComponent implements OnInit, OnDestroy {
     } else {
       guideHeight = this.feature.convertCMtoIN(this.feature.length) / 12 / 2 * 48;
     }
-    if (this.isPerfectGridHeight()) {
+    if (guideHeight === this.getGridHeight()) {
       guideHeight = this.getGridHeight();
     }
     return guideHeight;
