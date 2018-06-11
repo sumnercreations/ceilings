@@ -162,6 +162,10 @@ export class GridComponent implements OnInit, OnDestroy {
 
       switch (this.feature.selectedTool) {
         case 'rotate':
+          if (this.feature.gridData[row][column].tileSize === '48') {
+            this.alert.error('Rectangular baffles can not be rotated.');
+            return;
+          }
           let rotation = this.feature.gridData[row][column].rotation;
           rotation = rotation + 90 === 360 ? 0 : rotation + 90;
           this.feature.gridData[row][column].setRotation(rotation);
