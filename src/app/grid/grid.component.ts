@@ -87,39 +87,26 @@ export class GridComponent implements OnInit, OnDestroy {
             // de-select any tools just in case
             this.feature.selectedTool = '';
             if (this.feature.selectedTile.tile_size === '48') {
-              const isOddColumn = c % 2 !== 0;
-              if (!this.isPerfectGridWidth()) {
-                if (r === 0 || r === this.feature.getRows() - 1 || c === 0 || c === this.feature.getColumns() - 1) {
-                  this.setFlag(r, c);
-                  this.removeFlag(r, c);
-                }
-              }
-              if (this.feature.getColumns() % 2 === 0) {
-                if (isOddColumn) {
-                  this.setFlag(r, c);
-                  this.removeFlag(r, c);
-                }
-              } else {
-                if (isOddColumn && c < this.feature.getColumns() - 2) {
-                  this.setFlag(r, c);
-                  this.removeFlag(r, c);
-                }
-                if (c === this.feature.getColumns() - 2) {
-                  const currentTile = JSON.stringify(this.feature.selectedTile);
-                  const storedCurrentTile = JSON.parse(currentTile);
-                  const tileOptions = this.materials.clario_grids[this.feature.grid_type];
-                  for (const tile in tileOptions) {
-                    if (tileOptions.hasOwnProperty(tile)) {
-                      const element = tileOptions[tile];
-                      if (element.tile_size_type === storedCurrentTile.tile_size_type && element.tile_size === '24') {
-                        this.feature.selectedTile = element;
-                      }
+              const needs24Tile = this.feature.getColumns() % 2 !== 0;
+              const smallTileLocation = needs24Tile && this.isPerfectGridWidth() ? this.feature.getColumns() - 1 : this.feature.getColumns() - 2;
+              if (needs24Tile && c === smallTileLocation) {
+                const currentTile = JSON.stringify(this.feature.selectedTile);
+                const storedCurrentTile = JSON.parse(currentTile);
+                const tileOptions = this.feature.tilesArray.clario;
+                for (const tile in tileOptions) {
+                  if (tileOptions.hasOwnProperty(tile)) {
+                    if (tileOptions[tile].tile_size_type === storedCurrentTile.tile_size_type && tileOptions[tile].tile_size === '24') {
+                      this.feature.updateSelectedTile(tileOptions[tile]);
+                      this.setFlag(r, c);
+                      this.removeFlag(r, c);
+                      this.feature.updateSelectedTile(storedCurrentTile);
                     }
                   }
-                  this.setFlag(r, c);
-                  this.removeFlag(r, c);
-                  this.feature.selectedTile = storedCurrentTile;
                 }
+              }
+              if (!this.feature.gridData[r][c].backgroundImage) {
+                this.setFlag(r, c);
+                this.removeFlag(r, c);
               }
             } else {
               this.setFlag(r, c);
