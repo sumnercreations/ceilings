@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-sm-9">
+    <div class="form-group">
+      <input [(ngModel)]="feature.design_name" type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus>
+    </div>
+  </div>
+  <div class="col-sm-3 options-load">
+    <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()"><span class="icomoon-folder orange"></span> Load</a>
+  </div>
+</div>
+<button class="button button-orange start-designing" (click)="dialogRef.close('start designing')" [disabled]="validateOptions()">start designing</button>
+<div class="back">
+  <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">< Choose a New Design Tool</a>
+</div>

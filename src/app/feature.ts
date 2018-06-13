@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 export class Feature {
   onBuildGrid = new EventEmitter();
   onBuildVeloGrid = new EventEmitter();
+  onBuildSwoonGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
@@ -534,9 +535,14 @@ export class Feature {
   }
 
   buildGrid() {
+    this.debug.log('feature', this.feature_type);
     // If the feature type is velo build that grid
     if (this.feature_type === 'velo') {
       this.onBuildVeloGrid.emit();
+    } else if (this.feature_type === 'swoon') {
+      this.debug.log('feature', 'emitting the build swoon grid');
+      // if the feature type is swoon build that grid type
+      this.onBuildSwoonGrid.emit();
     } else {
       // emit an event to build a new grid
       this.onBuildGrid.emit();
@@ -558,6 +564,8 @@ export class Feature {
     this.showGuide = !this.showGuide;
     if (this.feature_type === 'velo') {
       this.onBuildVeloGrid.emit();
+    } else if (this.feature_type === 'swoon') {
+      this.onBuildSwoonGrid.emit();
     }
   }
 

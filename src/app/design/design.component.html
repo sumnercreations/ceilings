@@ -31,7 +31,7 @@
     <div class="col-sm-9 full-height">
       <div class="grid-wrapper col-sm-12">
         <div class="row grid-header">
-          <div class="col-sm-5" *ngIf="feature.feature_type!='velo'">
+          <div class="col-sm-5" *ngIf="feature.feature_type!='velo' || feature.feature_type!='swoon'">
             <p *ngIf="feature.feature_type!='hush'">{{feature.width}} W x {{feature.length}} L ({{feature.units}}) | 24 x {{feature.tile_size}} {{feature.feature_type | capitalize}} <a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
             <p *ngIf="feature.feature_type=='hush'">{{feature.width}} W x {{feature.length}} H ({{feature.units}}) | 24 x {{feature.tile_size}} Hush Blocks &nbsp;<a id="edit-grid" class="edit-link" title="Edit Grid Size" (click)="editOptions()">Edit</a></p>
           </div>
@@ -53,15 +53,16 @@
             <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
             <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" [disabled]="(!feature.tiles)" (click)="feature.view3d()">3D View</button>
           </div>
-          <div *ngIf="feature.feature_type!='velo'" class="col-sm-4">
+          <div *ngIf="feature.feature_type!='velo' || feature.feature_type!='swoon'" class="col-sm-4">
             <button id="toggle-grid-labels" title="toggle the guide" class="button button-gray orange" (click)="feature.toggleGuide()">Guides</button>
             <button id="view3d-btn" title="view design in 3D" class="button button-gray orange" [disabled]="(!feature.tiles)" (click)="feature.view3d()">3D View</button>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <app-grid *ngIf="feature.feature_type!='velo'"></app-grid>
+            <app-grid *ngIf="feature.feature_type!='velo' && feature.feature_type!='swoon'"></app-grid>
             <app-velo-grid *ngIf="feature.feature_type=='velo'" class="velo-grid-container"></app-velo-grid>
+            <app-swoon-grid *ngIf="feature.feature_type=='swoon'" class="swoon-grid-container"></app-swoon-grid>
           </div>
         </div>
       </div>
@@ -126,7 +127,7 @@
       </div>
       <div class="row">
         <div class="col-sm-12 actions">
-          <button *ngIf="feature.feature_type!='velo'" class="button button-gray return-ceilings orange" (click)="feature.applyAll()">Apply All</button>
+          <button *ngIf="feature.feature_type!='velo' || feature.feature_type!='swoon'" class="button button-gray return-ceilings orange" (click)="feature.applyAll()">Apply All</button>
           <button class="button button-gray return-ceilings orange" (click)="feature.clearAll()">Clear All</button>
         </div>
       </div>

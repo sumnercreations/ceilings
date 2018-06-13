@@ -58,6 +58,8 @@ import { QuantityComponent } from './quantity/quantity.component';
 import { AddQuantityComponent } from './quantity/add-quantity/add-quantity.component';
 import { RemoveQuantityComponent } from './quantity/remove-quantity/remove-quantity.component';
 import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
+import { SwoonGridComponent } from './swoon-grid/swoon-grid.component';
+import { SwoonOptionsComponent } from './options/swoon-options/swoon-options.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -103,7 +105,9 @@ import { KeysPipe } from './_pipes/keys.pipe';
     QuantityComponent,
     AddQuantityComponent,
     RemoveQuantityComponent,
-    QuantityDetailsComponent
+    QuantityDetailsComponent,
+    SwoonGridComponent,
+    SwoonOptionsComponent
   ],
   imports: [
     BrowserModule,
