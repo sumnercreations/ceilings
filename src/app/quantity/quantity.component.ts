@@ -40,6 +40,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   quoteDialogRef: MatDialogRef<any>;
   clarioGridDialogRef: MatDialogRef<any>;
   sqFootage: number;
+  sqMeters: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
 
@@ -242,6 +243,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
   calcSqFootage() {
     this.tilesNeeded = Math.ceil(this.sqFootage / 4);
+  }
+
+  calcSqMeters() {
+    if (this.feature.feature_type === 'clario') {
+      if (this.clarioGrids.selectedTileSize.tile_size.type === 'meters') {
+        // one 600x600mm tile is 0.36 Sq m
+        this.tilesNeeded = Math.ceil(this.sqMeters / 0.36);
+      }
+      if (this.clarioGrids.selectedTileSize.tile_size.type === 'german') {
+        // one 625x625mm tile is 0.390625 Sq m
+        this.tilesNeeded = Math.ceil(this.sqMeters / 0.390625);
+      }
+    }
+    // one 24x24in tile is 0.371612 Sq m
+    this.tilesNeeded = Math.ceil(this.sqMeters / 0.371612);
   }
 
   public saveQuantity() {
