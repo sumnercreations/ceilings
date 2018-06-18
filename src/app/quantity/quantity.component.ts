@@ -16,10 +16,8 @@ import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { Location } from '@angular/common';
 import { QuantityService } from './quantity.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { takeUntil } from 'rxjs/operator/takeUntil';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quantity',
@@ -115,7 +113,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
         this.feature.updateSelectedTile(this.feature.tilesArray.hush[0]);
       }
 
-      this.clarioGrids.onTileSizeChange.takeUntil(this.ngUnsubscribe).subscribe(result => {
+      this.clarioGrids.onTileSizeChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
         // reset table data if the selected tile dimensions change
         this.order.data = [];
         this.qtySrv.updateSummary();
@@ -146,7 +144,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     config.disableClose = true;
     this.clarioGridDialogRef = this.dialog.open(QuantityOptionsComponent, config);
     // this.clarioGridDialogRef.afterClosed()
-    //   .takeUntil(this.ngUnsubscribe)
+    //   .pipe(takeUntil(this.ngUnsubscribe))
     //   .subscribe(result => {
     //     console.log('result:', result);
     //   });
@@ -178,7 +176,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.addQtyDialogRef = this.dialog.open(AddQuantityComponent);
     this.addQtyDialogRef
       .afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(requestedRow => {
         if (!!requestedRow) {
           let isMultiple = false;
@@ -202,7 +200,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, { data: row });
     this.addQtyDialogRef
       .afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         if (!!result) {
           this.qtySrv.doEditRow(index, result);
@@ -216,7 +214,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, { data: removeRow });
     this.removeQtyDialogRef
       .afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         if (result === 'remove') {
           this.qtySrv.order.data.splice(index, 1);
@@ -274,7 +272,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
     this.loginDialogRef
       .afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         if (result === 'cancel') {
           this.tryingRequestQuote = false;
@@ -301,7 +299,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     } else {
       this.api
         .getMyDesigns()
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(designs => {
           this.loadQtyDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig());
           this.loadQtyDialogRef.componentInstance.designs = designs;

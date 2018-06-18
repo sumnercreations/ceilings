@@ -1,17 +1,18 @@
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Injectable, EventEmitter } from '@angular/core';
+
 import { AlertService } from './alert.service';
 import { ApiService } from './api.service';
 import { MaterialsService } from './materials.service';
 import { DebugService } from './debug.service';
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { environment } from './../../environments/environment';
-import { Observable } from 'rxjs/Observable';
 import { SeeyondFeature } from 'app/seeyond-feature';
 import { User } from './../_models/user';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class SeeyondService {
@@ -30,23 +31,23 @@ export class SeeyondService {
   ) {}
 
   getMyFeatures() {
-    return this.http
-      .get(this.apiUrl + 'list/' + this.user.uid)
-      .map((res: Response) => res.json())
-      .catch(this.handleError);
+    return this.http.get(this.apiUrl + 'list/' + this.user.uid).pipe(
+      map((res: Response) => res.json()),
+      catchError(this.handleError)
+    );
   }
 
   loadFeature(id: number) {
     this.debug.log('seeyond', 'Loading Feature');
-    return this.http
-      .get(this.apiUrl + id)
-      .map((res: Response) => {
+    return this.http.get(this.apiUrl + id).pipe(
+      map((res: Response) => {
         this.debug.log('seeyond', res.json());
         this.onLoaded.emit();
         this.debug.log('seeyond', 'emitting onLoaded');
         return res.json();
-      })
-      .catch(this.handleError);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   updateFeature() {
@@ -94,14 +95,14 @@ export class SeeyondService {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
 
-    return this.http
-      .patch(this.apiUrl + this.seeyond.id, patchData, options)
-      .map((res: Response) => {
+    return this.http.patch(this.apiUrl + this.seeyond.id, patchData, options).pipe(
+      map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('seeyond', 'emitting onSaved');
         return res.json() || {};
-      })
-      .catch(this.handleError);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   saveFeature() {
@@ -142,14 +143,14 @@ export class SeeyondService {
       quantity: this.seeyond.quantity
     };
 
-    return this.http
-      .post(this.apiUrl, patchData)
-      .map((res: Response) => {
+    return this.http.post(this.apiUrl, patchData).pipe(
+      map((res: Response) => {
         this.onSaved.emit();
         this.debug.log('seeyond', 'emitting onSaved');
         return res.json() || {};
-      })
-      .catch(this.handleError);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   deleteFeature(id: number) {
@@ -157,17 +158,17 @@ export class SeeyondService {
   }
 
   sendEmail() {
-    return this.http
-      .get(this.apiUrl + 'email/' + this.user.uid + '/feature/' + this.seeyond.id)
-      .map((res: Response) => res.json())
-      .catch(this.handleError);
+    return this.http.get(this.apiUrl + 'email/' + this.user.uid + '/feature/' + this.seeyond.id).pipe(
+      map((res: Response) => res.json()),
+      catchError(this.handleError)
+    );
   }
 
   getPrices() {
-    return this.http
-      .get(this.apiUrl + 'prices')
-      .map((res: Response) => res.json())
-      .catch(this.handleError);
+    return this.http.get(this.apiUrl + 'prices').pipe(
+      map((res: Response) => res.json()),
+      catchError(this.handleError)
+    );
   }
 
   private replaceOldPartIds() {
@@ -217,6 +218,6 @@ export class SeeyondService {
       this.debug.log('api', `Backend returned code ${error.status}, body was: ${error.message}`);
     }
     // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable('Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.');
   }
 }

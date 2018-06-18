@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MaterialsService {
-  public parts_substitutes: PartsSubs[];
+  // public parts_substitutes: PartsSubs[];
+  public parts_substitutes: any;
 
   public clario_grids = {
     '15/16': {

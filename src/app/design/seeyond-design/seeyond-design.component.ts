@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { DesignComponent } from './../design.component';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { NavigationEnd } from '@angular/router/src/events';
 
 @Component({
@@ -24,18 +22,18 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
   dimensionsString: string;
 
   ngOnInit() {
-    this.seeyond.onDimensionsChange.takeUntil(this.ngUnsubscribe).subscribe(data => {
+    this.seeyond.onDimensionsChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
       this.dimensionsString = this.seeyond.getDimensionString();
     });
   }
 
   ngAfterContentInit() {
     // subscribe to the onFeatureUpdated event to update the price.
-    this.seeyond.onFeatureUpdated.takeUntil(this.ngUnsubscribe).subscribe(data => {
+    this.seeyond.onFeatureUpdated.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
       this.seeyond.updateEstimatedAmount();
     });
 
-    this.seeyond.$outdatedMaterial.takeUntil(this.ngUnsubscribe).subscribe(data => {
+    this.seeyond.$outdatedMaterial.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
       if (this.seeyond.materialObj.status === 'inactive') {
         this.alert.error(
           `The color \"${this.seeyond.materialObj.name_str}\" is being discontinued.  It will be available until ${
@@ -44,9 +42,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
         );
       }
       if (this.seeyond.materialObj.status === 'discontinued') {
-        this.alert.error(
-          `The color \"${this.seeyond.materialObj.name_str}\" has been discontinued.  Select a new color to proceed.`
-        );
+        this.alert.error(`The color \"${this.seeyond.materialObj.name_str}\" has been discontinued.  Select a new color to proceed.`);
         this.feature.canQuote = false;
       }
     });

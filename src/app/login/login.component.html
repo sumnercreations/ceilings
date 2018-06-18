@@ -6,14 +6,14 @@
   <form (ngSubmit)="login()" #loginForm="ngForm">
     <div class="col-sm-12">
       <div class="form-group">
-        <mat-input-container class="full-width">
+        <mat-form-field class="full-width">
           <input placeholder="Email" type="email" name="email" id="email" matInput mat-input required [(ngModel)]="email">
-        </mat-input-container>
+        </mat-form-field>
       </div>
       <div class="form-group">
-        <mat-input-container class="full-width">
+        <mat-form-field class="full-width">
           <input placeholder="Password" type="password" name="password" id="password" matInput mat-input required [(ngModel)]="password">
-        </mat-input-container>
+        </mat-form-field>
       </div>
     </div>
     <div class="text-center">

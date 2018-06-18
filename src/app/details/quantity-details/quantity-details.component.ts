@@ -1,7 +1,7 @@
 import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { DebugService } from './../../_services/debug.service';
 import { QuantityService } from './../../quantity/quantity.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { TableDataSource, Order } from './../../quantity/quantity.component';
 import { Feature } from './../../feature';
 import { AlertService } from './../../_services/alert.service';
