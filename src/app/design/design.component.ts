@@ -17,8 +17,9 @@ import { VeloTileUsageComponent } from '../velo-tile-usage/velo-tile-usage.compo
 import { QuoteDialogComponent } from '../quote-dialog/quote-dialog.component';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import * as FileSaver from 'file-saver';
 import * as html2canvas from 'html2canvas';
 import { AlertService } from 'app/_services/alert.service';
@@ -156,7 +157,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
 
     // subscribe to the saved event to close the save dialog
-    this.api.onSaved.takeUntil(this.ngUnsubscribe).subscribe(success => {
+    this.api.onSaved.pipe(takeUntil(this.ngUnsubscribe)).subscribe(success => {
       if (this.saveDesignDialogRef) {
         this.saveDesignDialogRef.close();
       }
@@ -193,7 +194,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
 
     // subscribe to the onView3d event and build the dialog
-    this.feature.onView3d.takeUntil(this.ngUnsubscribe).subscribe(result => {
+    this.feature.onView3d.pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       this.debug.log('design-component', 'view 3d event');
       this.view3d();
     });
@@ -213,7 +214,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
     this.optionsDialogRef
       .afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         this.feature.buildGrid();
         this.feature.updateSelectedTile(this.feature.selectedTile);
@@ -232,7 +233,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       // let loadDialog: MatDialog;
       this.api
         .getMyDesigns()
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(designs => {
           this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig());
           this.loadDesignDialogRef.componentInstance.designs = designs;
@@ -248,7 +249,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       // let loadDialog: MatDialog;
       this.seeyondService
         .getMyFeatures()
-        .takeUntil(this.ngUnsubscribe)
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(designs => {
           this.loadDesignDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig());
           this.loadDesignDialogRef.componentInstance.designs = designs;
@@ -271,7 +272,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
     this.loginDialogRef
       .afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         if (result === 'cancel') {
           this.tryingRequestQuote = false;

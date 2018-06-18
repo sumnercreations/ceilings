@@ -15,7 +15,7 @@ export class AlertComponent implements OnInit {
   ngOnInit() {
     this.alert.getMessage().subscribe(message => {
       const config = new MatSnackBarConfig();
-      config.extraClasses = message.type === 'error' ? ['ceilings-alert-error'] : ['ceilings-alert-success'];
+      config.panelClass = message.type === 'error' ? ['ceilings-alert-error'] : ['ceilings-alert-success'];
       config.duration = message.type === 'success' ? 1000 : null;
       config.announcementMessage = message.text;
       this.snackBar.open(message.text, 'dismiss', config);

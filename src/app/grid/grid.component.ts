@@ -6,8 +6,8 @@ import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { GridSection } from './../_models/grid-section';
 import { AlertService } from '../_services/alert.service';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-grid',
@@ -33,13 +33,13 @@ export class GridComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // subscribe to the buildGrid event
     this.debug.log('grid-component', 'setting grid Subscription');
-    this.feature.onBuildGrid.takeUntil(this.ngUnsubscribe).subscribe(result => {
+    this.feature.onBuildGrid.pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       this.debug.log('grid-component', 'building the grid');
       this.updateGrid();
     });
 
     // subscribe to the applyAll event
-    this.feature.onApplyAll.takeUntil(this.ngUnsubscribe).subscribe(result => {
+    this.feature.onApplyAll.pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
       this.debug.log('grid-component', 'applying all');
       this.updateGrid(true);
     });
@@ -359,9 +359,9 @@ export class GridComponent implements OnInit, OnDestroy {
   getRoomGuideWidth() {
     let guideWidth: number;
     if (this.feature.units === 'inches') {
-      guideWidth = this.feature.width / 12 / 2 * 48;
+      guideWidth = (this.feature.width / 12 / 2) * 48;
     } else {
-      guideWidth = this.feature.convertCMtoIN(this.feature.width) / 12 / 2 * 48;
+      guideWidth = (this.feature.convertCMtoIN(this.feature.width) / 12 / 2) * 48;
     }
     if (this.feature.feature_type === 'clario') {
       if (this.isPerfectGridHeight()) {
@@ -374,9 +374,9 @@ export class GridComponent implements OnInit, OnDestroy {
   getRoomGuideHeight() {
     let guideHeight: number;
     if (this.feature.units === 'inches') {
-      guideHeight = this.feature.length / 12 / 2 * 48;
+      guideHeight = (this.feature.length / 12 / 2) * 48;
     } else {
-      guideHeight = this.feature.convertCMtoIN(this.feature.length) / 12 / 2 * 48;
+      guideHeight = (this.feature.convertCMtoIN(this.feature.length) / 12 / 2) * 48;
     }
     if (this.feature.feature_type === 'clario') {
       if (this.isPerfectGridHeight()) {

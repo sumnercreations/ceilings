@@ -1,16 +1,14 @@
-import { AlertService } from './alert.service';
 import { Injectable, EventEmitter } from '@angular/core';
-// import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+
 import { environment } from '../../environments/environment';
+import { AlertService } from './alert.service';
 import { Feature } from '../feature';
 import { User } from '../_models/user';
 import { DebugService } from './../_services/debug.service';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+
+import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class ApiService {
@@ -22,21 +20,15 @@ export class ApiService {
   userUrl = 'https://' + environment.API_URL + '/users/';
   partSubsUrl = `https://${environment.API_URL}/parts_substitutes`;
 
-  constructor(
-    private http: HttpClient,
-    private feature: Feature,
-    private user: User,
-    private debug: DebugService,
-    private alert: AlertService
-  ) {}
+  constructor(private http: HttpClient, private feature: Feature, private user: User, private debug: DebugService, private alert: AlertService) {}
 
   getMyDesigns() {
-    return this.http.get(this.apiUrl + 'list/' + this.user.uid).catch(this.handleError);
+    return this.http.get(this.apiUrl + 'list/' + this.user.uid).pipe(catchError(this.handleError));
   }
 
   getUserRep(uid: number) {
     this.debug.log('api', 'getting user rep');
-    return this.http.get(this.userUrl + uid + '/rep').catch(this.handleError);
+    return this.http.get(this.userUrl + uid + '/rep').pipe(catchError(this.handleError));
   }
 
   loadDesign(id: number) {
@@ -76,14 +68,14 @@ export class ApiService {
       is_quantity_order: this.feature.is_quantity_order
     };
 
-    return this.http
-      .patch(this.apiUrl + this.feature.id, patchData)
-      .map(res => {
+    return this.http.patch(this.apiUrl + this.feature.id, patchData).pipe(
+      map((res: any) => {
         this.onSaved.emit();
         this.debug.log('api', 'emitting onSaved in updateDesign');
         return res || {};
-      })
-      .catch(this.handleError);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   saveDesign() {
@@ -116,14 +108,14 @@ export class ApiService {
       is_quantity_order: this.feature.is_quantity_order
     };
 
-    return this.http
-      .post(this.apiUrl, patchData)
-      .map((res: Response) => {
+    return this.http.post(this.apiUrl, patchData).pipe(
+      map((res: any) => {
         this.onSaved.emit();
         this.debug.log('api', 'emitting onSaved in saveDesign');
         return res || {};
-      })
-      .catch(this.handleError);
+      }),
+      catchError(this.handleError)
+    );
   }
 
   prepDataForQtyOrder() {
@@ -140,17 +132,17 @@ export class ApiService {
   }
 
   getPrices() {
-    return this.http
-      .get(this.apiUrl + 'prices')
-      .map((res: Response) => res)
-      .catch(this.handleError);
+    return this.http.get(this.apiUrl + 'prices').pipe(
+      map((res: Response) => res),
+      catchError(this.handleError)
+    );
   }
 
   getPartsSubstitutes() {
-    return this.http
-      .get(this.partSubsUrl)
-      .map((res: Response) => res)
-      .catch(this.handleError);
+    return this.http.get(this.partSubsUrl).pipe(
+      map((res: Response) => res),
+      catchError(this.handleError)
+    );
   }
 
   login(email: string, password: string) {
@@ -160,9 +152,8 @@ export class ApiService {
       password: password
     };
 
-    return this.http
-      .post(this.loginUrl, formData)
-      .map((res: any) => {
+    return this.http.post(this.loginUrl, formData).pipe(
+      map((res: any) => {
         console.log('login res:', res);
         if (res && !res.result.error) {
           localStorage.setItem('3formUser', JSON.stringify(res.result.user));
@@ -172,11 +163,12 @@ export class ApiService {
         } else {
           this.alert.apiAlert(res.result.error);
         }
-      })
-      .catch(res => {
+      }),
+      catchError(res => {
         this.alert.error(res.error.result.message);
         return 'error';
-      });
+      })
+    );
   }
 
   logout() {
@@ -197,6 +189,6 @@ export class ApiService {
       this.debug.log('api', `Backend returned code ${error.status}, body was: ${error.message}`);
     }
     // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable('Something bad happened; please try again later.');
+    return throwError('Something bad happened; please try again later.');
   }
 }
