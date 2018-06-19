@@ -19,15 +19,13 @@ label {
   cursor: pointer;
 }
 
-.strength-parent,
-.relief-parent {
+.strength-parent, .relief-parent {
   display: flex;
   width: 100%;
   margin: 5px 0px;
 }
 
-.strength-parent>*,
-.relief-parent>* {
+.strength-parent > *, .relief-parent > * {
   width: 50%;
   margin: auto 3px;
 }
@@ -37,7 +35,7 @@ label {
   flex-wrap: wrap;
 }
 
-.dimensions-parent>* {
+.dimensions-parent > * {
   padding-left: 0px;
 }
 
@@ -54,7 +52,7 @@ label {
   margin: 0px;
 }
 
-.syd-grid-header>* {
+.syd-grid-header > * {
   flex-grow: 1
 }
 
@@ -66,7 +64,7 @@ label {
   text-align: center;
 }
 
-.download-icon>a:hover {
+.download-icon > a:hover {
   text-decoration: none;
 }
 
@@ -79,7 +77,7 @@ label {
   color: #666666;
 }
 
-.cove-lighting>div {
+.cove-lighting > div {
   padding: 0px;
 }
 
@@ -105,7 +103,6 @@ label {
   justify-content: space-between;
   width: 100%;
 }
-
 /*
 .pattern-relief-radio-button {
 
