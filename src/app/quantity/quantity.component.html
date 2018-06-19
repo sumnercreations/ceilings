@@ -119,7 +119,7 @@
     </div>
   </div>
   <div class="col-sm-3 right-column">
-    <div class="col-sm-12 no-padding sq-footage">
+    <div class="col-sm-12 no-padding sq-footage" *ngIf="feature.units === 'inches'">
       <h3>Estimator</h3>
       <p class="">Enter square footage to calculate how many tiles are needed.</p>
       <div class="sqFt-row">
@@ -134,12 +134,28 @@
           <strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.</p>
       </div>
     </div>
+    <div class="col-sm-12 no-padding sq-footage" *ngIf="feature.units === 'centimeters'">
+      <h3>Estimator</h3>
+      <p>Enter square meters to calculate how many tiles are needed.</p>
+      <div class="sqFt-row">
+        <span class="sqFt-label">Sq m:</span>
+        <input [(ngModel)]="sqMeters" (keyup)="calcSqMeters()" placeholder="Sq Meters" type="number">
+      </div>
+      <div *ngIf="!!sqMeters" class="sq-footage-results">
+        <p>
+          <strong>{{tilesNeeded}}</strong> {{clarioGrids.selectedTileSize['24']}} tiles are required to cover
+          <strong>{{sqMeters}}</strong> square meters.</p>
+        <p>
+          <strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.</p>
+      </div>
+    </div>
     <div class="filler"></div>
     <div class="col-sm-12 no-padding">
       <hr>
       <h3>Quantities</h3>
       <p class="">Tiles Used/Receiving: {{feature.qtyTilesUsed}}/{{feature.qtyTilesReceiving}}</p>
-      <p class="">SqFt. Used/Receiving: {{qtySrv.sqFtUsed}}/{{qtySrv.sqFtReceiving}}</p>
+      <p *ngIf="feature.units === 'inches'">SqFt. Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</p>
+      <p *ngIf="feature.units === 'centimeters'">SqM Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</p>
     </div>
   </div>
 </div>

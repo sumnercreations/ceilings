@@ -13,9 +13,8 @@ export class QuantityService {
   qtyTilesArray = <TileObj[]>[];
   estimatedPrice = 0;
   tilesSelected = 0;
-  sqFtUsed = 0;
-  sqFtReceiving = 0;
-  sqFtPerTile: number;
+  sqAreaUsed = 0;
+  sqAreaReceiving = 0;
   order = new MatTableDataSource();
   rowIndexNum = 1;
 
@@ -37,7 +36,7 @@ export class QuantityService {
     this.feature.tile_image_type = newRow.tile_image_type === '48' ? 48 : 24;
     // newRow.tile = this.feature.feature_type === 'clario' ? this.clarioGrids.selectedTileSize.tile_size : newRow.tile_image_type;
     newRow.total = this.feature.estimated_amount;
-    newRow.tileSqFt = this.getTileSqFt(newRow.tile_image_type || newRow.tile_size);
+    newRow.tileSqArea = this.getTileSqArea(newRow.tile);
     newRow.id = this.rowIndexNum++;
     newRow.material_size = typeof newRow.tile === 'string' ? newRow.tile : newRow.tile.tile;
     return newRow;
@@ -92,7 +91,7 @@ export class QuantityService {
     this.getRowEstimate(row); // sets feature.estimated_amount
     const editRow = row[Object.keys(row)[0]];
     editRow.total = this.feature.estimated_amount;
-    editRow.tileSqFt = this.getTileSqFt(editRow.tile_image_type || editRow.tile_size);
+    editRow.tileSqArea = this.getTileSqArea(editRow.tile);
     editRow.id = this.rowIndexNum++;
     editRow.material_size = typeof editRow.tile === 'string' ? editRow.tile : editRow.tile.tile;
     this.order.data[index] = editRow;
@@ -120,21 +119,26 @@ export class QuantityService {
     let estTotal = 0;
     let tilesUsed = 0;
     let tilesReceiving = 0;
-    let sqFtUsed = 0;
-    let sqFtReceiving = 0;
+    let sqAreaUsed = 0;
+    let sqAreaReceiving = 0;
     summary.map((row: any) => {
       estTotal += row.total;
       tilesUsed += row.used;
       tilesReceiving += row.purchased;
-      sqFtUsed += row.used * row.tileSqFt;
-      sqFtReceiving += row.purchased * row.tileSqFt;
+      sqAreaUsed += row.used * row.tileSqArea;
+      sqAreaReceiving += row.purchased * row.tileSqArea;
     });
     this.estimatedPrice = estTotal;
     this.feature.qtyTilesReceiving = tilesReceiving;
     this.feature.qtyTilesUsed = tilesUsed;
-    this.sqFtUsed = sqFtUsed;
-    this.sqFtReceiving = sqFtReceiving;
-    this.tilesSelected = sqFtUsed / 4 || null;
+    this.sqAreaUsed = Math.round(sqAreaUsed * 100) / 100;
+    this.sqAreaReceiving = Math.round(sqAreaReceiving * 100) / 100;
+    this.tilesSelected = sqAreaUsed / 4 || null;
+    if (this.feature.feature_type === 'clario' && !!this.clarioGrids.selectedTileSize) {
+      const tileForArea = this.clarioGrids.selectedTileSize.tile_size / 2;
+      const tileArea = this.getTileSqArea(tileForArea.toString());
+      this.tilesSelected = sqAreaUsed / tileArea;
+    }
     this.updateTilesArr();
   }
 
@@ -164,8 +168,23 @@ export class QuantityService {
     this.feature.tiles = tilesArr;
   }
 
-  getTileSqFt(tile) {
-    return tile === '48' ? 8 : 4;
+  getTileSqArea(tile) {
+    switch (tile) {
+      case '24':
+        return 4;
+      case '48':
+        return 8;
+      case '600':
+        return 0.36;
+      case '1200':
+        return 0.36 * 2;
+      case '625':
+        return 0.390625;
+      case '1250':
+        return 0.390625 * 2;
+      default:
+        return 4;
+    }
   }
 }
 

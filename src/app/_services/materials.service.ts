@@ -392,9 +392,9 @@ export class MaterialsService {
     hush: {
       0: {
         image: '',
-        tile: '24',
-        tile_size: '24',
-        name: '24x24'
+        tile: '00',
+        tile_size: '00',
+        name: '00'
       }
     }
   };

@@ -40,6 +40,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   quoteDialogRef: MatDialogRef<any>;
   clarioGridDialogRef: MatDialogRef<any>;
   sqFootage: number;
+  sqMeters: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
 
@@ -72,7 +73,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       if (params['type'] === 'hush') {
         this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity'));
       }
-      this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
+      this.qtySrv.feature_type = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();
       this.order = this.qtySrv.order;
@@ -108,6 +109,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.goToOptions();
         }, 500);
+      }
+
+      if (this.feature.feature_type === 'hush') {
+        this.feature.updateSelectedTile(this.feature.tilesArray.hush[0]);
       }
 
       this.clarioGrids.onTileSizeChange.takeUntil(this.ngUnsubscribe).subscribe(result => {
@@ -238,6 +243,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
   calcSqFootage() {
     this.tilesNeeded = Math.ceil(this.sqFootage / 4);
+  }
+
+  calcSqMeters() {
+    if (this.feature.feature_type === 'clario') {
+      if (this.clarioGrids.selectedTileSize.tile_size.type === 'meters') {
+        // one 600x600mm tile is 0.36 Sq m
+        this.tilesNeeded = Math.ceil(this.sqMeters / 0.36);
+      }
+      if (this.clarioGrids.selectedTileSize.tile_size.type === 'german') {
+        // one 625x625mm tile is 0.390625 Sq m
+        this.tilesNeeded = Math.ceil(this.sqMeters / 0.390625);
+      }
+    }
+    // one 24x24in tile is 0.371612 Sq m
+    this.tilesNeeded = Math.ceil(this.sqMeters / 0.371612);
   }
 
   public saveQuantity() {
