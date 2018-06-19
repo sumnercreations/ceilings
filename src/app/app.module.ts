@@ -44,7 +44,7 @@ import { VisualizationComponent } from './visualization/visualization.component'
 import { TileUsageComponent } from './tile-usage/tile-usage.component';
 import { QuoteDialogComponent } from './quote-dialog/quote-dialog.component';
 import { DetailsComponent } from './details/details.component';
-import { VeloGridComponent } from './velo-grid/velo-grid.component';
+import { VeloGridComponent } from './canvas-grids/velo-grid/velo-grid.component';
 import { VeloTileUsageComponent } from './velo-tile-usage/velo-tile-usage.component';
 import { HushOptionsComponent } from './options/hush-options/hush-options.component';
 import { VeloOptionsComponent } from './options/velo-options/velo-options.component';
@@ -59,6 +59,7 @@ import { AddQuantityComponent } from './quantity/add-quantity/add-quantity.compo
 import { RemoveQuantityComponent } from './quantity/remove-quantity/remove-quantity.component';
 import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
 import { QuantityOptionsComponent } from './quantity/quantity-options/quantity-options.component';
+import { CanvasGridsComponent } from './canvas-grids/canvas-grids.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -108,7 +109,8 @@ import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
     RemoveQuantityComponent,
     QuantityDetailsComponent,
     QuantityOptionsComponent,
-    ShortendUnitsPipe
+    ShortendUnitsPipe,
+    CanvasGridsComponent
   ],
   imports: [
     BrowserModule,

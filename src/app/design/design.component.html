@@ -78,8 +78,8 @@
           </div>
           <div class="row">
             <div class="col-sm-12">
-              <app-grid *ngIf="feature.feature_type!='velo'"></app-grid>
-              <app-velo-grid *ngIf="feature.feature_type=='velo'" class="velo-grid-container"></app-velo-grid>
+              <app-grid *ngIf="!useCanvasGrid"></app-grid>
+              <app-canvas-grids *ngIf="useCanvasGrid" class="canvas-grid-container"></app-canvas-grids>
             </div>
           </div>
         </div>

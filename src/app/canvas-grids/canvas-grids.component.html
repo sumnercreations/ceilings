@@ -63,4 +63,5 @@
 </div>
 <div class="guide horizontal" [style.top.px]="guide.top"></div>
 <div class="guide vertical" [style.left.px]="guide.left"></div>
-<canvas #veloCanvas (click)="gridClick($event)" (mousemove)="moveGuide($event)"></canvas>
+
+<app-velo-grid *ngIf="feature.feature_type=='velo'"></app-velo-grid>

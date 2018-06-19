@@ -1,35 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DebugService } from './../_services/debug.service';
-import { Feature } from '../feature';
-import { AlertService } from '../_services/alert.service';
+import { CanvasGridsComponent } from '../canvas-grids.component';
 import * as pip from 'point-in-polygon';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-velo-grid',
   templateUrl: './velo-grid.component.html',
-  styleUrls: ['./velo-grid.component.css']
+  styleUrls: ['../canvas-grids.component.css', './velo-grid.component.css']
 })
-export class VeloGridComponent implements OnInit {
-  context: CanvasRenderingContext2D;
-  strokeStyle = '#cdcdcd';
-  fillStyle = '#ffffff';
-  canvasWidth = 820;
-  canvasHeight = 500;
-  newDesign = true;
-  guide: any = {
-    top: this.sanitizer.bypassSecurityTrustStyle('10'),
-    left: this.sanitizer.bypassSecurityTrustStyle('10')
-  };
-
+export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
   @ViewChild('veloCanvas') canvas;
-
-  constructor(
-    private debug: DebugService,
-    private alert: AlertService,
-    private sanitizer: DomSanitizer,
-    public feature: Feature
-  ) {}
 
   ngOnInit() {
     // subscribe to the buildVeloGrid event
@@ -132,16 +111,6 @@ export class VeloGridComponent implements OnInit {
         this.feature.updateEstimatedAmount();
       }
     }
-  }
-
-  moveGuide(event: any) {
-    const x = event.offsetX;
-    const y = event.offsetY;
-
-    this.guide = {
-      top: this.sanitizer.bypassSecurityTrustStyle(y + 10),
-      left: this.sanitizer.bypassSecurityTrustStyle(x + 10)
-    };
   }
 
   private createPentagonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {

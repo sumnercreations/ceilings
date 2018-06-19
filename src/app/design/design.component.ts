@@ -45,6 +45,8 @@ export class DesignComponent implements OnInit, OnDestroy {
   materials: any;
   tryingRequestQuote = false;
   canQtyOrder = false;
+  canvasGridFeatures = ['velo', 'profile'];
+  useCanvasGrid = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -78,6 +80,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.setSeeyondFeature(params);
         return;
       }
+      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
       // if one of the params are an integer we need to load the design
       const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!designId) {
