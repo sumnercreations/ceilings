@@ -55,7 +55,10 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-3 full-height">
+    <div class="row materials">
+
+      <!-- </div> -->
+      <!-- <div class="col-sm-3 full-height">
       <p class="md row">Pattern</p>
       <div class="row tiles align-patterns">
         <div *ngFor="let pattern of seeyond.patterns | keys" (click)="updateSelectedTessellation(pattern)" class="pattern-container tooltip-host">
@@ -71,14 +74,39 @@
             <option *ngFor="let strength of strengths">{{strength}}</option>
           </select>
         </div>
-      </div>
-      <div class="row materials">
+      </div> -->
+      <div class="col-sm-3 full-height">
+        <p class="md row">Pattern</p>
+        <div class="row tiles align-patterns">
+          <div *ngFor="let pattern of seeyond.patterns | keys" (click)="updateSelectedTessellation(pattern)" class="pattern-container tooltip-host">
+            <div class="pattern" [class.selected]="seeyond.tessellationStr == pattern">
+              <img src="/assets/images/patterns/{{pattern}}.png" alt="{{pattern | capitalize}}" class="img-responsive">
+            </div>
+            <p class="text-center xs">{{pattern | capitalize}}</p>
+          </div>
+          <div class="strength-parent design-column-padding-adjust">
+            <span>Pattern Strength</span>
+            <select name="pattern-strength" id="pattern-strength" [value]="seeyond.pattern_strength" (change)="updatePatternStrength($event.target.value)"
+              [disabled]="this.seeyond.quoted" class="form-control">
+              <option *ngFor="let strength of strengths">{{strength}}</option>
+            </select>
+          </div>
+          <div class="relief-parent design-column-padding-adjust" *ngIf="seeyond.seeyond_feature_type ==='linear-partition' || seeyond.seeyond_feature_type ==='curved-partition'">
+            <span>Pattern Location</span>
+            <select name="pattern-relief" id="pattern-relief" [(ngModel)]="patternRelief" (change)="updatePatternRelief()" [disabled]="this.seeyond.quoted"
+              class="form-control">
+              <option *ngFor="let relief of patternReliefOptions" value="{{relief.value}}">{{relief.name}}</option>
+            </select>
+          </div>
+        </div>
         <p class="md">Colors</p>
-        <div *ngFor="let material of seeyondMaterials | keys" matTooltip="{{material.material | capitalize}}" [matTooltipPosition]="position"
-          (click)="updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
-          <ng-container *ngIf="material.status === 'active'">
-            <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="seeyond.material==material.material">
-          </ng-container>
+        <div class="row tiles align-patterns">
+          <div *ngFor="let material of seeyondMaterials | keys" matTooltip="{{material.material | capitalize}}" [matTooltipPosition]="position"
+            (click)="updateSelectedMaterial(material)" class="col-sm-2 material tooltip-host">
+            <ng-container *ngIf="material.status === 'active'">
+              <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="seeyond.material==material.material">
+            </ng-container>
+          </div>
         </div>
       </div>
       <div class="row cove-lighting" *ngIf="((seeyond.seeyond_feature_type === 'wall-to-ceiling') || (seeyond.seeyond_feature_type === 'ceiling'))">

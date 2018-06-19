@@ -19,13 +19,15 @@ label {
   cursor: pointer;
 }
 
-.strength-parent {
+.strength-parent,
+.relief-parent {
   display: flex;
   width: 100%;
   margin: 5px 0px;
 }
 
-.strength-parent>* {
+.strength-parent>*,
+.relief-parent>* {
   width: 50%;
   margin: auto 3px;
 }
@@ -96,3 +98,15 @@ label {
   cursor: pointer;
   width: auto;
 }
+
+.pattern-relief-radio-group {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/*
+.pattern-relief-radio-button {
+
+} */

@@ -1,6 +1,6 @@
 {
   "name": "ceilings",
-  "version": "0.0.77",
+  "version": "0.0.78",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -33,7 +33,7 @@
     "jszip": "^3.1.4",
     "point-in-polygon": "^1.0.1",
     "rxjs": "^6.2.1",
-    "syd-tessellation": "0.0.66",
+    "syd-tessellation": "0.0.69",
     "syd-tiling": "0.0.15",
     "syd-visualization": "0.0.85",
     "xml-writer": "1.7.0",

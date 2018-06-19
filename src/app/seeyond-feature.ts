@@ -30,6 +30,8 @@ export class SeeyondFeature extends Feature {
   public boxes: number;
   public sheets: number;
   public cove_lighting = false;
+  public front_relief = true;
+  public back_relief = false;
   public random_seed: number;
   public boxsize = 16; // baked in number right now.
   public prices: any;
@@ -51,15 +53,33 @@ export class SeeyondFeature extends Feature {
   updateSeeyondFeature(seeyond_feature_type?: string) {
     if (seeyond_feature_type) {
       this.debug.log('seeyond', `updateFeature: ${this.seeyond_feature_type}`);
+      // default relief to false
+      this.front_relief = this.back_relief = false;
       switch (seeyond_feature_type) {
-        case 'linear-partition': this.seeyond_feature_index = 0; break;
-        case 'curved-partition': this.seeyond_feature_index = 1; break;
-        case 'wall': this.seeyond_feature_index = 2; break;
-        case 'wall-to-ceiling': this.seeyond_feature_index = 3; break;
-        case 'ceiling': this.seeyond_feature_index = 4; break;
+        case 'linear-partition':
+          this.seeyond_feature_index = 0;
+          this.front_relief = this.back_relief = true;
+        break;
+        case 'curved-partition':
+          this.seeyond_feature_index = 1;
+          this.front_relief = this.back_relief = true;
+        break;
+        case 'wall':
+          this.seeyond_feature_index = 2;
+          this.front_relief = true;
+        break;
+        case 'wall-to-ceiling':
+          this.seeyond_feature_index = 3;
+          this.front_relief = true;
+        break;
+        case 'ceiling':
+          this.seeyond_feature_index = 4;
+          this.front_relief = true;
+        break;
         default: {
           this.seeyond_feature_index = 2;
           this.seeyond_feature_type = 'wall';
+          this.front_relief = true;
         }; break;
       }
       this.seeyond_feature_type = seeyond_feature_type;
@@ -80,6 +100,9 @@ export class SeeyondFeature extends Feature {
       this.tessellationStr = 'court';
       this.material = 'zinc';
       this.sheet_part_id = '0-51-925';
+
+      this.debug.log('seeyond-feature', this);
+
       this.setMaxMinDimensions();
 
       this.reloadVisualization();
@@ -113,6 +136,8 @@ export class SeeyondFeature extends Feature {
     this.sheets = design.sheets;
     this.xml = design.xml;
     this.cove_lighting = design.cove_lighting;
+    this.front_relief = design.front_relief;
+    this.back_relief = design.back_relief;
     this.random_seed = design.random_seed;
     this.services_amount = design.services_amount;
     this.estimated_amount = design.estimated_amount;
@@ -148,6 +173,8 @@ export class SeeyondFeature extends Feature {
     this.boxes = undefined;
     this.sheets = undefined;
     this.cove_lighting = false;
+    this.front_relief = true;
+    this.back_relief = false;
     this.random_seed = undefined;
     this.prices = undefined;
     this.hardware = undefined;
@@ -178,6 +205,7 @@ export class SeeyondFeature extends Feature {
     // }
 
     const jsonProperties = this.getJsonProperties();
+    this.debug.log('seeyond-feature', jsonProperties);
 
     this.syd_t.QT.SetUserDataPropertiesJSONString(JSON.stringify(jsonProperties));
     this.syd_t.QT.UpdateFeature();
@@ -787,7 +815,11 @@ export class SeeyondFeature extends Feature {
         // in degrees 0-360
         'Angle':  this.angle,
         // in inches
-        'Ceiling_Length': convertedCeilingLength
+        'Ceiling_Length': convertedCeilingLength,
+        // boolean
+        'FrontRelief': this.front_relief,
+        // boolean
+        'BackRelief': this.back_relief
       }
     }
   }
