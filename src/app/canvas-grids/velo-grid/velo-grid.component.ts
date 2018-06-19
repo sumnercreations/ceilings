@@ -15,11 +15,11 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
     this.debug.log('velo-grid', 'setting veloGrid Subscription');
     this.feature.onBuildVeloGrid.subscribe(result => {
       this.debug.log('velo-grid-component', 'building the velo grid');
-      this.renderGrid();
+      this.renderVeloGrid();
     });
   }
 
-  renderGrid() {
+  renderVeloGrid() {
     this.debug.log('velo-grid-component', 'rendering the velo grid');
     const canvas = this.canvas.nativeElement;
     canvas.width = this.canvasWidth;
@@ -47,7 +47,7 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
     }
   }
 
-  gridClick(event: any) {
+  veloGridClick(event: any) {
     if (this.feature.quoted) {
       this.alert.error('This design has been quoted.  To make changes you must first save it as a new design.');
       return;
@@ -106,7 +106,7 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
         }
         this.debug.log('velo-grid', this.feature.gridData[el]);
         // render the canvas again
-        this.renderGrid();
+        this.renderVeloGrid();
         // update the estimated amount
         this.feature.updateEstimatedAmount();
       }
@@ -137,28 +137,7 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
     // pentagon points
     const xcoords = [0, -23.9, -15.95, 15.95, 23.9];
     const ycoords = [15.94, 7.96, -15.94, -15.94, 7.96];
-    const tilesOutsideBoundary = [
-      1,
-      2,
-      69,
-      70,
-      73,
-      74,
-      145,
-      146,
-      213,
-      141,
-      142,
-      214,
-      217,
-      218,
-      285,
-      286,
-      289,
-      290,
-      357,
-      358
-    ];
+    const tilesOutsideBoundary = [1, 2, 69, 70, 73, 74, 145, 146, 213, 141, 142, 214, 217, 218, 285, 286, 289, 290, 357, 358];
 
     // set the grid section information
     // add x,y to all the pentagon points
@@ -234,18 +213,6 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
     }
     // restore the context so that we can draw the next pentagon.
     ctx.restore();
-  }
-
-  private toRadians(angle) {
-    return angle * (Math.PI / 180);
-  }
-
-  private toDegrees(radians) {
-    return radians * (180 / Math.PI);
-  }
-
-  private isOdd(column: number) {
-    return column % 2;
   }
 
   private tileAbbreviation(tile) {
@@ -397,9 +364,9 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
   getRoomGuideWidth() {
     let guideWidth: number;
     if (this.feature.units === 'inches') {
-      guideWidth = this.feature.width / 12 / 2 * 48;
+      guideWidth = (this.feature.width / 12 / 2) * 48;
     } else {
-      guideWidth = this.feature.convertCMtoIN(this.feature.width) / 12 / 2 * 48;
+      guideWidth = (this.feature.convertCMtoIN(this.feature.width) / 12 / 2) * 48;
     }
     return guideWidth;
   }
@@ -407,9 +374,9 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
   getRoomGuideHeight() {
     let guideHeight: number;
     if (this.feature.units === 'inches') {
-      guideHeight = this.feature.length / 12 / 2 * 48;
+      guideHeight = (this.feature.length / 12 / 2) * 48;
     } else {
-      guideHeight = this.feature.convertCMtoIN(this.feature.length) / 12 / 2 * 48;
+      guideHeight = (this.feature.convertCMtoIN(this.feature.length) / 12 / 2) * 48;
     }
 
     return guideHeight;

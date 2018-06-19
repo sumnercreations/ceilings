@@ -31,21 +31,21 @@ export class CanvasGridsComponent implements OnInit {
     public sanitizer: DomSanitizer,
     public feature: Feature,
     public route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      if(params['type']) {
+      if (params['type']) {
         this.gridType = params['type'];
         if (this.gridType === 'profile') {
           this.gridType = params['param2'];
         }
       }
-    })
+    });
     console.log('gridType:', this.gridType);
   }
 
-  moveGuide(event: any) {
+  public moveGuide(event: any) {
     const x = event.offsetX;
     const y = event.offsetY;
 
@@ -55,4 +55,15 @@ export class CanvasGridsComponent implements OnInit {
     };
   }
 
+  public toRadians(angle) {
+    return angle * (Math.PI / 180);
+  }
+
+  public toDegrees(radians) {
+    return radians * (180 / Math.PI);
+  }
+
+  public isOdd(column: number) {
+    return column % 2;
+  }
 }

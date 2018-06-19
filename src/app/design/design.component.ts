@@ -76,13 +76,17 @@ export class DesignComponent implements OnInit, OnDestroy {
         }
         this.setCanQtyOrder();
       }
+      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
       if (featureType === 'seeyond') {
         this.setSeeyondFeature(params);
         return;
       }
-      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
+      if (featureType === 'profile') {
+        this.setProfileFeature(params);
+        return;
+      }
       // if one of the params are an integer we need to load the design
-      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
+      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10) || parseInt(params['param3'], 10);
       if (!!designId) {
         // if designId is truthy
         this.api.loadDesign(designId).subscribe(
@@ -428,6 +432,43 @@ export class DesignComponent implements OnInit, OnDestroy {
           this.seeyond.updateSeeyondFeature(seeyondFeature);
         }
       });
+    });
+  }
+
+  setProfileFeature(urlParams) {
+    this.api.getPartsSubstitutes().subscribe(partsSubs => {
+      this.materialsService.parts_substitutes = partsSubs;
+      const params = Object.assign({}, urlParams);
+      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10) || parseInt(params['param3'], 10);
+      if (!!designId) {
+        // // load requested id
+        // this.seeyondService.loadFeature(designId).subscribe(design => {
+        //   this.location.go(`seeyond/design/${design.name}/${design.id}`);
+        //   this.seeyond.loadSeeyondDesign(design);
+        // });
+      } else {
+        // set the tile type to swoon if not specified
+        if (params['param1'] === 'tiles' && !params['param2']) {
+          params['param2'] = 'swoon';
+        }
+
+        // // Determine the seeyond feature to load
+        // let seeyondFeature;
+        // const seeyondFeaturesList = this.seeyond.seeyond_features;
+        // Object.keys(seeyondFeaturesList).forEach(key => {
+        //   if (
+        //     Object.keys(params)
+        //       .map(feature => params[feature])
+        //       .indexOf(seeyondFeaturesList[key]['name']) > -1
+        //   ) {
+        //     seeyondFeature = seeyondFeaturesList[key]['name'];
+        //   }
+        // });
+        // this.materials = this.feature.getFeatureMaterials();
+        // this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
+        this.editOptions();
+        // this.seeyond.updateSeeyondFeature(seeyondFeature);
+      }
     });
   }
 }

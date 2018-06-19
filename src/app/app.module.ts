@@ -75,6 +75,7 @@ import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { KeysPipe } from './_pipes/keys.pipe';
 import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
 import { SwoonGridComponent } from './canvas-grids/swoon-grid/swoon-grid.component';
+import { ProfileOptionsComponent } from './options/profile-options/profile-options.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +113,8 @@ import { SwoonGridComponent } from './canvas-grids/swoon-grid/swoon-grid.compone
     QuantityOptionsComponent,
     ShortendUnitsPipe,
     CanvasGridsComponent,
-    SwoonGridComponent
+    SwoonGridComponent,
+    ProfileOptionsComponent
   ],
   imports: [
     BrowserModule,
