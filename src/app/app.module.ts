@@ -74,6 +74,7 @@ import { ClarioGridsService } from './_services/clario-grids.service';
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { KeysPipe } from './_pipes/keys.pipe';
 import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
+import { SwoonGridComponent } from './canvas-grids/swoon-grid/swoon-grid.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
     QuantityDetailsComponent,
     QuantityOptionsComponent,
     ShortendUnitsPipe,
-    CanvasGridsComponent
+    CanvasGridsComponent,
+    SwoonGridComponent
   ],
   imports: [
     BrowserModule,

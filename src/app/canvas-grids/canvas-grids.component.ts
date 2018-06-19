@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+
 import { DebugService } from '../_services/debug.service';
 import { Feature } from '../feature';
 import { AlertService } from '../_services/alert.service';
 import * as pip from 'point-in-polygon';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-canvas-grids',
@@ -21,15 +23,27 @@ export class CanvasGridsComponent implements OnInit {
     top: this.sanitizer.bypassSecurityTrustStyle('10'),
     left: this.sanitizer.bypassSecurityTrustStyle('10')
   };
+  gridType: string;
 
   constructor(
     public debug: DebugService,
     public alert: AlertService,
     public sanitizer: DomSanitizer,
-    public feature: Feature
+    public feature: Feature,
+    public route: ActivatedRoute
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      if(params['type']) {
+        this.gridType = params['type'];
+        if (this.gridType === 'profile') {
+          this.gridType = params['param2'];
+        }
+      }
+    })
+    console.log('gridType:', this.gridType);
+  }
 
   moveGuide(event: any) {
     const x = event.offsetX;
