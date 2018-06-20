@@ -45,6 +45,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   materials: any;
   tryingRequestQuote = false;
   canQtyOrder = false;
+  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush-blocks'];
 
   constructor(
     public route: ActivatedRoute,
@@ -73,6 +74,10 @@ export class DesignComponent implements OnInit, OnDestroy {
           this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
         }
         this.setCanQtyOrder();
+      }
+      if (!this.designFeatures.includes(featureType)) {
+        this.feature.navToLanding();
+        return;
       }
       if (featureType === 'seeyond') {
         this.setSeeyondFeature(params);

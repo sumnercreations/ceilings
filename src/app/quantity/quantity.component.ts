@@ -41,6 +41,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   sqMeters: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
+  quantityFeatures = ['tetria', 'clario', 'hush-blocks'];
 
   // Table Properties
   dataSource: TableDataSource | null;
@@ -70,6 +71,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
       // initial setup
       if (params['type'] === 'hush') {
         this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity'));
+      }
+      if (!this.quantityFeatures.includes(params['type'])) {
+        this.feature.navToLanding();
+        return;
       }
       this.qtySrv.feature_type = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();

@@ -1219,4 +1219,9 @@ export class Feature {
     // return the new object with 'no_color' added to the end of the array
     return newVariaObj;
   }
+
+  navToLanding() {
+    this.location.go('/');
+    window.location.reload();
+  }
 }

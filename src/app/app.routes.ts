@@ -25,7 +25,7 @@ const appRoutes: Routes = [
   { path: 'hush-blocks', redirectTo: '/hush-blocks/design', pathMatch: 'full' },
   { path: 'velo', redirectTo: '/velo/design', pathMatch: 'full' },
   { path: 'landing', redirectTo: '', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 export const appRoutingProviders: any[] = [];
