@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { OptionsComponent } from '../options.component';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-options',
   templateUrl: './profile-options.component.html',
   styleUrls: ['../../options/options.component.css', './profile-options.component.css']
 })
-export class ProfileOptionsComponent extends OptionsComponent {
+export class ProfileOptionsComponent extends OptionsComponent implements OnInit {
+  ngOnInit() {
+    this.profile.$featureTypeChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
+      console.log('onFeatureTypeChange:', res);
+    });
+  }
+
   updateSelectedFeature(feature) {
     console.log('updateSelectedFeature:', feature);
+    this.profile.updateProfileFeature(feature);
     // this.seeyond.updateSeeyondFeature(feature);
   }
 
@@ -27,7 +35,7 @@ export class ProfileOptionsComponent extends OptionsComponent {
 
   startDesigning() {
     console.log('startDesigning');
-    this.seeyond.onDimensionsChange.emit();
-    this.dialogRef.close('start designing');
+    this.profile.buildFeatureGrid();
+    this.dialogRef.close();
   }
 }

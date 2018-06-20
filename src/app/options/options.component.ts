@@ -1,7 +1,8 @@
+import { Subject } from 'rxjs';
 import { ClarioGridsService } from './../_services/clario-grids.service';
 import { MaterialsService } from 'app/_services/materials.service';
 import { SeeyondService } from './../_services/seeyond.service';
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
@@ -9,13 +10,16 @@ import { Feature } from '../feature';
 import { SeeyondFeature } from '../seeyond-feature';
 import { AlertService } from 'app/_services/alert.service';
 import { Location } from '@angular/common';
+import { ProfileFeature } from '../profile-feature';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-options',
   templateUrl: './options.component.html',
   styleUrls: ['./options.component.css']
 })
-export class OptionsComponent implements OnInit, AfterContentInit {
+export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
+  public ngUnsubscribe: Subject<any> = new Subject();
   public title = 'Ceilings Design Tool';
   public modifyToolsArray = ['rotate', 'remove'];
 
@@ -34,7 +38,8 @@ export class OptionsComponent implements OnInit, AfterContentInit {
     public seeyond: SeeyondFeature,
     public location: Location,
     public materials: MaterialsService,
-    public clarioGrids: ClarioGridsService
+    public clarioGrids: ClarioGridsService,
+    public profile: ProfileFeature
   ) {}
 
   ngOnInit() {
@@ -45,6 +50,11 @@ export class OptionsComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     const featureType = this.feature.feature_type;
     this.title = featureType !== 'hush' ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public goToLanding() {

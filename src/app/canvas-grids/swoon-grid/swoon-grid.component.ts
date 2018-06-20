@@ -4,7 +4,7 @@ import { CanvasGridsComponent } from './../canvas-grids.component';
 @Component({
   selector: 'app-swoon-grid',
   templateUrl: './swoon-grid.component.html',
-  styleUrls: ['./swoon-grid.component.css']
+  styleUrls: ['../canvas-grids.component.css', './swoon-grid.component.css']
 })
 export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   rows = 10;
@@ -15,10 +15,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   @ViewChild('swoonCanvas') canvas;
 
   ngOnInit() {
-    // subscribe to the buildVeloGrid event
-    this.debug.log('velo-grid', 'setting veloGrid Subscription');
-    this.feature.onBuildVeloGrid.subscribe(result => {
-      this.debug.log('velo-grid-component', 'building the velo grid');
+    this.profile.$buildSwoonGrid.subscribe(result => {
+      this.debug.log('swoon-grid-component', 'building the swoon grid');
       this.renderSwoonGrid();
     });
   }
@@ -56,7 +54,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     const x = event.offsetX;
     const y = event.offsetY;
     // let foundTile = false;
-    this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
+    this.debug.log('swoon-grid', 'you clicked on x: ' + x + ' and y: ' + y);
   }
 
   // moveGuide(event: any) {
@@ -109,15 +107,11 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   }
 
   private drawDiamond(ctx, x, y, rotateAngle, row, column, index) {
-    // this.debug.log('draw-diamond', '=== column ===');
-    // this.debug.log('draw-diamond', index % this.columns);
-    // this.debug.log('draw-diamond', '=== row ===');
-    // this.debug.log('draw-diamond', Math.floor(index / this.rows));
-    this.debug.log('draw-diamond', x);
-    this.debug.log('draw-diamond', y);
-    this.debug.log('draw-diamond', rotateAngle);
-    this.debug.log('draw-diamond', row);
-    this.debug.log('draw-diamond', column);
+    // this.debug.log('draw-diamond', x);
+    // this.debug.log('draw-diamond', y);
+    // this.debug.log('draw-diamond', rotateAngle);
+    // this.debug.log('draw-diamond', row);
+    // this.debug.log('draw-diamond', column);
 
     // points to create a diamond
     const xcoords = [0, -27, 0, 27];
@@ -129,7 +123,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     for (let i = 0; i < xcoords.length; ++i) {
       diamond[i] = [xcoords[i] + x, ycoords[i] + y];
     }
-    this.debug.log('draw-diamond', diamond);
+    // this.debug.log('draw-diamond', diamond);
 
     if (this.newDesign) {
       this.feature.gridData.push({

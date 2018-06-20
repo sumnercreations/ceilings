@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { DebugService } from '../_services/debug.service';
+import { ProfileFeature } from './../profile-feature';
 import { Feature } from '../feature';
 import { AlertService } from '../_services/alert.service';
 import * as pip from 'point-in-polygon';
@@ -30,7 +31,8 @@ export class CanvasGridsComponent implements OnInit {
     public alert: AlertService,
     public sanitizer: DomSanitizer,
     public feature: Feature,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public profile: ProfileFeature
   ) {}
 
   ngOnInit() {

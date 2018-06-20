@@ -25,6 +25,7 @@ import { Routing } from './app.routes';
 // classes
 import { Feature } from './feature';
 import { SeeyondFeature } from './seeyond-feature';
+import { ProfileFeature } from './profile-feature';
 import { User } from './_models/user';
 import { GridSection } from './_models/grid-section';
 
@@ -137,6 +138,7 @@ import { ProfileOptionsComponent } from './options/profile-options/profile-optio
   providers: [
     Feature,
     SeeyondFeature,
+    ProfileFeature,
     User,
     GridSection,
     DebugService,
