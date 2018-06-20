@@ -62,8 +62,7 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
       this.seeyond.resetSeeyond();
     }
     this.dialogRef.close('cancel');
-    this.location.go('/');
-    window.location.reload();
+    this.feature.navToLanding();
     // this.dialogRef.afterClosed().subscribe(result => {
     //   this.router.navigate(['/']);
     // });

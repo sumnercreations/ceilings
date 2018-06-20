@@ -47,6 +47,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   canQtyOrder = false;
   canvasGridFeatures = ['velo', 'profile'];
   useCanvasGrid = false;
+  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush-blocks'];
 
   constructor(
     public route: ActivatedRoute,
@@ -76,11 +77,15 @@ export class DesignComponent implements OnInit, OnDestroy {
         }
         this.setCanQtyOrder();
       }
-      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
+      if (!this.designFeatures.includes(featureType)) {
+        this.feature.navToLanding();
+        return;
+      }
       if (featureType === 'seeyond') {
         this.setSeeyondFeature(params);
         return;
       }
+      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
       if (featureType === 'profile') {
         this.setProfileFeature(params);
         return;

@@ -33,7 +33,7 @@ const appRoutes: Routes = [
   { path: 'velo', redirectTo: '/velo/design', pathMatch: 'full' },
   { path: 'profile', redirectTo: '/profile/design', pathMatch: 'full' },
   { path: 'landing', redirectTo: '', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 export const appRoutingProviders: any[] = [];
