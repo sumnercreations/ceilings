@@ -37,8 +37,7 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
 
   goToLanding() {
     this.dialogRef.close('cancel');
-    this.location.go('/');
-    window.location.reload();
+    this.feature.navToLanding();
   }
 
   validateOptions() {
