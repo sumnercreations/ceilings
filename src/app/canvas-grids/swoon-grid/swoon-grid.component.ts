@@ -58,7 +58,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   }
 
   // moveGuide(event: any) {
-  //   // this.debug.log('swoon-grid-component', 'move grid');
+  //   this.debug.log('swoon-grid-component', 'move grid');
   // }
 
   // getRoomGuideWidth() {

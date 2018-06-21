@@ -41,7 +41,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   sqMeters: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
-  quantityFeatures = ['tetria', 'clario', 'hush-blocks'];
+  quantityFeatures = ['tetria', 'clario', 'hush-blocks', 'profile'];
 
   // Table Properties
   dataSource: TableDataSource | null;

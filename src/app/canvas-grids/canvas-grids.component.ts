@@ -52,8 +52,8 @@ export class CanvasGridsComponent implements OnInit {
     const y = event.offsetY;
 
     this.guide = {
-      top: this.sanitizer.bypassSecurityTrustStyle(y + 10),
-      left: this.sanitizer.bypassSecurityTrustStyle(x + 10)
+      top: this.sanitizer.bypassSecurityTrustStyle((y + 10).toString()),
+      left: this.sanitizer.bypassSecurityTrustStyle((x + 10).toString())
     };
   }
 

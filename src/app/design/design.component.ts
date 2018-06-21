@@ -47,7 +47,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   canQtyOrder = false;
   canvasGridFeatures = ['velo', 'profile'];
   useCanvasGrid = false;
-  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush-blocks'];
+  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush-blocks', 'profile'];
 
   constructor(
     public route: ActivatedRoute,

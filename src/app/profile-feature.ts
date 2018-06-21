@@ -24,7 +24,7 @@ export class ProfileFeature {
         this.$buildSwoonGrid.emit();
         break;
       default:
-        this.debug.log('profile-feature', `buildFeatureGrid ${feature} not found`);
+        this.debug.log('profile-feature', `buildFeatureGrid ${this.feature_type} not found`);
         break;
     }
   }
