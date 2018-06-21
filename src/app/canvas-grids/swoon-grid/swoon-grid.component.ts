@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CanvasGridsComponent } from './../canvas-grids.component';
+import * as pip from 'point-in-polygon';
 
 @Component({
   selector: 'app-swoon-grid',
@@ -53,42 +54,55 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     this.debug.log('swoon-grid-component', event);
     const x = event.offsetX;
     const y = event.offsetY;
-    // let foundTile = false;
+    let foundTile = false;
     this.debug.log('swoon-grid', 'you clicked on x: ' + x + ' and y: ' + y);
+    for (const el in this.feature.gridData) {
+      if (!foundTile && pip([x, y], this.feature.gridData[el].diamond)) {
+        // removing a tile
+        if (this.feature.selectedTool === 'remove') {
+          // reset the texture for the 3D view.
+          this.feature.gridData[el].texture = '';
+          // reset the tile
+          this.feature.gridData[el].tile = '';
+          // reset material
+          this.feature.gridData[el].material = '';
+          // reset materialType
+          this.feature.gridData[el].materialType = '';
+          // reset hex color value
+          this.feature.gridData[el].hex = '';
+          // reset the diffusion
+          this.feature.gridData[el].diffusion = '';
+          this.debug.log('swoon-grid', this.feature.gridData[el]);
+          // set the tile found true so we don't "find" another one that's close
+          foundTile = true;
+        } else {
+          // set the texture for the 3D view.
+          this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
+          // set the tile
+          this.feature.gridData[el].tile = this.feature.selectedTile.tile;
+          // set material
+          this.feature.gridData[el].material = this.feature.material;
+          // set materialType
+          this.feature.gridData[el].materialType = this.feature.materialType;
+          // set hex color value
+          this.feature.gridData[el].hex = this.feature.materialHex;
+          // // set the diffusion if one is selected and material type is varia
+          // if (this.feature.materialType === 'varia') {
+          //   this.feature.gridData[el].diffusion = this.feature.diffusion;
+          // } else {
+          //   this.feature.gridData[el].diffusion = '';
+          // }
+          // set the tile found true so we don't "find" another one that's close
+          foundTile = true;
+        }
+        this.debug.log('swoon-grid', this.feature.gridData[el]);
+        // // render the canvas again
+        this.renderSwoonGrid();
+        // // update the estimated amount
+        // this.feature.updateEstimatedAmount();
+      }
+    }    
   }
-
-  // moveGuide(event: any) {
-  //   this.debug.log('swoon-grid-component', 'move grid');
-  // }
-
-  // getRoomGuideWidth() {
-  //   let guideWidth: number;
-  //   if (this.feature.units === 'inches') {
-  //     guideWidth = ( this.feature.width / 12 / 2 ) * 48;
-  //   } else {
-  //     guideWidth = ( this.feature.convertCMtoIN(this.feature.width) / 12 / 2 ) * 48;
-  //   }
-  //   return guideWidth;
-  // }
-
-  // getRoomGuideHeight() {
-  //   let guideHeight: number;
-  //   if (this.feature.units === 'inches') {
-  //     guideHeight = ( this.feature.length / 12 / 2 ) * 48;
-  //   } else {
-  //     guideHeight = ( this.feature.convertCMtoIN(this.feature.length) / 12 / 2 ) * 48;
-  //   }
-
-  //   return guideHeight;
-  // }
-
-  // getRoomGuideLeftAdjustment() {
-  //   return ( this.canvasWidth - this.getRoomGuideWidth() ) / 2;
-  // }
-
-  // getRoomGuideTopAdjustment() {
-  //   return ( this.canvasHeight - this.getRoomGuideHeight() ) / 2;
-  // }
 
   private createSwoonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
     this.debug.log('swoon-section', row);
@@ -112,6 +126,10 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     // this.debug.log('draw-diamond', rotateAngle);
     // this.debug.log('draw-diamond', row);
     // this.debug.log('draw-diamond', column);
+
+    if(index === 450) {
+      console.log('index 450');
+    }
 
     // points to create a diamond
     const xcoords = [0, -27, 0, 27];
@@ -159,10 +177,16 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     // set the strokestyle
     ctx.strokeStyle = this.strokeStyle;
 
+    if (!this.feature.gridData[index - 1]) {
+      console.log('found no index:', index - 1);
+    }
+    if (index === 0) {
+      console.log('index is 0');
+    }
     // if the design is not new, then we can set the fill style from the gridData
-    if (!this.newDesign && this.feature.gridData[index].texture !== '') {
+    if (!this.newDesign && !this.feature.gridData[index - 1].texture !== '') {
       // set the fillstyle
-      ctx.fillStyle = this.feature.gridData[index].hex;
+      ctx.fillStyle = this.feature.gridData[index - 1].hex;
       // fill the diamond
       ctx.fill();
       if (this.feature.showGuide) {

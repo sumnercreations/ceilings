@@ -361,32 +361,4 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
     }
   }
 
-  getRoomGuideWidth() {
-    let guideWidth: number;
-    if (this.feature.units === 'inches') {
-      guideWidth = (this.feature.width / 12 / 2) * 48;
-    } else {
-      guideWidth = (this.feature.convertCMtoIN(this.feature.width) / 12 / 2) * 48;
-    }
-    return guideWidth;
-  }
-
-  getRoomGuideHeight() {
-    let guideHeight: number;
-    if (this.feature.units === 'inches') {
-      guideHeight = (this.feature.length / 12 / 2) * 48;
-    } else {
-      guideHeight = (this.feature.convertCMtoIN(this.feature.length) / 12 / 2) * 48;
-    }
-
-    return guideHeight;
-  }
-
-  getRoomGuideLeftAdjustment() {
-    return (this.canvasWidth - this.getRoomGuideWidth()) / 2;
-  }
-
-  getRoomGuideTopAdjustment() {
-    return (this.canvasHeight - this.getRoomGuideHeight()) / 2;
-  }
 }

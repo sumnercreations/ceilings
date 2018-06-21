@@ -456,7 +456,11 @@ export class DesignComponent implements OnInit, OnDestroy {
         if (params['param1'] === 'tiles' && !params['param2']) {
           params['param2'] = 'swoon';
         }
-
+        // TODO this data is just a placeholder for now
+        this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
+        this.feature.material = 'milky-white';
+        this.feature.materialHex = '#dfdee0';
+        this.feature.materialType = 'varia';
         // // Determine the seeyond feature to load
         // let seeyondFeature;
         // const seeyondFeaturesList = this.seeyond.seeyond_features;
