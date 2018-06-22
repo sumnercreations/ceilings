@@ -111,6 +111,7 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
         this.feature.updateEstimatedAmount();
       }
     }
+    console.log('gridData:', this.feature.gridData);
   }
 
   private createPentagonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {

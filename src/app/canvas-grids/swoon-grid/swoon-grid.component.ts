@@ -86,12 +86,12 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
           this.feature.gridData[el].materialType = this.feature.materialType;
           // set hex color value
           this.feature.gridData[el].hex = this.feature.materialHex;
-          // // set the diffusion if one is selected and material type is varia
-          // if (this.feature.materialType === 'varia') {
-          //   this.feature.gridData[el].diffusion = this.feature.diffusion;
-          // } else {
-          //   this.feature.gridData[el].diffusion = '';
-          // }
+          // set the diffusion if one is selected and material type is varia
+          if (this.feature.materialType === 'varia') {
+            this.feature.gridData[el].diffusion = this.feature.diffusion;
+          } else {
+            this.feature.gridData[el].diffusion = '';
+          }
           // set the tile found true so we don't "find" another one that's close
           foundTile = true;
         }
@@ -101,14 +101,15 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
         // // update the estimated amount
         // this.feature.updateEstimatedAmount();
       }
-    }    
+    }
+    // console.log('gridData:', this.feature.gridData)
   }
 
   private createSwoonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
-    this.debug.log('swoon-section', row);
-    this.debug.log('swoon-section', column);
+    // this.debug.log('swoon-section', row);
+    // this.debug.log('swoon-section', column);
     const index = (row * this.columns + column) * 3; // 3 is the number of diamonds needed to make a section
-    this.debug.log('swoon-grid-component', index);
+    // this.debug.log('swoon-grid-component', index);
     if (isOdd) {
       this.drawDiamond(ctx, 56 + adjustmentX, 18 + adjustmentY, 0, row, column, index + 1);
       this.drawDiamond(ctx, 70 + adjustmentX, 41 + adjustmentY, -Math.PI / 3, row, column, index + 2);
@@ -155,7 +156,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
         rotation: this.toDegrees(rotateAngle),
         material: '',
         tile: '',
-        diffusion: ''
+        diffusion: '',
+        hex: ''
       });
     }
 
@@ -177,14 +179,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     // set the strokestyle
     ctx.strokeStyle = this.strokeStyle;
 
-    if (!this.feature.gridData[index - 1]) {
-      console.log('found no index:', index - 1);
-    }
-    if (index === 0) {
-      console.log('index is 0');
-    }
     // if the design is not new, then we can set the fill style from the gridData
-    if (!this.newDesign && !this.feature.gridData[index - 1].texture !== '') {
+    if (!this.newDesign && this.feature.gridData[index - 1].texture !== '') {
       // set the fillstyle
       ctx.fillStyle = this.feature.gridData[index - 1].hex;
       // fill the diamond
