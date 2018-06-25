@@ -18,7 +18,9 @@ export class ProfileOptionsComponent extends OptionsComponent implements OnInit 
   updateSelectedFeature(feature) {
     console.log('updateSelectedFeature:', feature);
     if(this.profile.tilesFeatures.includes(feature)) {
-      this.location.go(`${this.router.url}/tiles/${feature}`);
+      if(this.router.url.indexOf('tiles') < 0) {
+        this.location.go(`${this.router.url}/tiles/${feature}`);
+      }
     }
     this.profile.updateProfileFeature(feature);
 
