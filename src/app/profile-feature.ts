@@ -9,6 +9,8 @@ export class ProfileFeature {
   feature_type = 'swoon';
   $featureTypeChange = new EventEmitter();
   $buildSwoonGrid = new EventEmitter();
+  tilesFeatures = ['verve', 'subway', 'glide', 'quarry', 'swoon', 'flank'];
+  
 
   constructor(private debug: DebugService) {}
 

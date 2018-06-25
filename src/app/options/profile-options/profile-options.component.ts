@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['../../options/options.component.css', './profile-options.component.css']
 })
 export class ProfileOptionsComponent extends OptionsComponent implements OnInit {
+
   ngOnInit() {
     this.profile.$featureTypeChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
       console.log('onFeatureTypeChange:', res);
@@ -16,7 +17,11 @@ export class ProfileOptionsComponent extends OptionsComponent implements OnInit 
 
   updateSelectedFeature(feature) {
     console.log('updateSelectedFeature:', feature);
+    if(this.profile.tilesFeatures.includes(feature)) {
+      this.location.go(`${this.router.url}/tiles/${feature}`);
+    }
     this.profile.updateProfileFeature(feature);
+
     // this.seeyond.updateSeeyondFeature(feature);
   }
 
