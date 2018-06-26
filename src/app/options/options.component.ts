@@ -6,11 +6,11 @@ import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
-import { Feature } from '../feature';
-import { SeeyondFeature } from '../seeyond-feature';
+import { Feature } from '../_features/feature';
+import { SeeyondFeature } from '../_features/seeyond-feature';
 import { AlertService } from 'app/_services/alert.service';
 import { Location } from '@angular/common';
-import { ProfileFeature } from '../profile-feature';
+import { ProfileFeature } from '../_features/profile-feature';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -29,8 +29,8 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   public params: any;
 
   constructor(
-    private router: Router,
-    private debug: DebugService,
+    public router: Router,
+    public debug: DebugService,
     public feature: Feature,
     public dialogRef: MatDialogRef<OptionsComponent>,
     public alert: AlertService,

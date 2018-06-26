@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DebugService } from './../_services/debug.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 
 @Component({
   selector: 'app-tile-usage',

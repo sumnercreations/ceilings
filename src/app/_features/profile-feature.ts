@@ -1,5 +1,5 @@
 import { DebugService } from '../_services/debug.service';
-import { Feature } from './_features/feature';
+import { Feature } from './feature';
 import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable({

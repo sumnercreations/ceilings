@@ -1,7 +1,7 @@
 import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { Location } from '@angular/common';
 import { MatDialogRef } from '@angular/material';
-import { Feature } from './../../feature';
+import { Feature } from './../../_features/feature';
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 
 @Component({

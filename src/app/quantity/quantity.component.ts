@@ -13,7 +13,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlertService } from '../_services/alert.service';
 import { ApiService } from './../_services/api.service';
 import { DebugService } from './../_services/debug.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { Location } from '@angular/common';
 import { QuantityService } from './quantity.service';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';

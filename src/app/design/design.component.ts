@@ -1,6 +1,6 @@
 import { MaterialsService } from './../_services/materials.service';
 import { SeeyondService } from './../_services/seeyond.service';
-import { SeeyondFeature } from './../seeyond-feature';
+import { SeeyondFeature } from '../_features/seeyond-feature';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
@@ -15,7 +15,7 @@ import { VisualizationComponent } from '../visualization/visualization.component
 import { TileUsageComponent } from '../tile-usage/tile-usage.component';
 import { VeloTileUsageComponent } from '../velo-tile-usage/velo-tile-usage.component';
 import { QuoteDialogComponent } from '../quote-dialog/quote-dialog.component';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { User } from '../_models/user';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

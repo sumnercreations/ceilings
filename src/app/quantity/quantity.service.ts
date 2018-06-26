@@ -2,7 +2,7 @@ import { ClarioGridsService } from './../_services/clario-grids.service';
 import { TileObj } from './quantity.service';
 import { MatTableDataSource } from '@angular/material';
 import { TileRow } from './quantity.component';
-import { Feature } from './../feature';
+import { Feature } from './../_features/feature';
 import { DebugService } from './../_services/debug.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';

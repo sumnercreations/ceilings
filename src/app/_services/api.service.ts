@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpResponse, HttpErrorResponse }
 
 import { environment } from '../../environments/environment';
 import { AlertService } from './alert.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { User } from '../_models/user';
 import { DebugService } from './../_services/debug.service';
 

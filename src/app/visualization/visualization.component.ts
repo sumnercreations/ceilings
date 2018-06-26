@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DebugService } from './../_services/debug.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import * as visualization from 'syd-visualization';
 import * as tiling from 'syd-tiling';
 import * as jszip from 'jszip';

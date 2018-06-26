@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SeeyondFeature } from 'app/seeyond-feature';
+import { SeeyondFeature } from 'app/_features/seeyond-feature';
 
 @Component({
   selector: 'app-seeyond-visualization',

@@ -23,9 +23,9 @@ import {
 import { Routing } from './app.routes';
 
 // classes
-import { Feature } from './feature';
-import { SeeyondFeature } from './seeyond-feature';
-import { ProfileFeature } from './profile-feature';
+import { Feature } from './_features/feature';
+import { SeeyondFeature } from './_features/seeyond-feature';
+import { ProfileFeature } from './_features/profile-feature';
 import { User } from './_models/user';
 import { GridSection } from './_models/grid-section';
 

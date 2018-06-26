@@ -3,7 +3,7 @@ import { DebugService } from './../../_services/debug.service';
 import { QuantityService } from './../../quantity/quantity.service';
 import { BehaviorSubject } from 'rxjs';
 import { TableDataSource, Order } from './../../quantity/quantity.component';
-import { Feature } from './../../feature';
+import { Feature } from './../../_features/feature';
 import { AlertService } from './../../_services/alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';

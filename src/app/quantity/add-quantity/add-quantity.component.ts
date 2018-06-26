@@ -1,6 +1,6 @@
 import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { DebugService } from './../../_services/debug.service';
-import { Feature } from './../../feature';
+import { Feature } from './../../_features/feature';
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
 import { QuantityService } from './../quantity.service';
 import { MaterialsService } from 'app/_services/materials.service';

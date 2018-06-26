@@ -6,9 +6,9 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { AlertService } from './../_services/alert.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { User } from '../_models/user';
-import { SeeyondFeature } from '../seeyond-feature';
+import { SeeyondFeature } from '../_features/seeyond-feature';
 
 @Component({
   selector: 'app-quote-dialog',
@@ -69,9 +69,7 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
-        const url = this.router
-          .createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`])
-          .toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
         if (url !== this.router.url) {
           this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
         }
@@ -107,9 +105,7 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // redirect to the new URL if we aren't already there.
-        const url = this.router
-          .createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`])
-          .toString();
+        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
         if (url !== this.router.url) {
           this.router.navigate([`seeyond/design/${feature.seeyond.name}/${feature.seeyond.id}`]);
         }
