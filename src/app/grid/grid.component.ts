@@ -90,19 +90,7 @@ export class GridComponent implements OnInit, OnDestroy {
               const needs24Tile = this.feature.getColumns() % 2 !== 0;
               const smallTileLocation = needs24Tile && this.isPerfectGridWidth() ? this.feature.getColumns() - 1 : this.feature.getColumns() - 2;
               if (needs24Tile && c === smallTileLocation) {
-                const currentTile = JSON.stringify(this.feature.selectedTile);
-                const storedCurrentTile = JSON.parse(currentTile);
-                const tileOptions = this.feature.tilesArray.clario;
-                for (const tile in tileOptions) {
-                  if (tileOptions.hasOwnProperty(tile)) {
-                    if (tileOptions[tile].tile_size_type === storedCurrentTile.tile_size_type && tileOptions[tile].tile_size === '24') {
-                      this.feature.updateSelectedTile(tileOptions[tile]);
-                      this.setFlag(r, c);
-                      this.removeFlag(r, c);
-                      this.feature.updateSelectedTile(storedCurrentTile);
-                    }
-                  }
-                }
+                this.use24TileInstead(r, c);
               }
               if (!this.feature.gridData[r][c].backgroundImage) {
                 this.setFlag(r, c);
@@ -296,7 +284,9 @@ export class GridComponent implements OnInit, OnDestroy {
                 this.debug.log('grid-component', 'is perfect grid width: ' + this.isPerfectGridWidth());
                 this.debug.log('grid-component', 'is perfect grid height: ' + this.isPerfectGridHeight());
                 this.debug.log('grid-component', 'is column odd: ' + this.isOdd(column));
-                if (this.isLastFullColumn(column)) {
+                if (this.isLastFullColumn(column) && this.isFirstFullColumn(column)) {
+                  this.use24TileInstead(row, column, false);
+                } else if (this.isLastFullColumn(column)) {
                   this.debug.log('grid-component', 'this and column to left');
                   this.set48TileLeft(row, column);
                 } else {
@@ -435,6 +425,29 @@ export class GridComponent implements OnInit, OnDestroy {
     const lastFullCol = this.isPerfectGridWidth() ? numOfCols : numOfCols - 1;
     // column + 1 due to column being the index
     return lastFullCol === column + 1;
+  }
+
+  isFirstFullColumn(column: number) {
+    const firstFullColumn = this.isPerfectGridWidth() ? 0 : 1;
+    return firstFullColumn === column;
+  }
+
+  use24TileInstead(row, column, reset = true) {
+    const currentTile = JSON.stringify(this.feature.selectedTile);
+    const storedCurrentTile = JSON.parse(currentTile);
+    const tileOptions = this.feature.tilesArray.clario;
+    for (const tile in tileOptions) {
+      if (tileOptions.hasOwnProperty(tile)) {
+        if (tileOptions[tile].tile_size_type === storedCurrentTile.tile_size_type && tileOptions[tile].tile_size === '24') {
+          this.feature.updateSelectedTile(tileOptions[tile]);
+          this.setFlag(row, column);
+          this.removeFlag(row, column);
+          if (reset) {
+            this.feature.updateSelectedTile(storedCurrentTile);
+          }
+        }
+      }
+    }
   }
 
   set48TileRight(row, column) {

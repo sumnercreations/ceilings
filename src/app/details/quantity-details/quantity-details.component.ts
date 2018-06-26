@@ -63,8 +63,10 @@ export class QuantityDetailsComponent implements OnInit {
           } else {
             this.api.getUserRep(qtyOrder.uid).subscribe(rep => {
               this.rep = rep;
-              this.setOrderData(qtyOrder);
-            });
+              if ( this.qtySrv.order.data.length <= 0 ) {
+                this.setOrderData(qtyOrder);
+              }
+            })
           }
           this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
           this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
