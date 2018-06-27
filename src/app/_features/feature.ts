@@ -54,6 +54,7 @@ export class Feature {
   public discontinuedMaterials: Array<string>;
   public inactiveMaterials: Array<string>;
   public canQuote = true;
+  public clairoTileSizeType = 'standard';
 
   public gridData: any;
   public toolsArray = this.materialsService.toolsArray;
@@ -589,31 +590,56 @@ export class Feature {
   }
 
   public getRows() {
-    let rows: number;
-
-    // velo has a static grid
-    if (this.feature_type === 'velo') {
-      rows = 500;
-    } else if (this.units === 'inches') {
-      rows = Math.ceil(this.length / 12 / 2);
-    } else {
-      rows = Math.ceil(this.convertCMtoIN(this.length) / 12 / 2);
+    if (!!this.length) {
+      let rows: number;
+      if (this.feature_type === 'clario') {
+        return this.getClarioGridSize('row');
+      }
+      // velo has a static grid
+      if (this.feature_type === 'velo') {
+        rows = 500;
+      } else if (this.units === 'inches') {
+        rows = Math.ceil(this.length / 12 / 2);
+      } else {
+        rows = Math.ceil(this.convertCMtoIN(this.length) / 12 / 2);
+      }
+      return rows;
     }
-    return rows;
   }
 
   public getColumns() {
-    let columns: number;
-
-    // velo has a static grid
-    if (this.feature_type === 'velo') {
-      columns = 820;
-    } else if (this.units === 'inches') {
-      columns = Math.ceil(this.width / 12 / 2);
-    } else {
-      columns = Math.ceil(this.convertCMtoIN(this.width) / 12 / 2);
+    if (!!this.width) {
+      let columns: number;
+      if (this.feature_type === 'clario') {
+        return this.getClarioGridSize('column');
+      }
+      // velo has a static grid
+      if (this.feature_type === 'velo') {
+        columns = 820;
+      } else if (this.units === 'inches') {
+        columns = Math.ceil(this.width / 12 / 2);
+      } else {
+        columns = Math.ceil(this.convertCMtoIN(this.width) / 12 / 2);
+      }
+      return columns;
     }
-    return columns;
+  }
+
+  public getClarioGridSize(dimension) {
+    const size = dimension === 'row' ? this.length : this.width;
+    let count;
+    switch (this.clairoTileSizeType) {
+      case 'standard':
+        count = Math.ceil(size / 12 / 2);
+        break;
+      case 'metric':
+        count = Math.ceil((size * 10) / 600);
+        break;
+      case 'german':
+        count = Math.ceil((size * 10) / 625);
+        break;
+    }
+    return count;
   }
 
   public getFeatureTypeInteger() {

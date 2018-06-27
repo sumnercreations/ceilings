@@ -158,6 +158,8 @@ span.sm {
 
 .actions {
   padding: 2px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 /* Tools */
