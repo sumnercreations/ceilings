@@ -1,4 +1,37 @@
 <div class="options-dialog-container">
+  <div class="options-header">
+    <div class="title">
+      {{title | capitalize}}
+    </div>
+    <div class="back-to-design" (click)="goToLanding()">
+      <a>
+        Return to design tools
+      </a>
+    </div>
+  </div>
+  <div class="options-columns">
+    <div class="left-column">
+      <div id="project-name" class="section">
+        <div class="subtitle">Project name</div>
+        <div class="inputs">
+          <input type="text" class="name-input square" placeholder="Name" autofocus>
+          <a id="load-btn" class="load-btn" title="load saved designs" (click)="feature.loadDesigns()">
+            <span class="icomoon-folder orange"></span> Load
+          </a>
+        </div>
+
+      </div>
+      <div id="feature-selection" class="section">
+        <div class="subtitle">Feature selection</div>
+      </div>
+    </div>
+    <div class="vertical-divider"></div>
+    <div class="right-column"></div>
+  </div>
+  <div class="options-footer"></div>
+</div>
+
+<!-- <div class="options-dialog-container">
   <div class="row">
     <div class="col-xs-11">
       <div class="intro">
@@ -16,8 +49,6 @@
       <div class="row">
         <div class="col-sm-9">
           <div class="form-group">
-            <!-- <input [(ngModel)]="seeyond.design_name" #designNameInput="ngModel" required type="text" class="form-control square" placeholder="Name"
-              name="design-name" id="design-name-input" autofocus> -->
             <input type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus value='test'>
           </div>
         </div>
@@ -31,10 +62,8 @@
         <div class="form-group">
           <div class="col-sm-10 feature-select">
             <select class="form-control" (change)="updateSelectedFeature('swoon')">
-              <!-- <select class="form-control" (change)="updateSelectedFeature($event.target.value)"> -->
               <option value="" selected></option>
               <option value="swoon" selected>swoon</option>
-              <!-- <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option> -->
             </select>
           </div>
         </div>
@@ -46,4 +75,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

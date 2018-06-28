@@ -5,10 +5,10 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-profile-options',
   templateUrl: './profile-options.component.html',
-  styleUrls: ['../../options/options.component.css', './profile-options.component.css']
+  styleUrls: ['./profile-options.component.css']
+  // styleUrls: ['../../options/options.component.css', './profile-options.component.css']
 })
 export class ProfileOptionsComponent extends OptionsComponent implements OnInit {
-
   ngOnInit() {
     this.profile.$featureTypeChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(res => {
       console.log('onFeatureTypeChange:', res);
@@ -17,8 +17,8 @@ export class ProfileOptionsComponent extends OptionsComponent implements OnInit 
 
   updateSelectedFeature(feature) {
     console.log('updateSelectedFeature:', feature);
-    if(this.profile.tilesFeatures.includes(feature)) {
-      if(this.router.url.indexOf('tiles') < 0) {
+    if (this.profile.tilesFeatures.includes(feature)) {
+      if (this.router.url.indexOf('tiles') < 0) {
         this.location.go(`${this.router.url}/tiles/${feature}`);
       }
     }
