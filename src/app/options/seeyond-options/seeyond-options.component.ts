@@ -5,7 +5,7 @@ import { SeeyondFeature } from './../../_features/seeyond-feature';
 @Component({
   selector: 'app-seeyond-options',
   templateUrl: './seeyond-options.component.html',
-  styleUrls: ['../../options/options.component.css', './seeyond-options.component.css']
+  styleUrls: ['../../options/options.component.scss', './seeyond-options.component.scss']
 })
 export class SeeyondOptionsComponent extends OptionsComponent {
   updateSelectedFeature(feature) {

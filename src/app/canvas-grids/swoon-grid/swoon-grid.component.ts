@@ -5,7 +5,7 @@ import * as pip from 'point-in-polygon';
 @Component({
   selector: 'app-swoon-grid',
   templateUrl: './swoon-grid.component.html',
-  styleUrls: ['../canvas-grids.component.css', './swoon-grid.component.css']
+  styleUrls: ['../canvas-grids.component.scss', './swoon-grid.component.scss']
 })
 export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   rows = 10;
@@ -128,7 +128,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     // this.debug.log('draw-diamond', row);
     // this.debug.log('draw-diamond', column);
 
-    if(index === 450) {
+    if (index === 450) {
       console.log('index 450');
     }
 

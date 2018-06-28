@@ -4,7 +4,7 @@ import { SeeyondFeature } from 'app/_features/seeyond-feature';
 @Component({
   selector: 'app-seeyond-visualization',
   templateUrl: './seeyond-visualization.component.html',
-  styleUrls: ['./seeyond-visualization.component.css']
+  styleUrls: ['./seeyond-visualization.component.scss']
 })
 export class SeeyondVisualizationComponent implements OnInit {
   constructor(public seeyondFeature: SeeyondFeature) {}

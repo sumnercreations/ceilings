@@ -5,7 +5,7 @@ import * as pip from 'point-in-polygon';
 @Component({
   selector: 'app-velo-grid',
   templateUrl: './velo-grid.component.html',
-  styleUrls: ['../canvas-grids.component.css', './velo-grid.component.css']
+  styleUrls: ['../canvas-grids.component.scss', './velo-grid.component.scss']
 })
 export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
   @ViewChild('veloCanvas') canvas;
@@ -361,5 +361,4 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
       return 15.5;
     }
   }
-
 }

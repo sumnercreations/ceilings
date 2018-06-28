@@ -5,8 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-profile-options',
   templateUrl: './profile-options.component.html',
-  styleUrls: ['./profile-options.component.css']
-  // styleUrls: ['../../options/options.component.css', './profile-options.component.css']
+  styleUrls: ['./profile-options.component.scss']
+  // styleUrls: ['../../options/options.component.scss', './profile-options.component.scss']
 })
 export class ProfileOptionsComponent extends OptionsComponent implements OnInit {
   ngOnInit() {
@@ -24,7 +24,7 @@ export class ProfileOptionsComponent extends OptionsComponent implements OnInit 
     }
     this.profile.updateProfileFeature(feature);
 
-    // this.seeyond.updateSeeyondFeature(feature);
+    // this.seeyond.updateSeeyondFeature(feature);zz
   }
 
   dimensionsDidChange() {

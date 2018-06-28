@@ -28,7 +28,7 @@ import { ClarioGridsService } from '../_services/clario-grids.service';
 @Component({
   // selector: 'app-design',
   templateUrl: './design.component.html',
-  styleUrls: ['./design.component.css']
+  styleUrls: ['./design.component.scss']
 })
 export class DesignComponent implements OnInit, OnDestroy {
   syd_v = require('syd-visualization');

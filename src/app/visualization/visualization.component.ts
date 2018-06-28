@@ -11,7 +11,7 @@ const packageJSON = require('../../../package.json');
 @Component({
   selector: 'app-visualization',
   templateUrl: './visualization.component.html',
-  styleUrls: ['./visualization.component.css']
+  styleUrls: ['./visualization.component.scss']
 })
 export class VisualizationComponent implements OnInit {
   private vis = visualization;

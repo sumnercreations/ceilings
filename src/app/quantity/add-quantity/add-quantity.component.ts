@@ -9,7 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 @Component({
   selector: 'app-add-quantity',
   templateUrl: './add-quantity.component.html',
-  styleUrls: ['./add-quantity.component.css']
+  styleUrls: ['./add-quantity.component.scss']
 })
 export class AddQuantityComponent implements OnInit, AfterContentInit {
   materials: any;

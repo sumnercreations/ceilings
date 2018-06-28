@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-options',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.css']
+  styleUrls: ['./options.component.scss']
 })
 export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   public ngUnsubscribe: Subject<any> = new Subject();

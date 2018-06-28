@@ -12,7 +12,7 @@ import { SeeyondService } from '../_services/seeyond.service';
 @Component({
   selector: 'app-save-design',
   templateUrl: './save-design.component.html',
-  styleUrls: ['./save-design.component.css']
+  styleUrls: ['./save-design.component.scss']
 })
 export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;

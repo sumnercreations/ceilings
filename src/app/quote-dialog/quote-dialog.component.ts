@@ -13,7 +13,7 @@ import { SeeyondFeature } from '../_features/seeyond-feature';
 @Component({
   selector: 'app-quote-dialog',
   templateUrl: './quote-dialog.component.html',
-  styleUrls: ['./quote-dialog.component.css']
+  styleUrls: ['./quote-dialog.component.scss']
 })
 export class QuoteDialogComponent implements OnInit {
   public tilesArray: any;

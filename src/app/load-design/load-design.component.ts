@@ -11,7 +11,7 @@ import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.compone
 @Component({
   selector: 'app-load-design',
   templateUrl: './load-design.component.html',
-  styleUrls: ['./load-design.component.css']
+  styleUrls: ['./load-design.component.scss']
 })
 export class LoadDesignComponent implements OnInit {
   public designs: Array<Feature>;

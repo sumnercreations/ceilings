@@ -11,7 +11,7 @@ import * as pip from 'point-in-polygon';
 @Component({
   selector: 'app-canvas-grids',
   templateUrl: './canvas-grids.component.html',
-  styleUrls: ['./canvas-grids.component.css']
+  styleUrls: ['./canvas-grids.component.scss']
 })
 export class CanvasGridsComponent implements OnInit {
   context: CanvasRenderingContext2D;

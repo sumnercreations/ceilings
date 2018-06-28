@@ -7,7 +7,7 @@ import { Component, OnInit, AfterContentChecked } from '@angular/core';
 @Component({
   selector: 'app-quantity-options',
   templateUrl: './quantity-options.component.html',
-  styleUrls: ['../../options/options.component.css', './quantity-options.component.css']
+  styleUrls: ['../../options/options.component.scss', './quantity-options.component.scss']
 })
 export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
   title = 'Order By Quantity';

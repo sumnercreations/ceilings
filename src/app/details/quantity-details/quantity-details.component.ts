@@ -13,7 +13,7 @@ import { ApiService } from '../../_services/api.service';
 @Component({
   selector: 'app-quantity-details',
   templateUrl: './quantity-details.component.html',
-  styleUrls: ['./quantity-details.component.css']
+  styleUrls: ['./quantity-details.component.scss']
 })
 export class QuantityDetailsComponent implements OnInit {
   public rep: any;
@@ -63,10 +63,10 @@ export class QuantityDetailsComponent implements OnInit {
           } else {
             this.api.getUserRep(qtyOrder.uid).subscribe(rep => {
               this.rep = rep;
-              if ( this.qtySrv.order.data.length <= 0 ) {
+              if (this.qtySrv.order.data.length <= 0) {
                 this.setOrderData(qtyOrder);
               }
-            })
+            });
           }
           this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
           this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);

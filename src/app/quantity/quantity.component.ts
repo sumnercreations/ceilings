@@ -22,7 +22,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-quantity',
   templateUrl: './quantity.component.html',
-  styleUrls: ['./quantity.component.css']
+  styleUrls: ['./quantity.component.scss']
 })
 export class QuantityComponent implements OnInit, OnDestroy {
   ngUnsubscribe: Subject<any> = new Subject();
