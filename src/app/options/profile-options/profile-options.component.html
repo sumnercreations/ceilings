@@ -3,11 +3,9 @@
     <div class="title">
       {{title | capitalize}}
     </div>
-    <div class="back-to-design" (click)="goToLanding()">
-      <a>
-        Return to design tools
-      </a>
-    </div>
+    <span appStyledButton='secondary-left'>
+      <button>Return to design tools</button>
+    </span>
   </div>
   <div class="options-columns">
     <div class="left-column">
@@ -34,51 +32,12 @@
     <div class="vertical-divider"></div>
     <div class="right-column"></div>
   </div>
-  <div class="options-footer"></div>
+  <div class="options-footer">
+    <span appStyledButton='primary-right'>
+      <button type="submit" (click)='startDesigning()' class="start-designing">Start designing</button>
+    </span>
+    <span appStyledButton='secondary-left'>
+      <button class="go-to-quantity">Order by quantity</button>
+    </span>
+  </div>
 </div>
-
-<!-- <div class="options-dialog-container">
-  <div class="row">
-    <div class="col-xs-11">
-      <div class="intro">
-        <h2>{{title | capitalize}}</h2>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 left-pane">
-      <div class="row">
-        <div class="col-sm-12">
-          <h3>Feature Name</h3>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-9">
-          <div class="form-group">
-            <input type="text" class="form-control square" placeholder="Name" name="design-name" id="design-name-input" autofocus value='test'>
-          </div>
-        </div>
-        <div class="col-sm-3 options-load">
-          <a id="load-btn" title="load saved designs" (click)="feature.loadDesigns()">
-            <span class="icomoon-folder orange"></span> Load</a>
-        </div>
-      </div>
-      <div id="grid-dimensions">
-        <h3>Feature Selection</h3>
-        <div class="form-group">
-          <div class="col-sm-10 feature-select">
-            <select class="form-control" (change)="updateSelectedFeature('swoon')">
-              <option value="" selected></option>
-              <option value="swoon" selected>swoon</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <button class="button button-orange start-designing" (click)="startDesigning()">start designing</button>
-      <div class="back">
-        <a id="back-to-landing" class="back-to-landing" (click)="goToLanding()">
-          < Choose a New Design Tool</a>
-      </div>
-    </div>
-  </div>
-</div> -->

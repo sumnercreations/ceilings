@@ -1,11 +1,9 @@
-import { Directive, ElementRef, Renderer2, ViewChild, AfterViewInit } from '@angular/core';
+import { Directive, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 
 @Directive({
   selector: '[appStyledSelect]'
 })
 export class StyledSelectDirective implements AfterViewInit {
-  @ViewChild('select') inputChild: ElementRef;
-
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   ngAfterViewInit() {
@@ -24,7 +22,6 @@ export class StyledSelectDirective implements AfterViewInit {
 
   setSelectStyles(select: ElementRef) {
     console.log('select:', select);
-    // this.renderer.setStyle(select, 'position', 'relative');
     this.renderer.setStyle(select, '-webkit-appearance', 'none');
     this.renderer.setStyle(select, '-moz-appearance', 'none');
     this.renderer.setStyle(select, 'appearance', 'none');
@@ -39,14 +36,13 @@ export class StyledSelectDirective implements AfterViewInit {
   setDropdownArrow() {
     const newSpan = this.renderer.createElement('span');
     this.renderer.setStyle(newSpan, 'cursor', 'pointer');
-    this.renderer.setStyle(newSpan, 'height', '18px');
-    this.renderer.setStyle(newSpan, 'width', '18px');
+    this.renderer.setStyle(newSpan, 'height', '14px');
+    this.renderer.setStyle(newSpan, 'width', '14px');
     this.renderer.setStyle(newSpan, 'position', 'absolute');
-    this.renderer.setStyle(newSpan, 'right', '10px');
-    this.renderer.setStyle(newSpan, 'top', '-3px');
-    this.renderer.setStyle(newSpan, 'background', 'url("/assets/icons/tools/arrow.png") no-repeat top left');
+    this.renderer.setStyle(newSpan, 'right', '12px');
+    this.renderer.setStyle(newSpan, 'top', '2px');
+    this.renderer.setStyle(newSpan, 'background', 'url("/assets/icons/tools/down-chevron.png") no-repeat top left');
     this.renderer.setStyle(newSpan, 'background-size', 'contain');
-    // this.renderer.setStyle(newSpan, 'display', 'inline-block');
     this.renderer.appendChild(this.el.nativeElement, newSpan);
   }
 }

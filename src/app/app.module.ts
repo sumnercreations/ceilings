@@ -78,6 +78,7 @@ import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
 import { SwoonGridComponent } from './canvas-grids/swoon-grid/swoon-grid.component';
 import { ProfileOptionsComponent } from './options/profile-options/profile-options.component';
 import { StyledSelectDirective } from './_directives/styled-select.directive';
+import { StyledButtonDirective } from './_directives/styled-button.directive';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { StyledSelectDirective } from './_directives/styled-select.directive';
     CanvasGridsComponent,
     SwoonGridComponent,
     ProfileOptionsComponent,
-    StyledSelectDirective
+    StyledSelectDirective,
+    StyledButtonDirective
   ],
   imports: [
     BrowserModule,
