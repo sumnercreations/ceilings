@@ -45,7 +45,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   materials: any;
   tryingRequestQuote = false;
   canQtyOrder = false;
-  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush-blocks'];
+  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush'];
 
   constructor(
     public route: ActivatedRoute,

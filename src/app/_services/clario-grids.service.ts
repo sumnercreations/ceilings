@@ -78,7 +78,7 @@ export class ClarioGridsService {
     const tileToSelect = tileSizes.find(x => x.tile === this.selectedTileSize.tile_size);
     this.feature.updateSelectedTile(tileToSelect);
     this.feature.tile_size = this.selectedTileSize.tile_size;
-    this.tile_size_type = this.selectedTileSize.tile_size_type;
+    this.tile_size_type = this.feature.clairoTileSizeType = this.selectedTileSize.tile_size_type;
     this.feature.units = this.selectedTileSize.units;
     this.feature.tile_image_type = this.selectedTileSize.image_type;
     this.debug.log('clario-grid', this.selectedTileSize);
