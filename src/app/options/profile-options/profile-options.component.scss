@@ -1,60 +1,58 @@
 .options-dialog-container {
   padding: 40px 40px 0 40px;
-
   .options-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 20px;
-
     .title {
       font-size: 30px;
       font-weight: 500;
     }
   }
-
   .options-columns {
     display: flex;
-
     .left-column {
       border-top: solid 5px black;
       flex-grow: 3;
-
       .section {
         border-bottom: 1px solid #e8e8e8;
         padding: 15px 0 15px 0;
         width: 100%;
-
         .subtitle {
           font-size: 16px;
           font-weight: 500;
           margin-bottom: 10px;
         }
-
         .inputs {
           display: flex;
           align-items: center;
-
           .name-input {
-            flex-grow: 3;
+            flex-grow: 1;
             padding-right: 10px;
             line-height: 2;
+            text-indent: 8px;
           }
-
           .load-btn {
-            flex-grow: 2;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+          }
+          .load-btn>* {
+            margin-left: 15px;
+          }
+          .load-btn img {
+            max-height: 15px;
           }
         }
       }
     }
-
     .vertical-divider {
       height: 100%;
       min-height: 50px;
       margin: 3px 10px 0 10px;
       border-left: 1px solid #e8e8e8;
     }
-
     .right-column {
       border-top: solid 5px black;
       flex-grow: 3;
@@ -93,3 +91,74 @@
 .checkbox {
   font-size: 18px;
 } */
+
+/* https://www.w3schools.com/howto/howto_custom_select.asp */
+
+/*the container must be positioned relative:*/
+
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none;
+  /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: DodgerBlue;
+}
+
+/*style the arrow inside the select element:*/
+
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+
+.select-items div,
+.select-selected {
+  color: #ffffff;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+}
+
+/*style items (options):*/
+
+.select-items {
+  position: absolute;
+  background-color: DodgerBlue;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}

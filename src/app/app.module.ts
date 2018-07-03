@@ -77,6 +77,7 @@ import { KeysPipe } from './_pipes/keys.pipe';
 import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
 import { SwoonGridComponent } from './canvas-grids/swoon-grid/swoon-grid.component';
 import { ProfileOptionsComponent } from './options/profile-options/profile-options.component';
+import { StyledSelectDirective } from './_directives/styled-select.directive';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { ProfileOptionsComponent } from './options/profile-options/profile-optio
     ShortendUnitsPipe,
     CanvasGridsComponent,
     SwoonGridComponent,
-    ProfileOptionsComponent
+    ProfileOptionsComponent,
+    StyledSelectDirective
   ],
   imports: [
     BrowserModule,
