@@ -219,7 +219,7 @@ export class GridComponent implements OnInit, OnDestroy {
               this.updateHushTile(row, column);
               break;
             default:
-              console.log('hit default');
+              this.debug.log('grid-component', 'hit default');
               break;
           }
           break;
