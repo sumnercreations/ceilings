@@ -23,12 +23,12 @@
       </div>
       <div id="feature-selection" class="section">
         <div class="subtitle">Feature selection</div>
-        <div class="inputs" appStyledSelect>
+        <span appStyledSelect>
           <select (change)="updateSelectedFeature($event.target.value)">
             <!-- <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option> -->
             <option value="swoon">Swoon</option>
           </select>
-        </div>
+        </span>
       </div>
     </div>
     <div class="vertical-divider"></div>
