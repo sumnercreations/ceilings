@@ -33,7 +33,8 @@ li.tile {
   border: 2px solid #E7E7E7;
 }
 
-li.baffle, li.velo-tile {
+li.baffle,
+li.velo-tile {
   width: 62px;
   height: 34px;
   padding: 2px;
@@ -90,7 +91,8 @@ input.ng-invalid.ng-touched {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }

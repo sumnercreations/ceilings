@@ -8,8 +8,10 @@
     </span>
   </div>
   <div class="options-columns">
+    <!-- BEGIN LEFT COLUMN -->
     <div class="left-column">
-      <div id="project-name" class="section">
+      <!-- BEGIN PROJECT-NAME -->
+      <div id="project-name" class="left-section">
         <div class="subtitle">Project name</div>
         <div class="inputs">
           <input type="text" class="name-input square" placeholder="Name" autofocus>
@@ -19,18 +21,85 @@
           </a>
         </div>
       </div>
-      <div id="feature-selection" class="section">
+      <!-- END PROJECT-NAME -->
+
+      <!-- BEGIN SWOON-FEATURE-SELECTION -->
+      <div id="swoon-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
         <span appStyledSelect>
-          <select (change)="updateSelectedFeature($event.target.value)">
+          <select (change)="updateSelectedProfileFeature($event.target.value)">
             <!-- <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option> -->
             <option value="swoon">Swoon</option>
           </select>
         </span>
       </div>
+      <!-- END SWOON-FEATURE-SELECTION -->
+      <!-- BEGIN SEEYOND-FEATURE-SELECTION -->
+      <div id="seeyond-feature-selection" class="left-section">
+        <div class="subtitle">Feature selection</div>
+        <span appStyledSelect>
+          <select (change)="updateSelectedProfileFeature($event.target.value)">
+            <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option>
+            <!-- <option value="seeyond">seeyond</option> -->
+          </select>
+        </span>
+      </div>
+      <!-- END SEEYOND-FEATURE-SELECTION -->
+      <!-- BEGIN SEEYOND-DIMENSIONS -->
+      <div id="seeyond-dimensions" class="left-section">
+        <div class="subtitle">Dimensions</div>
+        <div class="inputs">
+          <div class="input">
+            <div class="sub-header">Width</div>
+            <input class="unit-input" type="text">
+            <div class="max-min">
+              <span>Min {{this.seeyond.widthMin}}</span>
+              <span>Max {{this.seeyond.widthMax}}</span>
+            </div>
+          </div>
+          <div class="input">
+            <div class="sub-header">Height</div>
+            <input class="unit-input" type="text">
+            <div class="max-min">
+              <span>Min {{this.seeyond.heightMin}}</span>
+              <span>Max {{this.seeyond.heightMax}}</span>
+            </div>
+          </div>
+          <div class="input">
+            <div class="sub-header">Ceiling Length</div>
+            <input class="unit-input" type="text">
+            <div class="max-min">
+              <span>Min {{this.seeyond.ceilLengthMin}}</span>
+              <span>Max {{this.seeyond.ceilLengthMax}}</span>
+            </div>
+          </div>
+          <div class="input" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
+            <div class="sub-header">Radius</div>
+            <input class="unit-input" type="text">
+            <div class="max-min">
+              <span>Min {{this.seeyond.radiusMin}}</span>
+              <span>Max {{this.seeyond.radiusMax}}</span>
+            </div>
+          </div>
+          <div class="input units-input sub-header">
+            <span>
+              <p class="inches">IN</p>
+            </span>
+            <span>
+              <p class="centimeters">CM</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- END DIMENSIONS -->
     </div>
+    <!-- END LEFT COLUMN -->
     <div class="vertical-divider"></div>
-    <div class="right-column"></div>
+    <!-- BEGIN RIGHT COLUMN -->
+    <div class="right-column">
+      <div style="min-width: 300px;"></div>
+    </div>
+    <!-- END RIGHT COLUMN -->
   </div>
   <div class="options-footer">
     <span appStyledButton='primary-right'>

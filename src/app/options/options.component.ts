@@ -95,4 +95,23 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     this.router.navigate([pathname]);
     this.dialogRef.close('cancel');
   }
+
+  updateSelectedProfileFeature(feature) {
+    console.log('updateSelectedFeature:', feature);
+    if (this.profile.tilesFeatures.includes(feature)) {
+      if (this.router.url.indexOf('tiles') < 0) {
+        this.location.go(`${this.router.url}/tiles/${feature}`);
+      }
+    }
+    this.profile.updateProfileFeature(feature);
+
+    // this.seeyond.updateSeeyondFeature(feature);zz
+  }
+
+  startDesigning() {
+    // TODO: make this dynamic for all features
+    console.log('startDesigning');
+    this.profile.buildFeatureGrid();
+    this.dialogRef.close();
+  }
 }
