@@ -8,9 +8,9 @@
     </span>
   </div>
   <div class="options-columns">
+
     <!-- BEGIN LEFT COLUMN -->
     <div class="left-column">
-      <!-- BEGIN PROJECT-NAME -->
       <div id="project-name" class="left-section">
         <div class="subtitle">Project name</div>
         <div class="inputs">
@@ -21,9 +21,7 @@
           </a>
         </div>
       </div>
-      <!-- END PROJECT-NAME -->
 
-      <!-- BEGIN SWOON-FEATURE-SELECTION -->
       <div id="swoon-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
         <span appStyledSelect>
@@ -33,8 +31,7 @@
           </select>
         </span>
       </div>
-      <!-- END SWOON-FEATURE-SELECTION -->
-      <!-- BEGIN SEEYOND-FEATURE-SELECTION -->
+
       <div id="seeyond-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
         <span appStyledSelect>
@@ -44,8 +41,7 @@
           </select>
         </span>
       </div>
-      <!-- END SEEYOND-FEATURE-SELECTION -->
-      <!-- BEGIN SEEYOND-DIMENSIONS -->
+
       <div id="seeyond-dimensions" class="left-section">
         <div class="subtitle">Dimensions</div>
         <div class="inputs">
@@ -81,23 +77,53 @@
               <span>Max {{this.seeyond.radiusMax}}</span>
             </div>
           </div>
-          <div class="input units-input sub-header">
-            <span>
-              <p class="inches">IN</p>
-            </span>
-            <span>
-              <p class="centimeters">CM</p>
-            </span>
+          <div class="input sub-header">
+            <div class="units-input">
+              <span>
+                <p class="inches">IN</p>
+              </span>
+              <span>
+                <p class="centimeters">CM</p>
+              </span>
+            </div>
           </div>
         </div>
       </div>
-      <!-- END DIMENSIONS -->
+
+      <div id="dimensions" class="left-section">
+        <div class="subtitle">Dimensions</div>
+        <div class="inputs">
+          <div class="input">
+            <div class="sub-header">Width</div>
+            <input class="unit-input" type="text">
+            <div class="max-min"></div>
+          </div>
+          <div class="input">
+            <div class="sub-header">Height</div>
+            <input class="unit-input" type="text">
+            <div class="max-min"></div>
+          </div>
+          <div class="input sub-header">
+            <div>&#8203;</div>
+            <div class="units-input">
+              <span>
+                <p class="inches">IN</p>
+              </span>
+              <span>
+                <p class="centimeters">CM</p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- END LEFT COLUMN -->
+
     <div class="vertical-divider"></div>
+
     <!-- BEGIN RIGHT COLUMN -->
     <div class="right-column">
-      <div style="min-width: 300px;"></div>
+      <app-options-right-profile></app-options-right-profile>
     </div>
     <!-- END RIGHT COLUMN -->
   </div>

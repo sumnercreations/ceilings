@@ -50,7 +50,7 @@ export class StyledButtonDirective implements AfterViewInit {
   stylePrimaryButton(button) {
     this.renderer.setStyle(this.el.nativeElement, 'background-color', '#000');
     this.renderer.setStyle(this.el.nativeElement, 'color', '#fff');
-    this.renderer.setStyle(button, 'line-height', '3');
+    this.renderer.setStyle(button, 'line-height', '3.75');
     this.renderer.setStyle(button, 'font-weight', '500');
     this.renderer.setStyle(button, 'text-indent', '8px');
     this.renderer.setStyle(button, 'background-color', '#000');
@@ -59,7 +59,7 @@ export class StyledButtonDirective implements AfterViewInit {
 
   styleSecondaryButton(button) {
     this.renderer.setStyle(button, 'background-color', '#fff');
-    this.renderer.setStyle(button, 'line-height', '3');
+    this.renderer.setStyle(button, 'line-height', '3.75');
     this.renderer.setStyle(button, 'font-size', '0.9em');
     this.renderer.setStyle(button, 'font-weight', '500');
   }

@@ -26,7 +26,7 @@ export class StyledSelectDirective implements AfterViewInit {
     this.renderer.setStyle(select, '-moz-appearance', 'none');
     this.renderer.setStyle(select, 'appearance', 'none');
     this.renderer.setStyle(select, 'height', '32px');
-    this.renderer.setStyle(select, 'width', '260px');
+    this.renderer.setStyle(select, 'width', '280px');
     this.renderer.setStyle(select, 'text-indent', '8px');
     this.renderer.setStyle(select, 'border', '1px solid #cccccc');
     this.renderer.setStyle(select, 'border-radius', '0px');

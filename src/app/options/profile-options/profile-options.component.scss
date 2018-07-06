@@ -37,13 +37,12 @@
             line-height: 2;
           }
           .name-input {
-            flex-grow: 1;
+            width: 280px;
             padding-right: 10px;
             line-height: 2;
             text-indent: 8px;
           }
           .load-btn {
-            flex-grow: 1;
             display: flex;
             align-items: center;
           }
@@ -103,5 +102,21 @@
   }
   .options-footer :first-child {
     margin-right: 20px;
+  }
+}
+
+//This is pulled out of the nesting so it can be picked up by the right-column templates
+.right-section {
+  margin-top: 35px;
+  font-size: 0.9em;
+  .subtitle {
+    font-weight: 500;
+  }
+  .images {
+    display: flex;
+    margin-top: 10px;
+  }
+  .images img {
+    margin-right: 10px;
   }
 }

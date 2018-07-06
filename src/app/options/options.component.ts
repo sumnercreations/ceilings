@@ -25,6 +25,13 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
 
   public fixturesToolsArray = ['light', 'vent', 'sprinkler'];
 
+  public showProjectName = true;
+  public showDimensions = false;
+  public showSeeyondFeatureSelection = false;
+  public showSeeyondDimensions = false;
+  public showProfileFeatureSelection = false;
+  public showClarioTileSizes = false;
+
   // debugging
   public params: any;
 
@@ -45,6 +52,32 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   ngOnInit() {
     this.debug.log('options-component', 'init');
     this.debug.log('options-component', this.feature.feature_type);
+    if (this.feature.feature_type === 'clario') {
+      setTimeout(() => {
+        this.clarioGridSizeChanged(this.feature.grid_type);
+      });
+    }
+    switch (this.feature.feature_type) {
+      case 'seeyond':
+        this.showSeeyondFeatureSelection = true;
+        this.showSeeyondDimensions = true;
+        break;
+      case 'tetria':
+        this.showDimensions = true;
+        break;
+      case 'clario':
+        this.showClarioTileSizes = true;
+        this.showDimensions = true;
+        break;
+      case 'hush':
+        this.showDimensions = true;
+        break;
+      case 'velo':
+        break;
+      case 'profile':
+        this.showProfileFeatureSelection = true;
+        break;
+    }
   }
 
   ngAfterContentInit() {
@@ -55,6 +88,12 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.showProjectName = true;
+    this.showDimensions = false;
+    this.showSeeyondFeatureSelection = false;
+    this.showSeeyondDimensions = false;
+    this.showProfileFeatureSelection = false;
+    this.showClarioTileSizes = false;
   }
 
   public goToLanding() {
@@ -113,5 +152,19 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     console.log('startDesigning');
     this.profile.buildFeatureGrid();
     this.dialogRef.close();
+  }
+
+  clarioGridSizeChanged(selection) {
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
+    this.clarioGrids.gridSizeSelected(selection);
+  }
+
+  clarioTileSizeChanged(selection) {
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
+    this.clarioGrids.tileSizeSelected(selection);
   }
 }

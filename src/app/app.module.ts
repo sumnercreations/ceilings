@@ -79,6 +79,12 @@ import { SwoonGridComponent } from './canvas-grids/swoon-grid/swoon-grid.compone
 import { ProfileOptionsComponent } from './options/profile-options/profile-options.component';
 import { StyledSelectDirective } from './_directives/styled-select.directive';
 import { StyledButtonDirective } from './_directives/styled-button.directive';
+import { OptionsRightProfileComponent } from './options/options-right-profile/options-right-profile.component';
+import { OptionsRightClarioComponent } from './options/options-right-clario/options-right-clario.component';
+import { OptionsRightTetriaComponent } from './options/options-right-tetria/options-right-tetria.component';
+import { OptionsRightSeeyondComponent } from './options/options-right-seeyond/options-right-seeyond.component';
+import { OptionsRightHushComponent } from './options/options-right-hush/options-right-hush.component';
+import { OptionsRightVeloComponent } from './options/options-right-velo/options-right-velo.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +125,13 @@ import { StyledButtonDirective } from './_directives/styled-button.directive';
     SwoonGridComponent,
     ProfileOptionsComponent,
     StyledSelectDirective,
-    StyledButtonDirective
+    StyledButtonDirective,
+    OptionsRightProfileComponent,
+    OptionsRightClarioComponent,
+    OptionsRightTetriaComponent,
+    OptionsRightSeeyondComponent,
+    OptionsRightHushComponent,
+    OptionsRightVeloComponent
   ],
   imports: [
     BrowserModule,
