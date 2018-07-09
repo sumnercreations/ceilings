@@ -9,6 +9,9 @@
       font-size: 30px;
       font-weight: 500;
     }
+    span button {
+      line-height: 1 !important;
+    }
   }
   .options-columns {
     display: flex;
@@ -133,4 +136,22 @@
     margin-right: 5px !important;
     padding: 13px 8px;
   }
+}
+
+input:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c;
+  box-shadow: none !important;
+}
+
+select:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c !important;
+  box-shadow: none !important;
+}
+
+button:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c !important;
+  box-shadow: none !important;
 }

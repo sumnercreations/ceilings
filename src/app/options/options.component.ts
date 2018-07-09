@@ -31,6 +31,7 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   public showSeeyondDimensions = false;
   public showProfileFeatureSelection = false;
   public showClarioTileSizes = false;
+  public showQuantityBtn = false;
 
   // debugging
   public params: any;
@@ -64,18 +65,22 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
         break;
       case 'tetria':
         this.showDimensions = true;
+        this.showQuantityBtn = true;
         break;
       case 'clario':
         this.showClarioTileSizes = true;
         this.showDimensions = true;
+        this.showQuantityBtn = true;
         break;
       case 'hush':
         this.showDimensions = true;
+        this.showQuantityBtn = true;
         break;
       case 'velo':
         break;
       case 'profile':
         this.showProfileFeatureSelection = true;
+        this.showQuantityBtn = true;
         break;
     }
   }
@@ -94,6 +99,7 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     this.showSeeyondDimensions = false;
     this.showProfileFeatureSelection = false;
     this.showClarioTileSizes = false;
+    this.showQuantityBtn = false;
   }
 
   public goToLanding() {
