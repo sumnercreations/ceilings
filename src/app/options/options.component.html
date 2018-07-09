@@ -45,9 +45,8 @@
       <div *ngIf="showSeeyondFeatureSelection" id="seeyond-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
         <span appStyledSelect>
-          <select (change)="updateSelectedProfileFeature($event.target.value)">
+          <select (change)="seeyondUpdateSelectedFeature($event.target.value)">
             <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option>
-            <!-- <option value="seeyond">seeyond</option> -->
           </select>
         </span>
       </div>
@@ -57,31 +56,40 @@
         <div class="inputs">
           <div class="input">
             <div class="sub-header">Width</div>
-            <input class="unit-input" type="text">
+            <!-- <input class="unit-input" type="text"> -->
+            <input [(ngModel)]="seeyond.width" #widthInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)" required type="number"
+              class="unit-input" placeholder="Width" name="width">
             <div class="max-min">
               <span>Min {{this.seeyond.widthMin}}</span>
               <span>Max {{this.seeyond.widthMax}}</span>
             </div>
           </div>
           <div class="input">
-            <div class="sub-header">Height</div>
-            <input class="unit-input" type="text">
+            <div class="sub-header" *ngIf="seeyond.seeyond_feature_type !== 'ceiling'">Height</div>
+            <div class="sub-header" *ngIf="seeyond.seeyond_feature_type === 'ceiling'">Length</div>
+            <!-- <input class="unit-input" type="text"> -->
+            <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)" required type="number"
+              class="unit-input" placeholder="Height" name="length">
             <div class="max-min">
               <span>Min {{this.seeyond.heightMin}}</span>
               <span>Max {{this.seeyond.heightMax}}</span>
             </div>
           </div>
-          <div class="input">
+          <div class="input" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
             <div class="sub-header">Ceiling Length</div>
-            <input class="unit-input" type="text">
+            <!-- <input class="unit-input" type="text"> -->
+            <input [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)"
+              required type="number" class="unit-input" placeholder="Height" name="length">
             <div class="max-min">
               <span>Min {{this.seeyond.ceilLengthMin}}</span>
               <span>Max {{this.seeyond.ceilLengthMax}}</span>
             </div>
           </div>
-          <div class="input" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
+          <div class="input" *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">
             <div class="sub-header">Radius</div>
-            <input class="unit-input" type="text">
+            <!-- <input class="unit-input" type="text"> -->
+            <input [(ngModel)]="seeyond.radius" #radiusInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)" type="number"
+              class="unit-input" placeholder="Height" name="length">
             <div class="max-min">
               <span>Min {{this.seeyond.radiusMin}}</span>
               <span>Max {{this.seeyond.radiusMax}}</span>

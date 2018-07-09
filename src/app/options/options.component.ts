@@ -167,4 +167,13 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     }
     this.clarioGrids.tileSizeSelected(selection);
   }
+
+  seeyondUpdateSelectedFeature(selectedFeature) {
+    this.seeyond.updateSeeyondFeature(selectedFeature);
+  }
+
+  seeyondDimensionsDidChange() {
+    this.seeyond.setMaxMinDimensions();
+    this.seeyond.updateDimensions();
+  }
 }
