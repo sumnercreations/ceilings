@@ -132,7 +132,6 @@ import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
     Feature,
     SeeyondFeature,
     User,
-    GridSection,
     DebugService,
     AlertService,
     ApiService,
