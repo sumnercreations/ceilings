@@ -49,7 +49,7 @@ namespace :deploy do
 
     on roles(:staging) do
       print "building in staging environment"
-      execute "cd #{release_path} && ng build --environment=staging --no-progress"
+      execute "cd #{release_path} && ng build --configuration=staging --no-progress"
     end
   end
 

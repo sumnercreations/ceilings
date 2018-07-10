@@ -7,7 +7,7 @@
   margin-bottom: 15px;
 }
 
-.feature > .content {
+.feature>.content {
   width: 555px;
   position: absolute;
   top: 50%;
@@ -15,7 +15,7 @@
   transform: translate(-50%, -50%);
 }
 
-.feature > .content p {
+.feature>.content p {
   padding-bottom: 15px;
   color: #fff;
 }
@@ -50,7 +50,7 @@
   margin: 20px 0px;
 }
 
-.buttons > button {
+.buttons>button {
   margin: 0px 10px;
 }
 

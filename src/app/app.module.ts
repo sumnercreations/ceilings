@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
 // material.angular.io
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonToggleModule,
   MatRadioModule,
@@ -20,7 +20,7 @@ import {
 } from '@angular/material';
 
 // routing
-import {Routing} from './app.routes';
+import { Routing } from './app.routes';
 
 // classes
 import { Feature } from './feature';
@@ -58,6 +58,7 @@ import { QuantityComponent } from './quantity/quantity.component';
 import { AddQuantityComponent } from './quantity/add-quantity/add-quantity.component';
 import { RemoveQuantityComponent } from './quantity/remove-quantity/remove-quantity.component';
 import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
+import { QuantityOptionsComponent } from './quantity/quantity-options/quantity-options.component';
 
 // services
 import { DebugService } from './_services/debug.service';
@@ -66,10 +67,12 @@ import { ApiService } from './_services/api.service';
 import { MaterialsService } from './_services/materials.service';
 import { SeeyondService } from './_services/seeyond.service';
 import { QuantityService } from './quantity/quantity.service';
+import { ClarioGridsService } from './_services/clario-grids.service';
 
 // pipes
 import { CapitalizePipe } from './_pipes/capitalize.pipe';
 import { KeysPipe } from './_pipes/keys.pipe';
+import { ShortendUnitsPipe } from './_pipes/shortend-units.pipe';
 
 @NgModule({
   declarations: [
@@ -103,7 +106,9 @@ import { KeysPipe } from './_pipes/keys.pipe';
     QuantityComponent,
     AddQuantityComponent,
     RemoveQuantityComponent,
-    QuantityDetailsComponent
+    QuantityDetailsComponent,
+    QuantityOptionsComponent,
+    ShortendUnitsPipe
   ],
   imports: [
     BrowserModule,
@@ -133,7 +138,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     ApiService,
     MaterialsService,
     SeeyondService,
-    QuantityService
+    QuantityService,
+    ClarioGridsService
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -148,7 +154,8 @@ import { KeysPipe } from './_pipes/keys.pipe';
     VeloTileUsageComponent,
     QuoteDialogComponent,
     AddQuantityComponent,
-    RemoveQuantityComponent
+    RemoveQuantityComponent,
+    QuantityOptionsComponent
   ]
 })
-export class AppModule { }
+export class AppModule {}

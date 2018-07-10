@@ -16,7 +16,8 @@ hr {
   margin-top: 10px;
 }
 
-.rep-name, .rep-info {
+.rep-name,
+.rep-info {
   padding: 0;
   margin: 0;
 }
@@ -71,10 +72,6 @@ th {
   font-size: 11px;
 }
 
-img.grid-guide {
-  /*transform: scale(2);*/
-}
-
 .multiples {
   text-align: center;
   width: 100%;
@@ -89,7 +86,7 @@ img.grid-guide {
   margin: 5px 0px;
 }
 
-.multiples-row > * {
+.multiples-row>* {
   margin: 0px 8px;
   font-size: 1.2em;
 }
@@ -102,14 +99,16 @@ img.grid-guide {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 /*
  For Printing
  */
+
 @media print {
   * {
     -webkit-print-color-adjust: exact;
@@ -123,7 +122,18 @@ input::-webkit-inner-spin-button {
   .orange {
     color: #ff9933 !important;
   }
-  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+  .col-sm-1,
+  .col-sm-2,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12 {
     float: left;
   }
   .col-sm-12 {
