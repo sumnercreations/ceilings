@@ -85,6 +85,7 @@ import { OptionsRightTetriaComponent } from './options/options-right-tetria/opti
 import { OptionsRightSeeyondComponent } from './options/options-right-seeyond/options-right-seeyond.component';
 import { OptionsRightHushComponent } from './options/options-right-hush/options-right-hush.component';
 import { OptionsRightVeloComponent } from './options/options-right-velo/options-right-velo.component';
+import { MainNavbarComponent } from './main-navbar/main-navbar.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import { OptionsRightVeloComponent } from './options/options-right-velo/options-
     OptionsRightTetriaComponent,
     OptionsRightSeeyondComponent,
     OptionsRightHushComponent,
-    OptionsRightVeloComponent
+    OptionsRightVeloComponent,
+    MainNavbarComponent
   ],
   imports: [
     BrowserModule,

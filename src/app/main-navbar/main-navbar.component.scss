@@ -1,0 +1,60 @@
+.main-navbar {
+  background-color: #fafafa;
+  margin-bottom: 10px;
+  padding: 15px 15px 0px 15px;
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    .left-side {
+      .primary-link {
+        font-size: 0.9em;
+        font-weight: 500;
+        margin-right: 10px;
+      }
+    }
+    .right-side {
+      .secondary-link {
+        font-size: 0.8em;
+        margin-right: 10px;
+        .down-chevron {
+          width: 10px;
+        }
+        .search {
+          width: 15px;
+        }
+      }
+    }
+  }
+  .bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    .logo {
+      width: 100px;
+      margin-bottom: 10px;
+    }
+    .sidenav {
+      .sidenav-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 225px;
+        background-color: #fff;
+        line-height: 3;
+        margin-bottom: 2px;
+        margin-right: -15px;
+        .text {
+          font-size: 0.9em;
+          font-weight: 500;
+          margin-left: 15px;
+        }
+        .arrow-img img {
+          width: 20px;
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+}
