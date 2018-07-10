@@ -114,7 +114,8 @@ export class GridComponent implements OnInit, OnDestroy {
                 this.feature.gridData[r][c]['rotation'],
                 this.feature.gridData[r][c]['material'],
                 this.feature.gridData[r][c]['tile'],
-                this.feature.gridData[r][c]['tileSize']
+                this.feature.gridData[r][c]['tileSize'],
+                this.feature.gridData[r][c]['tileNumber']
               );
             }
           }
