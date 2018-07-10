@@ -1,3 +1,5 @@
+import { QuantityOptionsComponent } from './quantity-options/quantity-options.component';
+import { ClarioGridsService } from './../_services/clario-grids.service';
 import { QuoteDialogComponent } from './../quote-dialog/quote-dialog.component';
 import { LoadDesignComponent } from './../load-design/load-design.component';
 import { LoginComponent } from './../login/login.component';
@@ -13,10 +15,9 @@ import { ApiService } from './../_services/api.service';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../feature';
 import { Location } from '@angular/common';
-import { QuantityService, TileObj } from './quantity.service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { QuantityService } from './quantity.service';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quantity',
@@ -35,10 +36,12 @@ export class QuantityComponent implements OnInit, OnDestroy {
   loadQtyDialogRef: MatDialogRef<any>;
   loginDialogRef: MatDialogRef<any>;
   quoteDialogRef: MatDialogRef<any>;
+  clarioGridDialogRef: MatDialogRef<any>;
   sqFootage: number;
+  sqMeters: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
-
+  quantityFeatures = ['tetria', 'clario', 'hush-blocks'];
 
   // Table Properties
   dataSource: TableDataSource | null;
@@ -55,23 +58,34 @@ export class QuantityComponent implements OnInit, OnDestroy {
     private location: Location,
     private dialog: MatDialog,
     public qtySrv: QuantityService,
-    public user: User
-  ) { }
+    public user: User,
+    public clarioGrids: ClarioGridsService
+  ) {}
 
   ngOnInit() {
+    this.feature.is_quantity_order = true;
+    if (!this.feature.grid_type) {
+      this.clarioGrids.gridSizeSelected('15/16');
+    }
     this.route.params.subscribe(params => {
       // initial setup
-      if (params['type'] === 'hush') { this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity')); }
-      this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
+      if (params['type'] === 'hush') {
+        this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity'));
+      }
+      if (!this.quantityFeatures.includes(params['type'])) {
+        this.feature.navToLanding();
+        return;
+      }
+      this.qtySrv.feature_type = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();
       this.order = this.qtySrv.order;
 
       // load saved if included in params
-      const qtyId = ((parseInt(params['param1'], 10)) || (parseInt(params['param2'], 10)));
+      const qtyId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!qtyId) {
         this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          this.debug.log('quantity', `qtyOrder`);
+          this.debug.log('quantity', qtyOrder);
           if (!qtyOrder.is_quantity_order) {
             this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
           }
@@ -85,32 +99,60 @@ export class QuantityComponent implements OnInit, OnDestroy {
           this.feature.tiles = qtyOrder.tiles;
           this.feature.material = qtyOrder.material;
           this.feature.quoted = qtyOrder.quoted;
+          this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
+          this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
           const tilesObj = JSON.parse(qtyOrder.tiles);
           const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
           rowsToAdd.map(row => {
-            const newRow = {[`${row.material}-${row.tile}`]: row };
+            const newRow = { [`${row.material}-${row.tile.tile}`]: row };
             this.qtySrv.doAddRow(newRow);
           });
-        })
+        });
+      } else {
+        setTimeout(() => {
+          this.goToOptions();
+        }, 500);
       }
-    })
+
+      if (this.feature.feature_type === 'hush') {
+        this.feature.updateSelectedTile(this.feature.tilesArray.hush[0]);
+      }
+
+      this.clarioGrids.onTileSizeChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+        // reset table data if the selected tile dimensions change
+        this.order.data = [];
+        this.qtySrv.updateSummary();
+      });
+    });
 
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
     this.feature.is_quantity_order = true;
 
-    this.api.onUserLoggedIn
-      .subscribe(apiUser => {
-        this.user.uid = apiUser.uid;
-        this.user.email = apiUser.email;
-        this.user.firstname = apiUser.firstname;
-        this.user.lastname = apiUser.lastname;
-      });
+    this.api.onUserLoggedIn.subscribe(apiUser => {
+      this.user.uid = apiUser.uid;
+      this.user.email = apiUser.email;
+      this.user.firstname = apiUser.firstname;
+      this.user.lastname = apiUser.lastname;
+    });
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  goToOptions() {
+    const config = new MatDialogConfig();
+    config.height = '70%';
+    config.width = '60%';
+    config.disableClose = true;
+    this.clarioGridDialogRef = this.dialog.open(QuantityOptionsComponent, config);
+    // this.clarioGridDialogRef.afterClosed()
+    //   .pipe(takeUntil(this.ngUnsubscribe))
+    //   .subscribe(result => {
+    //     console.log('result:', result);
+    //   });
   }
 
   setComponentProperties() {
@@ -119,20 +161,27 @@ export class QuantityComponent implements OnInit, OnDestroy {
         this.headerTitle = 'Hush Blocks Tiles';
         this.displayedColumns = ['hush-receiving', 'hush-material', 'total', 'edit'];
         break;
-      case 'clario': this.headerTitle = 'Clario Tiles'; break;
-      case 'tetria': this.headerTitle = 'Tetria Tiles'; break;
+      case 'clario':
+        this.headerTitle = 'Clario Tiles';
+        break;
+      case 'tetria':
+        this.headerTitle = 'Tetria Tiles';
+        break;
     }
   }
 
   backToDesign(reset?) {
     this.router.navigate([this.feature.feature_type, 'design']);
-    if (reset === 'reset') { this.feature.reset(); }
+    if (reset === 'reset') {
+      this.feature.reset();
+    }
   }
 
   addToOrder() {
     this.addQtyDialogRef = this.dialog.open(AddQuantityComponent);
-    this.addQtyDialogRef.afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+    this.addQtyDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(requestedRow => {
         if (!!requestedRow) {
           let isMultiple = false;
@@ -144,36 +193,40 @@ export class QuantityComponent implements OnInit, OnDestroy {
               isMultiple = true;
               this.qtySrv.combineRows(row, requestedRow);
             }
-          })
-          if (!isMultiple) { this.qtySrv.doAddRow(requestedRow); }
+          });
+          if (!isMultiple) {
+            this.qtySrv.doAddRow(requestedRow);
+          }
         }
-      })
+      });
   }
 
   editRow(index, row) {
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, {data: row});
-    this.addQtyDialogRef.afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, { data: row });
+    this.addQtyDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         if (!!result) {
           this.qtySrv.doEditRow(index, result);
           this.qtySrv.checkAndFixDuplicates();
         }
-      })
+      });
   }
 
   deleteRow(index, row) {
-    const removeRow = {index: index, row: row};
-    this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, {data: removeRow});
-    this.removeQtyDialogRef.afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+    const removeRow = { index: index, row: row };
+    this.removeQtyDialogRef = this.dialog.open(RemoveQuantityComponent, { data: removeRow });
+    this.removeQtyDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         if (result === 'remove') {
           this.qtySrv.order.data.splice(index, 1);
         }
         this.qtySrv.order.data = this.qtySrv.order.data.slice();
         this.qtySrv.updateSummary();
-      })
+      });
   }
 
   requestQuote() {
@@ -182,21 +235,36 @@ export class QuantityComponent implements OnInit, OnDestroy {
       this.loginDialog();
       return;
     }
-    this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, new MatDialogConfig);
+    this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, new MatDialogConfig());
   }
 
   viewDetails() {
     let path = window.location.pathname;
-    path = `${path}/details`
-    this.router.navigate([path])
+    path = `${path}/details`;
+    this.router.navigate([path]);
   }
 
   calcSqFootage() {
     this.tilesNeeded = Math.ceil(this.sqFootage / 4);
   }
 
+  calcSqMeters() {
+    if (this.feature.feature_type === 'clario') {
+      if (this.clarioGrids.selectedTileSize.tile_size.type === 'meters') {
+        // one 600x600mm tile is 0.36 Sq m
+        this.tilesNeeded = Math.ceil(this.sqMeters / 0.36);
+      }
+      if (this.clarioGrids.selectedTileSize.tile_size.type === 'german') {
+        // one 625x625mm tile is 0.390625 Sq m
+        this.tilesNeeded = Math.ceil(this.sqMeters / 0.390625);
+      }
+    }
+    // one 24x24in tile is 0.371612 Sq m
+    this.tilesNeeded = Math.ceil(this.sqMeters / 0.371612);
+  }
+
   public saveQuantity() {
-    this.saveQtyDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig);
+    this.saveQtyDialogRef = this.dialog.open(SaveDesignComponent, new MatDialogConfig());
     if (!this.user.isLoggedIn()) {
       this.loginDialog();
     }
@@ -207,20 +275,24 @@ export class QuantityComponent implements OnInit, OnDestroy {
     const config = new MatDialogConfig();
     config.disableClose = true;
     this.loginDialogRef = this.dialog.open(LoginComponent, config);
-    this.loginDialogRef.afterClosed()
-      .takeUntil(this.ngUnsubscribe)
+    this.loginDialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         if (result === 'cancel') {
           this.tryingRequestQuote = false;
           // we need to close the savedDialog too if it's open.
-          if (this.saveQtyDialogRef) { this.saveQtyDialogRef.close(); return; }
+          if (this.saveQtyDialogRef) {
+            this.saveQtyDialogRef.close();
+            return;
+          }
         } else if (load) {
           // the user should be logged in now, so show the load dialog
           this.loadQtyDesigns();
         }
         if (this.tryingRequestQuote) {
           this.tryingRequestQuote = false;
-          this.requestQuote()
+          this.requestQuote();
         }
       });
   }
@@ -230,24 +302,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
     } else {
-      this.api.getMyDesigns()
-        .takeUntil(this.ngUnsubscribe)
+      this.api
+        .getMyDesigns()
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(designs => {
-        this.loadQtyDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig);
-        this.loadQtyDialogRef.componentInstance.designs = designs;
-      });
+          this.loadQtyDialogRef = this.dialog.open(LoadDesignComponent, new MatDialogConfig());
+          this.loadQtyDialogRef.componentInstance.designs = designs;
+        });
     }
   }
-
 }
 
-
 export class TableDataSource extends MatTableDataSource<any> {
-
   constructor(private subject: BehaviorSubject<Order[]>) {
-    super ();
+    super();
   }
-
 }
 
 export interface Order {
@@ -262,5 +331,5 @@ export interface TileRow {
   image: string;
   used: number;
   material: string;
-  tile: string;
+  tile: any;
 }

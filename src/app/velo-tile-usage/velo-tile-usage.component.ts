@@ -21,10 +21,7 @@ export class VeloTileUsageComponent implements OnInit {
   public totalVariaReceiving: number;
   hasTotals = false;
 
-  constructor(
-    private debug: DebugService,
-    public feature: Feature
-  ) { }
+  constructor(private debug: DebugService, public feature: Feature) {}
 
   ngOnInit() {
     this.feltTiles = this.feature.getPurchasedVeloTiles('felt');
@@ -55,7 +52,7 @@ export class VeloTileUsageComponent implements OnInit {
       if (purchasedFelt.hasOwnProperty(felt)) {
         incrementTotalFeltConvex = purchasedFelt[felt].convex;
         incrementTotalFeltConcave = purchasedFelt[felt].concave;
-        incrementTotalFeltUnused = (purchasedFelt[felt].purchased - (purchasedFelt[felt].concave + purchasedFelt[felt].concave));
+        incrementTotalFeltUnused = purchasedFelt[felt].purchased - (purchasedFelt[felt].concave + purchasedFelt[felt].convex);
         incrementTotalFeltReceiving = purchasedFelt[felt].purchased;
         totalFeltConvex += incrementTotalFeltConvex;
         totalFeltConcave += incrementTotalFeltConcave;
@@ -67,7 +64,7 @@ export class VeloTileUsageComponent implements OnInit {
       if (purchasedVaria.hasOwnProperty(varia)) {
         incrementTotalVariaConvex = purchasedVaria[varia].convex;
         incrementTotalVariaConcave = purchasedVaria[varia].concave;
-        incrementTotalVariaUnused = (purchasedVaria[varia].purchased - (purchasedVaria[varia].concave + purchasedVaria[varia].concave));
+        incrementTotalVariaUnused = purchasedVaria[varia].purchased - (purchasedVaria[varia].concave + purchasedVaria[varia].convex);
         incrementTotalVariaReceiving = purchasedVaria[varia].purchased;
         totalVariaConvex += incrementTotalVariaConvex;
         totalVariaConcave += incrementTotalVariaConcave;
@@ -88,7 +85,7 @@ export class VeloTileUsageComponent implements OnInit {
   public variaTooltip(tile) {
     if (tile.diffusion) {
       return tile.material + ' + ' + tile.diffusion;
-    }else {
+    } else {
       return tile.material;
     }
   }
@@ -96,11 +93,16 @@ export class VeloTileUsageComponent implements OnInit {
   public diffusionString(diffusion: string) {
     let humanString: string;
     switch (diffusion) {
-      case 'avalanche_d01': humanString = 'Avalanche D01'; break;
-      case 'vapor_w05': humanString = 'Vapor W05'; break;
-      default: humanString = 'None'; break;
+      case 'avalanche_d01':
+        humanString = 'Avalanche D01';
+        break;
+      case 'vapor_w05':
+        humanString = 'Vapor W05';
+        break;
+      default:
+        humanString = 'None';
+        break;
     }
     return humanString;
   }
-
 }
