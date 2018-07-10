@@ -158,7 +158,6 @@ import { MainNavbarComponent } from './main-navbar/main-navbar.component';
     SeeyondFeature,
     ProfileFeature,
     User,
-    GridSection,
     DebugService,
     AlertService,
     ApiService,
