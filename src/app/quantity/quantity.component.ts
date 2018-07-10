@@ -48,6 +48,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
   dataSubject = new BehaviorSubject<Order[]>([]);
   displayedColumns = ['used', 'receiving', 'unused', 'material', 'total', 'edit'];
 
+  featureTitle = '';
+  // TODO update this for various features
+  quantitySoldIn = 4;
+  unitType = 'tiles';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -76,6 +81,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
         this.feature.navToLanding();
         return;
       }
+      this.featureTitle = `${params['type']} Quantity Order`;
       this.qtySrv.feature_type = this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();

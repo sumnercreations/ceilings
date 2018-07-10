@@ -1,6 +1,55 @@
-<div class="quantity-header">
+<div class="quantity">
+  <div class="main-header">
+    <span class="feature-title">{{featureTitle | capitalize}}</span>
+    <span appStyledButton='secondary-left'>
+      <button (click)="backToDesign('reset')" class="go-to-quantity">Design your feature</button>
+    </span>
+  </div>
+  <div class="main">
+    <div class="project-name">
+      <p class="sub-header">Project name</p>
+      <div class="project-name-input">
+        <span class="input-container">
+          <input type="text" placeholder="Name" autofocus>
+        </span>
+        <a id="load-btn" class="load-btn-fmt" title="load saved designs" (click)="feature.loadDesigns()">
+          <img src="/assets/icons/tools/load.png">
+          <span>Load</span>
+        </a>
+      </div>
+    </div>
+    <div class="quantity-data">
+      <div class="left-side">
+        <!-- TODO: DUPLICATE FOR METRIC -->
+        <div class="estimation">
+          <div class="sub-header">Quantity estimation</div>
+          <div class="description-text">Enter square footage to calculate how many tiles are needed.</div>
+          <input type="text" placeholder="Sq Footage">
+          <div class="description-text">
+            <strong>{{tilesNeeded}}</strong> 24x24 tiles are required to cover
+            <strong>{{sqFootage}}</strong> square feet.</div>
+          <div class="description-text">
+            <strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.</div>
+        </div>
+        <div class="used-receiving">
+          <div class="sub-header">Quantity used/receiving</div>
+          <div class="description-text add-margin-bottom">{{unitType | capitalize}} are sold in quantities of {{quantitySoldIn}}.</div>
+          <div class="description-text">Tiles Used/Receiving: {{feature.qtyTilesUsed}}/{{feature.qtyTilesReceiving}}</div>
+          <div class="description-text" *ngIf="feature.units === 'inches'">SqFt. Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</div>
+          <div class="description-text" *ngIf="feature.units === 'centimeters'">SqM Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</div>
+        </div>
+      </div>
+      <div class="right-side">
+        <div class="qty-table"></div>
+        <div class="est-total"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="quantity-header">
   <div class="row">
-    <a (click)="backToDesign('reset')">
+    <a (click)="backToDesign('reset')">f
       <span class="icomoon-chevron-left orange navigation"></span>
       <span>Design your feature</span>
     </a>
@@ -158,4 +207,4 @@
       <p *ngIf="feature.units === 'centimeters'">SqM Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</p>
     </div>
   </div>
-</div>
+</div> -->

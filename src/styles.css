@@ -73,17 +73,63 @@ h1 {
 
 body {
   font-family: 'Graphik Web';
+  background-color: #fff;
+  color: #1f1f1f;
+}
+
+input:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c;
+  box-shadow: none !important;
+}
+
+select:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c !important;
+  box-shadow: none !important;
+}
+
+button:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c !important;
+  box-shadow: none !important;
+}
+
+input {
+  text-indent: 8px;
+}
+
+.sub-header {
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.description-text {
+  font-size: 0.8em;
 }
 
 input.square {
   border-radius: 0;
 }
 
-span.orange {
-  color: #ff9933;
+.load-btn-fmt {
+  display: flex;
+  align-items: center;
 }
 
-p.orange {
+.load-btn-fmt>* {
+  padding-left: 15px;
+}
+
+.load-btn-fmt img {
+  max-height: 15px;
+}
+
+/* span.orange {
+  color: #ff9933;
+} */
+
+/* p.orange {
   color: #ff9933;
 }
 
@@ -114,13 +160,13 @@ p.orange {
 #save-btn span.orange,
 #load-btn span.orange {
   color: #ff9933;
-}
+} */
 
 /* Bootstrap overrides */
 
 /*updates to the buttons just for ceilings*/
 
-.button {
+/* .button {
   font-weight: 500;
   padding: 6px 24px;
 }
@@ -138,11 +184,11 @@ p.orange {
 .button.orange:focus {
   background-color: #ff9933;
   color: #fff;
-}
+} */
 
 /* more appropriate link colors */
 
-a {
+/* a {
   color: #ff9933;
   cursor: pointer;
 }
@@ -159,11 +205,11 @@ a:visited {
 
 .number-input {
   text-align: right;
-}
+} */
 
 /* 5 equal columns in 12 column grid */
 
-.col-xs-5ths,
+/* .col-xs-5ths,
 .col-sm-5ths,
 .col-md-5ths,
 .col-lg-5ths {
@@ -197,7 +243,7 @@ a:visited {
     width: 20%;
     float: left;
   }
-}
+} */
 
 /* end 5 equal columns in 12 column grid*/
 
@@ -205,34 +251,36 @@ a:visited {
 
 /* Small devices (tablets, 768px and up) */
 
-@media (min-width: 768px) {}
+/* @media (min-width: 768px) {} */
 
 /* Medium devices (desktops, 992px and up) */
 
+/*
 @media (min-width: 992px) {
   .container {
     width: 992px;
   }
-}
+} */
 
 /* Medium Large (iPad 1024 and up) */
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   .container {
     width: 1024px;
   }
-}
+} */
 
 /* Large devices (large desktops, 1200px and up) */
 
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
   .container {
     width: 1200px;
   }
-}
+} */
 
 /* Overwrite some default css styles */
 
+/*
 div.mat-tab-label {
   min-width: 72px;
   height: 25px;
@@ -256,9 +304,4 @@ div.mat-tab-label {
 
 .small-toggle .mat-button-toggle-label-content {
   line-height: 24px;
-}
-
-body {
-  background-color: #fff;
-  color: #1f1f1f;
-}
+} */

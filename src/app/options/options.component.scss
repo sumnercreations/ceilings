@@ -41,7 +41,6 @@
           }
           .input input {
             max-width: 100px;
-            text-indent: 8px;
             line-height: 2;
           }
           .name-input {
@@ -49,16 +48,6 @@
             padding-right: 10px;
             line-height: 2;
             text-indent: 8px;
-          }
-          .load-btn {
-            display: flex;
-            align-items: center;
-          }
-          .load-btn>* {
-            padding-left: 15px;
-          }
-          .load-btn img {
-            max-height: 15px;
           }
           .sub-header {
             font-weight: 500;
@@ -136,22 +125,4 @@
     margin-right: 5px !important;
     padding: 13px 8px;
   }
-}
-
-input:focus {
-  outline: none !important;
-  border: 2px solid #f79e1c;
-  box-shadow: none !important;
-}
-
-select:focus {
-  outline: none !important;
-  border: 2px solid #f79e1c !important;
-  box-shadow: none !important;
-}
-
-button:focus {
-  outline: none !important;
-  border: 2px solid #f79e1c !important;
-  box-shadow: none !important;
 }
