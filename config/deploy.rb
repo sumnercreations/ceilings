@@ -44,7 +44,7 @@ namespace :deploy do
   task :ng_build do
     on roles(:production) do
       print "building in production environment"
-      execute "cd #{release_path} && ng build --environment=prod --no-progress"
+      execute "cd #{release_path} && ng build --environment=production --no-progress"
     end
 
     on roles(:staging) do
