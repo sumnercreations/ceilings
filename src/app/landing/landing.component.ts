@@ -23,7 +23,7 @@ export class LandingComponent implements OnInit {
     this.feature.reset();
   }
 
-  public goTo(where: string, segment) {
+  public goTo(where: string, segment?) {
     const subComponent = !!segment ? segment : 'design';
     this.router.navigate([`/${where}/${subComponent}`]);
   }
