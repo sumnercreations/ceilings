@@ -46,7 +46,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   // Table Properties
   dataSource: TableDataSource | null;
   dataSubject = new BehaviorSubject<Order[]>([]);
-  displayedColumns = ['used', 'receiving', 'unused', 'material', 'total', 'edit'];
+  displayedColumns = ['material', 'used', 'receiving', 'unused', 'total', 'edit'];
 
   featureTitle = '';
   // TODO update this for various features
@@ -165,7 +165,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
     switch (this.qtySrv.feature_type) {
       case 'hush':
         this.headerTitle = 'Hush Blocks Tiles';
-        this.displayedColumns = ['hush-receiving', 'hush-material', 'total', 'edit'];
+        this.displayedColumns = ['hush-material', 'hush-receiving', 'total', 'edit'];
         break;
       case 'clario':
         this.headerTitle = 'Clario Tiles';

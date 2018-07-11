@@ -1,3 +1,5 @@
+import { ProfileFeature } from './../../_features/profile-feature';
+import { Router } from '@angular/router';
 import { ClarioGridsService } from './../../_services/clario-grids.service';
 import { Location } from '@angular/common';
 import { MatDialogRef } from '@angular/material';
@@ -11,26 +13,38 @@ import { Component, OnInit, AfterContentChecked } from '@angular/core';
 })
 export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
   title = 'Order By Quantity';
+  showProfileFeatureSelection = false;
+  showClarioTileSizes = false;
 
   constructor(
+    public router: Router,
     public feature: Feature,
     public dialogRef: MatDialogRef<QuantityOptionsComponent>,
     public location: Location,
-    public clarioGrids: ClarioGridsService
+    public clarioGrids: ClarioGridsService,
+    public profile: ProfileFeature
   ) {}
 
   ngOnInit() {}
 
   ngAfterContentChecked() {
+    switch (this.feature.feature_type) {
+      case 'clario':
+        this.showClarioTileSizes = true;
+        break;
+      case 'profile':
+        this.showProfileFeatureSelection = true;
+        break;
+    }
     const featureType = this.capitalizeFirstLetter(this.feature.feature_type);
     this.title = featureType !== 'hush' ? `${featureType} Tiles By Quantity` : `${featureType} Blocks By Quantity`;
   }
 
-  gridSizeChanged(selection) {
+  clarioGridSizeChanged(selection) {
     this.clarioGrids.gridSizeSelected(selection);
   }
 
-  tileSizeChanged(selection) {
+  clarioTileSizeChanged(selection) {
     this.clarioGrids.tileSizeSelected(selection);
     this.clarioGrids.setGridTileSizeOptions();
   }
@@ -50,5 +64,21 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
 
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  goToDesign() {
+    const pathname = window.location.pathname.replace(/\/design/g, '/quantity');
+    this.router.navigate([pathname]);
+    this.dialogRef.close('cancel');
+  }
+
+  updateSelectedProfileFeature(feature) {
+    console.log('updateSelectedFeature:', feature);
+    if (this.profile.tilesFeatures.includes(feature)) {
+      if (this.router.url.indexOf('tiles') < 0) {
+        this.location.go(`${this.router.url}/tiles/${feature}`);
+      }
+    }
+    this.profile.updateProfileFeature(feature);
   }
 }

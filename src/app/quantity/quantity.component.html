@@ -40,12 +40,79 @@
         </div>
       </div>
       <div class="right-side">
-        <div class="qty-table"></div>
-        <div class="est-total"></div>
+        <div class="qty-table">
+          <div class="data-table">
+            <p *ngIf="(order.data.length === 0)" class="md center-text add-to-order">
+              Select "Add Tiles" to begin.
+            </p>
+            <mat-table #table [dataSource]="order.data" *ngIf="(order.data.length > 0)">
+              <ng-container matColumnDef="used">
+                <mat-header-cell *matHeaderCellDef> Used </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.used}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="receiving">
+                <mat-header-cell *matHeaderCellDef> Receiving </mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.purchased}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="hush-receiving">
+                <mat-header-cell *matHeaderCellDef> Quantity </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.purchased}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="unused">
+                <mat-header-cell *matHeaderCellDef> Unused </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.purchased - element.used}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="material">
+                <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="material-column">
+                  <img src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img" alt="{{element.material.name_str | capitalize}}"> {{element.material | capitalize}} {{element.material_size}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="hush-material">
+                <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="material-column">
+                  <img src="{{element.image}}" class="img-responsive table-img rotate-90" alt="{{element.material.name_str | capitalize}}"> {{element.material | capitalize}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="total">
+                <mat-header-cell *matHeaderCellDef> Est. Total </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.total | currency:'USD'}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="edit">
+                <mat-header-cell *matHeaderCellDef>&nbsp;</mat-header-cell>
+                <mat-cell *matCellDef="let row; let i=index;" class="edit-column">
+                  <span (click)="editRow(i, row)">
+                    <img src="/assets/icons/tools/edit.png" alt="Edit Row">
+                  </span>
+                  <span class="delete-icon" (click)="deleteRow(i, row)">
+                    <img src="/assets/icons/tools/delete.png" alt="Delete Row">
+                  </span>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+          </div>
+          <div class="add-tiles-btn">
+            <button (click)="addToOrder()">Add Tiles</button>
+          </div>
+        </div>
+        <div class="est-total">
+
+        </div>
       </div>
     </div>
   </div>
 </div>
+<!-- </div> -->
 
 <!-- <div class="quantity-header">
   <div class="row">
