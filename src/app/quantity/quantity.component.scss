@@ -28,12 +28,13 @@
     .quantity-data {
       display: flex;
       flex-direction: row;
+      margin-bottom: 30px;
       .left-side {
-        width: 300px;
+        // width: 300px;
         border-right: 1px solid #bbb;
         padding-right: 10px;
         .estimation {
-          width: 300px;
+          width: 290px;
           padding-bottom: 10px;
           border-bottom: 1px solid #bbb;
         }
@@ -60,20 +61,33 @@
         flex-direction: column;
         justify-content: space-between;
         .qty-table {
+          min-height: 300px;
           .data-table {
-            max-height: 500px;
+            max-height: 450px;
             overflow: auto;
           }
           .add-tiles-btn button {
             width: 130px;
-            margin-top: 10px;
+            margin: 10px 0px;
             line-height: 3;
             background-color: #f5f5f5;
             border: none;
           }
         }
         .est-total {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
           border-top: 1px solid #bbb;
+          padding-top: 15px;
+          .est-total-text {
+            margin-right: 50px;
+            font-size: 1.2em;
+            font-weight: 500;
+          }
+          .est-total-text :first-child {
+            margin-right: 30px;
+          }
         }
       }
     }

@@ -106,7 +106,13 @@
           </div>
         </div>
         <div class="est-total">
-
+          <span appStyledButton='primary-right'>
+            <button type="submit" (click)='requestQuote()'>Request Quote</button>
+          </span>
+          <span class="est-total-text">
+            <span>Est. Total:</span>
+            <span>{{feature.estimated_amount | currency:'USD'}} USD</span>
+          </span>
         </div>
       </div>
     </div>

@@ -12,6 +12,8 @@ export class StyledButtonDirective implements AfterViewInit {
   ngAfterViewInit() {
     this.renderer.setStyle(this.el.nativeElement, 'display', 'flex');
     this.renderer.setStyle(this.el.nativeElement, 'align-items', 'center');
+    this.renderer.setStyle(this.el.nativeElement, 'min-width', '150px');
+    this.renderer.setStyle(this.el.nativeElement, 'justify-content', 'space-between');
     const button = this.el.nativeElement.getElementsByTagName('button')[0];
     this.renderer.setStyle(button, '-webkit-appearance', 'none');
     this.renderer.setStyle(button, '-moz-appearance', 'none');
@@ -55,6 +57,7 @@ export class StyledButtonDirective implements AfterViewInit {
     this.renderer.setStyle(button, 'text-indent', '8px');
     this.renderer.setStyle(button, 'background-color', '#000');
     this.renderer.setStyle(button, 'color', '#fff');
+    this.renderer.setStyle(button, 'padding-right', '30px');
   }
 
   styleSecondaryButton(button) {
@@ -62,6 +65,7 @@ export class StyledButtonDirective implements AfterViewInit {
     this.renderer.setStyle(button, 'line-height', '3.75');
     this.renderer.setStyle(button, 'font-size', '0.9em');
     this.renderer.setStyle(button, 'font-weight', '500');
+    this.renderer.setStyle(button, 'padding-right', '30px');
   }
 
   addArrowRight(button) {
