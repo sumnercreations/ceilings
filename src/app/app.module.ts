@@ -86,6 +86,7 @@ import { OptionsRightSeeyondComponent } from './options/options-right-seeyond/op
 import { OptionsRightHushComponent } from './options/options-right-hush/options-right-hush.component';
 import { OptionsRightVeloComponent } from './options/options-right-velo/options-right-velo.component';
 import { MainNavbarComponent } from './main-navbar/main-navbar.component';
+import { MainFooterComponent } from './main-footer/main-footer.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +134,8 @@ import { MainNavbarComponent } from './main-navbar/main-navbar.component';
     OptionsRightSeeyondComponent,
     OptionsRightHushComponent,
     OptionsRightVeloComponent,
-    MainNavbarComponent
+    MainNavbarComponent,
+    MainFooterComponent
   ],
   imports: [
     BrowserModule,
