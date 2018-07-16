@@ -97,6 +97,7 @@ button:focus {
 
 input {
   text-indent: 8px;
+  line-height: 1.8em;
 }
 
 .sub-header {

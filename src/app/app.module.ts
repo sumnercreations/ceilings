@@ -16,7 +16,8 @@ import {
   MatInputModule,
   MatProgressSpinnerModule,
   MatTabsModule,
-  MatTableModule
+  MatTableModule,
+  MatSidenavModule
 } from '@angular/material';
 
 // routing
@@ -153,7 +154,8 @@ import { MainFooterComponent } from './main-footer/main-footer.component';
     MatInputModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatTableModule
+    MatTableModule,
+    MatSidenavModule
   ],
   providers: [
     Feature,

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Feature } from 'app/_features/feature';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-main-navbar',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-navbar.component.scss']
 })
 export class MainNavbarComponent implements OnInit {
+  constructor(public feature: Feature) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  toggleSideNav() {
+    this.feature.onToggleSideNav.emit();
   }
-
 }

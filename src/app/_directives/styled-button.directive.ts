@@ -73,6 +73,7 @@ export class StyledButtonDirective implements AfterViewInit {
     const newImg = this.renderer.createElement('img');
     const arrowColor = this.buttonType.includes('primary') ? 'arrow-white' : 'arrow';
     this.renderer.setAttribute(newImg, 'src', `/assets/icons/tools/${arrowColor}.png`);
+    this.renderer.setAttribute(newImg, 'alt', `arrow img`);
     this.renderer.setStyle(newImg, 'height', '18px');
     this.renderer.setStyle(newImg, 'width', '18px');
     this.renderer.setStyle(newImg, 'margin-right', '15px');
@@ -84,6 +85,7 @@ export class StyledButtonDirective implements AfterViewInit {
     const newImg = this.renderer.createElement('img');
     const arrowColor = this.buttonType.includes('primary') ? 'arrow-white' : 'arrow';
     this.renderer.setAttribute(newImg, 'src', `/assets/icons/tools/${arrowColor}.png`);
+    this.renderer.setAttribute(newImg, 'alt', `arrow img`);
     this.renderer.setStyle(newImg, 'height', '18px');
     this.renderer.setStyle(newImg, 'width', '18px');
     this.renderer.setStyle(newImg, 'margin-left', '15px');
