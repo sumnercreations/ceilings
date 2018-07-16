@@ -21,6 +21,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   selectedMaterialImg: string;
   selectedQuantity: number;
   // selectedTile: any;
+  dialogHeader = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public inputRow: any,
@@ -59,12 +60,15 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     switch (this.qtySrv.feature_type) {
       case 'hush':
         requiredMaterials = this.materialsService.materials.felt.sola;
+        this.dialogHeader = 'Add Hush Blocks Tiles';
         break;
       case 'tetria':
         requiredMaterials = this.materialsService.materials.felt.merino;
+        this.dialogHeader = 'Add Tetria Tiles';
         break;
       case 'clario':
         requiredMaterials = this.materialsService.materials.felt.sola;
+        this.dialogHeader = 'Add Clario Baffles';
         break;
     }
     this.materials = requiredMaterials;

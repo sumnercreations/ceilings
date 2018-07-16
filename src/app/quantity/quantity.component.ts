@@ -184,7 +184,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   addToOrder() {
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent);
+    const config = new MatDialogConfig();
+    config.maxHeight = '90vh';
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, config);
     this.addQtyDialogRef
       .afterClosed()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -208,7 +210,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   editRow(index, row) {
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, { data: row });
+    const config = new MatDialogConfig();
+    config.data = row;
+    config.maxHeight = '90vh';
+
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, config);
     this.addQtyDialogRef
       .afterClosed()
       .pipe(takeUntil(this.ngUnsubscribe))

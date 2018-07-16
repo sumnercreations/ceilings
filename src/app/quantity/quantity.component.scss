@@ -17,7 +17,7 @@
     .project-name {
       .project-name-input {
         display: flex;
-        padding: 10px 0px 25px 0px;
+        padding-bottom: 20px;
         border-bottom: 1px solid #bbb;
         margin-bottom: 10px;
         .input-container {
@@ -30,7 +30,6 @@
       flex-direction: row;
       margin-bottom: 30px;
       .left-side {
-        // width: 300px;
         border-right: 1px solid #bbb;
         padding-right: 10px;
         .estimation {
@@ -61,9 +60,9 @@
         flex-direction: column;
         justify-content: space-between;
         .qty-table {
-          min-height: 300px;
+          min-height: 400px;
           .data-table {
-            max-height: 450px;
+            max-height: 340px;
             overflow: auto;
           }
           .add-tiles-btn button {
@@ -135,7 +134,8 @@ mat-header-row {
 }
 
 .material-column img {
-  margin-right: 10px;
+  margin: 5px 10px 5px 0px;
+  max-height: 48px;
 }
 
 .edit-column span img {
@@ -143,7 +143,7 @@ mat-header-row {
 }
 
 .delete-icon {
-  margin-left: 25px;
+  margin-left: 15px;
 }
 
 // .sub-header {
