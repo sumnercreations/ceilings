@@ -118,7 +118,7 @@ input.square {
   align-items: center;
 }
 
-.load-btn-fmt>* {
+.load-btn-fmt span {
   padding-left: 15px;
 }
 

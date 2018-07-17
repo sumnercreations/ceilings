@@ -133,11 +133,11 @@ export class QuantityService {
     this.feature.qtyTilesUsed = tilesUsed;
     this.sqAreaUsed = Math.round(sqAreaUsed * 100) / 100;
     this.sqAreaReceiving = Math.round(sqAreaReceiving * 100) / 100;
-    this.tilesSelected = sqAreaUsed / 4 || null;
+    this.tilesSelected = Math.round(sqAreaUsed / 4) || null;
     if (this.feature.feature_type === 'clario' && !!this.clarioGrids.selectedTileSize) {
       const tileForArea = this.clarioGrids.selectedTileSize.tile_size / 2;
       const tileArea = this.getTileSqArea(tileForArea.toString());
-      this.tilesSelected = sqAreaUsed / tileArea;
+      this.tilesSelected = Math.round(sqAreaUsed / tileArea);
     }
     this.updateTilesArr();
   }

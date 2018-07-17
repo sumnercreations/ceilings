@@ -21,7 +21,7 @@
         border-bottom: 1px solid #bbb;
         margin-bottom: 10px;
         .input-container {
-          width: 300px;
+          width: 260px;
         }
       }
     }
@@ -33,7 +33,7 @@
         border-right: 1px solid #bbb;
         padding-right: 10px;
         .estimation {
-          width: 290px;
+          width: 250px;
           padding-bottom: 10px;
           border-bottom: 1px solid #bbb;
         }
@@ -107,6 +107,12 @@ mat-header-row {
   color: #1f1f1f;
 }
 
+mat-cell:first-child,
+mat-footer-cell:first-child,
+mat-header-cell:first-child {
+  padding-left: 0px;
+}
+
 .mat-cell:last-child * {
   cursor: pointer;
   font-size: 1.1em;
@@ -114,13 +120,13 @@ mat-header-row {
 
 .mat-cell:last-child,
 .mat-header-cell:last-child {
-  flex: 0 0 8%;
+  padding-left: 25px;
 }
 
-.mat-column-used,
-.mat-column-receiving,
-.mat-column-unused {
-  flex: 0 0 10%;
+mat-cell:last-child,
+mat-footer-cell:last-child,
+mat-header-cell:last-child {
+  padding-right: 0px;
 }
 
 .mat-column-hush-material,
