@@ -25,18 +25,18 @@
           <div *ngIf="feature.units === 'inches'">
             <div class="description-text">Enter square footage to calculate how many tiles are needed.</div>
             <input [(ngModel)]="sqFootage" (keyup)="calcSqFootage()" type="number" placeholder="Sq Footage">
-            <div class="description-text">
+            <div class="description-text" *ngIf="!!sqFootage">
               <strong>{{tilesNeeded}}</strong> 24x24 tiles are required to cover
               <strong>{{sqFootage}}</strong> square feet.</div>
           </div>
           <div *ngIf="feature.units === 'centimeters'">
             <div class="description-text">Enter square meters to calculate how many tiles are needed.</div>
             <input [(ngModel)]="sqMeters" (keyup)="calcSqMeters()" type="number" placeholder="Sq Meters">
-            <div class="description-text">
+            <div class="description-text" *ngIf="!!sqMeters">
               <strong>{{tilesNeeded}}</strong> 24x24 tiles are required to cover
               <strong>{{sqMeters}}</strong> square meters.</div>
           </div>
-          <div class="description-text">
+          <div class="description-text" *ngIf="!!sqMeters || !!sqFootage">
             <strong>{{qtySrv.tilesSelected}} / {{tilesNeeded}}</strong> tiles are selected.</div>
         </div>
 

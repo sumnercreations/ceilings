@@ -54,7 +54,7 @@
   </div>
   <div class="qty-options-footer">
     <span appStyledButton='primary-right'>
-      <button type="submit" (click)="dialogRef.close('start designing')" class="start-designing">Next</button>
+      <button type="submit" (click)="dialogRef.close('start designing')" class="start-designing" [disabled]="!validateOptions()">Next</button>
     </span>
   </div>
 </div>
