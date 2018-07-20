@@ -132,6 +132,34 @@ button[disabled] {
   opacity: 0.6;
 }
 
+mat-button-toggle {
+  border: 1px solid !important;
+  border-color: #e8e8e8;
+  height: 34px;
+  width: 50px;
+}
+
+.mat-button-toggle-checked {
+  border-color: #000 !important;
+  background-color: #fff;
+  color: black;
+}
+
+mat-button-toggle-group {
+  box-shadow: none !important;
+  margin-top: -8px;
+}
+
+label.mat-button-toggle-label {
+  height: 100%;
+  margin-top: -2px;
+  font-weight: 500;
+}
+
+label div.mat-button-toggle-label-content {
+  height: 100%;
+}
+
 /* span.orange {
   color: #ff9933;
 } */

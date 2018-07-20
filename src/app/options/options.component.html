@@ -24,7 +24,7 @@
       <div *ngIf="showProjectName" id="project-name" class="left-section">
         <div class="subtitle">Project name</div>
         <div class="inputs">
-          <input type="text" class="name-input square" placeholder="Name" autofocus>
+          <input [(ngModel)]="feature.design_name" type="text" class="name-input square" placeholder="Name" autofocus>
           <a id="load-btn" class="load-btn-fmt" title="load saved designs" (click)="feature.loadDesigns()">
             <img src="/assets/icons/tools/load.png">
             <span>Load</span>
@@ -90,15 +90,11 @@
               <span>Max {{this.seeyond.radiusMax}}</span>
             </div>
           </div>
-          <div class="input sub-header">
-            <div class="units-input">
-              <span>
-                <p class="inches">IN</p>
-              </span>
-              <span>
-                <p class="centimeters">CM</p>
-              </span>
-            </div>
+          <div class="input">
+            <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+              <mat-button-toggle value="inches">IN</mat-button-toggle>
+              <mat-button-toggle value="centimeters">CM</mat-button-toggle>
+            </mat-button-toggle-group>
           </div>
         </div>
       </div>
@@ -109,24 +105,20 @@
         <div class="inputs">
           <div class="input">
             <div class="sub-header">Width</div>
-            <input class="unit-input" type="text">
+            <input [(ngModel)]="feature.width" class="unit-input" type="text">
             <div class="max-min"></div>
           </div>
           <div class="input">
             <div class="sub-header">Height</div>
-            <input class="unit-input" type="text">
+            <input [(ngModel)]="feature.length" class="unit-input" type="text">
             <div class="max-min"></div>
           </div>
-          <div class="input sub-header">
-            <div>&#8203;</div>
-            <div class="units-input">
-              <span>
-                <p class="inches">IN</p>
-              </span>
-              <span>
-                <p class="centimeters">CM</p>
-              </span>
-            </div>
+          <div class="input">
+            <div class="sub-header">&#8203;</div>
+            <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+              <mat-button-toggle value="inches">IN</mat-button-toggle>
+              <mat-button-toggle value="centimeters">CM</mat-button-toggle>
+            </mat-button-toggle-group>
           </div>
         </div>
       </div>
@@ -174,7 +166,7 @@
   </div>
   <div class="options-footer">
     <span appStyledButton='primary-right'>
-      <button type="submit" (click)='startDesigning()' class="start-designing">Start designing</button>
+      <button type="submit" (click)='startDesigning()' class="start-designing" [disabled]="!validateOptions()">Start designing</button>
     </span>
     <span appStyledButton='secondary-left' *ngIf="showQuantityBtn">
       <button (click)="goToQty()" class="go-to-quantity">Order by quantity</button>
