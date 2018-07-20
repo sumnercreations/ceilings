@@ -127,25 +127,29 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     // name, width, and length are required
     switch (this.feature.feature_type) {
       case 'seeyond':
-        valid = (!!this.seeyond.design_name);
+        valid = !!this.seeyond.design_name;
         break;
       case 'tetria':
-        valid = (!!this.feature.design_name && !!this.feature.width && !!this.feature.length);
+        valid = !!this.feature.design_name && !!this.feature.width && !!this.feature.length;
         break;
       case 'clario':
-        valid = (!!this.feature.width && !!this.feature.length && !!this.feature.design_name && !!this.feature.grid_type && !!this.clarioGrids.selectedTileSize;);
+        valid =
+          !!this.feature.width &&
+          !!this.feature.length &&
+          !!this.feature.design_name &&
+          !!this.feature.grid_type &&
+          !!this.clarioGrids.selectedTileSize;
         break;
       case 'hush':
-        valid = (!!this.feature.width && !!this.feature.length && !!this.feature.design_name);
+        valid = !!this.feature.width && !!this.feature.length && !!this.feature.design_name;
         break;
       case 'velo':
-        valid = (!!this.feature.design_name);
+        valid = !!this.feature.design_name;
         break;
       case 'profile':
-        valid = (!!this.feature.design_name);
+        valid = !!this.feature.design_name;
         break;
     }
-    console.log('validateOptions', valid);
     return valid;
   }
 
@@ -196,5 +200,4 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     this.seeyond.setMaxMinDimensions();
     this.seeyond.updateDimensions();
   }
-
 }
