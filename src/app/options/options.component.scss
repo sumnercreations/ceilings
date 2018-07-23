@@ -79,6 +79,13 @@
             }
           }
         }
+        .clario-inputs {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .clario-inputs div.input:first-child {
+          margin-bottom: 15px;
+        }
       }
     }
     .left-column :last-child {
