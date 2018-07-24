@@ -82,6 +82,16 @@
                 </mat-cell>
               </ng-container>
 
+              <ng-container matColumnDef="profile-material">
+                <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="material-column">
+                  <img *ngIf="element.tile.tile !== 'chroma'" src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img"
+                    alt="{{element.material.name_str | capitalize}}">
+                  <div *ngIf="element.tile.tile === 'chroma'" class="chroma-table-img" [style.backgroundColor]="element.image"></div>
+                  {{element.material | capitalize}}
+                </mat-cell>
+              </ng-container>
+
               <ng-container matColumnDef="hush-material">
                 <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="material-column">
@@ -170,7 +180,7 @@
           </a> |
           <a id="load-btn" title="load saved designs" (click)="loadQtyDesigns()">Load</a>
         </span>
-        <span class="clario-grid-type" *ngIf="qtySrv.feature_type === 'clario'">
+        <span class="clario-grid-type" *ngIf="feature.feature_type === 'clario'">
           <span *ngIf="clarioGrids.selectedTileSize">Tile Sizes: {{clarioGrids.selectedTileSize.name}}
             <a id="edit-project-name" class="edit-link" title="Edit Project Name" (click)="goToOptions()" *ngIf="!feature.quoted">Edit</a>
           </span>

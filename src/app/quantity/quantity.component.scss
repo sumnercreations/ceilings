@@ -130,6 +130,7 @@ mat-header-cell:last-child {
 }
 
 .mat-column-hush-material,
+.mat-column-profile-material,
 .mat-column-material {
   flex: 0 0 40%;
 }
@@ -140,7 +141,8 @@ mat-header-cell:last-child {
   align-items: center;
 }
 
-.material-column img {
+.material-column img,
+.material-column div {
   margin: 5px 10px 5px 0px;
   max-height: 48px;
 }
@@ -151,6 +153,11 @@ mat-header-cell:last-child {
 
 .delete-icon {
   margin-left: 15px;
+}
+
+.chroma-table-img {
+  height: 48px;
+  width: 48px;
 }
 
 // .sub-header {

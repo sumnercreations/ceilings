@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class QuantityService {
-  feature_type: string;
   qtyTilesArray = <TileObj[]>[];
   estimatedPrice = 0;
   tilesSelected = 0;
@@ -100,7 +99,7 @@ export class QuantityService {
   }
 
   getRowEstimate(row) {
-    switch (this.feature_type) {
+    switch (this.feature.feature_type) {
       case 'hush':
         this.feature.getHushEstimate(row);
         break;

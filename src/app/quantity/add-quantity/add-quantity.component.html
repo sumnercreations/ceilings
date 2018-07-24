@@ -1,7 +1,6 @@
 <div class="addQty-dialog-container">
   <div class="dialog-header">{{dialogHeader}}</div>
-  <div *ngIf="qtySrv.feature_type !== 'hush'" class="tile-selection section">
-
+  <div *ngIf="feature.feature_type !== 'hush'" class="tile-selection section">
     <!-- Clario -->
     <div *ngIf="feature.feature_type === 'clario'" class="tile-options">
       <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile)"
@@ -32,11 +31,33 @@
   <div class="material-selection section">
     <p>Material</p>
     <div class="materials">
-      <div *ngFor="let material of materials | keys" (click)="updateSelectedMaterial(material.material)">
-        <div *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" class="tooltip-host" [matTooltipPosition]="position">
-          <img src="{{material.image}}" alt="{{material.material | capitalize}}" [class.selected]="((!!selectedMaterial) && selectedMaterial == material.material.toLowerCase())">
+      <!-- Profile -->
+      <ng-container *ngIf="feature.feature_type === 'profile'">
+        <div *ngIf="profileFeature.feature_type_tile !== 'chroma'">
+          <div *ngFor="let material of materials | keys" (click)="updateQtySelectedMaterial(material)">
+            <div *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" class="tooltip-host" [matTooltipPosition]="position">
+              <img *ngIf="profileFeature.feature_type_tile !== 'clario'" src="{{material.image}}" alt="{{material.material | capitalize}}"
+                [class.selected]="((!!selectedMaterial) && selectedMaterial.toLowerCase() == material.material.toLowerCase())">
+            </div>
+          </div>
         </div>
-      </div>
+        <div *ngIf="profileFeature.feature_type_tile === 'chroma'">
+          <div *ngFor="let material of materials | keys" (click)="updateQtySelectedMaterial(material)">
+            <div *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" class="tooltip-host" [matTooltipPosition]="position">
+              <div *ngIf="profileFeature.feature_type_tile !== 'clario'" class="chroma-materials" [style.backgroundColor]="material.hex"
+                [class.selected]="((!!selectedMaterial) && selectedMaterial.toLowerCase == material.material.toLowerCase())"></div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <!-- All Others -->
+      <ng-container *ngIf="feature.feature_type !== 'profile'">
+        <div *ngFor="let material of materials | keys" (click)="updateQtySelectedMaterial(material)">
+          <div *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" class="tooltip-host" [matTooltipPosition]="position">
+            <img src="{{material.image}}" alt="{{material.material | capitalize}}" [class.selected]="((!!selectedMaterial) && selectedMaterial == material.material.toLowerCase())">
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 
@@ -46,6 +67,7 @@
       required type="number" class="form-control number-input square" placeholder="Quantity" name="Quantity" id="quantity">
   </div>
 
+  <!-- Restore this section if requested -->
   <!-- <div class="selection-total">
     <p>Selection</p>
     <div class="selection-summary">
@@ -74,7 +96,7 @@
 </div>
 
 <!-- <div class="addQty-dialog-container form-group">
-  <div *ngIf="qtySrv.feature_type !== 'hush'" class="row section">
+  <div *ngIf="feature.feature_type !== 'hush'" class="row section">
     <p class="md">Tile Type</p>
     <div *ngIf="feature.feature_type === 'clario'" class="tile-options">
       <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="updateSelectedTile(tile)"
@@ -103,7 +125,7 @@
   <div class="section">
     <p class="md">Material</p>
     <div class="materials">
-      <div *ngFor="let material of materials | keys" (click)="updateSelectedMaterial(material.material)">
+      <div *ngFor="let material of materials | keys" (click)="updateQtySelectedMaterial(material.material)">
         <div *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" class="material col-sm-2 tooltip-host"
           [matTooltipPosition]="position">
           <img src="{{material.image}}" alt="{{material.material | capitalize}}" class="circle img-responsive" [class.selected]="((!!selectedMaterial) && selectedMaterial == material.material.toLowerCase())">

@@ -7,6 +7,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 })
 export class ProfileFeature {
   feature_type = 'swoon';
+  feature_type_tile = '';
   $featureTypeChange = new EventEmitter();
   $buildSwoonGrid = new EventEmitter();
   tilesFeatures = ['verve', 'subway', 'glide', 'quarry', 'swoon', 'flank'];

@@ -29,7 +29,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   materials: any;
   order: any;
   orderName = '';
-  headerTitle = '';
   addQtyDialogRef: MatDialogRef<any>;
   removeQtyDialogRef: MatDialogRef<any>;
   saveQtyDialogRef: MatDialogRef<any>;
@@ -49,9 +48,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
   displayedColumns = ['material', 'used', 'receiving', 'unused', 'total', 'edit'];
 
   featureTitle = '';
-  // TODO update this for various features
-  quantitySoldIn = 4;
-  unitType = 'tiles';
 
   constructor(
     private route: ActivatedRoute,
@@ -82,7 +78,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
         return;
       }
       this.featureTitle = `${params['type']} Quantity Order`;
-      this.qtySrv.feature_type = this.feature.feature_type = this.feature.setFeatureType(params['type']);
+      this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();
       this.order = this.qtySrv.order;
@@ -90,30 +86,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       // load saved if included in params
       const qtyId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!qtyId) {
-        this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          this.debug.log('quantity', qtyOrder);
-          if (!qtyOrder.is_quantity_order) {
-            this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
-          }
-          if (qtyOrder.feature_type !== this.qtySrv.feature_type) {
-            this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
-          }
-          this.qtySrv.order.data = [];
-          this.feature.id = qtyOrder.id;
-          this.feature.uid = qtyOrder.uid;
-          this.feature.design_name = qtyOrder.design_name;
-          this.feature.tiles = qtyOrder.tiles;
-          this.feature.material = qtyOrder.material;
-          this.feature.quoted = qtyOrder.quoted;
-          this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
-          this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
-          const tilesObj = JSON.parse(qtyOrder.tiles);
-          const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
-          rowsToAdd.map(row => {
-            const newRow = { [`${row.material}-${row.tile.tile}`]: row };
-            this.qtySrv.doAddRow(newRow);
-          });
-        });
+        this.api.loadDesign(qtyId).subscribe(qtyOrder => this.loadQtyOrder(qtyOrder));
       } else {
         setTimeout(() => {
           this.goToOptions();
@@ -148,6 +121,33 @@ export class QuantityComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  loadQtyOrder(qtyOrder) {
+    this.debug.log('quantity', qtyOrder);
+    if (!qtyOrder.is_quantity_order) {
+      this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
+    }
+    if (qtyOrder.feature_type !== this.feature.feature_type) {
+      this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
+    }
+    this.qtySrv.order.data = [];
+    this.feature.id = qtyOrder.id;
+    this.feature.uid = qtyOrder.uid;
+    this.feature.design_name = qtyOrder.design_name;
+    this.feature.tiles = qtyOrder.tiles;
+    this.feature.material = qtyOrder.material;
+    this.feature.quoted = qtyOrder.quoted;
+    if (this.feature.feature_type === 'clario') {
+      this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
+      this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
+    }
+    const tilesObj = JSON.parse(qtyOrder.tiles);
+    const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
+    rowsToAdd.map(row => {
+      const newRow = { [`${row.material}-${row.tile.tile}`]: row };
+      this.qtySrv.doAddRow(newRow);
+    });
+  }
+
   goToOptions() {
     const config = new MatDialogConfig();
     config.height = '70%';
@@ -162,16 +162,16 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   setComponentProperties() {
-    switch (this.qtySrv.feature_type) {
+    switch (this.feature.feature_type) {
       case 'hush':
-        this.headerTitle = 'Hush Blocks Tiles';
         this.displayedColumns = ['hush-material', 'hush-receiving', 'total', 'edit'];
         break;
+      case 'profile':
+        this.displayedColumns = ['profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];
+        break;
       case 'clario':
-        this.headerTitle = 'Clario Tiles';
         break;
       case 'tetria':
-        this.headerTitle = 'Tetria Tiles';
         break;
     }
   }

@@ -45,8 +45,8 @@ export class QuantityDetailsComponent implements OnInit {
       if (params['type'] === 'hush') {
         this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
       }
-      this.qtySrv.feature_type = this.feature.setFeatureType(params['type']);
-      if (this.qtySrv.feature_type === 'hush') {
+      this.feature.feature_type = this.feature.setFeatureType(params['type']);
+      if (this.feature.feature_type === 'hush') {
         this.displayedColumns = ['hush-receiving', 'hush-material', 'total'];
       }
       const orderId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);

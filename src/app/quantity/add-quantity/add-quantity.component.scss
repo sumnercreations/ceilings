@@ -25,16 +25,16 @@
     }
   }
   .material-selection {
-    .materials {
+    .materials div {
       display: flex;
       flex-wrap: wrap;
-      max-height: 300px;
+      max-height: 250px;
       overflow: auto;
     }
-    .materials div div img {
+    .materials div div div img,
+    .materials div div div .chroma-materials {
       width: 60px;
-      height: 70px; // width: 45px;
-      // height: 60px;
+      height: 70px;
     }
   }
   .quantity-selection {
