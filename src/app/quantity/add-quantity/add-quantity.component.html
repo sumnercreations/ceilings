@@ -45,7 +45,7 @@
           <div *ngFor="let material of materials | keys" (click)="updateQtySelectedMaterial(material)">
             <div *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" class="tooltip-host" [matTooltipPosition]="position">
               <div *ngIf="profileFeature.feature_type_tile !== 'clario'" class="chroma-materials" [style.backgroundColor]="material.hex"
-                [class.selected]="((!!selectedMaterial) && selectedMaterial.toLowerCase == material.material.toLowerCase())"></div>
+                [class.selected]="((!!selectedMaterial) && selectedMaterial.toLowerCase() == material.material.toLowerCase())"></div>
             </div>
           </div>
         </div>

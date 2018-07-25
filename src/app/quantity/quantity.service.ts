@@ -38,6 +38,7 @@ export class QuantityService {
     newRow.tileSqArea = this.getTileSqArea(newRow.tile);
     newRow.id = this.rowIndexNum++;
     newRow.material_size = typeof newRow.tile === 'string' ? newRow.tile : newRow.tile.tile;
+    newRow.material_type = this.feature.selectedTile === 'string' ? this.feature.selectedTile : this.feature.selectedTile.name;
     return newRow;
   }
 
@@ -53,6 +54,7 @@ export class QuantityService {
     matchedRow.total = this.feature.estimated_amount;
     matchedRow.id = this.rowIndexNum++;
     matchedRow.material_size = typeof matchedRow.tile === 'string' ? matchedRow.tile : matchedRow.tile.tile;
+    matchedRow.material_type = this.feature.selectedTile === 'string' ? this.feature.selectedTile : this.feature.selectedTile.name;
     this.updateSummary();
   }
 
@@ -93,6 +95,7 @@ export class QuantityService {
     editRow.tileSqArea = this.getTileSqArea(editRow.tile);
     editRow.id = this.rowIndexNum++;
     editRow.material_size = typeof editRow.tile === 'string' ? editRow.tile : editRow.tile.tile;
+    editRow.material_type = this.feature.selectedTile === 'string' ? this.feature.selectedTile : this.feature.selectedTile.name;
     this.order.data[index] = editRow;
     this.order.data = this.order.data.slice(); // refreshes the table
     this.updateSummary();

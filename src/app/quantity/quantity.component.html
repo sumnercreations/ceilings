@@ -88,7 +88,7 @@
                   <img *ngIf="element.tile.tile !== 'chroma'" src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img"
                     alt="{{element.material.name_str | capitalize}}">
                   <div *ngIf="element.tile.tile === 'chroma'" class="chroma-table-img" [style.backgroundColor]="element.image"></div>
-                  {{element.material | capitalize}}
+                  {{element.material | capitalize}} {{element.material_type}}
                 </mat-cell>
               </ng-container>
 
