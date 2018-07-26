@@ -36,8 +36,8 @@ export class QuantityOptionsComponent implements OnInit, AfterContentChecked {
         this.showProfileFeatureSelection = true;
         break;
     }
-    const featureType = this.capitalizeFirstLetter(this.feature.feature_type);
-    this.title = featureType !== 'hush' ? `${featureType} Tiles By Quantity` : `${featureType} Blocks By Quantity`;
+    const featureType = this.feature.getFeatureHumanName();
+    this.title = `${featureType} Tiles By Quantity`;
   }
 
   clarioGridSizeChanged(selection) {

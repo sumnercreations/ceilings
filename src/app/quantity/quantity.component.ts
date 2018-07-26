@@ -9,7 +9,7 @@ import { RemoveQuantityComponent } from './remove-quantity/remove-quantity.compo
 import { MatDialog, MatDialogRef, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { AddQuantityComponent } from './add-quantity/add-quantity.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { AlertService } from '../_services/alert.service';
 import { ApiService } from './../_services/api.service';
 import { DebugService } from './../_services/debug.service';
@@ -24,7 +24,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './quantity.component.html',
   styleUrls: ['./quantity.component.scss']
 })
-export class QuantityComponent implements OnInit, OnDestroy {
+export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
   ngUnsubscribe: Subject<any> = new Subject();
   materials: any;
   order: any;
@@ -40,7 +40,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
   sqMeters: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
-  quantityFeatures = ['tetria', 'clario', 'hush-blocks', 'profile'];
+  quantityFeatures = ['tetria', 'clario', 'hush-blocks', 'profile', 'hush-swoon'];
 
   // Table Properties
   dataSource: TableDataSource | null;
@@ -77,7 +77,6 @@ export class QuantityComponent implements OnInit, OnDestroy {
         this.feature.navToLanding();
         return;
       }
-      this.featureTitle = `${params['type']} Quantity Order`;
       this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();
@@ -95,6 +94,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
       if (this.feature.feature_type === 'hush') {
         this.feature.updateSelectedTile(this.feature.tilesArray.hush[0]);
+      }
+      if (this.feature.feature_type === 'hushSwoon') {
+        this.feature.updateSelectedTile(this.feature.tilesArray.hushSwoon[0]);
       }
 
       this.clarioGrids.onTileSizeChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
@@ -114,6 +116,10 @@ export class QuantityComponent implements OnInit, OnDestroy {
       this.user.firstname = apiUser.firstname;
       this.user.lastname = apiUser.lastname;
     });
+  }
+
+  ngAfterContentInit() {
+    this.featureTitle = `${this.feature.getFeatureHumanName()} Quantity Order`;
   }
 
   ngOnDestroy() {
@@ -165,6 +171,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
     switch (this.feature.feature_type) {
       case 'hush':
         this.displayedColumns = ['hush-material', 'hush-receiving', 'total', 'edit'];
+        break;
+      case 'hushSwoon':
+        this.displayedColumns = ['hush-material', 'used', 'receiving', 'unused', 'total', 'edit'];
         break;
       case 'profile':
         this.displayedColumns = ['profile-tile-type', 'profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];

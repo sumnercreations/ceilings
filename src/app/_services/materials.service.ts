@@ -398,6 +398,14 @@ export class MaterialsService {
         name: '00'
       }
     },
+    hushSwoon: {
+      0: {
+        image: '/assets/images/tiles/hush-swoon.png',
+        tile: 'hush-swoon',
+        tile_size: '',
+        name: 'Hush Swoon'
+      }
+    },
     profile: {
       swoon: {
         0: {

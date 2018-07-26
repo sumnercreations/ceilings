@@ -1186,8 +1186,15 @@ export class Feature {
   }
 
   public setFeatureType(str: string) {
-    if (str.indexOf('hush') > -1) {
-      str = 'hush';
+    switch (str) {
+      case 'hush-blocks':
+        str = 'hush';
+        break;
+      case 'hush-swoon':
+        str = 'hushSwoon';
+        break;
+      default:
+        break;
     }
     this.feature_type = str;
     return str;
@@ -1212,6 +1219,9 @@ export class Feature {
       case 'tetria':
         requiredMaterials = this.materials.felt.merino;
         break;
+      case 'hushSwoon':
+        requiredMaterials = this.materials.felt.merino;
+        break;
       case 'clario':
         requiredMaterials = this.materials.felt.sola;
         break;
@@ -1223,6 +1233,17 @@ export class Feature {
         break;
     }
     return requiredMaterials;
+  }
+
+  getFeatureHumanName() {
+    switch (this.feature_type) {
+      case 'hush':
+        return 'Hush Blocks';
+      case 'hushSwoon':
+        return 'Hush Swoon';
+      default:
+        return this.feature_type.charAt(0).toUpperCase() + this.feature_type.slice(1);
+    }
   }
 
   addNoColorToVariaObj() {

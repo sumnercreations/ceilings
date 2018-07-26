@@ -171,6 +171,9 @@ export class QuantityService {
   }
 
   getTileSqArea(tile) {
+    if (this.feature.feature_type === 'hushSwoon' || this.feature.feature_type === 'profileSwoon') {
+      return 0.1566;
+    }
     switch (tile) {
       case '24':
         return 4;

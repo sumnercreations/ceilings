@@ -24,6 +24,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   selectedQuantity: number;
   // selectedTile: any;
   dialogHeader = '';
+  showTileSelection = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public inputRow: any,
@@ -39,6 +40,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.getFeatureMaterials();
     this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
+    this.showTileSelection = !(this.feature.feature_type === 'hush' || this.feature.feature_type === 'hushSwoon');
     if (this.feature.feature_type === 'profile') {
       if (!this.profileFeature.feature_type_tile) {
         this.updateSelectedTile('standard');
@@ -74,6 +76,10 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
       case 'tetria':
         requiredMaterials = this.materialsService.materials.felt.merino;
         this.dialogHeader = 'Add Tetria Tiles';
+        break;
+      case 'hushSwoon':
+        requiredMaterials = this.materialsService.materials.felt.merino;
+        this.dialogHeader = 'Add Hush Swoon Tiles';
         break;
       case 'clario':
         requiredMaterials = this.materialsService.materials.felt.sola;
@@ -119,6 +125,9 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
     switch (this.feature.feature_type) {
       case 'hush':
         materialImg = `/assets/images/tiles/${this.feature.selectedTile.tile}/${this.selectedMaterial}.png`;
+        break;
+      case 'hushSwoon':
+        materialImg = `/assets/images/materials/felt/merino/${this.selectedMaterial}.png`;
         break;
       case 'tetria':
         materialImg = `/assets/images/tiles/${this.feature.selectedTile.tile}/${this.selectedMaterial}.png`;

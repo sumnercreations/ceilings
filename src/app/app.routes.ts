@@ -8,8 +8,6 @@ import { DetailsComponent } from './details/details.component';
 import { QuantityComponent } from './quantity/quantity.component';
 import { QuantityDetailsComponent } from './details/quantity-details/quantity-details.component';
 
-// profile/design(quantity)/tiles(panels)/tile_type/_id/details
-
 const appRoutes: Routes = [
   // note: param1 and param2 are meant to be interchangable
   { path: '', component: LandingComponent },
@@ -33,6 +31,7 @@ const appRoutes: Routes = [
   { path: 'hush-blocks', redirectTo: '/hush-blocks/design', pathMatch: 'full' },
   { path: 'velo', redirectTo: '/velo/design', pathMatch: 'full' },
   { path: 'profile', redirectTo: '/profile/design', pathMatch: 'full' },
+  { path: 'hush-swoon', redirectTo: '/hush-swoon/design', pathMatch: 'full' },
   { path: 'landing', redirectTo: '', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
