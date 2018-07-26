@@ -48,6 +48,8 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
   displayedColumns = ['material', 'used', 'receiving', 'unused', 'total', 'edit'];
 
   featureTitle = '';
+  dimensionsText = '';
+  dimensionsImgUrl = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -174,6 +176,8 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
         break;
       case 'hushSwoon':
         this.displayedColumns = ['hush-material', 'used', 'receiving', 'unused', 'total', 'edit'];
+        this.dimensionsText = 'Hush Swoon tiles are 8.66" wide x 5.21" high x 1" deep';
+        this.dimensionsImgUrl = '/assets/images/tiles/hush-swoon/hush-swoon-measurement.png';
         break;
       case 'profile':
         this.displayedColumns = ['profile-tile-type', 'profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];

@@ -103,10 +103,12 @@ input {
 .sub-header {
   font-weight: 500;
   font-size: 0.9em;
+  padding: 5px 0px;
 }
 
 .description-text {
   font-size: 0.8em;
+  padding: 2px 0px;
 }
 
 input.square {

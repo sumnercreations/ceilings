@@ -127,7 +127,7 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
         materialImg = `/assets/images/tiles/${this.feature.selectedTile.tile}/${this.selectedMaterial}.png`;
         break;
       case 'hushSwoon':
-        materialImg = `/assets/images/materials/felt/merino/${this.selectedMaterial}.png`;
+        materialImg = `/assets/images/tiles/hush-swoon/felt/merino/${this.selectedMaterial}.png`;
         break;
       case 'tetria':
         materialImg = `/assets/images/tiles/${this.feature.selectedTile.tile}/${this.selectedMaterial}.png`;

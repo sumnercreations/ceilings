@@ -24,6 +24,9 @@
           width: 260px;
         }
       }
+      .project-name-input a {
+        margin-left: 10px;
+      }
     }
     .quantity-data {
       display: flex;
@@ -38,20 +41,21 @@
           padding-bottom: 10px;
           border-bottom: 1px solid #bbb;
         }
-        .estimation div>* {
-          margin-bottom: 10px;
-        }
         .estimation div input {
-          margin-bottom: 20px;
+          margin: 10px 0px;
         }
         .used-receiving {
-          margin-top: 10px;
+          margin: 10px 0px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid #bbb;
           .add-margin-bottom {
             margin-bottom: 20px;
           }
         }
-        .used-receiving>* {
-          margin-bottom: 10px;
+        .dimensions {
+          img {
+            max-height: 72px;
+          }
         }
       }
       .right-side {

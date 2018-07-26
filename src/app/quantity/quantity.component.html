@@ -48,7 +48,12 @@
           <div class="description-text">Tiles Used/Receiving: {{feature.qtyTilesUsed}}/{{feature.qtyTilesReceiving}}</div>
           <div class="description-text" *ngIf="feature.units === 'inches'">SqFt. Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</div>
           <div class="description-text" *ngIf="feature.units === 'centimeters'">SqM Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</div>
+        </div>
 
+        <div class="dimensions">
+          <div class="sub-header">Tile Dimensions</div>
+          <div class="description-text">{{dimensionsText}}</div>
+          <img src={{dimensionsImgUrl}} alt="Dimensions Image Key">
         </div>
       </div>
       <div class="right-side">
