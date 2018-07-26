@@ -167,7 +167,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
         this.displayedColumns = ['hush-material', 'hush-receiving', 'total', 'edit'];
         break;
       case 'profile':
-        this.displayedColumns = ['profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];
+        this.displayedColumns = ['profile-tile-type', 'profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];
         break;
       case 'clario':
         break;

@@ -404,19 +404,19 @@ export class MaterialsService {
           image: '/assets/images/profile/swoon/standard-tile.png',
           tile: 'standard',
           tile_size: '',
-          name: 'Standard Finish'
+          name: 'Standard'
         },
         1: {
           image: '/assets/images/profile/swoon/acoustic-tile.png',
           tile: 'acoustic',
           tile_size: '',
-          name: 'Acoustic Tile'
+          name: 'Acoustic'
         },
         2: {
           image: '/assets/images/profile/swoon/chroma-tile.png',
           tile: 'chroma',
           tile_size: '',
-          name: 'Chroma Tile'
+          name: 'Chroma'
         }
       }
     }

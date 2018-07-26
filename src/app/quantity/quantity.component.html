@@ -85,10 +85,16 @@
               <ng-container matColumnDef="profile-material">
                 <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="material-column">
-                  <img *ngIf="element.tile.tile !== 'chroma'" src="{{element.image}}" [ngClass]="{'rotate-90': element.tile === '24'}" class="img-responsive table-img"
-                    alt="{{element.material.name_str | capitalize}}">
+                  <img *ngIf="element.tile.tile !== 'chroma'" src="{{element.image}}" class="table-img" alt="{{element.material.name_str | capitalize}}">
                   <div *ngIf="element.tile.tile === 'chroma'" class="chroma-table-img" [style.backgroundColor]="element.image"></div>
-                  {{element.material | capitalize}} {{element.material_type}}
+                  {{element.material | capitalize}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="profile-tile-type">
+                <mat-header-cell *matHeaderCellDef> Tile Type </mat-header-cell>
+                <mat-cell *matCellDef="let element" class="material-column">
+                  <img class="table-img" src="{{element.tile.image}}" alt="{{element.material.name_str | capitalize}}">{{element.material_type}}
                 </mat-cell>
               </ng-container>
 
