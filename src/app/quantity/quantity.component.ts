@@ -9,11 +9,11 @@ import { RemoveQuantityComponent } from './remove-quantity/remove-quantity.compo
 import { MatDialog, MatDialogRef, MatDialogConfig, MatTableDataSource } from '@angular/material';
 import { AddQuantityComponent } from './add-quantity/add-quantity.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { AlertService } from '../_services/alert.service';
 import { ApiService } from './../_services/api.service';
 import { DebugService } from './../_services/debug.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { Location } from '@angular/common';
 import { QuantityService } from './quantity.service';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
@@ -22,14 +22,13 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-quantity',
   templateUrl: './quantity.component.html',
-  styleUrls: ['./quantity.component.css']
+  styleUrls: ['./quantity.component.scss']
 })
-export class QuantityComponent implements OnInit, OnDestroy {
+export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
   ngUnsubscribe: Subject<any> = new Subject();
   materials: any;
   order: any;
   orderName = '';
-  headerTitle = '';
   addQtyDialogRef: MatDialogRef<any>;
   removeQtyDialogRef: MatDialogRef<any>;
   saveQtyDialogRef: MatDialogRef<any>;
@@ -41,12 +40,16 @@ export class QuantityComponent implements OnInit, OnDestroy {
   sqMeters: number;
   tilesNeeded: number;
   tryingRequestQuote = false;
-  quantityFeatures = ['tetria', 'clario', 'hush-blocks'];
+  quantityFeatures = ['tetria', 'clario', 'hush-blocks', 'profile', 'hush-swoon'];
 
   // Table Properties
   dataSource: TableDataSource | null;
   dataSubject = new BehaviorSubject<Order[]>([]);
-  displayedColumns = ['used', 'receiving', 'unused', 'material', 'total', 'edit'];
+  displayedColumns = ['material', 'used', 'receiving', 'unused', 'total', 'edit'];
+
+  featureTitle = '';
+  dimensionsText = '';
+  dimensionsImgUrl = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -76,7 +79,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
         this.feature.navToLanding();
         return;
       }
-      this.qtySrv.feature_type = this.feature.feature_type = this.feature.setFeatureType(params['type']);
+      this.feature.feature_type = this.feature.setFeatureType(params['type']);
       this.materials = this.feature.getFeatureMaterials();
       this.setComponentProperties();
       this.order = this.qtySrv.order;
@@ -84,31 +87,7 @@ export class QuantityComponent implements OnInit, OnDestroy {
       // load saved if included in params
       const qtyId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
       if (!!qtyId) {
-        this.api.loadDesign(qtyId).subscribe(qtyOrder => {
-          this.debug.log('quantity', qtyOrder);
-          if (!qtyOrder.is_quantity_order) {
-            this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
-          }
-          if (qtyOrder.feature_type !== this.feature.feature_type) {
-            this.feature.feature_type = qtyOrder.feature_type;
-            this.location.go(`${this.feature.getFeatureNameForUrl()}/quantity/${qtyOrder.id}`);
-          }
-          this.qtySrv.order.data = [];
-          this.feature.id = qtyOrder.id;
-          this.feature.uid = qtyOrder.uid;
-          this.feature.design_name = qtyOrder.design_name;
-          this.feature.tiles = qtyOrder.tiles;
-          this.feature.material = qtyOrder.material;
-          this.feature.quoted = qtyOrder.quoted;
-          this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
-          this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
-          const tilesObj = JSON.parse(qtyOrder.tiles);
-          const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
-          rowsToAdd.map(row => {
-            const newRow = { [`${row.material}-${row.tile.tile}`]: row };
-            this.qtySrv.doAddRow(newRow);
-          });
-        });
+        this.api.loadDesign(qtyId).subscribe(qtyOrder => this.loadQtyOrder(qtyOrder));
       } else {
         setTimeout(() => {
           this.goToOptions();
@@ -117,6 +96,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
 
       if (this.feature.feature_type === 'hush') {
         this.feature.updateSelectedTile(this.feature.tilesArray.hush[0]);
+      }
+      if (this.feature.feature_type === 'hushSwoon') {
+        this.feature.updateSelectedTile(this.feature.tilesArray.hushSwoon[0]);
       }
 
       this.clarioGrids.onTileSizeChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
@@ -138,9 +120,40 @@ export class QuantityComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterContentInit() {
+    this.featureTitle = `${this.feature.getFeatureHumanName()} Quantity Order`;
+  }
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  loadQtyOrder(qtyOrder) {
+    this.debug.log('quantity', qtyOrder);
+    if (!qtyOrder.is_quantity_order) {
+      this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
+    }
+    if (qtyOrder.feature_type !== this.feature.feature_type) {
+      this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
+    }
+    this.qtySrv.order.data = [];
+    this.feature.id = qtyOrder.id;
+    this.feature.uid = qtyOrder.uid;
+    this.feature.design_name = qtyOrder.design_name;
+    this.feature.tiles = qtyOrder.tiles;
+    this.feature.material = qtyOrder.material;
+    this.feature.quoted = qtyOrder.quoted;
+    if (this.feature.feature_type === 'clario') {
+      this.clarioGrids.gridSizeSelected(qtyOrder.grid_type);
+      this.clarioGrids.loadSelectedTileSize(qtyOrder.tile_size);
+    }
+    const tilesObj = JSON.parse(qtyOrder.tiles);
+    const rowsToAdd = Object.keys(tilesObj).map(key => tilesObj[key]);
+    rowsToAdd.map(row => {
+      const newRow = { [`${row.material}-${row.tile.tile}`]: row };
+      this.qtySrv.doAddRow(newRow);
+    });
   }
 
   goToOptions() {
@@ -157,16 +170,21 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   setComponentProperties() {
-    switch (this.qtySrv.feature_type) {
+    switch (this.feature.feature_type) {
       case 'hush':
-        this.headerTitle = 'Hush Blocks Tiles';
-        this.displayedColumns = ['hush-receiving', 'hush-material', 'total', 'edit'];
+        this.displayedColumns = ['hush-material', 'hush-receiving', 'total', 'edit'];
+        break;
+      case 'hushSwoon':
+        this.displayedColumns = ['hush-material', 'used', 'receiving', 'unused', 'total', 'edit'];
+        this.dimensionsText = 'Hush Swoon tiles are 8.66" wide x 5.21" high x 1" deep';
+        this.dimensionsImgUrl = '/assets/images/tiles/hush-swoon/hush-swoon-measurement.png';
+        break;
+      case 'profile':
+        this.displayedColumns = ['profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];
         break;
       case 'clario':
-        this.headerTitle = 'Clario Tiles';
         break;
       case 'tetria':
-        this.headerTitle = 'Tetria Tiles';
         break;
     }
   }
@@ -179,7 +197,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   addToOrder() {
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent);
+    const config = new MatDialogConfig();
+    config.maxHeight = '90vh';
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, config);
     this.addQtyDialogRef
       .afterClosed()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -203,7 +223,11 @@ export class QuantityComponent implements OnInit, OnDestroy {
   }
 
   editRow(index, row) {
-    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, { data: row });
+    const config = new MatDialogConfig();
+    config.data = row;
+    config.maxHeight = '90vh';
+
+    this.addQtyDialogRef = this.dialog.open(AddQuantityComponent, config);
     this.addQtyDialogRef
       .afterClosed()
       .pipe(takeUntil(this.ngUnsubscribe))

@@ -1,0 +1,14 @@
+.configurator {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 1vh;
+}
+
+.app-container {
+  margin: 0px 25px; // align-self: stretch;
+}
+
+.mat-drawer-container {
+  background-color: #fff;
+}

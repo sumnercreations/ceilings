@@ -3,7 +3,7 @@ import { MaterialsService } from './../_services/materials.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DebugService } from './../_services/debug.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { GridSection } from './../_models/grid-section';
 import { AlertService } from '../_services/alert.service';
 import { Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.css']
+  styleUrls: ['./grid.component.scss']
 })
 export class GridComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
