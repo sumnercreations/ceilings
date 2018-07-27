@@ -89,7 +89,7 @@ export class QuoteDialogComponent implements OnInit {
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');
-        this.location.go([`${this.feature.getFeatureNameForUrl()}/${this.uiType}/${this.feature.id}`]);
+        this.location.go(`${this.feature.getFeatureNameForUrl()}/${this.uiType}/${this.feature.id}`);
       });
     }
     this.dialogRef.close();
