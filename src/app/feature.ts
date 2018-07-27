@@ -1250,4 +1250,13 @@ export class Feature {
     this.location.go('/');
     window.location.reload();
   }
+
+  getFeatureNameForUrl() {
+    switch (this.feature_type) {
+      case 'hush' :
+        return 'hush-blocks';
+      default:
+        return this.feature_type;
+    }
+  }
 }
