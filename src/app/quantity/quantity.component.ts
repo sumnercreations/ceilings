@@ -181,6 +181,8 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
         break;
       case 'profile':
         this.displayedColumns = ['profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];
+        this.dimensionsText = 'Swoon tiles are 8.66" wide x 5.21" high x 1" deep'; // TODO FOR DIFFERENT PROFILE TYPES
+        this.dimensionsImgUrl = '/assets/images/tiles/hush-swoon/hush-swoon-measurement.png'; // TODO: get a profile one
         break;
       case 'clario':
         break;

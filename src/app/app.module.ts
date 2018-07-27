@@ -88,6 +88,7 @@ import { OptionsRightHushComponent } from './options/options-right-hush/options-
 import { OptionsRightVeloComponent } from './options/options-right-velo/options-right-velo.component';
 import { MainNavbarComponent } from './main-navbar/main-navbar.component';
 import { MainFooterComponent } from './main-footer/main-footer.component';
+import { OptionsRightHushSwoonComponent } from './options/options-right-hush-swoon/options-right-hush-swoon.component';
 
 @NgModule({
   declarations: [
@@ -136,7 +137,8 @@ import { MainFooterComponent } from './main-footer/main-footer.component';
     OptionsRightHushComponent,
     OptionsRightVeloComponent,
     MainNavbarComponent,
-    MainFooterComponent
+    MainFooterComponent,
+    OptionsRightHushSwoonComponent
   ],
   imports: [
     BrowserModule,

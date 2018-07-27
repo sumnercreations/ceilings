@@ -87,7 +87,7 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
 
   ngAfterContentInit() {
     const featureType = this.feature.feature_type;
-    this.title = featureType !== 'hush' ? `${featureType} Design Tool` : `${featureType} Blocks Design Tool`;
+    this.title = `${this.feature.getFeatureHumanName()} Design Tool`;
   }
 
   ngOnDestroy() {
@@ -147,6 +147,9 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
         valid = !!this.feature.design_name;
         break;
       case 'profile':
+        valid = !!this.feature.design_name;
+        break;
+      case 'hushSwoon':
         valid = !!this.feature.design_name;
         break;
     }

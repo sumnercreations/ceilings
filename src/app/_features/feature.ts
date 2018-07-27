@@ -1235,17 +1235,6 @@ export class Feature {
     return requiredMaterials;
   }
 
-  getFeatureHumanName() {
-    switch (this.feature_type) {
-      case 'hush':
-        return 'Hush Blocks';
-      case 'hushSwoon':
-        return 'Hush Swoon';
-      default:
-        return this.feature_type.charAt(0).toUpperCase() + this.feature_type.slice(1);
-    }
-  }
-
   addNoColorToVariaObj() {
     // object to add
     const variaWithoutColor = {
@@ -1275,10 +1264,23 @@ export class Feature {
 
   getFeatureNameForUrl() {
     switch (this.feature_type) {
-      case 'hush' :
+      case 'hush':
         return 'hush-blocks';
+      case 'hushSwoon':
+        return 'hush-swoon';
       default:
         return this.feature_type;
+    }
+  }
+
+  getFeatureHumanName() {
+    switch (this.feature_type) {
+      case 'hush':
+        return 'Hush Blocks';
+      case 'hushSwoon':
+        return 'Hush Swoon';
+      default:
+        return this.feature_type.charAt(0).toUpperCase() + this.feature_type.slice(1);
     }
   }
 }
