@@ -89,8 +89,9 @@ export class QuantityComponent implements OnInit, OnDestroy {
           if (!qtyOrder.is_quantity_order) {
             this.router.navigate([`${qtyOrder.feature_type}/design`, qtyOrder.id]);
           }
-          if (qtyOrder.feature_type !== this.qtySrv.feature_type) {
-            this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
+          if (qtyOrder.feature_type !== this.feature.feature_type) {
+            this.feature.feature_type = qtyOrder.feature_type;
+            this.location.go(`${this.feature.getFeatureNameForUrl()}/quantity/${qtyOrder.id}`);
           }
           this.qtySrv.order.data = [];
           this.feature.id = qtyOrder.id;
