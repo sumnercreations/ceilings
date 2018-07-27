@@ -69,27 +69,27 @@ export class QuoteDialogComponent implements OnInit {
           this.debug.log('quote-dialog', response);
         });
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]).toString();
+        const url = this.router
+          .createUrlTree([`${this.feature.getFeatureNameForUrl()}/${this.uiType}/${this.feature.id}`])
+          .toString();
         if (url !== this.router.url) {
-          this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
+          this.router.navigate([`${this.feature.getFeatureNameForUrl()}/${this.uiType}/${this.feature.id}`]);
         }
         this.alert.success('Your quote request has been sent.');
       });
     } else {
-      // set the design name to something simple
+    // set the design name to something simple
       this.feature.design_name = this.feature.feature_type + ' - ' + this.getToday();
       this.feature.quoted = true;
       this.api.saveDesign().subscribe(feature => {
         // send ceilings design email after we have saved.
-        // set the feature to what was returned.
         this.feature.id = feature.ceiling.id;
-        this.feature = feature.ceiling;
         this.api.sendEmail().subscribe(response => {
           this.debug.log('quote-dialog', response);
         });
         // redirect to the URL of the saved design.
         this.alert.success('We saved your design so we can quote it and you can load it later.');
-        this.router.navigate([`${this.feature.feature_type}/${this.uiType}/${this.feature.id}`]);
+        this.location.go(`${this.feature.getFeatureNameForUrl()}/${this.uiType}/${this.feature.id}`);
       });
     }
     this.dialogRef.close();

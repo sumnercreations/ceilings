@@ -63,7 +63,7 @@ export class QuantityDetailsComponent implements OnInit {
           } else {
             this.api.getUserRep(qtyOrder.uid).subscribe(rep => {
               this.rep = rep;
-              if (this.qtySrv.order.data.length <= 0) {
+              if ( !this.qtySrv.order || this.qtySrv.order.data.length <= 0 ) {
                 this.setOrderData(qtyOrder);
               }
             });

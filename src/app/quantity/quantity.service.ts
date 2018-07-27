@@ -156,7 +156,8 @@ export class QuantityService {
       newObj.used = newRow.used;
       newObj.material = newRow.material;
       newObj.tile = newRow.tile;
-      const objectKey = `${newObj.material}-${newObj.tile}`;
+      const tileStr = typeof(newObj.tile) === 'string' ? newObj.tile : newObj.tile.tile;
+      const objectKey = `${newObj.material}-${tileStr}`;
       if (!tilesArr[objectKey]) {
         tilesArr[objectKey] = newObj;
       } else {
