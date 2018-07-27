@@ -91,15 +91,9 @@
                 <mat-header-cell *matHeaderCellDef> Material </mat-header-cell>
                 <mat-cell *matCellDef="let element" class="material-column">
                   <img *ngIf="element.tile.tile !== 'chroma'" src="{{element.image}}" class="table-img" alt="{{element.material.name_str | capitalize}}">
-                  <div *ngIf="element.tile.tile === 'chroma'" class="chroma-table-img" [style.backgroundColor]="element.image"></div>
-                  {{element.material | capitalize}}
-                </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="profile-tile-type">
-                <mat-header-cell *matHeaderCellDef> Tile Type </mat-header-cell>
-                <mat-cell *matCellDef="let element" class="material-column">
-                  <img class="table-img" src="{{element.tile.image}}" alt="{{element.material.name_str | capitalize}}">{{element.material_type}}
+                  <!-- TODO: SEE IF THE BELOW WILL WORK FOR STANDARD FINISHES -->
+                  <!-- <img *ngIf="element.tile.tile !== 'chroma'" src="/assets/images/profile/swoon/swoon-chroma-blank.png" class="table-img" [style.background]="url(element.image)"> {{element.material | capitalize}} - {{element.material_type}} -->
+                  <img *ngIf="element.tile.tile === 'chroma'" src="/assets/images/profile/swoon/swoon-chroma-blank.png" class="table-img" [style.backgroundColor]="element.image"> {{element.material | capitalize}} - {{element.material_type}}
                 </mat-cell>
               </ng-container>
 

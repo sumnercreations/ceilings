@@ -180,7 +180,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
         this.dimensionsImgUrl = '/assets/images/tiles/hush-swoon/hush-swoon-measurement.png';
         break;
       case 'profile':
-        this.displayedColumns = ['profile-tile-type', 'profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];
+        this.displayedColumns = ['profile-material', 'used', 'receiving', 'unused', 'total', 'edit'];
         break;
       case 'clario':
         break;
