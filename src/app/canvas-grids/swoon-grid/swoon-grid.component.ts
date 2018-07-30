@@ -61,6 +61,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
       if (!foundTile && pip([x, y], this.feature.gridData[el].diamond)) {
         // removing a tile
         if (this.feature.selectedTool === 'remove') {
+          this.debug.log('swoon-grid', 'removing tile');
           // reset the texture for the 3D view.
           this.feature.gridData[el].texture = '';
           // reset the tile
@@ -77,6 +78,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
           // set the tile found true so we don't "find" another one that's close
           foundTile = true;
         } else {
+          this.debug.log('swoon-grid', 'setting tile info');
           // set the texture for the 3D view.
           this.feature.gridData[el].texture = '/assets/images/tiles/00/' + this.feature.material + '.png';
           // set the tile
@@ -100,7 +102,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
         // // render the canvas again
         this.renderSwoonGrid();
         // // update the estimated amount
-        // this.feature.updateEstimatedAmount();
+        this.feature.updateEstimatedAmount();
       }
     }
     // console.log('gridData:', this.feature.gridData)
@@ -110,15 +112,14 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     // this.debug.log('swoon-section', row);
     // this.debug.log('swoon-section', column);
     const index = (row * this.columns + column) * 3; // 3 is the number of diamonds needed to make a section
-    // this.debug.log('swoon-grid-component', index);
     if (isOdd) {
-      this.drawDiamond(ctx, 56 + adjustmentX, 18 + adjustmentY, 0, row, column, index + 1);
-      this.drawDiamond(ctx, 70 + adjustmentX, 41 + adjustmentY, -Math.PI / 3, row, column, index + 2);
-      this.drawDiamond(ctx, 43 + adjustmentX, 41 + adjustmentY, Math.PI / 3, row, column, index + 3);
+      this.drawDiamond(ctx, 56 + adjustmentX, 18 + adjustmentY, 0, row, column, index);
+      this.drawDiamond(ctx, 70 + adjustmentX, 41 + adjustmentY, -Math.PI / 3, row, column, index + 1);
+      this.drawDiamond(ctx, 43 + adjustmentX, 41 + adjustmentY, Math.PI / 3, row, column, index + 2);
     } else {
-      this.drawDiamond(ctx, 29 + adjustmentX, 18 + adjustmentY, 0, row, column, index + 1);
-      this.drawDiamond(ctx, 43 + adjustmentX, 41 + adjustmentY, -Math.PI / 3, row, column, index + 2);
-      this.drawDiamond(ctx, 16 + adjustmentX, 41 + adjustmentY, Math.PI / 3, row, column, index + 3);
+      this.drawDiamond(ctx, 29 + adjustmentX, 18 + adjustmentY, 0, row, column, index);
+      this.drawDiamond(ctx, 43 + adjustmentX, 41 + adjustmentY, -Math.PI / 3, row, column, index + 1);
+      this.drawDiamond(ctx, 16 + adjustmentX, 41 + adjustmentY, Math.PI / 3, row, column, index + 2);
     }
   }
 
@@ -128,10 +129,6 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     // this.debug.log('draw-diamond', rotateAngle);
     // this.debug.log('draw-diamond', row);
     // this.debug.log('draw-diamond', column);
-
-    if (index === 450) {
-      console.log('index 450');
-    }
 
     // points to create a diamond
     const xcoords = [0, -27, 0, 27];
@@ -181,9 +178,9 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     ctx.strokeStyle = this.strokeStyle;
 
     // if the design is not new, then we can set the fill style from the gridData
-    if (!this.newDesign && this.feature.gridData[index - 1].texture !== '') {
+    if (!this.newDesign && this.feature.gridData[index].texture !== '') {
       // set the fillstyle
-      ctx.fillStyle = this.feature.gridData[index - 1].hex;
+      ctx.fillStyle = this.feature.gridData[index].hex;
       // fill the diamond
       ctx.fill();
       if (this.feature.showGuide) {
@@ -196,12 +193,12 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     }
 
     // DEBUGGING
-    ctx.rotate(-rotateAngle);
-    ctx.fillStyle = '#00E1E1';
-    ctx.font = '10px Arial';
-    ctx.fillText(index, -5, -5);
-    ctx.font = '8px Arial';
-    ctx.fillText(x + ', ' + y, -15, 5);
+    // ctx.rotate(-rotateAngle);
+    // ctx.fillStyle = '#00E1E1';
+    // ctx.font = '10px Arial';
+    // ctx.fillText(index, -5, -5);
+    // ctx.font = '8px Arial';
+    // ctx.fillText(x + ', ' + y, -15, 5);
 
     // stroke all the pentagon lines
     ctx.stroke();

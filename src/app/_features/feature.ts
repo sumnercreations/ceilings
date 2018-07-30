@@ -144,6 +144,9 @@ export class Feature {
       case 'velo':
         this.getVeloEstimate(tilesArray);
         break;
+      case 'hushSwoon':
+        this.getHushSwoonEstimate(tilesArray);
+        break;
     }
     return this.estimated_amount;
   }
@@ -492,6 +495,13 @@ export class Feature {
     this.debug.log('feature', '=====feature END HARDWARE =====');
   }
 
+  getHushSwoonEstimate(tilesArray) {
+    this.services_amount = 0;
+    var products_amount = 0;
+    var hardware_amount = 0;
+    this.estimated_amount = this.services_amount + products_amount + hardware_amount;
+  }
+
   updateSelectedTile(tile) {
     this.selectedTile = tile;
 
@@ -502,10 +512,12 @@ export class Feature {
   }
 
   updateSelectedMaterial(material: string, hex: string = '', materialType: string = 'felt') {
+    this.debug.log('feature', 'updating selected material');
     this.material = material;
 
     // set the hex value as well if not blank
     if (hex !== '') {
+      this.debug.log('feature', hex);
       this.materialHex = hex;
     }
 
