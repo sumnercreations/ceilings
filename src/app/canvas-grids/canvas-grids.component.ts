@@ -47,7 +47,7 @@ export class CanvasGridsComponent implements OnInit {
         }
       }
     });
-    console.log('gridType:', this.gridType);
+    this.debug.log('gridType:', this.gridType);
   }
 
   public moveGuide(event: any) {
