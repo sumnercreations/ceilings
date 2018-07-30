@@ -16,7 +16,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   @ViewChild('swoonCanvas') canvas;
 
   ngOnInit() {
-    this.profile.$buildSwoonGrid.subscribe(result => {
+    this.debug.log('swoon-grid', 'setting swoonGrid Subscription');
+    this.feature.$buildSwoonGrid.subscribe(result => {
       this.debug.log('swoon-grid-component', 'building the swoon grid');
       this.renderSwoonGrid();
     });

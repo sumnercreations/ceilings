@@ -17,7 +17,7 @@ export class CanvasGridsComponent implements OnInit {
   context: CanvasRenderingContext2D;
   strokeStyle = '#cdcdcd';
   fillStyle = '#ffffff';
-  canvasWidth = 820;
+  canvasWidth = 826;
   canvasHeight = 500;
   newDesign = true;
   guide: any = {
@@ -41,6 +41,9 @@ export class CanvasGridsComponent implements OnInit {
         this.gridType = params['type'];
         if (this.gridType === 'profile') {
           this.gridType = params['param2'];
+        }
+        if (this.gridType === 'hush-swoon') {
+          this.gridType = 'swoon';
         }
       }
     });

@@ -10,6 +10,7 @@ import { GridSection } from '../_models/grid-section';
 export class Feature {
   onBuildGrid = new EventEmitter();
   onBuildVeloGrid = new EventEmitter();
+  $buildSwoonGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
@@ -554,9 +555,13 @@ export class Feature {
   }
 
   buildGrid() {
+    this.debug.log('feature', this.feature_type);
     // If the feature type is velo build that grid
     if (this.feature_type === 'velo') {
       this.onBuildVeloGrid.emit();
+    } else if (this.feature_type === 'hushSwoon') {
+      this.debug.log('feature', 'emitting event buildSwoonGrid');
+      this.$buildSwoonGrid.emit();
     } else {
       // emit an event to build a new grid
       this.onBuildGrid.emit();
@@ -579,6 +584,10 @@ export class Feature {
     this.showGuide = !this.showGuide;
     if (this.feature_type === 'velo') {
       this.onBuildVeloGrid.emit();
+    }
+
+    if (this.feature_type === 'hushSwoon') {
+      this.$buildSwoonGrid.emit();
     }
   }
 
