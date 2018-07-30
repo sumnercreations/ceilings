@@ -1,78 +1,69 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 /* @import '~https://fonts.googleapis.com/icon?family=Material+Icons'; */
+
 @font-face {
   font-family: 'Graphik Web';
   src: url('https://3form.s3.amazonaws.com/fonts/Graphik-MediumItalic-Web.eot');
-  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-MediumItalic-Web.eot?#iefix') format('embedded-opentype'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-MediumItalic-Web.woff2') format('woff2'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-MediumItalic-Web.woff') format('woff');
-  font-weight:  500;
-  font-style:   italic;
+  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-MediumItalic-Web.eot?#iefix') format('embedded-opentype'), url('https://3form.s3.amazonaws.com/fonts/Graphik-MediumItalic-Web.woff2') format('woff2'), url('https://3form.s3.amazonaws.com/fonts/Graphik-MediumItalic-Web.woff') format('woff');
+  font-weight: 500;
+  font-style: italic;
   font-stretch: normal;
 }
 
 .Graphik-MediumItalic-Web {
   font-family: 'Graphik Web';
-  font-weight:  500;
-  font-style:   italic;
+  font-weight: 500;
+  font-style: italic;
   font-stretch: normal;
 }
-
 
 @font-face {
   font-family: 'Graphik Web';
   src: url('https://3form.s3.amazonaws.com/fonts/Graphik-Medium-Web.eot');
-  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-Medium-Web.eot?#iefix') format('embedded-opentype'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-Medium-Web.woff2') format('woff2'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-Medium-Web.woff') format('woff');
-  font-weight:  500;
-  font-style:   normal;
+  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-Medium-Web.eot?#iefix') format('embedded-opentype'), url('https://3form.s3.amazonaws.com/fonts/Graphik-Medium-Web.woff2') format('woff2'), url('https://3form.s3.amazonaws.com/fonts/Graphik-Medium-Web.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
   font-stretch: normal;
 }
 
 .Graphik-Medium-Web {
   font-family: 'Graphik Web';
-  font-weight:  500;
-  font-style:   normal;
+  font-weight: 500;
+  font-style: normal;
   font-stretch: normal;
 }
-
 
 @font-face {
   font-family: 'Graphik Web';
   src: url('https://3form.s3.amazonaws.com/fonts/Graphik-RegularItalic-Web.eot');
-  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-RegularItalic-Web.eot?#iefix') format('embedded-opentype'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-RegularItalic-Web.woff2') format('woff2'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-RegularItalic-Web.woff') format('woff');
-  font-weight:  400;
-  font-style:   italic;
+  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-RegularItalic-Web.eot?#iefix') format('embedded-opentype'), url('https://3form.s3.amazonaws.com/fonts/Graphik-RegularItalic-Web.woff2') format('woff2'), url('https://3form.s3.amazonaws.com/fonts/Graphik-RegularItalic-Web.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
   font-stretch: normal;
 }
 
 .Graphik-RegularItalic-Web {
   font-family: 'Graphik Web';
-  font-weight:  400;
-  font-style:   italic;
+  font-weight: 400;
+  font-style: italic;
   font-stretch: normal;
 }
-
 
 @font-face {
   font-family: 'Graphik Web';
   src: url('https://3form.s3.amazonaws.com/fonts/Graphik-Regular-Web.eot');
-  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-Regular-Web.eot?#iefix') format('embedded-opentype'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-Regular-Web.woff2') format('woff2'),
-     url('https://3form.s3.amazonaws.com/fonts/Graphik-Regular-Web.woff') format('woff');
-  font-weight:  400;
-  font-style:   normal;
+  src: url('https://3form.s3.amazonaws.com/fonts/Graphik-Regular-Web.eot?#iefix') format('embedded-opentype'), url('https://3form.s3.amazonaws.com/fonts/Graphik-Regular-Web.woff2') format('woff2'), url('https://3form.s3.amazonaws.com/fonts/Graphik-Regular-Web.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
   font-stretch: normal;
 }
 
 .Graphik-Regular-Web {
   font-family: 'Graphik Web';
-  font-weight:  400;
-  font-style:   normal;
+  font-weight: 400;
+  font-style: normal;
   font-stretch: normal;
 }
 
@@ -82,17 +73,100 @@ h1 {
 
 body {
   font-family: 'Graphik Web';
+  background-color: #fff;
+  color: #1f1f1f;
+}
+
+input:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c;
+  box-shadow: none !important;
+}
+
+select:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c !important;
+  box-shadow: none !important;
+}
+
+button:focus {
+  outline: none !important;
+  border: 2px solid #f79e1c !important;
+  box-shadow: none !important;
+}
+
+input {
+  text-indent: 8px;
+  line-height: 1.8em;
+}
+
+.sub-header {
+  font-weight: 500;
+  font-size: 0.9em;
+  padding: 5px 0px;
+}
+
+.description-text {
+  font-size: 0.8em;
+  padding: 2px 0px;
 }
 
 input.square {
   border-radius: 0;
 }
 
-span.orange {
-  color: #ff9933;
+.load-btn-fmt {
+  display: flex;
+  align-items: center;
 }
 
-p.orange {
+.load-btn-fmt span {
+  padding-left: 15px;
+}
+
+.load-btn-fmt img {
+  max-height: 15px;
+}
+
+button:disabled,
+button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+mat-button-toggle {
+  border: 1px solid !important;
+  border-color: #e8e8e8;
+  height: 34px;
+  width: 50px;
+}
+
+.mat-button-toggle-checked {
+  border-color: #000 !important;
+  background-color: #fff;
+  color: black;
+}
+
+mat-button-toggle-group {
+  box-shadow: none !important;
+  margin-top: -8px;
+}
+
+label.mat-button-toggle-label {
+  height: 100%;
+  margin-top: -2px;
+  font-weight: 500;
+}
+
+label div.mat-button-toggle-label-content {
+  height: 100%;
+}
+
+/* span.orange {
+  color: #ff9933;
+} */
+
+/* p.orange {
   color: #ff9933;
 }
 
@@ -108,23 +182,28 @@ p.orange {
   margin-left: 20px;
 }
 
-#save-btn, #load-btn{
+#save-btn,
+#load-btn {
   color: #666;
   cursor: pointer;
   transition: all .2s ease;
 }
 
-#save-btn:hover, #load-btn:hover {
+#save-btn:hover,
+#load-btn:hover {
   text-decoration: none;
 }
 
-#save-btn span.orange, #load-btn span.orange {
+#save-btn span.orange,
+#load-btn span.orange {
   color: #ff9933;
-}
+} */
 
 /* Bootstrap overrides */
+
 /*updates to the buttons just for ceilings*/
-.button {
+
+/* .button {
   font-weight: 500;
   padding: 6px 24px;
 }
@@ -138,13 +217,15 @@ p.orange {
   border: 1px solid #ff9933;
 }
 
-.button.orange:hover, .button.orange:focus {
+.button.orange:hover,
+.button.orange:focus {
   background-color: #ff9933;
   color: #fff;
-}
+} */
 
 /* more appropriate link colors */
-a {
+
+/* a {
   color: #ff9933;
   cursor: pointer;
 }
@@ -153,17 +234,19 @@ a:hover {
   color: #ff8000;
 }
 
-a:hover, a:visited {
+a:hover,
+a:visited {
   color: #ff8000;
   text-decoration: underline;
 }
 
 .number-input {
   text-align: right;
-}
+} */
 
 /* 5 equal columns in 12 column grid */
-.col-xs-5ths,
+
+/* .col-xs-5ths,
 .col-sm-5ths,
 .col-md-5ths,
 .col-lg-5ths {
@@ -197,37 +280,44 @@ a:hover, a:visited {
     width: 20%;
     float: left;
   }
-}
+} */
+
 /* end 5 equal columns in 12 column grid*/
 
 /* Media */
-/* Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
 
-}
+/* Small devices (tablets, 768px and up) */
+
+/* @media (min-width: 768px) {} */
 
 /* Medium devices (desktops, 992px and up) */
+
+/*
 @media (min-width: 992px) {
   .container {
     width: 992px;
   }
-}
+} */
 
 /* Medium Large (iPad 1024 and up) */
-@media (min-width: 1024px) {
+
+/* @media (min-width: 1024px) {
   .container {
     width: 1024px;
   }
-}
+} */
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
+
+/* @media (min-width: 1200px) {
   .container {
     width: 1200px;
   }
-}
+} */
 
 /* Overwrite some default css styles */
+
+/*
 div.mat-tab-label {
   min-width: 72px;
   height: 25px;
@@ -237,14 +327,18 @@ div.mat-tab-label {
   display: none;
 }
 
-.mat-tab-group.mat-primary .mat-tab-label:focus, .mat-tab-group.mat-primary .mat-tab-link:focus, .mat-tab-nav-bar.mat-primary .mat-tab-label:focus, .mat-tab-nav-bar.mat-primary .mat-tab-link:focus {
-  background-color: rgba(255,153,51,.3);
+.mat-tab-group.mat-primary .mat-tab-label:focus,
+.mat-tab-group.mat-primary .mat-tab-link:focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-label:focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-link:focus {
+  background-color: rgba(255, 153, 51, .3);
 }
 
-.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
   background-color: #ff9933;
 }
 
 .small-toggle .mat-button-toggle-label-content {
   line-height: 24px;
-}
+} */

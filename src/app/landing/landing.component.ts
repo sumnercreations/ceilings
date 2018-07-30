@@ -3,12 +3,12 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { DebugService } from './../_services/debug.service';
 import { AlertService } from './../_services/alert.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.css']
+  styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
   constructor(

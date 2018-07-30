@@ -1,6 +1,6 @@
 import { MaterialsService } from './../_services/materials.service';
 import { SeeyondService } from './../_services/seeyond.service';
-import { SeeyondFeature } from './../seeyond-feature';
+import { SeeyondFeature } from '../_features/seeyond-feature';
 import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
@@ -15,7 +15,7 @@ import { VisualizationComponent } from '../visualization/visualization.component
 import { TileUsageComponent } from '../tile-usage/tile-usage.component';
 import { VeloTileUsageComponent } from '../velo-tile-usage/velo-tile-usage.component';
 import { QuoteDialogComponent } from '../quote-dialog/quote-dialog.component';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { User } from '../_models/user';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,7 +28,7 @@ import { ClarioGridsService } from '../_services/clario-grids.service';
 @Component({
   // selector: 'app-design',
   templateUrl: './design.component.html',
-  styleUrls: ['./design.component.css']
+  styleUrls: ['./design.component.scss']
 })
 export class DesignComponent implements OnInit, OnDestroy {
   syd_v = require('syd-visualization');
@@ -45,7 +45,9 @@ export class DesignComponent implements OnInit, OnDestroy {
   materials: any;
   tryingRequestQuote = false;
   canQtyOrder = false;
-  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush'];
+  canvasGridFeatures = ['velo', 'profile'];
+  useCanvasGrid = false;
+  designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush', 'profile', 'hushSwoon'];
 
   constructor(
     public route: ActivatedRoute,
@@ -83,8 +85,13 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.setSeeyondFeature(params);
         return;
       }
+      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
+      if (featureType === 'profile') {
+        this.setProfileFeature(params);
+        return;
+      }
       // if one of the params are an integer we need to load the design
-      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10);
+      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10) || parseInt(params['param3'], 10);
       if (!!designId) {
         // if designId is truthy
         this.api.loadDesign(designId).subscribe(
@@ -215,7 +222,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     // load a dialog to edit the options
     const config = new MatDialogConfig();
     config.disableClose = true;
-    config.height = '90%';
+    // config.height = '90%';
     config.width = '80%';
     this.optionsDialogRef = this.dialog.open(OptionsComponent, config);
     this.optionsDialogRef
@@ -430,6 +437,47 @@ export class DesignComponent implements OnInit, OnDestroy {
           this.seeyond.updateSeeyondFeature(seeyondFeature);
         }
       });
+    });
+  }
+
+  setProfileFeature(urlParams) {
+    this.api.getPartsSubstitutes().subscribe(partsSubs => {
+      this.materialsService.parts_substitutes = partsSubs;
+      const params = Object.assign({}, urlParams);
+      const designId = parseInt(params['param1'], 10) || parseInt(params['param2'], 10) || parseInt(params['param3'], 10);
+      if (!!designId) {
+        // // load requested id
+        // this.seeyondService.loadFeature(designId).subscribe(design => {
+        //   this.location.go(`seeyond/design/${design.name}/${design.id}`);
+        //   this.seeyond.loadSeeyondDesign(design);
+        // });
+      } else {
+        // set the tile type to swoon if not specified
+        if (params['param1'] === 'tiles' && !params['param2']) {
+          params['param2'] = 'swoon';
+        }
+        // TODO this data is just a placeholder for now
+        this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
+        this.feature.material = 'milky-white';
+        this.feature.materialHex = '#dfdee0';
+        this.feature.materialType = 'varia';
+        // // Determine the seeyond feature to load
+        // let seeyondFeature;
+        // const seeyondFeaturesList = this.seeyond.seeyond_features;
+        // Object.keys(seeyondFeaturesList).forEach(key => {
+        //   if (
+        //     Object.keys(params)
+        //       .map(feature => params[feature])
+        //       .indexOf(seeyondFeaturesList[key]['name']) > -1
+        //   ) {
+        //     seeyondFeature = seeyondFeaturesList[key]['name'];
+        //   }
+        // });
+        // this.materials = this.feature.getFeatureMaterials();
+        // this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
+        this.editOptions();
+        // this.seeyond.updateSeeyondFeature(seeyondFeature);
+      }
     });
   }
 }

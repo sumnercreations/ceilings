@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { User } from '../_models/user';
 import { AlertService } from '../_services/alert.service';
 import { ApiService } from '../_services/api.service';
@@ -9,7 +9,7 @@ import { DebugService } from './../_services/debug.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   public email: string;
