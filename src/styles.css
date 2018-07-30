@@ -115,6 +115,20 @@ input.square {
   border-radius: 0;
 }
 
+.save-load-btn-fmt {
+  display: flex;
+  align-items: center;
+}
+
+.save-load-btn-fmt a {
+  padding: 0px 5px;
+}
+
+.save-load-btn-fmt img {
+  max-height: 15px;
+  margin-right: 5px;
+}
+
 .load-btn-fmt {
   display: flex;
   align-items: center;
