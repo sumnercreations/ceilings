@@ -45,7 +45,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   materials: any;
   tryingRequestQuote = false;
   canQtyOrder = false;
-  canvasGridFeatures = ['velo', 'profile'];
+  canvasGridFeatures = ['velo', 'profile', 'hushSwoon'];
   useCanvasGrid = false;
   designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush', 'profile', 'hushSwoon'];
 
@@ -85,6 +85,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.setSeeyondFeature(params);
         return;
       }
+      this.debug.log('design', featureType);
       this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
       if (featureType === 'profile') {
         this.setProfileFeature(params);
@@ -156,6 +157,11 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.material = 'zinc';
           } else if (this.feature.feature_type === 'velo') {
             this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
+            this.feature.material = 'milky-white';
+            this.feature.materialHex = '#dfdee0';
+            this.feature.materialType = 'felt';
+          } else if (this.feature.feature_type === 'hushSwoon') {
+            this.feature.updateSelectedTile(this.materialsService.tilesArray.hushSwoon[0]);
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
