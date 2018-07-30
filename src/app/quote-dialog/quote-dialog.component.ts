@@ -78,7 +78,7 @@ export class QuoteDialogComponent implements OnInit {
         this.alert.success('Your quote request has been sent.');
       });
     } else {
-      // set the design name to something simple
+    // set the design name to something simple
       this.feature.design_name = this.feature.feature_type + ' - ' + this.getToday();
       this.feature.quoted = true;
       this.api.saveDesign().subscribe(feature => {
