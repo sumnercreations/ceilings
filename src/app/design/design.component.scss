@@ -5,6 +5,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-right: 10px;
     .grid-header {
       display: flex;
       flex-direction: column;
@@ -74,12 +75,16 @@
     }
   }
   .right-side {
-    min-width: 300px;
+    width: 350px;
+    margin-left: 10px;
   }
   .canvas-grid-container {
     position: relative;
-    margin-left: -15px;
   }
+}
+
+.selected {
+  border: 2px solid #ff9933;
 }
 
 // .navigation {

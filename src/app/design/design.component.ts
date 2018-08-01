@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { OptionsComponent } from '../options/options.component';
@@ -49,6 +51,8 @@ export class DesignComponent implements OnInit, OnDestroy {
   useCanvasGrid = false;
   designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush', 'profile', 'hushSwoon'];
 
+  panelOpenState = false;
+
   constructor(
     public route: ActivatedRoute,
     public router: Router,
@@ -62,8 +66,13 @@ export class DesignComponent implements OnInit, OnDestroy {
     public alert: AlertService,
     public location: Location,
     public materialsService: MaterialsService,
-    public clarioGrids: ClarioGridsService
-  ) {}
+    public clarioGrids: ClarioGridsService,
+    public iconRegistry: MatIconRegistry,
+    public sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon('accordian_open', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/tools/accordian-open.svg'));
+    iconRegistry.addSvgIcon('accordian_close', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/tools/accordian-close.svg'));
+  }
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
@@ -128,6 +137,9 @@ export class DesignComponent implements OnInit, OnDestroy {
                   this.feature.materialType = 'felt';
                 } else if (this.feature.feature_type === 'hush') {
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.hush[0]);
+                  this.feature.toolsArray = ['remove'];
+                } else if (this.feature.feature_type === 'hushSwoon') {
+                  this.feature.updateSelectedTile(this.materialsService.tilesArray.hushSwoon[0]);
                   this.feature.toolsArray = ['remove'];
                 }
               } else {

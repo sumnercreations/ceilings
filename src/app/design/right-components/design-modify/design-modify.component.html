@@ -1,0 +1,10 @@
+<mat-expansion-panel #modify hideToggle="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="sub-header">
+      Modify
+    </mat-panel-title>
+    <mat-icon *ngIf="!modify.expanded" svgIcon="accordian_open"></mat-icon>
+    <mat-icon *ngIf="modify.expanded" svgIcon="accordian_close"></mat-icon>
+  </mat-expansion-panel-header>
+  <p>I'm visible because I am open</p>
+</mat-expansion-panel>

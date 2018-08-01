@@ -1,0 +1,60 @@
+<mat-expansion-panel #material hideToggle="true" [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="sub-header">
+      Materials
+    </mat-panel-title>
+    <mat-icon *ngIf="!material.expanded" svgIcon="accordian_open"></mat-icon>
+    <mat-icon *ngIf="material.expanded" svgIcon="accordian_close"></mat-icon>
+  </mat-expansion-panel-header>
+
+  <!-- CLARIO TILE SELECTION -->
+  <div *ngIf="feature.feature_type === 'clario'">
+    <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)"
+      [class.hide]="feature.tile_image_type==24 && tile.tile_size==48">
+      <div *ngIf="tile.tile_size_type === clarioGrids.tile_size_type">
+        <div [class.selected]="feature.selectedTile?.tile_size==tile.tile_size">
+          <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}">
+        </div>
+        <p>{{tile.name | capitalize}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHER TILE SELECTION -->
+  <div *ngIf="(feature.feature_type !== 'hush') && (feature.feature_type !== 'hushSwoon') && (feature.feature_type !== 'clario')">
+    <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)"
+      class="tooltip-host">
+      <span class="tile" [class.selected]="feature.selectedTile?.tile==tile.tile">
+        <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}">
+      </span>
+      <p>{{tile.name | capitalize}}</p>
+    </div>
+  </div>
+
+  <!-- MATERIAL SELECTION -->
+  <div class="materials-container" *ngIf="feature.feature_type !== 'velo'">
+    <div class="materials" *ngFor="let material of materials | keys" (click)="feature.updateSelectedMaterial(material.material)">
+      <span class="material" *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" [matTooltipPosition]="position">
+        <img src="{{material.image}}" alt="{{material.material | capitalize}}" [class.selected]="feature.material==material.material">
+      </span>
+    </div>
+  </div>
+
+  <!-- <div class="varia-list">
+      <ul class="list-inline velo-diffusion-list">
+        <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('avalanche_d01')">
+          <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='avalanche_d01'">
+            <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01">
+          </div>
+          <p class="text-center diffusion">Avalanche D01</p>
+        </li>
+        <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('vapor_w05')">
+          <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='vapor_w05'">
+            <img class="img-responsive" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05">
+          </div>
+          <p class="text-center diffusion">Vapor W05</p>
+        </li>
+      </ul>
+    </div> -->
+
+</mat-expansion-panel>
