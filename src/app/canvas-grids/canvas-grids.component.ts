@@ -40,14 +40,14 @@ export class CanvasGridsComponent implements OnInit {
       if (params['type']) {
         this.gridType = params['type'];
         if (this.gridType === 'profile') {
-          this.gridType = params['param2'];
+          this.gridType = (typeof params['param2'] === 'undefined' || ! params['params2']) ? 'swoon' : params['param2'];
         }
         if (this.gridType === 'hush-swoon') {
           this.gridType = 'swoon';
         }
       }
     });
-    this.debug.log('gridType:', this.gridType);
+    this.debug.log('canvas-grids:', this.gridType);
   }
 
   public moveGuide(event: any) {
