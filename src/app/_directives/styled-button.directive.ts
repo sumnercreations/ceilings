@@ -55,7 +55,6 @@ export class StyledButtonDirective implements AfterViewInit {
   }
 
   stylePrimaryButton(button) {
-    this.renderer.setStyle(this.el.nativeElement, 'background-color', '#000');
     this.renderer.setStyle(this.el.nativeElement, 'color', '#fff');
     this.renderer.setStyle(button, 'line-height', '3.75');
     this.renderer.setStyle(button, 'font-weight', '500');

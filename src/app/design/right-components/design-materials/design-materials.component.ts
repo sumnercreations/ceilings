@@ -9,5 +9,6 @@ import { Component, OnInit } from '@angular/core';
 export class DesignMaterialsComponent extends DesignComponent implements OnInit {
   ngOnInit() {
     this.materials = this.feature.getFeatureMaterials();
+    this.featureTiles = this.feature.tilesArray[this.feature.feature_type];
   }
 }

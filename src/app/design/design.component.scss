@@ -77,6 +77,25 @@
   .right-side {
     width: 350px;
     margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .expansion-panels {}
+    .bottom-section {
+      .totals {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .est-total {
+          .total {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-left: 10px;
+          }
+        }
+        .details-btn {}
+      }
+    }
   }
   .canvas-grid-container {
     position: relative;
