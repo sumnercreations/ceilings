@@ -463,7 +463,7 @@ export class DesignComponent implements OnInit, OnDestroy {
           params['param2'] = 'swoon';
         }
         // TODO this data is just a placeholder for now
-        this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
+        this.feature.updateSelectedTile(this.materialsService.tilesArray.profile.swoon[0]);
         this.feature.material = 'milky-white';
         this.feature.materialHex = '#dfdee0';
         this.feature.materialType = 'varia';
