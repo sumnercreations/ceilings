@@ -574,6 +574,9 @@ export class Feature {
     } else if (this.feature_type === 'hushSwoon') {
       this.debug.log('feature', 'emitting event buildSwoonGrid');
       this.$buildSwoonGrid.emit();
+    } else if (this.feature_type === 'profile') {
+      this.debug.log('feature', 'emitting event buildSwoonGrid for profile');
+      this.$buildSwoonGrid.emit();
     } else {
       // emit an event to build a new grid
       this.onBuildGrid.emit();
