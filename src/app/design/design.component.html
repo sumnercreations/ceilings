@@ -9,7 +9,7 @@
             <img src="/assets/icons/tools/load.png" alt="load icon">
             <a id="save-btn" title="save design" (click)="saveDesign()">
               <span *ngIf="user.isLoggedIn()">Save</span>
-              <span *ngIf="!user.isLoggedIn()">Login to save</span>
+              <span *ngIf="!user.isLoggedIn()">Login to Save</span>
             </a> |
             <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
           </span>
@@ -46,13 +46,13 @@
     </div>
     <div class="right-side">
       <div class="expansion-panels">
-        <app-design-design-materials></app-design-design-materials>
-        <app-design-modify></app-design-modify>
+        <app-design-materials *ngIf="showMaterials"></app-design-materials>
+        <app-design-modify *ngIf="showModify"></app-design-modify>
       </div>
       <div class="bottom-section">
         <div class="totals">
           <span class="est-total">
-            <span class="sub-header">Est. Total:</span>
+            <span class="sub-header">Est. Total:&nbsp;&nbsp;</span>
             <span class="total">{{feature.estimated_amount | currency:'USD'}} USD</span>
           </span>
           <span class="details-btn">
@@ -61,11 +61,11 @@
             </span>
           </span>
         </div>
-        <span class="request-quote">
+        <div class="request-quote">
           <span appStyledButton='primary-right'>
             <button [disabled]="!feature.canQuote" (click)="requestQuote()">Request Quote</button>
           </span>
-        </span>
+        </div>
       </div>
     </div>
   </div>

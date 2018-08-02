@@ -7,55 +7,93 @@
     <mat-icon *ngIf="material.expanded" svgIcon="accordian_close"></mat-icon>
   </mat-expansion-panel-header>
 
-  <!-- CLARIO TILE SELECTION -->
-  <div *ngIf="feature.feature_type === 'clario'">
-    <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)"
-      [class.hide]="feature.tile_image_type==24 && tile.tile_size==48">
-      <div *ngIf="tile.tile_size_type === clarioGrids.tile_size_type">
-        <div [class.selected]="feature.selectedTile?.tile_size==tile.tile_size">
-          <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}">
-        </div>
-        <p>{{tile.name | capitalize}}</p>
+  <div class="tile-selection" *ngIf="showTileSelection">
+    <!-- CLARIO TILE SELECTION -->
+    <div *ngIf="feature.feature_type === 'clario'">
+      <div class="tile-container">
+        <span *ngFor="let baffle of featureTiles | keys" (click)="feature.updateSelectedTile(baffle)" [class.hide]="feature.tile_image_type==24 && baffle.tile_size==48"
+          class="tile-info">
+          <div class="expansion-panel-section-header" *ngIf="baffle.tile_size_type === clarioGrids.tile_size_type">{{baffle.name | capitalize}}</div>
+          <div class="tile-wrapper" [class.selected]="feature.selectedTile?.tile==baffle.tile" *ngIf="baffle.tile_size_type === clarioGrids.tile_size_type">
+            <div class="tile">
+              <img src="{{baffle.image}}" alt="{{baffle.tile | capitalize}}">
+            </div>
+          </div>
+        </span>
+      </div>
+    </div>
+
+    <!-- OTHER TILE SELECTION -->
+    <div *ngIf="feature.feature_type !== 'clario'">
+      <div class="tiles-container">
+        <span *ngFor="let tile of featureTiles | keys" (click)="feature.updateSelectedTile(tile)" class="tile-info">
+          <div class="expansion-panel-section-header">Tile {{tile.name | capitalize}}</div>
+          <div class="tile-wrapper" [class.selected]="feature.selectedTile?.tile==tile.tile">
+            <div class="tile">
+              <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}">
+            </div>
+          </div>
+        </span>
       </div>
     </div>
   </div>
 
-  <!-- OTHER TILE SELECTION -->
-  <div *ngIf="(feature.feature_type !== 'hush') && (feature.feature_type !== 'hushSwoon') && (feature.feature_type !== 'clario')">
-    <div *ngFor="let tile of featureTiles | keys" matTooltip="{{tile.name | capitalize}}" [matTooltipPosition]="position" (click)="feature.updateSelectedTile(tile)"
-      class="tooltip-host">
-      <span class="tile" [class.selected]="feature.selectedTile?.tile==tile.tile">
-        <img src="{{tile.image}}" alt="{{tile.tile | capitalize}}">
-      </span>
-      <p>{{tile.name | capitalize}}</p>
-    </div>
-  </div>
-
   <!-- MATERIAL SELECTION -->
-  <div class="materials-container" *ngIf="feature.feature_type !== 'velo'">
-    <div class="materials" *ngFor="let material of materials | keys" (click)="feature.updateSelectedMaterial(material.material, material.hex)">
-      <span class="material" *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" [matTooltipPosition]="position">
-        <img src="{{material.image}}" alt="{{material.material | capitalize}}" [class.selected]="feature.material==material.material">
-      </span>
+  <ng-container *ngIf="feature.feature_type !== 'velo'">
+    <div class="expansion-panel-section-header">Colors</div>
+    <div class="materials-container">
+      <div class="materials" *ngFor="let material of materials | keys" (click)="feature.updateSelectedMaterial(material.material, material.hex)">
+        <span class="material" *ngIf="material.status === 'active'" matTooltip="{{material.material | capitalize}}" [matTooltipPosition]="position">
+          <img src="{{material.image}}" alt="{{material.material | capitalize}}" [class.selected]="feature.material==material.material">
+        </span>
+      </div>
     </div>
-  </div>
+  </ng-container>
 
-  <!-- <div class="varia-list">
-      <ul class="list-inline velo-diffusion-list">
-        <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('avalanche_d01')">
-          <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='avalanche_d01'">
-            <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01">
+  <ng-container *ngIf="feature.feature_type === 'velo'">
+    <div class="velo-materials-container">
+      <mat-tab-group class="" mat-stretch-tabs>
+        <mat-tab label="Merino">
+          <div class="" *ngIf="materials.felt">
+            <div *ngFor="let felt of materials.felt | keys" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')">
+              <div *ngIf="felt.status === 'active'" matTooltip="{{felt.material | capitalize}}" [matTooltipPosition]="position" [attr.data-hex]="felt.hex"
+                class="tooltip-host">
+                <img src="{{felt.image}}" alt="{{felt.material | capitalize}}" class="" [class.selected]="feature.material==felt.material">
+              </div>
+            </div>
           </div>
-          <p class="text-center diffusion">Avalanche D01</p>
-        </li>
-        <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('vapor_w05')">
-          <div class="tool velo-diffusion" [class.selected]="feature.diffusion=='vapor_w05'">
-            <img class="img-responsive" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05">
+        </mat-tab>
+        <mat-tab label="Varia">
+          <div class="" *ngIf="materials.varia">
+            <div *ngFor="let varia of materials.varia.color | keys last as isLast" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')">
+              <div *ngIf="varia.status === 'active'" matTooltip="{{varia.material | capitalize}}" [matTooltipPosition]="position" class="">
+                <div *ngIf="!isLast" class="" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex" [ngClass]="{'is-clear': varia.material==='clear'}"></div>
+                <div *ngIf="isLast" class="circle no-color-selection" [ngClass]="{'block-selected': feature.material==varia.material}">
+                  <span class="icomoon-blocked"></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p class="text-center diffusion">Vapor W05</p>
-        </li>
-      </ul>
-    </div> -->
+          <div class="">
+            <ul class="">
+              <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('avalanche_d01')">
+                <div class="" [class.selected]="feature.diffusion=='avalanche_d01'">
+                  <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01">
+                </div>
+                <p class="">Avalanche D01</p>
+              </li>
+              <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('vapor_w05')">
+                <div class="" [class.selected]="feature.diffusion=='vapor_w05'">
+                  <img class="" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05">
+                </div>
+                <p class="">Vapor W05</p>
+              </li>
+            </ul>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </ng-container>
 
   <div class="actions">
     <button class="description-text" *ngIf="feature.feature_type!='velo' && feature.feature_type!='hushSwoon'" (click)="feature.applyAll()">Apply All</button>

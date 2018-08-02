@@ -1,7 +1,46 @@
+.tile-selection {
+  .baffles-container {
+    display: flex;
+    margin-bottom: 10px;
+    .baffle-info {
+      .baffle-wrapper {
+        padding: 3px;
+        border: 2px solid #eee;
+        margin-right: 10px;
+        .baffle {
+          img {
+            height: 50px;
+          }
+        }
+      }
+    }
+  }
+  .tiles-container {
+    display: flex;
+    margin-bottom: 10px;
+    .tile-info {
+      .tile-wrapper {
+        padding: 3px;
+        border: 2px solid #eee;
+        margin-right: 10px;
+        .tile {
+          img {
+            height: 50px;
+          }
+        }
+      }
+      .tile-wrapper :last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+}
+
 .materials-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  font-weight: 500;
   .materials span img {
     height: 50px;
     width: 37px;
@@ -9,7 +48,7 @@
 }
 
 .actions {
-  margin: 5px 0px;
+  margin: 15px 0px;
   button {
     border: 1px solid black;
     padding: 5px 15px;

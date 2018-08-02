@@ -51,7 +51,18 @@ export class DesignComponent implements OnInit, OnDestroy {
   useCanvasGrid = false;
   designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush', 'profile', 'hushSwoon'];
 
-  panelOpenState = false;
+  // right side expansion panels
+  showMaterials = false;
+  showSeeyondFeatureSelection = false;
+  showSeeyondDimensions = false;
+  showSeeyondPattern = false;
+  showSeeyondColors = false;
+  showProfileFeatureSelection = false;
+  showProfileSelectionPalette = false;
+  showModify = false;
+  showClarioDimensions = false;
+  showDimensions = false;
+  showAdjustColumnsRows = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -86,6 +97,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         }
         this.setCanQtyOrder();
       }
+      this.setRightSidePanels(featureType);
       if (!this.designFeatures.includes(featureType)) {
         this.feature.navToLanding();
         return;
@@ -234,6 +246,47 @@ export class DesignComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  setRightSidePanels(feature) {
+    console.log('setRightSidePanels', feature);
+    switch (feature) {
+      case 'seeyond':
+        this.showSeeyondFeatureSelection = true;
+        this.showSeeyondDimensions = true;
+        this.showSeeyondPattern = true;
+        this.showSeeyondColors = true;
+        break;
+      case 'profile':
+        this.showProfileFeatureSelection = true;
+        this.showProfileSelectionPalette = true;
+        this.showMaterials = true;
+        this.showModify = true;
+        break;
+      case 'clario':
+        this.showClarioDimensions = true;
+        this.showMaterials = true;
+        this.showModify = true;
+        break;
+      case 'tetria':
+        this.showDimensions = true;
+        this.showMaterials = true;
+        this.showModify = true;
+        break;
+      case 'velo':
+        this.showDimensions = true;
+        this.showMaterials = true;
+        this.showModify = true;
+        break;
+      case 'hush':
+        this.showDimensions = true;
+        this.showMaterials = true;
+        this.showAdjustColumnsRows = true;
+        break;
+      case 'hushSwoon':
+        this.showMaterials = true;
+        break;
+    }
   }
 
   public editOptions() {

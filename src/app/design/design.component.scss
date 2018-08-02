@@ -75,7 +75,7 @@
     }
   }
   .right-side {
-    width: 350px;
+    width: 410px;
     margin-left: 10px;
     display: flex;
     flex-direction: column;
@@ -86,11 +86,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-direction: row;
         .est-total {
           .total {
             font-size: 1.1em;
             font-weight: 600;
-            margin-left: 10px;
           }
         }
         .details-btn {}
@@ -102,8 +102,13 @@
   }
 }
 
+.expansion-panel-section-header {
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
 .selected {
-  border: 2px solid #ff9933;
+  border: 2px solid #ff9933 !important;
 }
 
 // .navigation {
