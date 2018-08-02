@@ -115,6 +115,7 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
+    this.feature.units = units;
     if (this.feature.feature_type === 'seeyond') {
       this.seeyond.convertDimensionsUnits(units);
       this.seeyond.setMaxMinDimensions(units);

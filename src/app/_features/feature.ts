@@ -951,14 +951,14 @@ export class Feature {
     // 1 cm = 0.393701 in
     const conversion = 0.393701;
     const inches = cm * conversion;
-    return Math.round(inches);
+    return Math.round((inches + 0.00001) * 100) / 100;
   }
 
   public convertINtoCM(inches: number) {
     // 1 cm = 0.393701 in
     const conversion = 2.54;
     const cm = inches * conversion;
-    return Math.round(cm);
+    return Math.round((cm + 0.00001) * 100) / 100;
   }
 
   public veloTiles() {
