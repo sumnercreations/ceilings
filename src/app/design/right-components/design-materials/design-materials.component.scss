@@ -1,20 +1,4 @@
 .tile-selection {
-  .baffles-container {
-    display: flex;
-    margin-bottom: 10px;
-    .baffle-info {
-      .baffle-wrapper {
-        padding: 3px;
-        border: 2px solid #eee;
-        margin-right: 10px;
-        .baffle {
-          img {
-            height: 50px;
-          }
-        }
-      }
-    }
-  }
   .tiles-container {
     display: flex;
     margin-bottom: 10px;
@@ -40,10 +24,43 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  font-weight: 500;
+  max-height: 250px;
+  overflow: auto;
   .materials span img {
-    height: 50px;
-    width: 37px;
+    height: 50px; // width: 37px;
+  }
+}
+
+.velo-container {
+  margin-top: 10px;
+  .velo-materials-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    max-height: 250px;
+    overflow: auto;
+    div div img {
+      height: 50px;
+    }
+    div div .varia-swatch {
+      height: 50px;
+      width: 50px;
+    }
+  }
+  .diffusions-container {
+    ul {
+      display: flex;
+      flex-direction: row;
+      list-style-type: none;
+      padding: 0px;
+      li {
+        margin-right: 15px;
+        .diffusion {
+          height: 50px;
+        }
+      }
+    }
   }
 }
 

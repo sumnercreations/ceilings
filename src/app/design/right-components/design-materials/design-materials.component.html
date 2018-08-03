@@ -10,7 +10,7 @@
   <div class="tile-selection" *ngIf="showTileSelection">
     <!-- CLARIO TILE SELECTION -->
     <div *ngIf="feature.feature_type === 'clario'">
-      <div class="tile-container">
+      <div class="tiles-container">
         <span *ngFor="let baffle of featureTiles | keys" (click)="feature.updateSelectedTile(baffle)" [class.hide]="feature.tile_image_type==24 && baffle.tile_size==48"
           class="tile-info">
           <div class="expansion-panel-section-header" *ngIf="baffle.tile_size_type === clarioGrids.tile_size_type">{{baffle.name | capitalize}}</div>
@@ -50,11 +50,12 @@
     </div>
   </ng-container>
 
+  <!-- VELO MATERIAL SELECTION -->
   <ng-container *ngIf="feature.feature_type === 'velo'">
-    <div class="velo-materials-container">
-      <mat-tab-group class="" mat-stretch-tabs>
+    <div class="velo-container">
+      <mat-tab-group>
         <mat-tab label="Merino">
-          <div class="" *ngIf="materials.felt">
+          <div class="velo-materials-container" *ngIf="materials.felt">
             <div *ngFor="let felt of materials.felt | keys" (click)="feature.updateSelectedMaterial(felt.material, felt.hex, 'felt')">
               <div *ngIf="felt.status === 'active'" matTooltip="{{felt.material | capitalize}}" [matTooltipPosition]="position" [attr.data-hex]="felt.hex"
                 class="tooltip-host">
@@ -64,29 +65,30 @@
           </div>
         </mat-tab>
         <mat-tab label="Varia">
-          <div class="" *ngIf="materials.varia">
+          <div class="velo-materials-container" *ngIf="materials.varia">
             <div *ngFor="let varia of materials.varia.color | keys last as isLast" (click)="feature.updateSelectedMaterial(varia.material, varia.hex, 'varia')">
               <div *ngIf="varia.status === 'active'" matTooltip="{{varia.material | capitalize}}" [matTooltipPosition]="position" class="">
-                <div *ngIf="!isLast" class="" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex" [ngClass]="{'is-clear': varia.material==='clear'}"></div>
-                <div *ngIf="isLast" class="circle no-color-selection" [ngClass]="{'block-selected': feature.material==varia.material}">
+                <div *ngIf="!isLast" class="varia-swatch" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex"
+                  [ngClass]="{'is-clear': varia.material==='clear'}"></div>
+                <div *ngIf="isLast" class="varia-swatch" [ngClass]="{'block-selected': feature.material==varia.material}">
                   <span class="icomoon-blocked"></span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="">
-            <ul class="">
-              <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('avalanche_d01')">
-                <div class="" [class.selected]="feature.diffusion=='avalanche_d01'">
-                  <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01">
-                </div>
-                <p class="">Avalanche D01</p>
-              </li>
+          <div class="diffusions-container">
+            <ul>
               <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('vapor_w05')">
-                <div class="" [class.selected]="feature.diffusion=='vapor_w05'">
-                  <img class="" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05">
+                <div class="expansion-panel-section-header">Vapor W05</div>
+                <div class="diffusion">
+                  <img class="" src="/assets/icons/tools/vapor_w05.jpg" alt="Vapor W05" [class.selected]="feature.diffusion=='vapor_w05'">
                 </div>
-                <p class="">Vapor W05</p>
+              </li>
+              <li *ngIf="feature.feature_type == 'velo'" (click)="feature.updateSelectedDiffusion('avalanche_d01')">
+                <div class="expansion-panel-section-header">Avalanche D01</div>
+                <div class="diffusion">
+                  <img class="img-responsive" src="/assets/icons/tools/avalanche_d01.jpg" alt="Avalanche D01" [class.selected]="feature.diffusion=='avalanche_d01'">
+                </div>
               </li>
             </ul>
           </div>

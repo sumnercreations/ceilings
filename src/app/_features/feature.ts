@@ -497,8 +497,8 @@ export class Feature {
 
   getHushSwoonEstimate(tilesArray) {
     this.services_amount = 0;
-    var products_amount = 0;
-    var hardware_amount = 0;
+    const products_amount = 0;
+    const hardware_amount = 0;
     this.estimated_amount = this.services_amount + products_amount + hardware_amount;
   }
 
