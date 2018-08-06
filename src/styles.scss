@@ -161,7 +161,7 @@ input.square {
 button:disabled,
 button[disabled] {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 mat-button-toggle {
@@ -244,6 +244,10 @@ mat-tab-header {
   color: black !important;
   font-size: 0.9em !important;
   font-weight: 500 !important;
+}
+
+.add-margin-left {
+  margin-left: 20px;
 }
 
 /* span.orange {

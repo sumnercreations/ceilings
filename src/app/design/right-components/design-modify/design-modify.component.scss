@@ -1,0 +1,19 @@
+.modify-selection {
+  display: flex;
+  flex-direction: row;
+  span {
+    .tool {
+      border: 1px solid #bbb;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      img {
+        height: 36px;
+      }
+    }
+  }
+}
+
+.rotate-remove {
+  height: 24px !important;
+}
