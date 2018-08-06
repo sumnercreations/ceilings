@@ -93,6 +93,7 @@ import { MainFooterComponent } from './main-footer/main-footer.component';
 import { OptionsRightHushSwoonComponent } from './options/options-right-hush-swoon/options-right-hush-swoon.component';
 import { DesignMaterialsComponent } from './design/right-components/design-materials/design-materials.component';
 import { DesignModifyComponent } from './design/right-components/design-modify/design-modify.component';
+import { DesignSeeyondComponent } from './design/right-components/design-seeyond/design-seeyond.component';
 
 @NgModule({
   declarations: [
@@ -144,7 +145,8 @@ import { DesignModifyComponent } from './design/right-components/design-modify/d
     MainFooterComponent,
     OptionsRightHushSwoonComponent,
     DesignMaterialsComponent,
-    DesignModifyComponent
+    DesignModifyComponent,
+    DesignSeeyondComponent
   ],
   imports: [
     BrowserModule,

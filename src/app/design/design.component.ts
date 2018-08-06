@@ -49,14 +49,13 @@ export class DesignComponent implements OnInit, OnDestroy {
   canQtyOrder = false;
   canvasGridFeatures = ['velo', 'profile', 'hushSwoon'];
   useCanvasGrid = false;
+  useSeeyondGrid = false;
+  useRepeatingGrid = false;
   designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush', 'profile', 'hushSwoon'];
 
   // right side expansion panels
   showMaterials = false;
-  showSeeyondFeatureSelection = false;
-  showSeeyondDimensions = false;
-  showSeeyondPattern = false;
-  showSeeyondColors = false;
+  showSeeyondOptions = false;
   showProfileFeatureSelection = false;
   showProfileSelectionPalette = false;
   showModify = false;
@@ -103,11 +102,14 @@ export class DesignComponent implements OnInit, OnDestroy {
         return;
       }
       if (featureType === 'seeyond') {
+        this.useSeeyondGrid = true;
         this.setSeeyondFeature(params);
         return;
       }
+
       this.debug.log('design', featureType);
-      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
+      this.canvasGridFeatures.includes(featureType) ? (this.useCanvasGrid = true) : (this.useRepeatingGrid = true);
+
       if (featureType === 'profile') {
         this.setProfileFeature(params);
         return;
@@ -252,10 +254,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     console.log('setRightSidePanels', feature);
     switch (feature) {
       case 'seeyond':
-        this.showSeeyondFeatureSelection = true;
-        this.showSeeyondDimensions = true;
-        this.showSeeyondPattern = true;
-        this.showSeeyondColors = true;
+        this.showSeeyondOptions = true;
         break;
       case 'profile':
         this.showProfileFeatureSelection = true;

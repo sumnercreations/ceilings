@@ -1,75 +1,74 @@
-<app-seeyond-design *ngIf="feature.feature_type=='seeyond'"></app-seeyond-design>
-<ng-container *ngIf="feature.feature_type!='seeyond'">
-  <div class="design-ui">
-    <div class="left-side">
-      <div class="grid-header">
-        <div class="top">
-          <span class="project-name">{{feature.design_name}}</span>
-          <span class="save-load save-load-btn-fmt">
-            <img src="/assets/icons/tools/load.png" alt="load icon">
-            <a id="save-btn" title="save design" (click)="saveDesign()">
-              <span *ngIf="user.isLoggedIn()">Save</span>
-              <span *ngIf="!user.isLoggedIn()">Login to Save</span>
-            </a> |
-            <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
-          </span>
-        </div>
-        <div class="bottom">
-          <span class="left">
-            <span class="guides" (click)="feature.toggleGuide()">
-              <span class="checkbox">
-                <img *ngIf="feature.showGuide" src="/assets/icons/tools/check.png" alt="check-mark">
-              </span>
-              <span class="guides-text sub-header">Guides</span>
-            </span>
-            <span class="three-d" appStyledButton='secondary-left'>
-              <button (click)="feature.view3d()">3D View</button>
-            </span>
-          </span>
-          <span class="right">
-            <span class="download-img" appStyledButton='secondary-left-rotate90'>
-              <button (click)="feature.view3d()">Download Image</button>
-            </span>
-          </span>
-        </div>
+<div class="design-ui">
+  <div class="left-side">
+    <div class="grid-header">
+      <div class="top">
+        <span class="project-name">{{feature.design_name}}</span>
+        <span class="save-load save-load-btn-fmt">
+          <img src="/assets/icons/tools/load.png" alt="load icon">
+          <a id="save-btn" title="save design" (click)="saveDesign()">
+            <span *ngIf="user.isLoggedIn()">Save</span>
+            <span *ngIf="!user.isLoggedIn()">Login to Save</span>
+          </a> |
+          <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
+        </span>
       </div>
-      <div class="grid">
-        <app-grid *ngIf="!useCanvasGrid"></app-grid>
-        <app-canvas-grids *ngIf="useCanvasGrid" class="canvas-grid-container"></app-canvas-grids>
-      </div>
-      <div class="grid-footer">
-        <span class="quantities-sold sub-header">{{this.feature.getFeatureHumanName()}} is sold in quanities of X.</span>
-        <span class="tile-usage" appStyledButton='secondary-left'>
-          <button (click)="tileUsage()">View tile usage</button>
+      <div class="bottom">
+        <span class="left">
+          <span class="guides" (click)="feature.toggleGuide()">
+            <span class="checkbox">
+              <img *ngIf="feature.showGuide" src="/assets/icons/tools/check.png" alt="check-mark">
+            </span>
+            <span class="guides-text sub-header">Guides</span>
+          </span>
+          <span class="three-d" appStyledButton='secondary-left'>
+            <button (click)="feature.view3d()">3D View</button>
+          </span>
+        </span>
+        <span class="right">
+          <span class="download-img" appStyledButton='secondary-left-rotate90'>
+            <button (click)="feature.view3d()">Download Image</button>
+          </span>
         </span>
       </div>
     </div>
-    <div class="right-side">
-      <div class="expansion-panels">
-        <app-design-materials *ngIf="showMaterials"></app-design-materials>
-        <app-design-modify *ngIf="showModify"></app-design-modify>
+    <div class="grid">
+      <app-grid *ngIf="useRepeatingGrid"></app-grid>
+      <app-seeyond-visualization *ngIf="useSeeyondGrid"></app-seeyond-visualization>
+      <app-canvas-grids *ngIf="useCanvasGrid" class="canvas-grid-container"></app-canvas-grids>
+    </div>
+    <div class="grid-footer">
+      <span class="quantities-sold sub-header">{{this.feature.getFeatureHumanName()}} is sold in quanities of X.</span>
+      <span class="tile-usage" appStyledButton='secondary-left'>
+        <button (click)="tileUsage()">View tile usage</button>
+      </span>
+    </div>
+  </div>
+  <div class="right-side">
+    <div class="expansion-panels">
+      <app-design-materials *ngIf="showMaterials"></app-design-materials>
+      <app-design-modify *ngIf="showModify"></app-design-modify>
+      <app-design-seeyond *ngIf="showSeeyondOptions"></app-design-seeyond>
+    </div>
+    <div class="bottom-section">
+      <div class="totals">
+        <span class="est-total">
+          <span class="sub-header">Est. Total:&nbsp;&nbsp;</span>
+          <span class="total">{{feature.estimated_amount | currency:'USD'}} USD</span>
+        </span>
+        <span class="details-btn">
+          <span appStyledButton='secondary-left'>
+            <button (click)="viewDetails()">Details</button>
+          </span>
+        </span>
       </div>
-      <div class="bottom-section">
-        <div class="totals">
-          <span class="est-total">
-            <span class="sub-header">Est. Total:&nbsp;&nbsp;</span>
-            <span class="total">{{feature.estimated_amount | currency:'USD'}} USD</span>
-          </span>
-          <span class="details-btn">
-            <span appStyledButton='secondary-left'>
-              <button (click)="viewDetails()">Details</button>
-            </span>
-          </span>
-        </div>
-        <div class="request-quote">
-          <span appStyledButton='primary-right'>
-            <button [disabled]="!feature.canQuote" (click)="requestQuote()">Request Quote</button>
-          </span>
-        </div>
+      <div class="request-quote">
+        <span appStyledButton='primary-right'>
+          <button [disabled]="!feature.canQuote" (click)="requestQuote()">Request Quote</button>
+        </span>
       </div>
     </div>
   </div>
-</ng-container>
+</div>
 
 
 

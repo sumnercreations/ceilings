@@ -1,0 +1,55 @@
+<mat-expansion-panel #features hideToggle="true" [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="sub-header">
+      Features
+    </mat-panel-title>
+    <mat-icon *ngIf="!features.expanded" svgIcon="accordian_open"></mat-icon>
+    <mat-icon *ngIf="features.expanded" svgIcon="accordian_close"></mat-icon>
+  </mat-expansion-panel-header>
+
+  <div class="features-selection">
+
+  </div>
+</mat-expansion-panel>
+
+<mat-expansion-panel #dimensions hideToggle="true" [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="sub-header">
+      Dimensions
+    </mat-panel-title>
+    <mat-icon *ngIf="!dimensions.expanded" svgIcon="accordian_open"></mat-icon>
+    <mat-icon *ngIf="dimensions.expanded" svgIcon="accordian_close"></mat-icon>
+  </mat-expansion-panel-header>
+
+  <div class="dimensions-selection">
+
+  </div>
+</mat-expansion-panel>
+
+<mat-expansion-panel #patterns hideToggle="true" [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="sub-header">
+      Pattern
+    </mat-panel-title>
+    <mat-icon *ngIf="!patterns.expanded" svgIcon="accordian_open"></mat-icon>
+    <mat-icon *ngIf="patterns.expanded" svgIcon="accordian_close"></mat-icon>
+  </mat-expansion-panel-header>
+
+  <div class="paterns-selection">
+
+  </div>
+</mat-expansion-panel>
+
+<mat-expansion-panel #colors hideToggle="true" [expanded]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="sub-header">
+      Colors
+    </mat-panel-title>
+    <mat-icon *ngIf="!colors.expanded" svgIcon="accordian_open"></mat-icon>
+    <mat-icon *ngIf="colors.expanded" svgIcon="accordian_close"></mat-icon>
+  </mat-expansion-panel-header>
+
+  <div class="colors-selection">
+
+  </div>
+</mat-expansion-panel>
