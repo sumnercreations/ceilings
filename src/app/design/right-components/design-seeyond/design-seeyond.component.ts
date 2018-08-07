@@ -8,4 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DesignSeeyondComponent extends DesignComponent implements OnInit {
   ngOnInit() {}
+
+  seeyondDimensionsDidChange() {
+    this.seeyond.setMaxMinDimensions();
+    this.seeyond.updateDimensions();
+  }
 }

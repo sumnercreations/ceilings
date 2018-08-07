@@ -1,3 +1,4 @@
+<!-- BEGIN FEATURES -->
 <mat-expansion-panel #features hideToggle="true" [expanded]="true">
   <mat-expansion-panel-header>
     <mat-panel-title class="sub-header">
@@ -6,13 +7,14 @@
     <mat-icon *ngIf="!features.expanded" svgIcon="accordian_open"></mat-icon>
     <mat-icon *ngIf="features.expanded" svgIcon="accordian_close"></mat-icon>
   </mat-expansion-panel-header>
-
   <div class="features-selection">
 
   </div>
 </mat-expansion-panel>
+<!-- END FEATURES -->
 
-<mat-expansion-panel #dimensions hideToggle="true" [expanded]="true">
+<!-- BEGIN DIMENSIONS -->
+<mat-expansion-panel #dimensions hideToggle="true">
   <mat-expansion-panel-header>
     <mat-panel-title class="sub-header">
       Dimensions
@@ -20,12 +22,57 @@
     <mat-icon *ngIf="!dimensions.expanded" svgIcon="accordian_open"></mat-icon>
     <mat-icon *ngIf="dimensions.expanded" svgIcon="accordian_close"></mat-icon>
   </mat-expansion-panel-header>
-
   <div class="dimensions-selection">
-
+    <div class="inputs">
+      <div class="input">
+        <div class="sub-header">Width</div>
+        <input [(ngModel)]="seeyond.width" #widthInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)" required type="number"
+          class="unit-input" placeholder="Width" name="width">
+        <div class="max-min">
+          <span>Min {{this.seeyond.widthMin}}</span>
+          <span>Max {{this.seeyond.widthMax}}</span>
+        </div>
+      </div>
+      <div class="input">
+        <div class="sub-header" *ngIf="seeyond.seeyond_feature_type !== 'ceiling'">Height</div>
+        <div class="sub-header" *ngIf="seeyond.seeyond_feature_type === 'ceiling'">Length</div>
+        <input [(ngModel)]="seeyond.height" #lengthInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)" required type="number"
+          class="unit-input" placeholder="Height" name="length">
+        <div class="max-min">
+          <span>Min {{this.seeyond.heightMin}}</span>
+          <span>Max {{this.seeyond.heightMax}}</span>
+        </div>
+      </div>
+      <div class="input" *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling'">
+        <div class="sub-header">Ceiling Length</div>
+        <input [(ngModel)]="seeyond.ceiling_length" #ceilingLengthInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)"
+          required type="number" class="unit-input" placeholder="Height" name="length">
+        <div class="max-min">
+          <span>Min {{this.seeyond.ceilLengthMin}}</span>
+          <span>Max {{this.seeyond.ceilLengthMax}}</span>
+        </div>
+      </div>
+      <div class="input" *ngIf="seeyond.seeyond_feature_type === 'curved-partition'">
+        <div class="sub-header">Radius</div>
+        <input [(ngModel)]="seeyond.radius" #radiusInput="ngModel" (change)="seeyondDimensionsDidChange($event.key)" type="number"
+          class="unit-input" placeholder="Height" name="length">
+        <div class="max-min">
+          <span>Min {{this.seeyond.radiusMin}}</span>
+          <span>Max {{this.seeyond.radiusMax}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="units-input">
+      <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+        <mat-button-toggle value="inches">IN</mat-button-toggle>
+        <mat-button-toggle value="centimeters">CM</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
   </div>
 </mat-expansion-panel>
+<!-- END DIMENSIONS -->
 
+<!-- BEGIN PATTERN -->
 <mat-expansion-panel #patterns hideToggle="true" [expanded]="true">
   <mat-expansion-panel-header>
     <mat-panel-title class="sub-header">
@@ -39,7 +86,9 @@
 
   </div>
 </mat-expansion-panel>
+<!-- END PATTERN -->
 
+<!-- BEGIN COLORS -->
 <mat-expansion-panel #colors hideToggle="true" [expanded]="true">
   <mat-expansion-panel-header>
     <mat-panel-title class="sub-header">
@@ -53,3 +102,4 @@
 
   </div>
 </mat-expansion-panel>
+<!-- END COLORS -->

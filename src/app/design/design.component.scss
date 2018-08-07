@@ -107,8 +107,60 @@
   font-weight: 500;
 }
 
+.mat-expansion-panel-body div:last-child {
+  margin-bottom: 10px;
+}
+
 .selected {
   border: 2px solid #ff9e1b !important;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 25px;
+  .input {
+    margin-right: 20px;
+  }
+  .input input {
+    max-width: 75px;
+    line-height: 2;
+  }
+  .name-input {
+    width: 280px;
+    margin-right: 20px;
+    line-height: 2;
+    text-indent: 8px;
+  } // .sub-header {
+  //   font-weight: 500;
+  //   font-size: 0.9em;
+  // }
+  .max-min {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.7em;
+    line-height: 1;
+    margin-top: 8px;
+  }
+  .units-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    span {
+      border: 1px solid #e8e8e8;
+      margin-top: -9px;
+      height: 34px;
+      width: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    span p {
+      margin: 0;
+    }
+  }
 }
 
 // .navigation {
