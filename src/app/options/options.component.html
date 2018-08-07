@@ -34,7 +34,7 @@
 
       <div *ngIf="showProfileFeatureSelection" id="swoon-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
-        <span appStyledSelect>
+        <span appStyledSelect [width]="280">
           <select (change)="updateSelectedProfileFeature($event.target.value)">
             <option value="swoon">Swoon</option>
           </select>
@@ -43,8 +43,7 @@
 
       <div *ngIf="showSeeyondFeatureSelection" id="seeyond-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
-        <!-- <span appStyledSelect > -->
-        <span appStyledSelect>
+        <span appStyledSelect [width]="280">
           <select (change)="seeyondUpdateSelectedFeature($event.target.value)">
             <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option>
           </select>
@@ -129,7 +128,7 @@
         <div class="inputs clario-inputs">
           <div class="input">
             <div class="sub-header">Ceiling Grid Type</div>
-            <span appStyledSelect>
+            <span appStyledSelect [width]="280">
               <select (change)="clarioGridSizeChanged($event.target.value)" id="gridOptions" [(ngModel)]="feature.grid_type">
                 <option [value]="'15/16'">15/16" (24mm)</option>
                 <option [value]="'9/16'">9/16"</option>
@@ -138,7 +137,7 @@
           </div>
           <div class="input">
             <div class="sub-header">Tile Size</div>
-            <span appStyledSelect>
+            <span appStyledSelect [width]="280">
               <select (change)="clarioTileSizeChanged($event.target.value)" id="gridOptions">
                 <option disabled [value]="undefined" [selected]="clarioGrids.selectedTileSize === undefined">-- select --</option>
                 <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize?.name === gridOption.name">{{gridOption.name}}</option>
