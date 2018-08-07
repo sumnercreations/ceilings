@@ -164,6 +164,18 @@ button[disabled] {
   opacity: 0.4;
 }
 
+.checkbox {
+  height: 24px;
+  width: 24px;
+  border: 1px solid #bbb;
+  margin: 0px;
+  img {
+    width: 100%;
+    padding: 1px;
+    margin-top: 1px;
+  }
+}
+
 mat-button-toggle {
   border: 1px solid !important;
   border-color: #e8e8e8;

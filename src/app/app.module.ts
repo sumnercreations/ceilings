@@ -19,7 +19,8 @@ import {
   MatTableModule,
   MatSidenavModule,
   MatExpansionModule,
-  MatIconModule
+  MatIconModule,
+  MatSliderModule
 } from '@angular/material';
 
 // routing
@@ -167,7 +168,8 @@ import { DesignSeeyondComponent } from './design/right-components/design-seeyond
     MatTableModule,
     MatSidenavModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    MatSliderModule
   ],
   providers: [
     Feature,

@@ -43,6 +43,7 @@
 
       <div *ngIf="showSeeyondFeatureSelection" id="seeyond-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
+        <!-- <span appStyledSelect > -->
         <span appStyledSelect>
           <select (change)="seeyondUpdateSelectedFeature($event.target.value)">
             <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option>

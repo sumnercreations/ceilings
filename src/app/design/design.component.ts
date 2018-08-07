@@ -551,7 +551,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     });
   }
 
-  public updateGridUnits(units: string) {
+  updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
     this.feature.units = units;
     if (this.feature.feature_type === 'seeyond') {
@@ -559,5 +559,21 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.seeyond.setMaxMinDimensions(units);
     }
     this.feature.updateGridUnits(units);
+  }
+
+  toggleCoveLighting() {
+    if (this.seeyond.quoted) {
+      this.alertQuoted();
+      return;
+    }
+    this.seeyond.cove_lighting = !this.seeyond.cove_lighting;
+    if (this.seeyond.cove_lighting) {
+      this.seeyond.calcLightingFootage();
+    }
+    this.seeyond.updateEstimatedAmount();
+  }
+
+  alertQuoted() {
+    this.alert.error('This design has been quoted.  To make changes you must first save it as a new design.');
   }
 }
