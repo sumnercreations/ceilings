@@ -34,3 +34,16 @@
     }
   }
 }
+
+.colors-selection {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .material {
+    div {
+      img {
+        height: 50px;
+      }
+    }
+  }
+}

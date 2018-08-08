@@ -108,7 +108,7 @@
       <div class="strength-container">
         <div class="sub-header">Pattern Strength</div>
         <mat-slider class="example-margin" max="10" min="1" step="1" thumbLabel="true" tickInterval="1" [disabled]="this.seeyond.quoted"
-          [value]="seeyond.pattern_strength" (change)="updatePatternStrength()">
+          [value]="seeyond.pattern_strength" (change)="updatePatternStrength(patternStrength)" #patternStrength>
         </mat-slider>
       </div>
       <div class="relief-container" *ngIf="seeyond.seeyond_feature_type ==='linear-partition' || seeyond.seeyond_feature_type ==='curved-partition'">
@@ -135,7 +135,12 @@
   </mat-expansion-panel-header>
 
   <div class="colors-selection">
-
+    <div *ngFor="let material of seeyondMaterials | keys" matTooltip="{{material.material | capitalize}}" [matTooltipPosition]="position"
+      (click)="updateSelectedMaterial(material)" class="material">
+      <div *ngIf="material.status === 'active'">
+        <img src="{{material.image}}" alt="{{material.material | capitalize}}" [class.selected]="seeyond.material==material.material">
+      </div>
+    </div>
   </div>
 </mat-expansion-panel>
 <!-- END COLORS -->

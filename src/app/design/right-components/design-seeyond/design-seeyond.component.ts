@@ -9,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class DesignSeeyondComponent extends DesignComponent implements OnInit {
   selectedTessellation = this.seeyond.tessellation;
   pattern_strength = this.seeyond.pattern_strength;
+  seeyondMaterials = this.feature.materials.felt.sola;
   strengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  patternRelief: string;
+  patternRelief = 'both';
   patternReliefOptions = [
     {
       value: 'both',
@@ -49,10 +50,7 @@ export class DesignSeeyondComponent extends DesignComponent implements OnInit {
     this.seeyond.reloadVisualization();
   }
 
-  updatePatternStrength(strength?: number) {
-    if (!strength) {
-      strength = this.seeyond.pattern_strength;
-    }
+  updatePatternStrength(strength) {
     this.pattern_strength = this.seeyond.pattern_strength = strength;
 
     // update the visualization
@@ -82,5 +80,18 @@ export class DesignSeeyondComponent extends DesignComponent implements OnInit {
 
     // update the visualization
     this.seeyond.reloadVisualization();
+  }
+
+  updateSelectedMaterial(material) {
+    if (this.seeyond.quoted) {
+      this.alertQuoted();
+      return;
+    }
+    this.seeyond.material = material.material;
+    this.seeyond.sheet_part_id = material.sheet_part_id;
+    this.seeyond.canQuote = true;
+
+    // update the visualization
+    this.seeyond.redrawVisualization();
   }
 }
