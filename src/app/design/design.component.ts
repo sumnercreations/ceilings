@@ -62,6 +62,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   showClarioDimensions = false;
   showDimensions = false;
   showAdjustColumnsRows = false;
+  quantitiesString = '';
 
   constructor(
     public route: ActivatedRoute,
@@ -97,6 +98,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.setCanQtyOrder();
       }
       this.setRightSidePanels(featureType);
+      this.quantitiesString = this.setQuantitiesString(featureType);
       if (!this.designFeatures.includes(featureType)) {
         this.feature.navToLanding();
         return;
@@ -251,7 +253,6 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   setRightSidePanels(feature) {
-    console.log('setRightSidePanels', feature);
     switch (feature) {
       case 'seeyond':
         this.showSeeyondOptions = true;
@@ -285,6 +286,23 @@ export class DesignComponent implements OnInit, OnDestroy {
       case 'hushSwoon':
         this.showMaterials = true;
         break;
+    }
+  }
+
+  setQuantitiesString(featureType) {
+    switch (featureType) {
+      case 'profile':
+        return 'Profile is sold in quantities of XXXXX';
+      case 'clario':
+        return 'TODO get clario tile sold string';
+      case 'tetria':
+        return 'Tetria is sold in quantities of 4';
+      case 'velo':
+        return 'TODO get velo tile sold string';
+      case 'hushSwoon':
+        return 'TODO get hushSwoon tile sold string';
+      default:
+        return '';
     }
   }
 

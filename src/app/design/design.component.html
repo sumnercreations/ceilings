@@ -37,7 +37,7 @@
       <app-canvas-grids *ngIf="useCanvasGrid" class="canvas-grid-container"></app-canvas-grids>
     </div>
     <div class="grid-footer">
-      <span class="quantities-sold sub-header">{{this.feature.getFeatureHumanName()}} is sold in quanities of X.</span>
+      <span class="quantities-sold sub-header">{{quantitiesString}}</span>
       <span class="tile-usage" appStyledButton='secondary-left'>
         <button (click)="tileUsage()">View tile usage</button>
       </span>
