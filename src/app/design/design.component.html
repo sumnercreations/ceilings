@@ -53,7 +53,8 @@
       <div class="totals">
         <span class="est-total">
           <span class="sub-header">Est. Total:&nbsp;&nbsp;</span>
-          <span class="total">{{feature.estimated_amount | currency:'USD'}} USD</span>
+          <span *ngIf="feature.feature_type !== 'seeyond'" class="total">{{feature.estimated_amount | currency:'USD'}} USD</span>
+          <span *ngIf="feature.feature_type === 'seeyond'" class="total">{{seeyond.estimated_amount | currency:'USD'}} USD</span>
         </span>
         <span class="details-btn">
           <span appStyledButton='secondary-left'>

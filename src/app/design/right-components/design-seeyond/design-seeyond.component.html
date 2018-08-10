@@ -108,7 +108,7 @@
       <div class="strength-container">
         <div class="sub-header">Pattern Strength</div>
         <mat-slider class="example-margin" max="10" min="1" step="1" thumbLabel="true" tickInterval="1" [disabled]="this.seeyond.quoted"
-          [value]="seeyond.pattern_strength" (change)="updatePatternStrength(patternStrength)" #patternStrength>
+          [value]="seeyond.pattern_strength" (change)="updatePatternStrength(patternStrength.value)" #patternStrength>
         </mat-slider>
       </div>
       <div class="relief-container" *ngIf="seeyond.seeyond_feature_type ==='linear-partition' || seeyond.seeyond_feature_type ==='curved-partition'">
