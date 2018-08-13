@@ -75,6 +75,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $cus
 }
 
 $primary-orange: #ff9e1b;
+$primary-black: #000;
 .Graphik-Regular-Web {
   font-family: 'Graphik Web';
   font-weight: 400;
@@ -93,26 +94,61 @@ body {
 }
 
 input:focus {
-  outline: none !important;
+  outline: none;
   border: 2px solid $primary-orange;
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 select:focus {
-  outline: none !important;
-  border: 2px solid $primary-orange !important;
-  box-shadow: none !important;
+  outline: none;
+  border: 2px solid $primary-orange;
+  box-shadow: none;
 }
 
 button:focus {
-  outline: none !important;
   border: 2px solid $primary-orange !important;
-  box-shadow: none !important;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 input {
   text-indent: 8px;
   line-height: 1.8em;
+}
+
+.toggle-btns {
+  button,
+  button:active {
+    // outline: none !important;
+    // box-shadow: none !important;
+    background: none;
+    color: inherit;
+    border: 2px solid #bbb;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+  button:first-child {
+    border-right: 0px;
+  }
+  button:last-child {
+    border-left: 0px;
+  }
+  button.selected {
+    border: 2px solid $primary-black;
+  }
+}
+
+.toggle-btns.units-input {
+  button {
+    line-height: 2em;
+    width: 50px;
+    text-align: center;
+  }
 }
 
 .sub-header {
@@ -176,33 +212,28 @@ button[disabled] {
   }
 }
 
-mat-button-toggle {
-  border: 1px solid !important;
-  border-color: #e8e8e8;
-  height: 34px;
-  width: 50px;
-}
-
-.mat-button-toggle-checked {
-  border-color: #000 !important;
-  background-color: #fff;
-  color: black;
-}
-
-mat-button-toggle-group {
-  box-shadow: none !important;
-}
-
-label.mat-button-toggle-label {
-  height: 100%;
-  margin-top: -2px;
-  font-weight: 500;
-}
-
-label div.mat-button-toggle-label-content {
-  height: 100%;
-}
-
+// mat-button-toggle {
+//   border: 1px solid !important;
+//   border-color: #e8e8e8;
+//   height: 34px;
+//   width: 50px;
+// }
+// .mat-button-toggle-checked {
+//   border-color: #000 !important;
+//   background-color: #fff;
+//   color: black;
+// }
+// mat-button-toggle-group {
+//   box-shadow: none !important;
+// }
+// label.mat-button-toggle-label {
+//   height: 100%;
+//   margin-top: -2px;
+//   font-weight: 500;
+// }
+// label div.mat-button-toggle-label-content {
+//   height: 100%;
+// }
 mat-expansion-panel {
   box-shadow: none !important;
   border-bottom: 1px solid #bbb;

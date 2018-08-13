@@ -134,7 +134,6 @@ export class DesignComponent implements OnInit, OnDestroy {
                 return;
               }
               if (design.feature_type === params['type']) {
-                design.feature_type = design.feature_type === 'hush-blocks' ? 'hush' : design.feature_type;
                 this.debug.log('design-component', 'setting the design.');
                 design.feature_type = this.feature.setFeatureType(design.feature_type);
                 this.feature.setDesign(design);

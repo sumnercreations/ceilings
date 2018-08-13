@@ -130,9 +130,11 @@
           </div>
         </div>
         <div class="est-total">
-          <span appStyledButton='primary-right'>
-            <button *ngIf="!feature.quoted" type="submit" (click)='requestQuote()' [disabled]="((order.data.length === 0) || !feature.design_name)">Request Quote</button>
-            <button *ngIf="feature.quoted" (click)="viewDetails()">View Details</button>
+          <span appStyledButton='primary-right' *ngIf="!feature.quoted">
+            <button type="submit" (click)='requestQuote()' [disabled]="((order.data.length === 0) || !feature.design_name)">Request Quote</button>
+          </span>
+          <span appStyledButton='primary-right' *ngIf="feature.quoted">
+            <button (click)="viewDetails()">View Details</button>
           </span>
           <span class="est-total-text">
             <span>Est. Total:</span>

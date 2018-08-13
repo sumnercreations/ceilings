@@ -91,10 +91,14 @@
             </div>
           </div>
           <div class="input">
-            <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+            <!-- <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
               <mat-button-toggle value="inches">IN</mat-button-toggle>
               <mat-button-toggle value="centimeters">CM</mat-button-toggle>
-            </mat-button-toggle-group>
+            </mat-button-toggle-group> -->
+            <span class="toggle-btns units-input">
+              <button (click)="updateGridUnits('inches')" [class.selected]="feature.units === 'inches'">IN</button>
+              <button (click)="updateGridUnits('centimeters')" [class.selected]="feature.units === 'centimeters'">CM</button>
+            </span>
           </div>
         </div>
       </div>
@@ -114,11 +118,15 @@
             <div class="max-min"></div>
           </div>
           <div class="input">
-            <div class="sub-header">&#8203;</div>
-            <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+            <div>&nbsp;</div>
+            <!-- <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
               <mat-button-toggle value="inches">IN</mat-button-toggle>
               <mat-button-toggle value="centimeters">CM</mat-button-toggle>
-            </mat-button-toggle-group>
+            </mat-button-toggle-group> -->
+            <span class="toggle-btns units-input">
+              <button (click)="updateGridUnits('inches')" [class.selected]="feature.units === 'inches'">IN</button>
+              <button (click)="updateGridUnits('centimeters')" [class.selected]="feature.units === 'centimeters'">CM</button>
+            </span>
           </div>
         </div>
       </div>
