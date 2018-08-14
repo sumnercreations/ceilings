@@ -27,31 +27,19 @@
     </div>
   </div>
   <div class="inputs">
-    <ul class="tools list-inline">
-      <li class="tool-container">
-        <p class="no-bottom-margin">Column</p>
-        <div class="grid-tool" (click)="adjustGridDimensions('addColumn')">
-          <span class="icomoon-plus img-responsive"></span>
-        </div>
-      </li>
-      <li class="tool-container">
-        <p class="no-bottom-margin">&#8203;</p>
-        <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeColumn')">
-          <span class="icomoon-minus img-responsive"></span>
-        </div>
-      </li>
-      <li class="tool-container grid-tool-spacer">
-        <p class="no-bottom-margin">Row</p>
-        <div class="grid-tool" (click)="adjustGridDimensions('addRow')">
-          <span class="icomoon-plus img-responsive"></span>
-        </div>
-      </li>
-      <li class="tool-container">
-        <p class="no-bottom-margin">&#8203;</p>
-        <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeRow')">
-          <span class="icomoon-minus img-responsive"></span>
-        </div>
-      </li>
-    </ul>
+    <div class="input">
+      <div class="sub-header">Columns</div>
+      <div class="add-remove">
+        <img src="/assets/icons/tools/add-plus.png" (click)="adjustGridDimensions('addColumn')" alt="Add Column">
+        <img src="/assets/icons/tools/remove-minus.png" (click)="adjustGridDimensions('removeColumn')" alt="Remove Column">
+      </div>
+    </div>
+    <div class="input">
+      <div class="sub-header">Rows</div>
+      <div class="add-remove">
+        <img src="/assets/icons/tools/add-plus.png" (click)="adjustGridDimensions('addRow')" alt="Add Row">
+        <img src="/assets/icons/tools/remove-minus.png" (click)="adjustGridDimensions('removeRow')" alt="Remove Row">
+      </div>
+    </div>
   </div>
 </mat-expansion-panel>

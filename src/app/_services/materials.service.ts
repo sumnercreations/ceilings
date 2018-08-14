@@ -52,14 +52,14 @@ export class MaterialsService {
     },
     '9/16': {
       '24x24': {
-        name: '24"x24"',
+        name: '24x24in',
         units: 'inches',
         image_type: '24',
         tile_size_type: 'standard',
         tile_size: '24'
       },
       '24x48': {
-        name: '24"x48"',
+        name: '24x48in',
         units: 'inches',
         image_type: '48',
         tile_size_type: 'standard',
