@@ -474,18 +474,31 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   adjustGridDimensions(tool) {
+    let sizeIncrement = 24;
+    if (this.feature.feature_type === 'clario') {
+      switch (this.clarioGrids.selectedTileSize.tile_size_type) {
+        case 'metric':
+          sizeIncrement = 60;
+          break;
+        case 'german':
+          sizeIncrement = 62.5;
+          break;
+        default:
+          sizeIncrement = 24;
+      }
+    }
     switch (tool) {
       case 'addColumn':
-        this.feature.width = Number(this.feature.width) + 24;
+        this.feature.width = Number(this.feature.width) + sizeIncrement;
         break;
       case 'removeColumn':
-        this.feature.width = Number(this.feature.width) - 24;
+        this.feature.width = Number(this.feature.width) - sizeIncrement;
         break;
       case 'addRow':
-        this.feature.length = Number(this.feature.length) + 24;
+        this.feature.length = Number(this.feature.length) + sizeIncrement;
         break;
       case 'removeRow':
-        this.feature.length = Number(this.feature.length) - 24;
+        this.feature.length = Number(this.feature.length) - sizeIncrement;
         break;
       default:
         break;
