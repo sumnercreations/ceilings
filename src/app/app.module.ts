@@ -95,6 +95,9 @@ import { OptionsRightHushSwoonComponent } from './options/options-right-hush-swo
 import { DesignMaterialsComponent } from './design/right-components/design-materials/design-materials.component';
 import { DesignModifyComponent } from './design/right-components/design-modify/design-modify.component';
 import { DesignSeeyondComponent } from './design/right-components/design-seeyond/design-seeyond.component';
+import { DesignDimensionsComponent } from './design/right-components/design-dimensions/design-dimensions.component';
+import { DesignColumnsRowsComponent } from './design/right-components/design-columns-rows/design-columns-rows.component';
+import { DesignClarioDimensionsComponent } from './design/right-components/design-clario-dimensions/design-clario-dimensions.component';
 
 @NgModule({
   declarations: [
@@ -147,7 +150,10 @@ import { DesignSeeyondComponent } from './design/right-components/design-seeyond
     OptionsRightHushSwoonComponent,
     DesignMaterialsComponent,
     DesignModifyComponent,
-    DesignSeeyondComponent
+    DesignSeeyondComponent,
+    DesignDimensionsComponent,
+    DesignColumnsRowsComponent,
+    DesignClarioDimensionsComponent
   ],
   imports: [
     BrowserModule,

@@ -37,7 +37,10 @@
       <app-canvas-grids *ngIf="useCanvasGrid" class="canvas-grid-container"></app-canvas-grids>
     </div>
     <div class="grid-footer">
-      <span class="quantities-sold sub-header">{{quantitiesString}}</span>
+      <span class="quantities-sold">
+        <span class="sub-header">{{gridRequirementsString}}</span>
+        <span class="sub-header">{{quantitiesString}}</span>
+      </span>
       <span class="tile-usage" appStyledButton='secondary-left'>
         <button (click)="tileUsage()">View tile usage</button>
       </span>
@@ -45,6 +48,9 @@
   </div>
   <div class="right-side">
     <div class="expansion-panels">
+      <app-design-dimensions *ngIf="showDimensions"></app-design-dimensions>
+      <app-design-clario-dimensions *ngIf="showClarioDimensions"></app-design-clario-dimensions>
+      <app-design-dimensions *ngIf="showDimensions"></app-design-dimensions>
       <app-design-materials *ngIf="showMaterials"></app-design-materials>
       <app-design-modify *ngIf="showModify"></app-design-modify>
       <app-design-seeyond *ngIf="showSeeyondOptions"></app-design-seeyond>

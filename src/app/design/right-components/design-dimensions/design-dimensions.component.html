@@ -1,0 +1,57 @@
+<mat-expansion-panel #dimensions expanded="true" hideToggle="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="sub-header">
+      Dimensions
+    </mat-panel-title>
+    <mat-icon *ngIf="!dimensions.expanded" svgIcon="accordian_open"></mat-icon>
+    <mat-icon *ngIf="dimensions.expanded" svgIcon="accordian_close"></mat-icon>
+  </mat-expansion-panel-header>
+  <div class="description" *ngIf="feature.feature_type==='tetria'">A 15/16 or 9/16 grid system is required for this product.</div>
+  <div class="inputs">
+    <div class="input">
+      <div class="sub-header">Width</div>
+      <input [(ngModel)]="feature.width" class="unit-input" type="text" (blur)="updateGrid()">
+      <div class="max-min"></div>
+    </div>
+    <div class="input">
+      <div class="sub-header">Height</div>
+      <input [(ngModel)]="feature.length" class="unit-input" type="text" (blur)="updateGrid()">
+      <div class="max-min"></div>
+    </div>
+    <div class="input">
+      <div>&nbsp;</div>
+      <span class="toggle-btns units-input">
+        <button (click)="updateGridUnits('inches')" [class.selected]="feature.units === 'inches'">IN</button>
+        <button (click)="updateGridUnits('centimeters')" [class.selected]="feature.units === 'centimeters'">CM</button>
+      </span>
+    </div>
+  </div>
+  <div class="inputs">
+    <ul class="tools list-inline">
+      <li class="tool-container">
+        <p class="no-bottom-margin">Column</p>
+        <div class="grid-tool" (click)="adjustGridDimensions('addColumn')">
+          <span class="icomoon-plus img-responsive"></span>
+        </div>
+      </li>
+      <li class="tool-container">
+        <p class="no-bottom-margin">&#8203;</p>
+        <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeColumn')">
+          <span class="icomoon-minus img-responsive"></span>
+        </div>
+      </li>
+      <li class="tool-container grid-tool-spacer">
+        <p class="no-bottom-margin">Row</p>
+        <div class="grid-tool" (click)="adjustGridDimensions('addRow')">
+          <span class="icomoon-plus img-responsive"></span>
+        </div>
+      </li>
+      <li class="tool-container">
+        <p class="no-bottom-margin">&#8203;</p>
+        <div class="grid-tool add-border-right" (click)="adjustGridDimensions('removeRow')">
+          <span class="icomoon-minus img-responsive"></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</mat-expansion-panel>

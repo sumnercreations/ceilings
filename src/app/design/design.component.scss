@@ -60,6 +60,11 @@
       align-items: center;
       .quantities-sold {
         margin-right: 30px;
+        display: flex;
+        flex-direction: column;
+        .sub-header {
+          padding: 0px;
+        }
       }
       .tile-usage {}
     }
@@ -149,6 +154,15 @@
     }
     span p {
       margin: 0;
+    }
+  }
+  .add-remove {
+    img {
+      height: 30px;
+      padding: 3px;
+      margin-right: 10px;
+      cursor: pointer;
+      border: 1px solid #bbb;
     }
   }
 }

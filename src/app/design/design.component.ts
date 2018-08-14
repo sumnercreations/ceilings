@@ -61,8 +61,9 @@ export class DesignComponent implements OnInit, OnDestroy {
   showModify = false;
   showClarioDimensions = false;
   showDimensions = false;
-  showAdjustColumnsRows = false;
+
   quantitiesString = '';
+  gridRequirementsString = '';
 
   constructor(
     public route: ActivatedRoute,
@@ -99,6 +100,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       }
       this.setRightSidePanels(featureType);
       this.quantitiesString = this.setQuantitiesString(featureType);
+      this.gridRequirementsString = this.setGridRequirementsString(featureType);
       if (!this.designFeatures.includes(featureType)) {
         this.feature.navToLanding();
         return;
@@ -280,7 +282,6 @@ export class DesignComponent implements OnInit, OnDestroy {
       case 'hush':
         this.showDimensions = true;
         this.showMaterials = true;
-        this.showAdjustColumnsRows = true;
         break;
       case 'hushSwoon':
         this.showMaterials = true;
@@ -293,13 +294,30 @@ export class DesignComponent implements OnInit, OnDestroy {
       case 'profile':
         return 'Profile is sold in quantities of XXXXX';
       case 'clario':
-        return 'TODO get clario tile sold string';
+        let smallBaffle = '24x24';
+        let largeBaffle = '24x48';
+        if (!!this.clarioGrids.selectedTileSize) {
+          smallBaffle = this.clarioGrids.selectedTileSize['24'];
+          largeBaffle = this.clarioGrids.selectedTileSize['48'];
+        }
+        return `${smallBaffle} baffles are sold in qty of 4, and ${largeBaffle} baffles are sold in qty of 2.`;
       case 'tetria':
-        return 'Tetria is sold in quantities of 4';
+        return 'Tetria tiles are sold in quantities of 4';
       case 'velo':
         return 'TODO get velo tile sold string';
       case 'hushSwoon':
         return 'TODO get hushSwoon tile sold string';
+      default:
+        return '';
+    }
+  }
+
+  setGridRequirementsString(featureType) {
+    switch (featureType) {
+      case 'clario':
+      case 'tetria':
+      case 'hush':
+        return `A 15/16\" or 9/16\" grid system is required for this product.`;
       default:
         return '';
     }
@@ -316,8 +334,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
-        this.feature.buildGrid();
-        this.feature.updateSelectedTile(this.feature.selectedTile);
+        this.updateGrid();
       });
   }
 
@@ -459,16 +476,16 @@ export class DesignComponent implements OnInit, OnDestroy {
   adjustGridDimensions(tool) {
     switch (tool) {
       case 'addColumn':
-        this.feature.width = this.feature.width + 24;
+        this.feature.width = Number(this.feature.width) + 24;
         break;
       case 'removeColumn':
-        this.feature.width = this.feature.width - 24;
+        this.feature.width = Number(this.feature.width) - 24;
         break;
       case 'addRow':
-        this.feature.length = this.feature.length + 24;
+        this.feature.length = Number(this.feature.length) + 24;
         break;
       case 'removeRow':
-        this.feature.length = this.feature.length - 24;
+        this.feature.length = Number(this.feature.length) - 24;
         break;
       default:
         break;
@@ -576,6 +593,10 @@ export class DesignComponent implements OnInit, OnDestroy {
       this.seeyond.setMaxMinDimensions(units);
     }
     this.feature.updateGridUnits(units);
+    if (this.feature.feature_type === 'hush') {
+      this.adjustHushGrid();
+    }
+    this.updateGrid();
   }
 
   toggleCoveLighting() {
@@ -592,5 +613,48 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   alertQuoted() {
     this.alert.error('This design has been quoted.  To make changes you must first save it as a new design.');
+  }
+
+  updateGrid() {
+    this.feature.buildGrid();
+    this.feature.updateSelectedTile(this.feature.selectedTile);
+  }
+
+  adjustHushGrid() {
+    let newWidth = Math.floor(this.feature.width / 24) * 24;
+    let newLength = Math.floor(this.feature.length / 24) * 24;
+    if (newWidth === 0) {
+      newWidth = 24;
+      this.alert.error(`Width rounded up to 24`);
+    }
+    if (newLength === 0) {
+      newLength = 24;
+      this.alert.error(`Length rounded up to 24`);
+    }
+    if (this.feature.width % 24 !== 0 && this.feature.length % 24 !== 0) {
+      this.feature.width = newWidth;
+      this.feature.length = newLength;
+      this.alert.error(`Width and Height rounded to ${newWidth}x${newLength}`);
+    } else if (this.feature.width % 24 !== 0) {
+      this.feature.width = newWidth;
+      this.alert.error(`Width rounded down to ${newWidth}`);
+    } else if (this.feature.length % 24 !== 0) {
+      this.feature.length = newLength;
+      this.alert.error(`Height rounded down to ${newLength}`);
+    }
+  }
+
+  clarioGridSizeChanged(selection) {
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
+    this.clarioGrids.gridSizeSelected(selection);
+  }
+
+  clarioTileSizeChanged(selection) {
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
+    this.clarioGrids.tileSizeSelected(selection);
   }
 }
