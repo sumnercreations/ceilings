@@ -96,7 +96,6 @@ import { DesignMaterialsComponent } from './design/right-components/design-mater
 import { DesignModifyComponent } from './design/right-components/design-modify/design-modify.component';
 import { DesignSeeyondComponent } from './design/right-components/design-seeyond/design-seeyond.component';
 import { DesignDimensionsComponent } from './design/right-components/design-dimensions/design-dimensions.component';
-import { DesignColumnsRowsComponent } from './design/right-components/design-columns-rows/design-columns-rows.component';
 import { DesignClarioDimensionsComponent } from './design/right-components/design-clario-dimensions/design-clario-dimensions.component';
 
 @NgModule({
@@ -152,7 +151,6 @@ import { DesignClarioDimensionsComponent } from './design/right-components/desig
     DesignModifyComponent,
     DesignSeeyondComponent,
     DesignDimensionsComponent,
-    DesignColumnsRowsComponent,
     DesignClarioDimensionsComponent
   ],
   imports: [
