@@ -37,7 +37,7 @@
       <app-canvas-grids *ngIf="useCanvasGrid" class="canvas-grid-container"></app-canvas-grids>
     </div>
     <div class="grid-footer">
-      <span class="quantities-sold">
+      <span class="quantities-sold" *ngIf="!!gridRequirementsString || !!quantitiesString">
         <span class="sub-header">{{gridRequirementsString}}</span>
         <span class="sub-header">{{quantitiesString}}</span>
       </span>
@@ -50,7 +50,6 @@
     <div class="expansion-panels">
       <app-design-dimensions *ngIf="showDimensions"></app-design-dimensions>
       <app-design-clario-dimensions *ngIf="showClarioDimensions"></app-design-clario-dimensions>
-      <app-design-dimensions *ngIf="showDimensions"></app-design-dimensions>
       <app-design-materials *ngIf="showMaterials"></app-design-materials>
       <app-design-modify *ngIf="showModify"></app-design-modify>
       <app-design-seeyond *ngIf="showSeeyondOptions"></app-design-seeyond>
@@ -63,7 +62,7 @@
           <span *ngIf="feature.feature_type === 'seeyond'" class="total">{{seeyond.estimated_amount | currency:'USD'}} USD</span>
         </span>
         <span class="details-btn">
-          <span appStyledButton='secondary-left'>
+          <span class="details-btn" *ngIf="feature.quoted">
             <button (click)="viewDetails()">Details</button>
           </span>
         </span>

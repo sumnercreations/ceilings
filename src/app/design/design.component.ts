@@ -152,6 +152,7 @@ export class DesignComponent implements OnInit, OnDestroy {
                   this.feature.material = 'milky-white';
                   this.feature.materialHex = '#dfdee0';
                   this.feature.materialType = 'felt';
+                  this.feature.toolsArray = ['remove'];
                 } else if (this.feature.feature_type === 'hush') {
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.hush[0]);
                   this.feature.toolsArray = ['remove'];
@@ -186,11 +187,13 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.material = 'zinc';
           } else if (this.feature.feature_type === 'velo') {
             this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
+            this.feature.toolsArray = ['remove'];
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
           } else if (this.feature.feature_type === 'hushSwoon') {
             this.feature.updateSelectedTile(this.materialsService.tilesArray.hushSwoon[0]);
+            this.feature.toolsArray = ['remove'];
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
@@ -275,16 +278,17 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.showModify = true;
         break;
       case 'velo':
-        this.showDimensions = true;
         this.showMaterials = true;
         this.showModify = true;
         break;
       case 'hush':
         this.showDimensions = true;
         this.showMaterials = true;
+        this.showModify = true;
         break;
       case 'hushSwoon':
         this.showMaterials = true;
+        this.showModify = true;
         break;
     }
   }
@@ -302,9 +306,9 @@ export class DesignComponent implements OnInit, OnDestroy {
         }
         return `${smallBaffle} baffles are sold in qty of 4, and ${largeBaffle} baffles are sold in qty of 2.`;
       case 'tetria':
-        return 'Tetria tiles are sold in quantities of 4';
+        return 'Tetria tiles are sold in quantities of 4.';
       case 'velo':
-        return 'TODO get velo tile sold string';
+        return 'Velo tiles are sold in quanties of 8.';
       case 'hushSwoon':
         return 'TODO get hushSwoon tile sold string';
       default:
