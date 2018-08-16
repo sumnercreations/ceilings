@@ -1252,7 +1252,9 @@ export class Feature {
       case 'velo':
         requiredMaterials = { felt: undefined, varia: undefined };
         requiredMaterials.felt = this.materials.felt.merino;
-        this.materials.varia.color = this.addNoColorToVariaObj();
+        if (!this.materials.varia.color[251]) {
+          this.materials.varia.color = this.addNoColorToVariaObj();
+        }
         requiredMaterials.varia = this.materials.varia;
         break;
     }

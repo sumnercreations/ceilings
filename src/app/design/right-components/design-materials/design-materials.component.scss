@@ -40,12 +40,32 @@
     margin-top: 10px;
     max-height: 250px;
     overflow: auto;
-    div div img {
-      height: 50px;
-    }
-    div div .varia-swatch {
-      height: 50px;
-      width: 50px;
+    div {
+      div {
+        img {
+          height: 50px;
+        }
+        .varia-swatch {
+          height: 50px;
+          width: 50px;
+        }
+        .no-color,
+        .is-clear {
+          border-right: 1px solid #bbb;
+          border-bottom: 1px solid #bbb;
+        }
+        .no-color:after {
+          content: "";
+          position: relative;
+          width: 1px;
+          height: 141.421356%;
+          top: -20.710678%;
+          display: block;
+          background: red;
+          left: 50%;
+          transform: translate(-50%, 0) rotate(-45deg);
+        }
+      }
     }
   }
   .diffusions-container {

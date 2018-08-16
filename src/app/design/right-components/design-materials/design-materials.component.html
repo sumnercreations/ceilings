@@ -70,9 +70,7 @@
               <div *ngIf="varia.status === 'active'" matTooltip="{{varia.material | capitalize}}" [matTooltipPosition]="position" class="">
                 <div *ngIf="!isLast" class="varia-swatch" [class.selected]="feature.material==varia.material" [style.background-color]="varia.hex"
                   [ngClass]="{'is-clear': varia.material==='clear'}"></div>
-                <div *ngIf="isLast" class="varia-swatch" [ngClass]="{'block-selected': feature.material==varia.material}">
-                  <span class="icomoon-blocked"></span>
-                </div>
+                <div *ngIf="isLast" class="varia-swatch no-color" [ngClass]="{'block-selected': feature.material==varia.material}"></div>
               </div>
             </div>
           </div>
