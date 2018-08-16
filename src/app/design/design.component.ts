@@ -54,7 +54,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush', 'profile', 'hushSwoon'];
 
   // right side expansion panels
-  showMaterials = false;
+  showDesign = false;
   showSeeyondOptions = false;
   showProfileFeatureSelection = false;
   showProfileSelectionPalette = false;
@@ -264,30 +264,30 @@ export class DesignComponent implements OnInit, OnDestroy {
       case 'profile':
         this.showProfileFeatureSelection = true;
         this.showProfileSelectionPalette = true;
-        this.showMaterials = true;
+        this.showDesign = true;
         this.showModify = true;
         break;
       case 'clario':
         this.showClarioDimensions = true;
-        this.showMaterials = true;
+        this.showDesign = true;
         this.showModify = true;
         break;
       case 'tetria':
         this.showDimensions = true;
-        this.showMaterials = true;
+        this.showDesign = true;
         this.showModify = true;
         break;
       case 'velo':
-        this.showMaterials = true;
+        this.showDesign = true;
         this.showModify = true;
         break;
       case 'hush':
         this.showDimensions = true;
-        this.showMaterials = true;
+        this.showDesign = true;
         this.showModify = true;
         break;
       case 'hushSwoon':
-        this.showMaterials = true;
+        this.showDesign = true;
         this.showModify = true;
         break;
     }

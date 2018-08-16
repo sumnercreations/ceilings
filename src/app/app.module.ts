@@ -92,7 +92,7 @@ import { OptionsRightVeloComponent } from './options/options-right-velo/options-
 import { MainNavbarComponent } from './main-navbar/main-navbar.component';
 import { MainFooterComponent } from './main-footer/main-footer.component';
 import { OptionsRightHushSwoonComponent } from './options/options-right-hush-swoon/options-right-hush-swoon.component';
-import { DesignMaterialsComponent } from './design/right-components/design-materials/design-materials.component';
+import { DesignMaterialsComponent } from './design/right-components/design-design/design-design.component';
 import { DesignModifyComponent } from './design/right-components/design-modify/design-modify.component';
 import { DesignSeeyondComponent } from './design/right-components/design-seeyond/design-seeyond.component';
 import { DesignDimensionsComponent } from './design/right-components/design-dimensions/design-dimensions.component';

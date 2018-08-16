@@ -2,9 +2,9 @@ import { DesignComponent } from './../../design.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-design-materials',
-  templateUrl: './design-materials.component.html',
-  styleUrls: ['../../design.component.scss', './design-materials.component.scss']
+  selector: 'app-design-design',
+  templateUrl: './design-design.component.html',
+  styleUrls: ['../../design.component.scss', './design-design.component.scss']
 })
 export class DesignMaterialsComponent extends DesignComponent implements OnInit {
   showTileSelection = true;
