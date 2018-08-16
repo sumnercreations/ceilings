@@ -51,8 +51,10 @@
         }
         .no-color,
         .is-clear {
-          border-right: 1px solid #bbb;
-          border-bottom: 1px solid #bbb;
+          border: 1px solid #bbb;
+        }
+        .no-color {
+          border-left: 0px;
         }
         .no-color:after {
           content: "";
@@ -78,6 +80,9 @@
         margin-right: 15px;
         .diffusion {
           height: 50px;
+          img {
+            border: 2px solid #fff;
+          }
         }
       }
     }

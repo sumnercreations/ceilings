@@ -20,12 +20,10 @@
             </span>
             <span class="guides-text sub-header">Guides</span>
           </span>
-          <span class="three-d" appStyledButton='secondary-left'>
+          <span *ngIf="feature.feature_type !== 'seeyond'" class="three-d" appStyledButton='secondary-left'>
             <button (click)="feature.view3d()">3D View</button>
           </span>
-        </span>
-        <span class="right">
-          <span class="download-img" appStyledButton='secondary-left-rotate90'>
+          <span *ngIf="feature.feature_type === 'seeyond'" class="download-img" appStyledButton='secondary-left-rotate90'>
             <button (click)="feature.view3d()">Download Image</button>
           </span>
         </span>
@@ -36,13 +34,17 @@
       <app-seeyond-visualization *ngIf="useSeeyondGrid"></app-seeyond-visualization>
       <app-canvas-grids *ngIf="useCanvasGrid" class="canvas-grid-container"></app-canvas-grids>
     </div>
-    <div class="grid-footer">
-      <span class="quantities-sold" *ngIf="!!gridRequirementsString || !!quantitiesString">
-        <span class="sub-header">{{gridRequirementsString}}</span>
-        <span class="sub-header">{{quantitiesString}}</span>
-      </span>
+    <div class="grid-footer" *ngIf="!showSeeyondOptions">
       <span class="tile-usage" appStyledButton='secondary-left'>
         <button (click)="tileUsage()">View tile usage</button>
+      </span>
+      <span class="quantities-sold" *ngIf="!!quantitiesString">
+        <span class="sub-header">{{quantitiesString}}</span>
+      </span>
+    </div>
+    <div class="grid-footer" *ngIf="showSeeyondOptions">
+      <span class="quantities-sold">
+        <span class="sub-header">{{seeyond.dimensionsString}}</span>
       </span>
     </div>
   </div>
