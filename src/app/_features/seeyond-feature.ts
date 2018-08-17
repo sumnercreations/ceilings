@@ -24,7 +24,7 @@ export class SeeyondFeature extends Feature {
   public xml: any = {};
   public tessellation: number; // court
   public tessellationStr: string;
-  public pattern_strength: number;
+  public pattern_strength = 3;
   public material: string;
   public sheet_part_id: string;
   public boxes: number;

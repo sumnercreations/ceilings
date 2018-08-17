@@ -111,14 +111,19 @@
     <div class="strength-relief-container">
       <div class="strength-container">
         <div class="sub-header">Pattern Strength</div>
-        <mat-slider class="example-margin" max="10" min="1" step="1" thumbLabel="true" tickInterval="1" [disabled]="this.seeyond.quoted"
+        <!-- <mat-slider class="example-margin" max="10" min="1" step="1" thumbLabel="true" tickInterval="1" [disabled]="this.seeyond.quoted"
           [value]="seeyond.pattern_strength" (change)="updatePatternStrength(patternStrength.value)" #patternStrength>
-        </mat-slider>
+        </mat-slider> -->
+        <span appStyledSelect [width]="145">
+          <select [(ngModel)]="seeyond.pattern_strength" (change)="updatePatternStrength()" [disabled]="this.seeyond.quoted">
+            <option *ngFor="let strength of strengths" value="{{strength}}">{{strength}}</option>
+          </select>
+        </span>
       </div>
       <div class="relief-container" *ngIf="seeyond.seeyond_feature_type ==='linear-partition' || seeyond.seeyond_feature_type ==='curved-partition'">
         <div class="sub-header">Pattern Location</div>
-        <span appStyledSelect [width]="150">
-          <select [(ngModel)]="patternRelief" (change)="updatePatternRelief()" [disabled]="this.seeyond.quoted">
+        <span appStyledSelect [width]="145">
+          <select name="pattern-relief" id="pattern-relief" [(ngModel)]="patternRelief" (change)="updatePatternRelief()" [disabled]="this.seeyond.quoted">
             <option *ngFor="let relief of patternReliefOptions" value="{{relief.value}}">{{relief.name}}</option>
           </select>
         </span>

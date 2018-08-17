@@ -26,6 +26,7 @@
   .strength-relief-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     .strength-container {
       flex-grow: 1;
     }

@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 })
 export class DesignSeeyondComponent extends DesignComponent implements OnInit, AfterContentInit, OnDestroy {
   selectedTessellation = this.seeyond.tessellation;
-  pattern_strength = this.seeyond.pattern_strength;
+  pattern_strength: number;
   seeyondMaterials = this.feature.materials.felt.sola;
   strengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   patternRelief = 'both';
@@ -32,7 +32,7 @@ export class DesignSeeyondComponent extends DesignComponent implements OnInit, A
   ngOnInit() {
     this.seeyond.onDimensionsChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
       this.dimensionsString = this.seeyond.getDimensionString(this.feature.units);
-      this.patternRelief = this.getPatternReliefString();
+      // this.patternRelief = this.getPatternReliefString();
     });
   }
 
@@ -55,6 +55,8 @@ export class DesignSeeyondComponent extends DesignComponent implements OnInit, A
         this.feature.canQuote = false;
       }
     });
+    this.pattern_strength = this.seeyond.pattern_strength;
+    this.patternRelief = this.getPatternReliefString();
   }
 
   ngOnDestroy() {
@@ -84,8 +86,8 @@ export class DesignSeeyondComponent extends DesignComponent implements OnInit, A
     this.seeyond.reloadVisualization();
   }
 
-  updatePatternStrength(strength) {
-    this.pattern_strength = this.seeyond.pattern_strength = strength;
+  updatePatternStrength() {
+    this.seeyond.pattern_strength = this.pattern_strength;
 
     // update the visualization
     this.seeyond.reloadVisualization();
