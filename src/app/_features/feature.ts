@@ -733,6 +733,10 @@ export class Feature {
         qty = 8;
         break;
 
+      case 'swoon':
+        qty = 1;
+        break;
+
       default:
         qty = 4;
         break;
@@ -792,6 +796,35 @@ export class Feature {
               materialType: gridTiles[tile].materialType,
               tile: gridTiles[tile].tile,
               diffusion: gridTiles[tile].diffusion
+            };
+          }
+        }
+      }
+      tiles = purchasedTiles;
+    } else if (this.feature_type === 'hushSwoon') {
+      const pkgQty: number = this.getPackageQty('swoon');
+      const gridTiles = this.swoonTiles();
+      let purchasedTiles: {};
+
+      for (const tile in gridTiles) {
+        if (gridTiles.hasOwnProperty(tile)) {
+          const materialType = gridTiles[tile].materialType;
+          const material = gridTiles[tile].material;
+          const key = `${materialType}-${material}`;
+          if (purchasedTiles === undefined) {
+            purchasedTiles = {};
+          }
+          if (!!purchasedTiles[key]) {
+            purchasedTiles[key][gridTiles[tile].tile] += 1;
+            purchasedTiles[key].purchased = pkgQty * Math.ceil(purchasedTiles[key] / pkgQty);
+          } else {
+            purchasedTiles[key] = {
+              purchased: pkgQty,
+              image: '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png',
+              hex: gridTiles[tile].hex,
+              material: gridTiles[tile].material,
+              materialType: gridTiles[tile].materialType,
+              tile: gridTiles[tile].tile
             };
           }
         }
@@ -969,6 +1002,16 @@ export class Feature {
       }
     }
     return veloTiles;
+  }
+
+  public swoonTiles() {
+    const swoonTiles = [];
+    for (const tile in this.gridData) {
+      if (this.gridData[tile].texture !== '') {
+        swoonTiles.push(this.gridData[tile]);
+      }
+    }
+    return swoonTiles;
   }
 
   public hushTiles() {
