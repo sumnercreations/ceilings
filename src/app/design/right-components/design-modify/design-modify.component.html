@@ -10,10 +10,10 @@
   <div class="modify-selection">
     <span *ngFor="let tool of feature.toolsArray last as isLast; index as i" (click)="feature.updateSelectedTool(tool)" class="tool-container"
       [class.add-margin-left]="i === 2">
-      <div class="expansion-panel-section-header">{{tool | capitalize}}</div>
-      <div class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
+      <span class="expansion-panel-section-header">{{tool | capitalize}}</span>
+      <span class="tool" [class.selected]="feature.selectedTool==tool" [class.add-border-right]="isLast || i === 1">
         <img src="/assets/icons/tools/{{tool}}.png" alt="{{tool | capitalize}}">
-      </div>
+      </span>
     </span>
   </div>
 </mat-expansion-panel>
