@@ -14,4 +14,8 @@ export class MainNavbarComponent implements OnInit {
   toggleSideNav() {
     this.feature.onToggleSideNav.emit();
   }
+
+  goTo3Form() {
+    window.location.href = 'http://www.3-form.com/';
+  }
 }
