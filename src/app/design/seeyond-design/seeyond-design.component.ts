@@ -38,7 +38,7 @@ export class SeeyondDesignComponent extends DesignComponent implements OnInit, O
 
   ngOnInit() {
     this.seeyond.onDimensionsChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
-      this.dimensionsString = this.seeyond.getDimensionString();
+      this.dimensionsString = this.seeyond.getDimensionString(this.feature.units);
       this.patternRelief = this.getPatternReliefString();
     });
   }

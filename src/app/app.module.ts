@@ -17,7 +17,10 @@ import {
   MatProgressSpinnerModule,
   MatTabsModule,
   MatTableModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatExpansionModule,
+  MatIconModule,
+  MatSliderModule
 } from '@angular/material';
 
 // routing
@@ -89,6 +92,11 @@ import { OptionsRightVeloComponent } from './options/options-right-velo/options-
 import { MainNavbarComponent } from './main-navbar/main-navbar.component';
 import { MainFooterComponent } from './main-footer/main-footer.component';
 import { OptionsRightHushSwoonComponent } from './options/options-right-hush-swoon/options-right-hush-swoon.component';
+import { DesignMaterialsComponent } from './design/right-components/design-design/design-design.component';
+import { DesignModifyComponent } from './design/right-components/design-modify/design-modify.component';
+import { DesignSeeyondComponent } from './design/right-components/design-seeyond/design-seeyond.component';
+import { DesignDimensionsComponent } from './design/right-components/design-dimensions/design-dimensions.component';
+import { DesignClarioDimensionsComponent } from './design/right-components/design-clario-dimensions/design-clario-dimensions.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +146,12 @@ import { OptionsRightHushSwoonComponent } from './options/options-right-hush-swo
     OptionsRightVeloComponent,
     MainNavbarComponent,
     MainFooterComponent,
-    OptionsRightHushSwoonComponent
+    OptionsRightHushSwoonComponent,
+    DesignMaterialsComponent,
+    DesignModifyComponent,
+    DesignSeeyondComponent,
+    DesignDimensionsComponent,
+    DesignClarioDimensionsComponent
   ],
   imports: [
     BrowserModule,
@@ -157,7 +170,10 @@ import { OptionsRightHushSwoonComponent } from './options/options-right-hush-swo
     MatProgressSpinnerModule,
     MatTabsModule,
     MatTableModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatSliderModule
   ],
   providers: [
     Feature,

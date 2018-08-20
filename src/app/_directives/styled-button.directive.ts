@@ -5,7 +5,8 @@ import { Directive, ElementRef, Renderer2, AfterViewInit, Input } from '@angular
 })
 export class StyledButtonDirective implements AfterViewInit {
   // tslint:disable-next-line:no-input-rename
-  @Input('appStyledButton') buttonType: string;
+  @Input('appStyledButton')
+  buttonType: string;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
@@ -15,7 +16,7 @@ export class StyledButtonDirective implements AfterViewInit {
     this.renderer.setStyle(this.el.nativeElement, 'justify-content', 'space-between');
     const button = this.el.nativeElement.getElementsByTagName('button')[0];
     this.renderer.setStyle(button, 'margin', '0px');
-    this.renderer.setStyle(button, 'min-width', '150px');
+    // this.renderer.setStyle(button, 'min-width', '150px');
     this.renderer.setStyle(button, '-webkit-appearance', 'none');
     this.renderer.setStyle(button, '-moz-appearance', 'none');
     this.renderer.setStyle(button, 'appearance', 'none');
@@ -44,6 +45,10 @@ export class StyledButtonDirective implements AfterViewInit {
         this.styleSecondaryButton(button);
         this.addArrowLeft(button);
         break;
+      case 'secondary-left-rotate90':
+        this.styleSecondaryButton(button);
+        this.addArrowLeft(button, '90');
+        break;
       default:
         this.stylePrimaryButton(button);
         break;
@@ -51,7 +56,6 @@ export class StyledButtonDirective implements AfterViewInit {
   }
 
   stylePrimaryButton(button) {
-    this.renderer.setStyle(this.el.nativeElement, 'background-color', '#000');
     this.renderer.setStyle(this.el.nativeElement, 'color', '#fff');
     this.renderer.setStyle(button, 'line-height', '3.75');
     this.renderer.setStyle(button, 'font-weight', '500');
@@ -74,22 +78,26 @@ export class StyledButtonDirective implements AfterViewInit {
     const arrowColor = this.buttonType.includes('primary') ? 'arrow-white' : 'arrow';
     this.renderer.setAttribute(newImg, 'src', `/assets/icons/tools/${arrowColor}.png`);
     this.renderer.setAttribute(newImg, 'alt', `arrow img`);
-    this.renderer.setStyle(newImg, 'height', '18px');
-    this.renderer.setStyle(newImg, 'width', '18px');
-    this.renderer.setStyle(newImg, 'margin-right', '15px');
-    this.renderer.setStyle(newImg, 'margin-left', '30px');
+    this.renderer.setStyle(newImg, 'height', '20px');
+    this.renderer.setStyle(newImg, 'width', '20px');
+    this.renderer.setStyle(newImg, 'margin-right', '10px');
+    this.renderer.setStyle(newImg, 'margin-left', '10px');
+    this.renderer.setStyle(newImg, 'padding', '0px');
     this.renderer.appendChild(button, newImg);
   }
 
-  addArrowLeft(button) {
+  addArrowLeft(button, rotation?) {
     const newImg = this.renderer.createElement('img');
     const arrowColor = this.buttonType.includes('primary') ? 'arrow-white' : 'arrow';
     this.renderer.setAttribute(newImg, 'src', `/assets/icons/tools/${arrowColor}.png`);
     this.renderer.setAttribute(newImg, 'alt', `arrow img`);
-    this.renderer.setStyle(newImg, 'height', '18px');
-    this.renderer.setStyle(newImg, 'width', '18px');
-    this.renderer.setStyle(newImg, 'margin-left', '15px');
-    this.renderer.setStyle(newImg, 'margin-right', '30px');
+    this.renderer.setStyle(newImg, 'height', '20px');
+    this.renderer.setStyle(newImg, 'width', '20px');
+    this.renderer.setStyle(newImg, 'margin-right', '10px');
+    if (!!rotation) {
+      this.renderer.setStyle(newImg, 'transform', `rotate(${rotation}deg)`);
+      this.renderer.setStyle(newImg, '-webkit-transform', `rotate(${rotation}deg)`);
+    }
     this.renderer.appendChild(button, newImg);
     this.renderer.setStyle(button, 'display', 'flex');
     this.renderer.setStyle(button, 'flex-direction', 'row-reverse');

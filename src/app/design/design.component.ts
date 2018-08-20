@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
 import { OptionsComponent } from '../options/options.component';
@@ -47,7 +49,21 @@ export class DesignComponent implements OnInit, OnDestroy {
   canQtyOrder = false;
   canvasGridFeatures = ['velo', 'profile', 'hushSwoon'];
   useCanvasGrid = false;
+  useSeeyondGrid = false;
+  useRepeatingGrid = false;
   designFeatures = ['seeyond', 'tetria', 'clario', 'velo', 'hush', 'profile', 'hushSwoon'];
+
+  // right side expansion panels
+  showDesign = false;
+  showSeeyondOptions = false;
+  showProfileFeatureSelection = false;
+  showProfileSelectionPalette = false;
+  showModify = false;
+  showClarioDimensions = false;
+  showDimensions = false;
+
+  quantitiesString = '';
+  gridRequirementsString = '';
 
   constructor(
     public route: ActivatedRoute,
@@ -62,8 +78,13 @@ export class DesignComponent implements OnInit, OnDestroy {
     public alert: AlertService,
     public location: Location,
     public materialsService: MaterialsService,
-    public clarioGrids: ClarioGridsService
-  ) {}
+    public clarioGrids: ClarioGridsService,
+    public iconRegistry: MatIconRegistry,
+    public sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon('accordian_open', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/tools/accordian-open.svg'));
+    iconRegistry.addSvgIcon('accordian_close', sanitizer.bypassSecurityTrustResourceUrl('assets/icons/tools/accordian-close.svg'));
+  }
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
@@ -77,16 +98,22 @@ export class DesignComponent implements OnInit, OnDestroy {
         }
         this.setCanQtyOrder();
       }
+      this.setRightSidePanels(featureType);
+      this.quantitiesString = this.setQuantitiesString(featureType);
+      this.gridRequirementsString = this.setGridRequirementsString(featureType);
       if (!this.designFeatures.includes(featureType)) {
         this.feature.navToLanding();
         return;
       }
       if (featureType === 'seeyond') {
+        this.useSeeyondGrid = true;
         this.setSeeyondFeature(params);
         return;
       }
+
       this.debug.log('design', featureType);
-      this.useCanvasGrid = this.canvasGridFeatures.includes(featureType);
+      this.canvasGridFeatures.includes(featureType) ? (this.useCanvasGrid = true) : (this.useRepeatingGrid = true);
+
       if (featureType === 'profile') {
         this.setProfileFeature(params);
         return;
@@ -109,7 +136,6 @@ export class DesignComponent implements OnInit, OnDestroy {
                 return;
               }
               if (design.feature_type === params['type']) {
-                design.feature_type = design.feature_type === 'hush-blocks' ? 'hush' : design.feature_type;
                 this.debug.log('design-component', 'setting the design.');
                 design.feature_type = this.feature.setFeatureType(design.feature_type);
                 this.feature.setDesign(design);
@@ -126,8 +152,12 @@ export class DesignComponent implements OnInit, OnDestroy {
                   this.feature.material = 'milky-white';
                   this.feature.materialHex = '#dfdee0';
                   this.feature.materialType = 'felt';
+                  this.feature.toolsArray = ['remove'];
                 } else if (this.feature.feature_type === 'hush') {
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.hush[0]);
+                  this.feature.toolsArray = ['remove'];
+                } else if (this.feature.feature_type === 'hushSwoon') {
+                  this.feature.updateSelectedTile(this.materialsService.tilesArray.hushSwoon[0]);
                   this.feature.toolsArray = ['remove'];
                 }
               } else {
@@ -157,11 +187,13 @@ export class DesignComponent implements OnInit, OnDestroy {
             this.feature.material = 'zinc';
           } else if (this.feature.feature_type === 'velo') {
             this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
+            this.feature.toolsArray = ['remove'];
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
           } else if (this.feature.feature_type === 'hushSwoon') {
             this.feature.updateSelectedTile(this.materialsService.tilesArray.hushSwoon[0]);
+            this.feature.toolsArray = ['remove'];
             this.feature.material = 'milky-white';
             this.feature.materialHex = '#dfdee0';
             this.feature.materialType = 'felt';
@@ -224,6 +256,77 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  setRightSidePanels(feature) {
+    switch (feature) {
+      case 'seeyond':
+        this.showSeeyondOptions = true;
+        break;
+      case 'profile':
+        this.showProfileFeatureSelection = true;
+        this.showProfileSelectionPalette = true;
+        this.showDesign = true;
+        this.showModify = true;
+        break;
+      case 'clario':
+        this.showClarioDimensions = true;
+        this.showDesign = true;
+        this.showModify = true;
+        break;
+      case 'tetria':
+        this.showDimensions = true;
+        this.showDesign = true;
+        this.showModify = true;
+        break;
+      case 'velo':
+        this.showDesign = true;
+        this.showModify = true;
+        break;
+      case 'hush':
+        this.showDimensions = true;
+        this.showDesign = true;
+        this.showModify = true;
+        break;
+      case 'hushSwoon':
+        this.showDesign = true;
+        this.showModify = true;
+        break;
+    }
+  }
+
+  setQuantitiesString(featureType) {
+    switch (featureType) {
+      case 'profile':
+        return 'Profile is sold in quantities of XXXXX';
+      case 'clario':
+        let smallBaffle = '24x24';
+        let largeBaffle = '24x48';
+        if (!!this.clarioGrids.selectedTileSize) {
+          smallBaffle = this.clarioGrids.selectedTileSize['24'];
+          largeBaffle = this.clarioGrids.selectedTileSize['48'];
+        }
+        return `${smallBaffle} baffles are sold in qty of 4, and ${largeBaffle} baffles are sold in qty of 2.`;
+      case 'tetria':
+        return 'Tetria tiles are sold in quantities of 4.';
+      case 'velo':
+        return 'Velo tiles are sold in quanties of 8.';
+      case 'hushSwoon':
+        return 'TODO get hushSwoon tile sold string';
+      default:
+        return '';
+    }
+  }
+
+  setGridRequirementsString(featureType) {
+    switch (featureType) {
+      case 'clario':
+      case 'tetria':
+      case 'hush':
+        return `A 15/16\" or 9/16\" grid system is required for this product.`;
+      default:
+        return '';
+    }
+  }
+
   public editOptions() {
     // load a dialog to edit the options
     const config = new MatDialogConfig();
@@ -235,8 +338,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
-        this.feature.buildGrid();
-        this.feature.updateSelectedTile(this.feature.selectedTile);
+        this.updateGrid();
       });
   }
 
@@ -376,18 +478,31 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   adjustGridDimensions(tool) {
+    let sizeIncrement = 24;
+    if (this.feature.feature_type === 'clario') {
+      switch (this.clarioGrids.selectedTileSize.tile_size_type) {
+        case 'metric':
+          sizeIncrement = 60;
+          break;
+        case 'german':
+          sizeIncrement = 62.5;
+          break;
+        default:
+          sizeIncrement = 24;
+      }
+    }
     switch (tool) {
       case 'addColumn':
-        this.feature.width = this.feature.width + 24;
+        this.feature.width = Number(this.feature.width) + sizeIncrement;
         break;
       case 'removeColumn':
-        this.feature.width = this.feature.width - 24;
+        this.feature.width = Number(this.feature.width) - sizeIncrement;
         break;
       case 'addRow':
-        this.feature.length = this.feature.length + 24;
+        this.feature.length = Number(this.feature.length) + sizeIncrement;
         break;
       case 'removeRow':
-        this.feature.length = this.feature.length - 24;
+        this.feature.length = Number(this.feature.length) - sizeIncrement;
         break;
       default:
         break;
@@ -485,5 +600,80 @@ export class DesignComponent implements OnInit, OnDestroy {
         // this.seeyond.updateSeeyondFeature(seeyondFeature);
       }
     });
+  }
+
+  updateGridUnits(units: string) {
+    this.debug.log('options-component', 'update grid units: ' + units);
+    this.feature.units = units;
+    if (this.feature.feature_type === 'seeyond') {
+      this.seeyond.convertDimensionsUnits(units);
+      this.seeyond.setMaxMinDimensions(units);
+    }
+    this.feature.updateGridUnits(units);
+    if (this.feature.feature_type === 'hush') {
+      this.adjustHushGrid();
+    }
+    this.updateGrid();
+  }
+
+  toggleCoveLighting() {
+    if (this.seeyond.quoted) {
+      this.alertQuoted();
+      return;
+    }
+    this.seeyond.cove_lighting = !this.seeyond.cove_lighting;
+    if (this.seeyond.cove_lighting) {
+      this.seeyond.calcLightingFootage();
+    }
+    this.seeyond.updateEstimatedAmount();
+  }
+
+  alertQuoted() {
+    this.alert.error('This design has been quoted.  To make changes you must first save it as a new design.');
+  }
+
+  updateGrid() {
+    this.feature.buildGrid();
+    this.feature.updateSelectedTile(this.feature.selectedTile);
+  }
+
+  adjustHushGrid() {
+    let newWidth = Math.floor(this.feature.width / 24) * 24;
+    let newLength = Math.floor(this.feature.length / 24) * 24;
+    if (newWidth === 0) {
+      newWidth = 24;
+      this.alert.error(`Width rounded up to 24`);
+    }
+    if (newLength === 0) {
+      newLength = 24;
+      this.alert.error(`Length rounded up to 24`);
+    }
+    if (this.feature.width % 24 !== 0 && this.feature.length % 24 !== 0) {
+      this.feature.width = newWidth;
+      this.feature.length = newLength;
+      this.alert.error(`Width and Height rounded to ${newWidth}x${newLength}`);
+    } else if (this.feature.width % 24 !== 0) {
+      this.feature.width = newWidth;
+      this.alert.error(`Width rounded down to ${newWidth}`);
+    } else if (this.feature.length % 24 !== 0) {
+      this.feature.length = newLength;
+      this.alert.error(`Height rounded down to ${newLength}`);
+    }
+  }
+
+  clarioGridSizeChanged(selection) {
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
+    this.clarioGrids.gridSizeSelected(selection);
+    this.updateGrid();
+  }
+
+  clarioTileSizeChanged(selection) {
+    if (!!this.feature.gridData) {
+      this.feature.clearAll();
+    }
+    this.clarioGrids.tileSizeSelected(selection);
+    this.updateGrid();
   }
 }

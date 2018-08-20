@@ -24,7 +24,7 @@
 
       <div id="swoon-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
-        <span appStyledSelect>
+        <span appStyledSelect [width]="280">
           <select (change)="updateSelectedProfileFeature($event.target.value)">
             <!-- <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option> -->
             <option value="swoon">Swoon</option>
@@ -34,7 +34,7 @@
 
       <div id="seeyond-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
-        <span appStyledSelect>
+        <span appStyledSelect [width]="280">
           <select (change)="updateSelectedProfileFeature($event.target.value)">
             <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option>
             <!-- <option value="seeyond">seeyond</option> -->

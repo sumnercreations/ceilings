@@ -26,7 +26,7 @@
         <div class="inputs">
           <input [(ngModel)]="feature.design_name" type="text" class="name-input square" placeholder="Name" autofocus>
           <a id="load-btn" class="load-btn-fmt" title="load saved designs" (click)="feature.loadDesigns()">
-            <img src="/assets/icons/tools/load.png">
+            <img src="/assets/icons/tools/load.png" alt="load icon">
             <span>Load</span>
           </a>
         </div>
@@ -34,7 +34,7 @@
 
       <div *ngIf="showProfileFeatureSelection" id="swoon-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
-        <span appStyledSelect>
+        <span appStyledSelect [width]="280">
           <select (change)="updateSelectedProfileFeature($event.target.value)">
             <option value="swoon">Swoon</option>
           </select>
@@ -43,7 +43,7 @@
 
       <div *ngIf="showSeeyondFeatureSelection" id="seeyond-feature-selection" class="left-section">
         <div class="subtitle">Feature selection</div>
-        <span appStyledSelect>
+        <span appStyledSelect [width]="280">
           <select (change)="seeyondUpdateSelectedFeature($event.target.value)">
             <option *ngFor="let featureOption of seeyond.seeyond_features | keys" [value]="featureOption.name" [selected]="featureOption.name==this.seeyond.seeyond_feature_type">{{featureOption.title}}</option>
           </select>
@@ -91,10 +91,14 @@
             </div>
           </div>
           <div class="input">
-            <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+            <!-- <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
               <mat-button-toggle value="inches">IN</mat-button-toggle>
               <mat-button-toggle value="centimeters">CM</mat-button-toggle>
-            </mat-button-toggle-group>
+            </mat-button-toggle-group> -->
+            <span class="toggle-btns units-input">
+              <button (click)="updateGridUnits('inches')" [class.selected]="feature.units === 'inches'">IN</button>
+              <button (click)="updateGridUnits('centimeters')" [class.selected]="feature.units === 'centimeters'">CM</button>
+            </span>
           </div>
         </div>
       </div>
@@ -114,11 +118,15 @@
             <div class="max-min"></div>
           </div>
           <div class="input">
-            <div class="sub-header">&#8203;</div>
-            <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
+            <div>&nbsp;</div>
+            <!-- <mat-button-toggle-group #units="matButtonToggleGroup" (change)="updateGridUnits(units.value)" value="{{feature.units}}">
               <mat-button-toggle value="inches">IN</mat-button-toggle>
               <mat-button-toggle value="centimeters">CM</mat-button-toggle>
-            </mat-button-toggle-group>
+            </mat-button-toggle-group> -->
+            <span class="toggle-btns units-input">
+              <button (click)="updateGridUnits('inches')" [class.selected]="feature.units === 'inches'">IN</button>
+              <button (click)="updateGridUnits('centimeters')" [class.selected]="feature.units === 'centimeters'">CM</button>
+            </span>
           </div>
         </div>
       </div>
@@ -128,7 +136,7 @@
         <div class="inputs clario-inputs">
           <div class="input">
             <div class="sub-header">Ceiling Grid Type</div>
-            <span appStyledSelect>
+            <span appStyledSelect [width]="280">
               <select (change)="clarioGridSizeChanged($event.target.value)" id="gridOptions" [(ngModel)]="feature.grid_type">
                 <option [value]="'15/16'">15/16" (24mm)</option>
                 <option [value]="'9/16'">9/16"</option>
@@ -137,7 +145,7 @@
           </div>
           <div class="input">
             <div class="sub-header">Tile Size</div>
-            <span appStyledSelect>
+            <span appStyledSelect [width]="280">
               <select (change)="clarioTileSizeChanged($event.target.value)" id="gridOptions">
                 <option disabled [value]="undefined" [selected]="clarioGrids.selectedTileSize === undefined">-- select --</option>
                 <option *ngFor="let gridOption of clarioGrids.tileSizeOptions | keys" [value]="gridOption.name" [selected]="clarioGrids.selectedTileSize?.name === gridOption.name">{{gridOption.name}}</option>

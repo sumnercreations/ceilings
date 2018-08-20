@@ -29,6 +29,8 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   public showDimensions = false;
   public showSeeyondFeatureSelection = false;
   public showSeeyondDimensions = false;
+  public showSeeyondPatterns = false;
+  public showSeeyondColors = false;
   public showProfileFeatureSelection = false;
   public showClarioTileSizes = false;
   public showQuantityBtn = false;
@@ -62,6 +64,8 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
       case 'seeyond':
         this.showSeeyondFeatureSelection = true;
         this.showSeeyondDimensions = true;
+        this.showSeeyondPatterns = true;
+        this.showSeeyondColors = true;
         break;
       case 'tetria':
         this.showDimensions = true;
@@ -115,6 +119,7 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
 
   public updateGridUnits(units: string) {
     this.debug.log('options-component', 'update grid units: ' + units);
+    this.feature.units = units;
     if (this.feature.feature_type === 'seeyond') {
       this.seeyond.convertDimensionsUnits(units);
       this.seeyond.setMaxMinDimensions(units);
@@ -127,7 +132,7 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     // name, width, and length are required
     switch (this.feature.feature_type) {
       case 'seeyond':
-        valid = !!this.seeyond.design_name;
+        valid = !!this.feature.design_name;
         break;
       case 'tetria':
         valid = !!this.feature.design_name && !!this.feature.width && !!this.feature.length;

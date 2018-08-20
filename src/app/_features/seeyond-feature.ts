@@ -24,7 +24,7 @@ export class SeeyondFeature extends Feature {
   public xml: any = {};
   public tessellation: number; // court
   public tessellationStr: string;
-  public pattern_strength: number;
+  public pattern_strength = 3;
   public material: string;
   public sheet_part_id: string;
   public boxes: number;
@@ -49,6 +49,7 @@ export class SeeyondFeature extends Feature {
   public radiusMin: number;
   public radiusMax: number;
   public linear_feet: number;
+  public dimensionsString = '';
 
   updateSeeyondFeature(seeyond_feature_type?: string) {
     if (seeyond_feature_type) {
@@ -241,6 +242,7 @@ export class SeeyondFeature extends Feature {
 
     // update the XML
     this.xml = this.getXML();
+    this.dimensionsString = this.getDimensionString();
   }
 
   redrawVisualization() {
