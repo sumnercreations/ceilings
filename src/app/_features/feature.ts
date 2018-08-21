@@ -816,7 +816,7 @@ export class Feature {
           }
           if (!!purchasedTiles[key]) {
             purchasedTiles[key][gridTiles[tile].tile] += 1;
-            purchasedTiles[key].purchased = pkgQty * Math.ceil(purchasedTiles[key] / pkgQty);
+            purchasedTiles[key].purchased = pkgQty * Math.ceil(purchasedTiles[key].purchased / pkgQty);
           } else {
             purchasedTiles[key] = {
               purchased: pkgQty,
