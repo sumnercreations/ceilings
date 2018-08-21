@@ -506,10 +506,10 @@ export class Feature {
         }
       }
     }
-    this.services_amount = 1.88;
-    const products_amount = 1.35; // TODO this needs to be verified
-    const hardware_amount = 11.07; // TODO this needs to be verified
-    this.estimated_amount = (this.services_amount + products_amount + hardware_amount) * hushSwoonTileCount;
+    this.services_amount = 1.88 * hushSwoonTileCount;
+    const products_amount = 1.35 * hushSwoonTileCount; // TODO this needs to be verified
+    const hardware_amount = 11.07 * hushSwoonTileCount; // TODO this needs to be verified
+    this.estimated_amount = this.services_amount + products_amount + hardware_amount;
   }
 
   updateSelectedTile(tile) {

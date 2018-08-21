@@ -12,10 +12,14 @@
         <span class="input-container">
           <input type="text" placeholder="Name" autofocus [(ngModel)]="feature.design_name">
         </span>
-        <a id="load-btn" class="load-btn-fmt" title="load saved designs" (click)="feature.loadDesigns()">
-          <img src="/assets/icons/tools/load.png">
-          <span>Load</span>
-        </a>
+        <span class="save-load save-load-btn-fmt">
+          <img src="/assets/icons/tools/load.png" alt="load icon">
+          <a id="save-btn" title="save design" (click)="saveQuantity()">
+            <span *ngIf="user.isLoggedIn()">Save</span>
+            <span *ngIf="!user.isLoggedIn()">Login to Save</span>
+          </a> |
+          <a id="load-btn" title="load saved quantity" (click)="loadQuantity()">Load</a>
+        </span>
       </div>
     </div>
     <div class="quantity-data">

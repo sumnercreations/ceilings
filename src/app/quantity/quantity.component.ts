@@ -315,7 +315,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
           }
         } else if (load) {
           // the user should be logged in now, so show the load dialog
-          this.loadQtyDesigns();
+          this.loadQuantity();
         }
         if (this.tryingRequestQuote) {
           this.tryingRequestQuote = false;
@@ -324,7 +324,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
       });
   }
 
-  public loadQtyDesigns() {
+  public loadQuantity() {
     // If the user is not logged in then present the login dialog
     if (!this.user.isLoggedIn()) {
       this.loginDialog(true);
