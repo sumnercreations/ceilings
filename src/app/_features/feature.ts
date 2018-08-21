@@ -496,10 +496,20 @@ export class Feature {
   }
 
   getHushSwoonEstimate(tilesArray) {
-    this.services_amount = 0;
-    const products_amount = 0;
-    const hardware_amount = 0;
-    this.estimated_amount = this.services_amount + products_amount + hardware_amount;
+    let hushSwoonTileCount = 0;
+    const dataArray = !!tilesArray ? tilesArray : this.gridData;
+    for (const hushSwoonTile in dataArray) {
+      if (dataArray.hasOwnProperty(hushSwoonTile)) {
+        const hushCurrentTile = dataArray[hushSwoonTile];
+        if (!!hushCurrentTile.material) {
+          hushSwoonTileCount += hushCurrentTile.purchased || 1;
+        }
+      }
+    }
+    this.services_amount = 1.88;
+    const products_amount = 1.35; // TODO this needs to be verified
+    const hardware_amount = 11.07; // TODO this needs to be verified
+    this.estimated_amount = (this.services_amount + products_amount + hardware_amount) * hushSwoonTileCount;
   }
 
   updateSelectedTile(tile) {
@@ -707,7 +717,7 @@ export class Feature {
 
   public getPackageQty(tile: string) {
     let qty: number;
-    if (this.feature_type === 'hush') {
+    if (this.feature_type === 'hush' || this.feature_type === 'hushSwoon') {
       return 1;
     }
     switch (tile) {
@@ -761,135 +771,142 @@ export class Feature {
     if (this.is_quantity_order) {
       return;
     }
-    if (this.feature_type === 'velo') {
-      const pkgQty: number = this.getPackageQty('velo');
-      const gridTiles = this.veloTiles();
-      let purchasedTiles: {};
+    switch (this.feature_type) {
+      case 'velo':
+        const veloPkgQty: number = this.getPackageQty('velo');
+        const gridTiles = this.veloTiles();
+        let purchasedTiles: {};
 
-      for (const tile in gridTiles) {
-        if (gridTiles.hasOwnProperty(tile)) {
-          const materialType = gridTiles[tile].materialType;
-          const material = gridTiles[tile].material;
-          const diffusion = gridTiles[tile].diffusion || '';
-          const key = !diffusion ? `${materialType}-${material}` : `${materialType}-${material}-${diffusion}`;
-          if (purchasedTiles === undefined) {
-            purchasedTiles = {};
-          }
-          if (!!purchasedTiles[key]) {
-            purchasedTiles[key][gridTiles[tile].tile] += 1;
-            purchasedTiles[key].purchased = pkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / pkgQty);
-          } else {
-            purchasedTiles[key] = {
-              purchased: pkgQty,
-              image:
-                gridTiles[tile].materialType === 'felt'
-                  ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png'
-                  : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
-              hex: gridTiles[tile].materialType === 'varia' ? gridTiles[tile].hex : '',
-              convex: gridTiles[tile].tile === 'convex' ? 1 : 0,
-              concave: gridTiles[tile].tile === 'concave' ? 1 : 0,
-              material: gridTiles[tile].material,
-              materialType: gridTiles[tile].materialType,
-              tile: gridTiles[tile].tile,
-              diffusion: gridTiles[tile].diffusion
-            };
-          }
-        }
-      }
-      tiles = purchasedTiles;
-    } else if (this.feature_type === 'clario') {
-      const filteredGridData = [];
-      // populate filteredGridData with empty GridSections
-      for (let r = 0; r < this.getRows(); r++) {
-        filteredGridData[r] = [];
-        for (let c = 0; c < this.getColumns(); c++) {
-          filteredGridData[r][c] = new GridSection(r, c);
-        }
-      }
-      const gridIds = [];
-      this.gridData.map(r => {
-        r.map(c => {
-          if (c.gridTileID) {
-            // use the gridTileID if it has one
-            if (c.gridTileID === 0 || gridIds.includes(c.gridTileID)) {
-              return;
+        for (const tile in gridTiles) {
+          if (gridTiles.hasOwnProperty(tile)) {
+            const materialType = gridTiles[tile].materialType;
+            const material = gridTiles[tile].material;
+            const diffusion = gridTiles[tile].diffusion || '';
+            const key = !diffusion ? `${materialType}-${material}` : `${materialType}-${material}-${diffusion}`;
+            if (purchasedTiles === undefined) {
+              purchasedTiles = {};
             }
-            gridIds.push(c.gridTileID);
-            filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
-          } else if (c.tile) {
-            // if there is no gridTileID make assumptions based off the backgroundImage
-            if (c.tileSize === '48') {
-              // if it's a 48 tile remove it's companion
-              if (!!filteredGridData[c.row][c.column + 1] && filteredGridData[c.row][c.column + 1].backgroundImage === c.backgroundImage) {
-                filteredGridData[c.row][c.column + 1] = new GridSection(c.row, c.column + 1);
-              } else if (!!filteredGridData[c.row][c.column - 1] && filteredGridData[c.row][c.column - 1].backgroundImage === c.backgroundImage) {
-                filteredGridData[c.row][c.column - 1] = new GridSection(c.row, c.column - 1);
+            if (!!purchasedTiles[key]) {
+              purchasedTiles[key][gridTiles[tile].tile] += 1;
+              purchasedTiles[key].purchased = veloPkgQty * Math.ceil((purchasedTiles[key].concave + purchasedTiles[key].convex) / veloPkgQty);
+            } else {
+              purchasedTiles[key] = {
+                purchased: veloPkgQty,
+                image:
+                  gridTiles[tile].materialType === 'felt'
+                    ? '/assets/images/materials/felt/merino/' + gridTiles[tile].material + '.png'
+                    : '/assets/images/tiles/00/' + gridTiles[tile].material + '.png',
+                hex: gridTiles[tile].materialType === 'varia' ? gridTiles[tile].hex : '',
+                convex: gridTiles[tile].tile === 'convex' ? 1 : 0,
+                concave: gridTiles[tile].tile === 'concave' ? 1 : 0,
+                material: gridTiles[tile].material,
+                materialType: gridTiles[tile].materialType,
+                tile: gridTiles[tile].tile,
+                diffusion: gridTiles[tile].diffusion
+              };
+            }
+          }
+        }
+        tiles = purchasedTiles;
+        break;
+
+      case 'clario':
+        const filteredGridData = [];
+        // populate filteredGridData with empty GridSections
+        for (let r = 0; r < this.getRows(); r++) {
+          filteredGridData[r] = [];
+          for (let c = 0; c < this.getColumns(); c++) {
+            filteredGridData[r][c] = new GridSection(r, c);
+          }
+        }
+        const gridIds = [];
+        this.gridData.map(r => {
+          r.map(c => {
+            if (c.gridTileID) {
+              // use the gridTileID if it has one
+              if (c.gridTileID === 0 || gridIds.includes(c.gridTileID)) {
+                return;
               }
+              gridIds.push(c.gridTileID);
+              filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
+            } else if (c.tile) {
+              // if there is no gridTileID make assumptions based off the backgroundImage
+              if (c.tileSize === '48') {
+                // if it's a 48 tile remove it's companion
+                if (!!filteredGridData[c.row][c.column + 1] && filteredGridData[c.row][c.column + 1].backgroundImage === c.backgroundImage) {
+                  filteredGridData[c.row][c.column + 1] = new GridSection(c.row, c.column + 1);
+                } else if (!!filteredGridData[c.row][c.column - 1] && filteredGridData[c.row][c.column - 1].backgroundImage === c.backgroundImage) {
+                  filteredGridData[c.row][c.column - 1] = new GridSection(c.row, c.column - 1);
+                }
+              }
+              filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
             }
-            filteredGridData[c.row][c.column] = this.gridData[c.row][c.column];
-          }
+          });
         });
-      });
-      // Determine the number of unique tiles (color and tile)
-      let pkgQty: number;
-      if (filteredGridData) {
-        for (let i = filteredGridData.length - 1; i >= 0; i--) {
-          for (let j = filteredGridData[i].length - 1; j >= 0; j--) {
-            if (filteredGridData[i][j].tile) {
-              const key = filteredGridData[i][j]['material'] + '-' + filteredGridData[i][j]['tile'];
-              pkgQty = this.getPackageQty(filteredGridData[i][j]['tile']);
-              if (tiles === undefined) {
-                tiles = {};
-              }
-              if (!!tiles[key]) {
-                tiles[key].used += 1;
-                tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
-              } else {
-                const tileType = filteredGridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
-                const imageUrl = this.getClarioImgUrl(filteredGridData[i][j].tile, filteredGridData[i][j]['material']);
-                tiles[key] = {
-                  purchased: pkgQty,
-                  image: imageUrl,
-                  used: 1,
-                  material: filteredGridData[i][j]['material'],
-                  tile: filteredGridData[i][j]['tile']
-                };
-              }
-            }
-          }
-        }
-      }
-    } else {
-      // Determine the number of unique tiles (color and tile)
-      let pkgQty: number;
-      if (this.gridData) {
-        for (let i = this.gridData.length - 1; i >= 0; i--) {
-          for (let j = this.gridData[i].length - 1; j >= 0; j--) {
-            if (this.gridData[i][j].tile) {
-              const key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
-              pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
-              if (tiles === undefined) {
-                tiles = {};
-              }
-              if (!!tiles[key]) {
-                tiles[key].used += 1;
-                tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
-              } else {
-                const tileType = this.gridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
-                const imageUrl = `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
-                tiles[key] = {
-                  purchased: pkgQty,
-                  image: imageUrl,
-                  used: 1,
-                  material: this.gridData[i][j]['material'],
-                  tile: this.gridData[i][j]['tile']
-                };
+        // Determine the number of unique tiles (color and tile)
+        let clarioPkgQty: number;
+        if (filteredGridData) {
+          for (let i = filteredGridData.length - 1; i >= 0; i--) {
+            for (let j = filteredGridData[i].length - 1; j >= 0; j--) {
+              if (filteredGridData[i][j].tile) {
+                const key = filteredGridData[i][j]['material'] + '-' + filteredGridData[i][j]['tile'];
+                clarioPkgQty = this.getPackageQty(filteredGridData[i][j]['tile']);
+                if (tiles === undefined) {
+                  tiles = {};
+                }
+                if (!!tiles[key]) {
+                  tiles[key].used += 1;
+                  tiles[key].purchased = clarioPkgQty * Math.ceil(tiles[key].used / clarioPkgQty);
+                } else {
+                  const tileType = filteredGridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
+                  const imageUrl = this.getClarioImgUrl(filteredGridData[i][j].tile, filteredGridData[i][j]['material']);
+                  tiles[key] = {
+                    purchased: clarioPkgQty,
+                    image: imageUrl,
+                    used: 1,
+                    material: filteredGridData[i][j]['material'],
+                    tile: filteredGridData[i][j]['tile']
+                  };
+                }
               }
             }
           }
         }
-      }
+        break;
+
+      default:
+        // Determine the number of unique tiles (color and tile)
+        let pkgQty: number;
+        if (this.gridData) {
+          for (let i = this.gridData.length - 1; i >= 0; i--) {
+            for (let j = this.gridData[i].length - 1; j >= 0; j--) {
+              if (this.gridData[i][j].tile) {
+                const key = this.gridData[i][j]['material'] + '-' + this.gridData[i][j]['tile'];
+                pkgQty = this.getPackageQty(this.gridData[i][j]['tile']);
+                if (tiles === undefined) {
+                  tiles = {};
+                }
+                if (!!tiles[key]) {
+                  tiles[key].used += 1;
+                  tiles[key].purchased = pkgQty * Math.ceil(tiles[key].used / pkgQty);
+                } else {
+                  const tileType = this.gridData[i][j]['tile'] === '00' ? 'tiles' : this.getTileType('plural');
+                  const imageUrl = `/assets/images/${tileType}/${this.gridData[i][j].tile}/${this.gridData[i][j]['material']}.png`;
+                  tiles[key] = {
+                    purchased: pkgQty,
+                    image: imageUrl,
+                    used: 1,
+                    material: this.gridData[i][j]['material'],
+                    tile: this.gridData[i][j]['tile']
+                  };
+                }
+              }
+            }
+          }
+        }
+        break;
     }
+
     this.tiles = tiles;
     return tiles;
   }

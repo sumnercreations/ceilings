@@ -95,6 +95,8 @@ export class DesignComponent implements OnInit, OnDestroy {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
         if (featureType === 'hush') {
           this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
+        } else if (featureType === 'hushSwoon') {
+          this.location.go(this.router.url.replace(/hushSwoon\/design/g, 'hush-swoon/design'));
         }
         this.setCanQtyOrder();
       }
@@ -111,7 +113,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.debug.log('design', featureType);
+      this.debug.log('design', `featureType: ${featureType}`);
       this.canvasGridFeatures.includes(featureType) ? (this.useCanvasGrid = true) : (this.useRepeatingGrid = true);
 
       if (featureType === 'profile') {
@@ -135,9 +137,10 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.router.navigate([`${design.feature_type}/quantity`, design.id]);
                 return;
               }
-              if (design.feature_type === params['type']) {
+              const designFeature = this.feature.setFeatureType(design.feature_type);
+              if (designFeature === params['type']) {
                 this.debug.log('design-component', 'setting the design.');
-                design.feature_type = this.feature.setFeatureType(design.feature_type);
+                design.feature_type = designFeature;
                 this.feature.setDesign(design);
                 this.featureTiles = this.feature.tilesArray[featureType];
                 this.materials = this.feature.getFeatureMaterials();
@@ -309,8 +312,6 @@ export class DesignComponent implements OnInit, OnDestroy {
         return 'Tetria tiles are sold in quantities of 4.';
       case 'velo':
         return 'Velo tiles are sold in quanties of 8.';
-      case 'hushSwoon':
-        return 'TODO get hushSwoon tile sold string';
       default:
         return '';
     }
@@ -511,7 +512,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   setCanQtyOrder() {
-    const featuresWithQtyOrder = ['hush', 'clario', 'tetria'];
+    const featuresWithQtyOrder = ['hush', 'clario', 'tetria', 'hushSwoon'];
     const featureType = this.feature.feature_type;
     this.canQtyOrder = featuresWithQtyOrder.includes(featureType);
   }

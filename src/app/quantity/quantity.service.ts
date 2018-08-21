@@ -112,6 +112,9 @@ export class QuantityService {
       case 'clario':
         this.feature.getClarioEstimate(row);
         break;
+      case 'hushSwoon':
+        this.feature.getHushSwoonEstimate(row);
+        break;
     }
   }
 
@@ -156,7 +159,7 @@ export class QuantityService {
       newObj.used = newRow.used;
       newObj.material = newRow.material;
       newObj.tile = newRow.tile;
-      const tileStr = typeof(newObj.tile) === 'string' ? newObj.tile : newObj.tile.tile;
+      const tileStr = typeof newObj.tile === 'string' ? newObj.tile : newObj.tile.tile;
       const objectKey = `${newObj.material}-${tileStr}`;
       if (!tilesArr[objectKey]) {
         tilesArr[objectKey] = newObj;

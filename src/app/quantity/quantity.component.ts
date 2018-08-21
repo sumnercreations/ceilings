@@ -175,7 +175,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
         this.displayedColumns = ['hush-material', 'hush-receiving', 'total', 'edit'];
         break;
       case 'hushSwoon':
-        this.displayedColumns = ['hush-material', 'used', 'receiving', 'unused', 'total', 'edit'];
+        this.displayedColumns = ['hush-material', 'hush-receiving', 'total', 'edit'];
         this.dimensionsText = 'Hush Swoon tiles are 8.66" wide x 5.21" high x 1" deep';
         this.dimensionsImgUrl = '/assets/images/tiles/hush-swoon/hush-swoon-measurement.png';
         break;
