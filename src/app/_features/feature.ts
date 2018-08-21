@@ -715,7 +715,7 @@ export class Feature {
     return type;
   }
 
-  public getPackageQty(tile: string) {
+  public getPackageQty(tile?: string) {
     let qty: number;
     if (this.feature_type === 'hush' || this.feature_type === 'hushSwoon') {
       return 1;
@@ -808,6 +808,39 @@ export class Feature {
           }
         }
         tiles = purchasedTiles;
+        break;
+
+      case 'hushSwoon':
+        const hsPkgQty: number = this.getPackageQty();
+        const hsGridTiles = this.veloTiles();
+        let hsPurchasedTiles: {};
+
+        for (const tile in hsGridTiles) {
+          if (hsGridTiles.hasOwnProperty(tile)) {
+            const materialType = hsGridTiles[tile].materialType;
+            const material = hsGridTiles[tile].material;
+            const key = `${materialType}-${material}`;
+            if (hsPurchasedTiles === undefined) {
+              hsPurchasedTiles = {};
+            }
+            if (!!hsPurchasedTiles[key]) {
+              hsPurchasedTiles[key].purchased++;
+            } else {
+              hsPurchasedTiles[key] = {
+                purchased: hsPkgQty,
+                image: `/assets/images/tiles/hush-swoon/felt/merino/${hsGridTiles[tile].material}.png`,
+                hex: '',
+                convex: 0,
+                concave: 0,
+                material: hsGridTiles[tile].material,
+                materialType: hsGridTiles[tile].materialType,
+                tile: 'hush-swoon',
+                diffusion: ''
+              };
+            }
+          }
+        }
+        tiles = hsPurchasedTiles;
         break;
 
       case 'clario':
@@ -979,6 +1012,16 @@ export class Feature {
   }
 
   public veloTiles() {
+    const veloTiles = [];
+    for (const tile in this.gridData) {
+      if (this.gridData[tile].texture !== '') {
+        veloTiles.push(this.gridData[tile]);
+      }
+    }
+    return veloTiles;
+  }
+
+  public hushSwoonTiles() {
     const veloTiles = [];
     for (const tile in this.gridData) {
       if (this.gridData[tile].texture !== '') {
