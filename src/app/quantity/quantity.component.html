@@ -12,10 +12,14 @@
         <span class="input-container">
           <input type="text" placeholder="Name" autofocus [(ngModel)]="feature.design_name">
         </span>
-        <a id="load-btn" class="load-btn-fmt" title="load saved designs" (click)="feature.loadDesigns()">
-          <img src="/assets/icons/tools/load.png">
-          <span>Load</span>
-        </a>
+        <span class="save-load save-load-btn-fmt">
+          <img src="/assets/icons/tools/load.png" alt="load icon">
+          <a id="save-btn" title="save design" (click)="saveQuantity()">
+            <span *ngIf="user.isLoggedIn()">Save</span>
+            <span *ngIf="!user.isLoggedIn()">Login to Save</span>
+          </a> |
+          <a id="load-btn" title="load saved quantity" (click)="loadQuantity()">Load</a>
+        </span>
       </div>
     </div>
     <div class="quantity-data">
@@ -27,7 +31,8 @@
             <input [(ngModel)]="sqFootage" (keyup)="calcSqFootage()" type="number" placeholder="Sq Footage">
             <div class="description-text" *ngIf="!!sqFootage">
               <strong>{{tilesNeeded}}</strong> 24x24 tiles are required to cover
-              <strong>{{sqFootage}}</strong> square feet.</div>
+              <strong>{{sqFootage}}</strong> square feet.
+            </div>
           </div>
           <div *ngIf="feature.units === 'centimeters'">
             <div class="description-text">Enter square meters to calculate how many tiles are needed.</div>
@@ -43,8 +48,10 @@
         <div class="used-receiving">
           <div class="sub-header">Quantity used/receiving</div>
           <div *ngIf="feature.feature_type !=='clario'" class="description-text add-margin-bottom">Tiles are sold in quanties of 4.</div>
-          <div *ngIf="(feature.feature_type ==='clario') && !!clarioGrids.selectedTileSize" class="description-text add-margin-bottom">{{clarioGrids.selectedTileSize['24']}} baffles are sold in qty of 4, and {{clarioGrids.selectedTileSize['48']}}
-            baffles are sold in qty of 2.</div>
+          <div *ngIf="(feature.feature_type ==='clario') && !!clarioGrids.selectedTileSize" class="description-text add-margin-bottom">
+            {{clarioGrids.selectedTileSize['24']}} baffles are sold in qty of 4, and {{clarioGrids.selectedTileSize['48']}} baffles are
+            sold in qty of 2.
+          </div>
           <div class="description-text">Tiles Used/Receiving: {{feature.qtyTilesUsed}}/{{feature.qtyTilesReceiving}}</div>
           <div class="description-text" *ngIf="feature.units === 'inches'">SqFt. Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</div>
           <div class="description-text" *ngIf="feature.units === 'centimeters'">SqM Used/Receiving: {{qtySrv.sqAreaUsed}}/{{qtySrv.sqAreaReceiving}}</div>

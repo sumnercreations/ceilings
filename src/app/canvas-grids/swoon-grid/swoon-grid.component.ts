@@ -13,7 +13,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   adjustmentX = 53;
   adjustmentY = 46;
 
-  @ViewChild('swoonCanvas') canvas;
+  @ViewChild('swoonCanvas')
+  canvas;
 
   ngOnInit() {
     this.debug.log('swoon-grid', 'setting swoonGrid Subscription');
@@ -109,8 +110,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   }
 
   private createSwoonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
-    // this.debug.log('swoon-section', row);
-    // this.debug.log('swoon-section', column);
+    // this.debug.log('swoon-section', `${ctx}, ${adjustmentX}, ${adjustmentY}, ${isOdd}, ${row}, ${column}`);
     const index = (row * this.columns + column) * 3; // 3 is the number of diamonds needed to make a section
     if (isOdd) {
       this.drawDiamond(ctx, 56 + adjustmentX, 18 + adjustmentY, 0, row, column, index);
@@ -178,7 +178,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     ctx.strokeStyle = this.strokeStyle;
 
     // if the design is not new, then we can set the fill style from the gridData
-    if (!this.newDesign && this.feature.gridData[index].texture !== '') {
+    if (!this.newDesign && !!this.feature.gridData[index].texture) {
       // set the fillstyle
       ctx.fillStyle = this.feature.gridData[index].hex;
       // fill the diamond
