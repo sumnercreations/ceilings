@@ -64,6 +64,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   quantitiesString = '';
   gridRequirementsString = '';
+  showGuidesCheckbox = true;
 
   constructor(
     public route: ActivatedRoute,
@@ -95,12 +96,12 @@ export class DesignComponent implements OnInit, OnDestroy {
         featureType = this.feature.feature_type = this.feature.setFeatureType(params['type']);
         if (featureType === 'hush') {
           this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));
+        } else if (featureType === 'hushSwoon') {
+          this.location.go(this.router.url.replace(/hushSwoon\/design/g, 'hush-swoon/design'));
         }
         this.setCanQtyOrder();
       }
-      this.setRightSidePanels(featureType);
-      this.quantitiesString = this.setQuantitiesString(featureType);
-      this.gridRequirementsString = this.setGridRequirementsString(featureType);
+      this.setVisualProperties(featureType);
       if (!this.designFeatures.includes(featureType)) {
         this.feature.navToLanding();
         return;
@@ -111,7 +112,7 @@ export class DesignComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.debug.log('design', featureType);
+      this.debug.log('design', `featureType: ${featureType}`);
       this.canvasGridFeatures.includes(featureType) ? (this.useCanvasGrid = true) : (this.useRepeatingGrid = true);
 
       if (featureType === 'profile') {
@@ -135,9 +136,10 @@ export class DesignComponent implements OnInit, OnDestroy {
                 this.router.navigate([`${design.feature_type}/quantity`, design.id]);
                 return;
               }
-              if (design.feature_type === params['type']) {
+              const designFeature = this.feature.setFeatureType(design.feature_type);
+              if (designFeature === params['type']) {
                 this.debug.log('design-component', 'setting the design.');
-                design.feature_type = this.feature.setFeatureType(design.feature_type);
+                design.feature_type = designFeature;
                 this.feature.setDesign(design);
                 this.featureTiles = this.feature.tilesArray[featureType];
                 this.materials = this.feature.getFeatureMaterials();
@@ -256,7 +258,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  setRightSidePanels(feature) {
+  setVisualProperties(feature) {
     switch (feature) {
       case 'seeyond':
         this.showSeeyondOptions = true;
@@ -271,60 +273,43 @@ export class DesignComponent implements OnInit, OnDestroy {
         this.showClarioDimensions = true;
         this.showDesign = true;
         this.showModify = true;
+        this.gridRequirementsString = `A 15/16\" or 9/16\" grid system is required for this product.`;
+        this.quantitiesString = this.getClarioQuantityStr();
         break;
       case 'tetria':
         this.showDimensions = true;
         this.showDesign = true;
         this.showModify = true;
+        this.gridRequirementsString = `A 15/16\" or 9/16\" grid system is required for this product.`;
+        this.quantitiesString = 'Tetria tiles are sold in quantities of 4.';
         break;
       case 'velo':
         this.showDesign = true;
         this.showModify = true;
+        this.quantitiesString = 'Velo tiles are sold in quantities of 8.';
         break;
       case 'hush':
         this.showDimensions = true;
         this.showDesign = true;
         this.showModify = true;
+        this.showGuidesCheckbox = false;
         break;
       case 'hushSwoon':
         this.showDesign = true;
         this.showModify = true;
+        this.showGuidesCheckbox = false;
         break;
     }
   }
 
-  setQuantitiesString(featureType) {
-    switch (featureType) {
-      case 'profile':
-        return 'Profile is sold in quantities of XXXXX';
-      case 'clario':
-        let smallBaffle = '24x24';
-        let largeBaffle = '24x48';
-        if (!!this.clarioGrids.selectedTileSize) {
-          smallBaffle = this.clarioGrids.selectedTileSize['24'];
-          largeBaffle = this.clarioGrids.selectedTileSize['48'];
-        }
-        return `${smallBaffle} baffles are sold in qty of 4, and ${largeBaffle} baffles are sold in qty of 2.`;
-      case 'tetria':
-        return 'Tetria tiles are sold in quantities of 4.';
-      case 'velo':
-        return 'Velo tiles are sold in quanties of 8.';
-      case 'hushSwoon':
-        return 'TODO get hushSwoon tile sold string';
-      default:
-        return '';
+  getClarioQuantityStr() {
+    let smallBaffle = '24x24';
+    let largeBaffle = '24x48';
+    if (!!this.clarioGrids.selectedTileSize) {
+      smallBaffle = this.clarioGrids.selectedTileSize['24'];
+      largeBaffle = this.clarioGrids.selectedTileSize['48'];
     }
-  }
-
-  setGridRequirementsString(featureType) {
-    switch (featureType) {
-      case 'clario':
-      case 'tetria':
-      case 'hush':
-        return `A 15/16\" or 9/16\" grid system is required for this product.`;
-      default:
-        return '';
-    }
+    return `${smallBaffle} baffles are sold in qty of 4, and ${largeBaffle} baffles are sold in qty of 2.`;
   }
 
   public editOptions() {
@@ -511,7 +496,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   }
 
   setCanQtyOrder() {
-    const featuresWithQtyOrder = ['hush', 'clario', 'tetria'];
+    const featuresWithQtyOrder = ['hush', 'clario', 'tetria', 'hushSwoon'];
     const featureType = this.feature.feature_type;
     this.canQtyOrder = featuresWithQtyOrder.includes(featureType);
   }

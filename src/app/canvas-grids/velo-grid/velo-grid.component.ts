@@ -8,7 +8,8 @@ import * as pip from 'point-in-polygon';
   styleUrls: ['../canvas-grids.component.scss', './velo-grid.component.scss']
 })
 export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
-  @ViewChild('veloCanvas') canvas;
+  @ViewChild('veloCanvas')
+  canvas;
 
   ngOnInit() {
     // subscribe to the buildVeloGrid event

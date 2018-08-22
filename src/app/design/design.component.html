@@ -5,16 +5,16 @@
         <span class="project-name">{{feature.design_name}}</span>
         <span class="save-load save-load-btn-fmt">
           <img src="/assets/icons/tools/load.png" alt="load icon">
-          <a id="save-btn" title="save design" (click)="saveDesign()">
-            <span *ngIf="user.isLoggedIn()">Save</span>
-            <span *ngIf="!user.isLoggedIn()">Login to Save</span>
+          <a title="save design" (click)="saveDesign()">
+            <span class="sub-header" *ngIf="user.isLoggedIn()">Save</span>
+            <span class="sub-header" *ngIf="!user.isLoggedIn()">Login to Save</span>
           </a> |
-          <a id="load-btn" title="load saved designs" (click)="loadDesigns()">Load</a>
+          <a class="sub-header" title="load saved designs" (click)="loadDesigns()">Load</a>
         </span>
       </div>
       <div class="bottom">
         <span class="left">
-          <span class="guides" (click)="feature.toggleGuide()">
+          <span class="guides" (click)="feature.toggleGuide()" *ngIf="showGuidesCheckbox">
             <span class="checkbox">
               <img *ngIf="feature.showGuide" src="/assets/icons/tools/check.png" alt="check-mark">
             </span>
