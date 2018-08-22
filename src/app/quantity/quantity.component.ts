@@ -272,7 +272,14 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   calcSqFootage() {
-    this.tilesNeeded = Math.ceil(this.sqFootage / 4);
+    switch (this.feature.feature_type) {
+      case 'hushSwoon':
+        this.tilesNeeded = Math.ceil(this.sqFootage / this.qtySrv.getTileSqArea());
+        break;
+      default:
+        this.tilesNeeded = Math.ceil(this.sqFootage / 4);
+        break;
+    }
   }
 
   calcSqMeters() {

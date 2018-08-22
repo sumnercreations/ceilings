@@ -174,7 +174,7 @@ export class QuantityService {
     this.feature.tiles = tilesArr;
   }
 
-  getTileSqArea(tile) {
+  getTileSqArea(tile?) {
     if (this.feature.feature_type === 'hushSwoon' || this.feature.feature_type === 'profileSwoon') {
       return 0.1566;
     }
