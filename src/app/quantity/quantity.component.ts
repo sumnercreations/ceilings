@@ -72,10 +72,16 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
     }
     this.route.params.subscribe(params => {
       // initial setup
-      if (params['type'] === 'hush') {
-        this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity'));
+      switch (params['type']) {
+        case 'hush':
+          this.location.go(this.router.url.replace(/hush\/quantity/g, 'hush-blocks/quantity'));
+          break;
+        case 'hushSwoon':
+          this.location.go(this.router.url.replace(/hushSwoon\/quantity/g, 'hush-swoon/quantity'));
+          break;
       }
       if (!this.quantityFeatures.includes(params['type'])) {
+        this.debug.log('quantity', `params['type'] = ${params['type']}`);
         this.feature.navToLanding();
         return;
       }
