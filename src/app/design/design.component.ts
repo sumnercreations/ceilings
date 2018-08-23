@@ -447,7 +447,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     // get the grid with guides
     // make sure the guide is set to true
     this.feature.showGuide = true;
-    if (this.feature.feature_type === 'velo') {
+    if (this.feature.feature_type === 'velo' || this.feature.feature_type === 'hushSwoon') {
       const veloCanvas = document.querySelector('canvas');
       const dataURL = veloCanvas.toDataURL();
       this.feature.design_data_url = dataURL;
