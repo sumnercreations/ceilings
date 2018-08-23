@@ -938,7 +938,6 @@ export class Feature {
     }
 
     this.tiles = tiles;
-    console.log('getTilesPurchasedObj res:', this.tiles);
     return tiles;
   }
 
