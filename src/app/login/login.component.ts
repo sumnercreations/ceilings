@@ -29,6 +29,14 @@ export class LoginComponent implements OnInit {
     this.debug.log('login-component', this.user);
   }
 
+  createAccount() {
+    window.location.href = 'https://www.3-form.com/userprofile';
+  }
+
+  forgotPassword() {
+    window.location.href = 'http://www.3-form.com/userprofile/reset';
+  }
+
   login() {
     this.loading = true;
     this.api.login(this.email, this.password).subscribe(
