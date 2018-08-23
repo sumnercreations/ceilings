@@ -23,6 +23,36 @@
       <img (click)="goTo3Form()" src="//3form.s3.amazonaws.com/images/navigation/3form_logo.svg" alt="3form">
     </div>
     <div class="sidenav">
+      <span class="sidenav-btn" mat-button [matMenuTriggerFor]="menu">
+        <span class="sub-header">Configuration Tools</span>
+        <span class="arrow-img">
+          <img src="/assets/icons/tools/left-arrow.png" alt="Open Sidenav">
+        </span>
+      </span>
+      <mat-menu #menu="matMenu">
+        <button class="sub-header" (click)="goToFeature('seeyond/design')" mat-menu-item>Seeyond</button>
+        <button class="sub-header" (click)="goToFeature('velo/design')" mat-menu-item>Velo</button>
+        <button class="sub-header" [matMenuTriggerFor]="tetria" mat-menu-item>Tetria</button>
+        <button class="sub-header" [matMenuTriggerFor]="clario" mat-menu-item>Clario</button>
+        <button class="sub-header" [matMenuTriggerFor]="hushBlocks" mat-menu-item>Hush-Blocks</button>
+        <button class="sub-header" [matMenuTriggerFor]="hushSwoon" mat-menu-item>Hush-Swoon</button>
+      </mat-menu>
+      <mat-menu #tetria="matMenu">
+        <button class="sub-header" (click)="goToFeature('tetria/design')" mat-menu-item>Design</button>
+        <button class="sub-header" (click)="goToFeature('tetria/quantity')" mat-menu-item>Quantity</button>
+      </mat-menu>
+      <mat-menu #clario="matMenu">
+        <button class="sub-header" (click)="goToFeature('clario/design')" mat-menu-item>Design</button>
+        <button class="sub-header" (click)="goToFeature('clario/quantity')" mat-menu-item>Quantity</button>
+      </mat-menu>
+      <mat-menu #hushBlocks="matMenu">
+        <button class="sub-header" (click)="goToFeature('hush-blocks/design')" mat-menu-item>Design</button>
+        <button class="sub-header" (click)="goToFeature('hush-blocks/quantity')" mat-menu-item>Quantity</button>
+      </mat-menu>
+      <mat-menu #hushSwoon="matMenu">
+        <button class="sub-header" (click)="goToFeature('hush-swoon/design')" mat-menu-item>Design</button>
+        <button class="sub-header" (click)="goToFeature('hush-swoon/quantity')" mat-menu-item>Quantity</button>
+      </mat-menu>
       <!-- <span class="sidenav-btn" (click)="toggleSideNav()">
         <span class="text">Configuration Tools</span>
         <span class="arrow-img">

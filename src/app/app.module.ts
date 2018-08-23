@@ -20,7 +20,8 @@ import {
   MatSidenavModule,
   MatExpansionModule,
   MatIconModule,
-  MatSliderModule
+  MatSliderModule,
+  MatMenuModule
 } from '@angular/material';
 
 // routing
@@ -173,7 +174,8 @@ import { DesignClarioDimensionsComponent } from './design/right-components/desig
     MatSidenavModule,
     MatExpansionModule,
     MatIconModule,
-    MatSliderModule
+    MatSliderModule,
+    MatMenuModule
   ],
   providers: [
     Feature,
