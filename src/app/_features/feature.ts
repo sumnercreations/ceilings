@@ -747,10 +747,6 @@ export class Feature {
         qty = 8;
         break;
 
-      case 'swoon':
-        qty = 1;
-        break;
-
       default:
         qty = 4;
         break;
