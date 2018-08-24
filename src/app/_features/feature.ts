@@ -696,6 +696,10 @@ export class Feature {
         type = 400;
         break;
 
+      case 'hushSwoon':
+        type = 500;
+        break;
+
       // default to tetria
       default:
         type = 100;
@@ -985,6 +989,9 @@ export class Feature {
         break;
       case 'clario':
         tiles = this.clarioTiles();
+        break;
+      case 'hushSwoon':
+        tiles = this.hushSwoonTiles();
         break;
       default:
         tiles = this.gridData;
