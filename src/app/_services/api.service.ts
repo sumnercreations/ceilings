@@ -154,7 +154,6 @@ export class ApiService {
 
     return this.http.post(this.loginUrl, formData).pipe(
       map((res: any) => {
-        console.log('login res:', res);
         if (res && !res.result.error) {
           localStorage.setItem('3formUser', JSON.stringify(res.result.user));
           this.user = res.result.user;
@@ -177,7 +176,6 @@ export class ApiService {
   }
 
   public handleError(error: HttpErrorResponse) {
-    console.log(error);
     // if (error.status === 500) { this.debug.log('api', error.message); return; }
     // if (!!error.error.result.message) { this.alert.error(error.error.result.message); }
     if (error.error instanceof ErrorEvent) {

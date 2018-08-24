@@ -4,7 +4,8 @@ import { Directive, ElementRef, Renderer2, AfterViewInit, Input } from '@angular
   selector: '[appStyledSelect]'
 })
 export class StyledSelectDirective implements AfterViewInit {
-  @Input() width: string;
+  @Input()
+  width: string;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
@@ -23,7 +24,6 @@ export class StyledSelectDirective implements AfterViewInit {
   }
 
   setSelectStyles(select: ElementRef) {
-    console.log('select:', select);
     this.renderer.setStyle(select, '-webkit-appearance', 'none');
     this.renderer.setStyle(select, '-moz-appearance', 'none');
     this.renderer.setStyle(select, 'appearance', 'none');

@@ -158,9 +158,8 @@ export class QuantityService {
       newObj.image = newRow.image;
       newObj.used = newRow.used;
       newObj.material = newRow.material;
-      newObj.tile = newRow.tile;
-      const tileStr = typeof newObj.tile === 'string' ? newObj.tile : newObj.tile.tile;
-      const objectKey = `${newObj.material}-${tileStr}`;
+      newObj.tile = typeof newObj.tile === 'string' ? newRow.tile : newRow.tile.tile;
+      const objectKey = this.feature.feature_type === 'hushSwoon' ? `${newObj.material}` : `${newObj.material}-${newObj.tile}`;
       if (!tilesArr[objectKey]) {
         tilesArr[objectKey] = newObj;
       } else {
@@ -172,6 +171,7 @@ export class QuantityService {
 
     this.getRowEstimate(tilesArr); // updates feature.ts with the totals
     this.feature.tiles = tilesArr;
+    this.debug.log('quantity', this.feature.tiles);
   }
 
   getTileSqArea(tile?) {

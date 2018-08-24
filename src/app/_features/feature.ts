@@ -827,7 +827,7 @@ export class Feature {
           if (hsGridTiles.hasOwnProperty(tile)) {
             const materialType = hsGridTiles[tile].materialType;
             const material = hsGridTiles[tile].material;
-            const key = `${materialType}-${material}`;
+            const key = `${material}`;
             if (hsPurchasedTiles === undefined) {
               hsPurchasedTiles = {};
             }
@@ -837,13 +837,10 @@ export class Feature {
               hsPurchasedTiles[key] = {
                 purchased: hsPkgQty,
                 image: `/assets/images/tiles/hush-swoon/felt/merino/${hsGridTiles[tile].material}.png`,
-                hex: '',
-                convex: 0,
-                concave: 0,
+                hex: hsGridTiles[tile].hex,
                 material: hsGridTiles[tile].material,
                 materialType: hsGridTiles[tile].materialType,
-                tile: 'hush-swoon',
-                diffusion: ''
+                tile: 'hush-swoon'
               };
             }
           }
@@ -1375,6 +1372,7 @@ export class Feature {
       case 'hush':
         return 'Hush Blocks';
       case 'hushSwoon':
+      case 'hush-swoon':
         return 'Hush Swoon';
       default:
         return this.feature_type.charAt(0).toUpperCase() + this.feature_type.slice(1);

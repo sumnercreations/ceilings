@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Feature } from 'app/_features/feature';
 import { Component, OnInit, EventEmitter } from '@angular/core';
 
@@ -7,7 +8,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
   styleUrls: ['./main-navbar.component.scss']
 })
 export class MainNavbarComponent implements OnInit {
-  constructor(public feature: Feature) {}
+  constructor(public feature: Feature, public router: Router) {}
 
   ngOnInit() {}
 
@@ -17,5 +18,10 @@ export class MainNavbarComponent implements OnInit {
 
   goTo3Form() {
     window.location.href = 'http://www.3-form.com/';
+  }
+
+  goToFeature(feature) {
+    this.router.navigate([`${feature}`]);
+    window.location.reload();
   }
 }

@@ -30,6 +30,10 @@ export class StyledButtonDirective implements AfterViewInit {
         this.stylePrimaryButton(button);
         this.addArrowRight(button);
         break;
+      case 'primary-right-large':
+        this.stylePrimaryButton(button, 'large');
+        this.addArrowRight(button);
+        break;
       case 'primary-left':
         this.stylePrimaryButton(button);
         this.addArrowLeft(button);
@@ -55,7 +59,7 @@ export class StyledButtonDirective implements AfterViewInit {
     }
   }
 
-  stylePrimaryButton(button) {
+  stylePrimaryButton(button, size?) {
     this.renderer.setStyle(this.el.nativeElement, 'color', '#fff');
     this.renderer.setStyle(button, 'line-height', '3.75');
     this.renderer.setStyle(button, 'font-weight', '500');
@@ -63,6 +67,12 @@ export class StyledButtonDirective implements AfterViewInit {
     this.renderer.setStyle(button, 'background-color', '#000');
     this.renderer.setStyle(button, 'border', '2px solid #000');
     this.renderer.setStyle(button, 'color', '#fff');
+    if (size === 'large') {
+      this.renderer.setStyle(button, 'width', '100%');
+      this.renderer.setStyle(button, 'display', 'flex');
+      this.renderer.setStyle(button, 'align-items', 'center');
+      this.renderer.setStyle(button, 'justify-content', 'space-between');
+    }
   }
 
   styleSecondaryButton(button) {
