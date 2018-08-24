@@ -61,4 +61,8 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  validateSignIn() {
+    return !!this.email && !!this.password;
+  }
 }

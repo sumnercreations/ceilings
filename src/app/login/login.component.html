@@ -5,7 +5,7 @@
       <span>My3Form Account</span>
       <span>Sign In</span>
     </div>
-    <div class="modals-inputs">
+    <div class="modals-inputs" *ngIf="!loading">
       <div class="input-line email">
         <div class="sub-header">Email</div>
         <input type="email" placeholder="Email" [(ngModel)]="email">
@@ -21,10 +21,10 @@
         </span>
       </div>
     </div>
-    <div class="modals-action-btns">
+    <div class="modals-action-btns" *ngIf="!loading">
       <div class="sign-in">
         <span appStyledButton='primary-right-large'>
-          <button (click)="login()">
+          <button (click)="login()" [disabled]="!validateSignIn()">
             <span>Sign In</span>
           </button>
         </span>
@@ -34,6 +34,9 @@
           <button (click)="createAccount()">Create Account</button>
         </span>
       </div>
+    </div>
+    <div class="center-div" *ngIf="loading">
+      <mat-progress-spinner *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-spinner>
     </div>
   </div>
 </div>
