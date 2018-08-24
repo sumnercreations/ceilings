@@ -15,7 +15,6 @@ export class ProfileFeature {
   constructor(private debug: DebugService) {}
 
   updateProfileFeature(feature) {
-    console.log('updateProfileFeature:', feature);
     this.feature_type = feature;
     this.$featureTypeChange.emit(feature);
   }

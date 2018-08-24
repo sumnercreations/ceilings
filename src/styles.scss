@@ -214,6 +214,46 @@ button[disabled] {
   }
 }
 
+.modals-container {
+  padding: 50px;
+  position: relative;
+  img.close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 15px;
+    width: 15px;
+  }
+  .modals-body {
+    .modals-header {
+      border-bottom: 4px solid black;
+      padding: 15px 10px 10px 0px;
+      margin-bottom: 20px;
+    }
+    .modals-header span:first-child {
+      font-size: 2em;
+      font-weight: 500;
+      margin-right: 15px;
+    }
+    .modals-header span:last-child {
+      font-size: 2em;
+      font-weight: 400;
+    }
+    .modals-inputs {
+      padding-bottom: 15px;
+      .input-line {
+        margin-bottom: 20px;
+        input {
+          width: 100%;
+        }
+      }
+    }
+    .modals-action-btns>div {
+      margin-bottom: 10px;
+    }
+  }
+}
+
 // mat-button-toggle {
 //   border: 1px solid !important;
 //   border-color: #e8e8e8;
@@ -236,6 +276,10 @@ button[disabled] {
 // label div.mat-button-toggle-label-content {
 //   height: 100%;
 // }
+mat-dialog-container {
+  padding: 14px !important;
+}
+
 mat-expansion-panel {
   box-shadow: none !important;
   border-bottom: 1px solid #bbb;

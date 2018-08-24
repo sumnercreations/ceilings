@@ -62,7 +62,9 @@ export class SaveDesignComponent implements OnInit {
         // set the feature to what was returned from the API.
         this.feature = feature.ceiling;
         // navigate if the current path isn't already right
-        const url = this.router.createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id]).toString();
+        let url = this.router.createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id]).toString();
+        url = url.includes('hushSwoon') ? url.replace(/hushSwoon/g, 'hush-swoon') : url;
+        url = url.includes('/hush/') ? url.replace(/hush/g, 'hush-blocks') : url;
         if (url !== this.router.url) {
           this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
         }
