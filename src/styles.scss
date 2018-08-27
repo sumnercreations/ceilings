@@ -221,10 +221,12 @@ button[disabled] {
     position: absolute;
     top: 0px;
     right: 0px;
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
   }
   .modals-body {
+    width: 380px;
+    min-height: 280px;
     .modals-header {
       border-bottom: 4px solid black;
       padding: 15px 10px 10px 0px;
@@ -235,7 +237,7 @@ button[disabled] {
       font-weight: 500;
       margin-right: 15px;
     }
-    .modals-header span:last-child {
+    .modals-header span:nth-child(2) {
       font-size: 2em;
       font-weight: 400;
     }
@@ -247,6 +249,9 @@ button[disabled] {
           width: 100%;
         }
       }
+    }
+    .modals-action-btns {
+      margin-top: 15px;
     }
     .modals-action-btns>div {
       margin-bottom: 10px;

@@ -18,6 +18,7 @@ export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;
   public newButton = false;
   private uiType = this.feature.is_quantity_order ? '/quantity' : '/design';
+  saving = false;
 
   constructor(
     private router: Router,
@@ -28,7 +29,7 @@ export class SaveDesignComponent implements OnInit {
     public seeyond: SeeyondFeature,
     public user: User,
     private location: Location,
-    private dialogRef: MatDialogRef<SaveDesignComponent>
+    public dialogRef: MatDialogRef<SaveDesignComponent>
   ) {}
 
   ngOnInit() {
@@ -56,7 +57,9 @@ export class SaveDesignComponent implements OnInit {
     if (this.newDesign || this.newButton) {
       this.saveNew();
     } else {
+      this.saving = true;
       this.api.updateDesign().subscribe(feature => {
+        this.saving = false;
         // notify the user that we have saved their design
         this.alert.success('Successfully saved your design');
         // set the feature to what was returned from the API.
@@ -73,9 +76,11 @@ export class SaveDesignComponent implements OnInit {
   }
 
   saveNew() {
+    this.saving = true;
     // reset some values for the new quote
     this.feature.quoted = false;
     this.api.saveDesign().subscribe(feature => {
+      this.saving = false;
       // notify the user that we have saved their design
       this.alert.success('Successfully saved your design');
       // set the feature to what was returned from the API.
@@ -89,7 +94,9 @@ export class SaveDesignComponent implements OnInit {
     if (this.newDesign || this.newButton) {
       this.saveNewSeeyond();
     } else {
+      this.saving = true;
       this.seeyondApi.updateFeature().subscribe(feature => {
+        this.saving = false;
         // notify the user that we saved their design
         this.alert.success('Successfully saved your design');
         // redirect to the new design
@@ -103,7 +110,9 @@ export class SaveDesignComponent implements OnInit {
     this.seeyond.quoted = false;
     this.seeyond.project_name = null;
     this.seeyond.specifier = null;
+    this.saving = true;
     this.seeyondApi.saveFeature().subscribe(feature => {
+      this.saving = false;
       // notify the user that we saved their design
       this.alert.success('Successfully saved your design');
       // redirect to the new design

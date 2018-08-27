@@ -662,19 +662,28 @@ export class Feature {
 
   public getClarioGridSize(dimension) {
     const size = dimension === 'row' ? this.length : this.width;
-    let count;
     switch (this.clairoTileSizeType) {
       case 'standard':
-        count = Math.ceil(size / 12 / 2);
-        break;
+        return Math.ceil(size / 12 / 2);
       case 'metric':
-        count = Math.ceil((size * 10) / 600);
-        break;
+        return Math.ceil((size * 10) / 600);
       case 'german':
-        count = Math.ceil((size * 10) / 625);
-        break;
+        return Math.ceil((size * 10) / 625);
     }
-    return count;
+  }
+
+  public getClarioGridType(tile_size) {
+    switch (tile_size) {
+      case 24:
+      case 48:
+        return 'standard';
+      case 600:
+      case 1200:
+        return 'metric';
+      case 625:
+      case 1250:
+        return 'german';
+    }
   }
 
   public getFeatureTypeInteger() {
@@ -694,6 +703,10 @@ export class Feature {
 
       case 'hush':
         type = 400;
+        break;
+
+      case 'hushSwoon':
+        type = 500;
         break;
 
       // default to tetria

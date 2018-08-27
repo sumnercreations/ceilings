@@ -24,7 +24,7 @@ export class LoadDesignComponent implements OnInit {
     public dialog: MatDialog,
     public feature: Feature,
     public user: User,
-    private dialogRef: MatDialogRef<LoadDesignComponent>
+    public dialogRef: MatDialogRef<LoadDesignComponent>
   ) {}
 
   ngOnInit() {}

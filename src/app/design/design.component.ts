@@ -146,8 +146,11 @@ export class DesignComponent implements OnInit, OnDestroy {
                 if (this.feature.feature_type === 'clario') {
                   this.feature.grid_type = design.grid_type;
                   this.feature.tile_size = design.tile_size;
+                  this.feature.clairoTileSizeType = this.feature.getClarioGridType(design.tile_size);
                   this.clarioGrids.gridSizeSelected(design.grid_type);
                   this.clarioGrids.loadSelectedTileSize(design.tile_size);
+                  // Clario needs to have tiles set before the grid can be built properly.
+                  this.feature.buildGrid();
                 } else if (this.feature.feature_type === 'velo') {
                   // velo defaults
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.velo[0]);
