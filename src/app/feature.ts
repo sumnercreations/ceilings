@@ -430,7 +430,7 @@ export class Feature {
         // this is the total number of purchased tiles
         // this is the number of tiles in the design
         const ratio = sharedEdges / tilesInIsland;
-        const factor = ratio < 1 ? 0.75 : 0.5;
+        const factor = 1;
         cableCount = Math.ceil(tilesInIsland * factor);
 
         // If shared edges is 1 less than total tiles, set cableCount to sharedEdges
