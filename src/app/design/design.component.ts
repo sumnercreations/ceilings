@@ -420,7 +420,6 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   public tileUsage() {
     const config = new MatDialogConfig();
-    config.height = '700px';
     if (this.feature.feature_type === 'velo') {
       this.tileUsageDialogRef = this.dialog.open(VeloTileUsageComponent, config);
     } else {

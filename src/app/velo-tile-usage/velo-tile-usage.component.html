@@ -1,4 +1,99 @@
-<h3>Tile Usage Information</h3>
+<div class="modals-container">
+  <img class="close-btn" (click)="dialogRef.close('cancel')" src="/assets/icons/tools/x-close.svg" alt="Close Modal">
+  <div class="modals-body">
+    <div class="modals-header">
+      <span>Tile usage information</span>
+    </div>
+    <div class="modals-inputs" *ngIf="!saving">
+      <div class="input-line usage-table">
+        <table *ngIf="this.feature.veloHasFelt()">
+          <tr>
+            <th>Merino Felt</th>
+            <th>Convex</th>
+            <th>Concave</th>
+            <th>Unused</th>
+            <th class="border-left">Receiving</th>
+          </tr>
+          <tr *ngFor="let tile of feltTiles | keys">
+            <td *ngIf="tile.image">
+              <img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" class="circle" matTooltip="{{tile.material | capitalize}}"
+                [matTooltipPosition]="position">
+            </td>
+            <td>{{tile.convex}}</td>
+            <td>{{tile.concave}}</td>
+            <td>{{tile.purchased - (tile.convex + tile.concave)}}</td>
+            <td class="border-left">{{tile.purchased}}</td>
+          </tr>
+          <tr>
+            <th>Totals</th>
+            <th>{{totalFeltConvex}}</th>
+            <th>{{totalFeltConcave}}</th>
+            <th>{{totalFeltUnused}}</th>
+            <th class="border-left">{{totalFeltReceiving}}</th>
+          </tr>
+        </table>
+
+        <table *ngIf="this.feature.veloHasVaria()">
+          <tr>
+            <th>Varia</th>
+            <th>Diffusion</th>
+            <th>Convex</th>
+            <th>Concave</th>
+            <th>Unused</th>
+            <th class="border-left">Receiving</th>
+          </tr>
+          <tr *ngFor="let tile of variaTiles | keys">
+            <td *ngIf="tile.image">
+              <img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" class="circle" matTooltip="{{variaTooltip(tile) | capitalize}}"
+                [matTooltipPosition]="position">
+            </td>
+            <td>{{diffusionString(tile.diffusion)}}</td>
+            <td>{{tile.convex}}</td>
+            <td>{{tile.concave}}</td>
+            <td>{{tile.purchased - (tile.convex + tile.concave)}}</td>
+            <td class="border-left">{{tile.purchased}}</td>
+          </tr>
+          <tr>
+            <th>Totals</th>
+            <td></td>
+            <th>{{totalVariaConvex}}</th>
+            <th>{{totalVariaConcave}}</th>
+            <th>{{totalVariaUnused}}</th>
+            <th class="border-left">{{totalVariaReceiving}}</th>
+          </tr>
+        </table>
+
+        <!-- <table>
+            <tr>
+              <th>{{feature.getTileType() | capitalize}}</th>
+              <th *ngIf="showUsedColumn">Used</th>
+              <th *ngIf="showReceivingColumn">Receiving</th>
+              <th *ngIf="showQuantityColumn">Quantity</th>
+              <th *ngIf="showUnusedColumn">Unused</th>
+            </tr>
+            <tr *ngFor="let tile of purchasedTiles | keys">
+              <td class="sub-header" *ngIf="tile.image">
+                <img src="{{tile.image}}" alt="{{tile.material}} - {{tile.tile}}" matTooltip="{{tooltip(tile)}}" [matTooltipPosition]="position">
+              </td>
+              <td class="sub-header" *ngIf="showUsedColumn">{{tile.used}}</td>
+              <td class="sub-header" *ngIf="showReceivingColumn">{{tile.purchased}}</td>
+              <td class="sub-header" *ngIf="showQuantityColumn">{{tile.purchased}}</td>
+              <td class="sub-header" *ngIf="showUnusedColumn">{{tile.purchased - tile.used}}</td>
+            </tr>
+            <tr>
+              <th>Total</th>
+              <th *ngIf="showUsedColumn">{{totalUsed}}</th>
+              <th *ngIf="showReceivingColumn">{{totalReceiving}}</th>
+              <th *ngIf="showQuantityColumn">{{totalReceiving}}</th>
+              <th *ngIf="showUnusedColumn">{{totalUnused}}</th>
+            </tr>
+          </table> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <h3>Tile Usage Information</h3>
 <p class="sm">Velo tiles are sold in quantities of 8.
   <span class="note">(single material and color with any combination of convex and concave tiles)</span>
 </p>
@@ -57,4 +152,4 @@
     <th>{{totalVariaUnused}}</th>
     <th class="border-left">{{totalVariaReceiving}}</th>
   </tr>
-</table>
+</table> -->

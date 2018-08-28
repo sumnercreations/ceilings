@@ -5,7 +5,7 @@ import { Feature } from '../_features/feature';
 @Component({
   selector: 'app-velo-tile-usage',
   templateUrl: './velo-tile-usage.component.html',
-  styleUrls: ['./velo-tile-usage.component.scss']
+  styleUrls: ['../tile-usage/tile-usage.component.scss', './velo-tile-usage.component.scss']
 })
 export class VeloTileUsageComponent implements OnInit {
   public feltTiles: {};

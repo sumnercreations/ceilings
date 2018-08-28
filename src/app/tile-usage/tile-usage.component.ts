@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Input } from '@angular/core';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../_features/feature';
 
@@ -14,11 +15,35 @@ export class TileUsageComponent implements OnInit {
   public totalReceiving: number;
   public totalUnused: number;
 
-  constructor(private debug: DebugService, public feature: Feature) {}
+  showUsedColumn = true;
+  showReceivingColumn = true;
+  showUnusedColumn = true;
+  showQuantityColumn = false;
+
+  constructor(private debug: DebugService, public feature: Feature, public dialogRef: MatDialogRef<TileUsageComponent>) {}
 
   ngOnInit() {
     this.purchasedTiles = this.feature.getTilesPurchasedObj();
     this.getTotals();
+    this.setTableProperties();
+  }
+
+  setTableProperties() {
+    console.log(this.feature.feature_type);
+    switch (this.feature.feature_type) {
+      case 'hush':
+      case 'hushSwoon':
+        this.showUsedColumn = false;
+        this.showReceivingColumn = false;
+        this.showUnusedColumn = false;
+        this.showQuantityColumn = true;
+        break;
+      default:
+        this.showUsedColumn = true;
+        this.showReceivingColumn = true;
+        this.showUnusedColumn = true;
+        this.showQuantityColumn = false;
+    }
   }
 
   getTotals() {

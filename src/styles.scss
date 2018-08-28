@@ -225,7 +225,7 @@ button[disabled] {
     width: 20px;
   }
   .modals-body {
-    width: 380px;
+    min-width: 380px;
     min-height: 280px;
     .modals-header {
       border-bottom: 4px solid black;
