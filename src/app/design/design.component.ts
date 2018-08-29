@@ -476,6 +476,7 @@ export class DesignComponent implements OnInit, OnDestroy {
           break;
         default:
           sizeIncrement = 24;
+          break;
       }
     }
     switch (tool) {

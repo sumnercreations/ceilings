@@ -9,6 +9,8 @@ import { Feature } from '../_features/feature';
   styleUrls: ['./tile-usage.component.scss']
 })
 export class TileUsageComponent implements OnInit {
+  @Input()
+  isImbedded = false;
   public purchasedTiles: any;
   public position = 'above';
   public totalUsed: number;

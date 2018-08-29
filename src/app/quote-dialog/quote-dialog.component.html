@@ -55,7 +55,8 @@
       <dd>{{seeyond.pattern_strength}}</dd>
       <dt>Color</dt>
       <dd>{{seeyond.material | capitalize}}</dd>
-      <dt *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling'">Cove Lighting</dt>
+      <dt *ngIf="seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling'">Cove
+        Lighting</dt>
       <dd *ngIf="!seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">No</dd>
       <dd *ngIf="seeyond.cove_lighting && (seeyond.seeyond_feature_type === 'wall-to-ceiling' || seeyond.seeyond_feature_type === 'ceiling')">Yes</dd>
       <dt>Estimated Amount</dt>
@@ -75,8 +76,10 @@
         </div>
         <div class="multiples-row">
           <span>Estimated Total</span>
-          <span *ngIf="feature.feature_type !== 'seeyond'">{{(feature.estimated_amount * feature.quantity) | currency:'USD'}}</span>
-          <span *ngIf="feature.feature_type === 'seeyond'">{{(seeyond.estimated_amount * feature.quantity) | currency:'USD'}}</span>
+          <span *ngIf="feature.feature_type !== 'seeyond'">{{(feature.estimated_amount * feature.quantity) |
+            currency:'USD'}}</span>
+          <span *ngIf="feature.feature_type === 'seeyond'">{{(seeyond.estimated_amount * feature.quantity) |
+            currency:'USD'}}</span>
         </div>
       </div>
       <hr>
@@ -87,10 +90,10 @@
         <div class="col-sm-12">
           <div class="form-group">
             <mat-form-field class="full-width">
-              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name"
-                matInput mat-input required [(ngModel)]="feature.project_name">
-              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name" id="project_name"
-                matInput mat-input required [(ngModel)]="seeyond.project_name">
+              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Project Name" name="project_name"
+                id="project_name" matInput mat-input required [(ngModel)]="feature.project_name">
+              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Project Name" name="project_name"
+                id="project_name" matInput mat-input required [(ngModel)]="seeyond.project_name">
             </mat-form-field>
           </div>
         </div>
@@ -99,10 +102,10 @@
         <div class="col-sm-12">
           <div class="form-group">
             <mat-form-field class="full-width">
-              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput
-                mat-input required [(ngModel)]="feature.specifier">
-              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier" matInput
-                mat-input required [(ngModel)]="seeyond.specifier">
+              <input *ngIf="feature.feature_type !== 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier"
+                matInput mat-input required [(ngModel)]="feature.specifier">
+              <input *ngIf="feature.feature_type === 'seeyond'" type="text" placeholder="Specifier" name="specifier" id="specifier"
+                matInput mat-input required [(ngModel)]="seeyond.specifier">
             </mat-form-field>
           </div>
         </div>
@@ -113,7 +116,7 @@
       </div>
     </form>
     <ng-container *ngIf="feature.feature_type !=='seeyond' && !feature.is_quantity_order">
-      <app-tile-usage *ngIf="feature.feature_type !=='velo'"></app-tile-usage>
+      <app-tile-usage [isImbedded]="true" *ngIf="feature.feature_type !=='velo'"></app-tile-usage>
       <app-velo-tile-usage *ngIf="feature.feature_type === 'velo'"></app-velo-tile-usage>
     </ng-container>
   </div>
