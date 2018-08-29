@@ -252,6 +252,23 @@ button[disabled] {
     }
     .modals-action-btns {
       margin-top: 15px;
+      .action-btns {
+        span {
+          button.cancel-modal-btn {
+            height: 100%;
+            width: 100%;
+            border: none;
+            margin: 0px;
+            display: flex;
+            -webkit-appearance: none;
+            border-radius: 0px;
+            line-height: 3.75;
+            font-weight: 500;
+            text-indent: 8px;
+            background-color: #ddd;
+          }
+        }
+      }
     }
     .modals-action-btns>div {
       margin-bottom: 10px;
