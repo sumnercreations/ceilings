@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Input } from '@angular/core';
 import { DebugService } from './../_services/debug.service';
 import { Feature } from '../_features/feature';
 
@@ -8,6 +9,8 @@ import { Feature } from '../_features/feature';
   styleUrls: ['../tile-usage/tile-usage.component.scss', './velo-tile-usage.component.scss']
 })
 export class VeloTileUsageComponent implements OnInit {
+  @Input()
+  isImbedded = false;
   public feltTiles: {};
   public variaTiles: {};
   public position = 'above';
@@ -21,7 +24,7 @@ export class VeloTileUsageComponent implements OnInit {
   public totalVariaReceiving: number;
   hasTotals = false;
 
-  constructor(private debug: DebugService, public feature: Feature) {}
+  constructor(private debug: DebugService, public feature: Feature, public dialogRef: MatDialogRef<VeloTileUsageComponent>) {}
 
   ngOnInit() {
     this.feltTiles = this.feature.getPurchasedVeloTiles('felt');

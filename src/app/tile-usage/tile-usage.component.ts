@@ -31,7 +31,6 @@ export class TileUsageComponent implements OnInit {
   }
 
   setTableProperties() {
-    console.log(this.feature.feature_type);
     switch (this.feature.feature_type) {
       case 'hush':
       case 'hushSwoon':

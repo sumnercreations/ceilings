@@ -117,7 +117,7 @@
     </form>
     <ng-container *ngIf="feature.feature_type !=='seeyond' && !feature.is_quantity_order">
       <app-tile-usage [isImbedded]="true" *ngIf="feature.feature_type !=='velo'"></app-tile-usage>
-      <app-velo-tile-usage *ngIf="feature.feature_type === 'velo'"></app-velo-tile-usage>
+      <app-velo-tile-usage [isImbedded]="true" *ngIf="feature.feature_type === 'velo'"></app-velo-tile-usage>
     </ng-container>
   </div>
 </div>
