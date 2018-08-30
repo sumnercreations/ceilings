@@ -268,7 +268,9 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
       this.loginDialog();
       return;
     }
-    this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, new MatDialogConfig());
+    const config = new MatDialogConfig();
+    config.maxHeight = '90vh';
+    this.quoteDialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
   viewDetails() {

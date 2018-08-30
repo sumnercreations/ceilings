@@ -460,7 +460,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     }
     // load the dialog to confirm the design we will be sending
     const config = new MatDialogConfig();
-    // config.height = '700px';
+    config.maxHeight = '90vh';
     const dialogRef = this.dialog.open(QuoteDialogComponent, config);
   }
 
