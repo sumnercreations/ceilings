@@ -47,26 +47,26 @@
           <div class="sub-header">Project Name</div>
           <input type="text" placeholder="Project name" [(ngModel)]="feature.project_name">
         </div>
-        <div class="input-line password">
+        <div class="input-line">
           <div class="sub-header">Specifier</div>
-          <input type="password" placeholder="Password" [(ngModel)]="feature.specifier">
+          <input type="text" placeholder="Specifier" [(ngModel)]="feature.specifier">
+        </div>
+        <div class="modals-action-btns">
+          <div class="action-btns">
+            <span appStyledButton='primary-right-large'>
+              <button (click)="quoteConfirmed()" [disabled]="!validInputs()">
+                <span>Confirm</span>
+              </button>
+            </span>
+            <span>
+              <button class="cancel-modal-btn" (click)="dialogRef.close('cancel')">
+                <span>Cancel</span>
+              </button>
+            </span>
+          </div>
         </div>
       </div>
-      <div class="modals-action-btns">
-        <div class="action-btns">
-          <span appStyledButton='primary-right-large'>
-            <button (click)="quoteConfirmed()" [disabled]="!validInputs()">
-              <span>Confirm</span>
-            </button>
-          </span>
-          <span>
-            <button class="cancel-modal-btn" (click)="dialogRef.close('cancel')">
-              <span>Cancel</span>
-            </button>
-          </span>
-        </div>
-      </div>
-      <div *ngIf="feature.feature_type !=='seeyond' && !feature.is_quantity_order">
+      <div *ngIf="feature.feature_type !=='seeyond' && !feature.is_quantity_order" id="tile-usage">
         <app-tile-usage [isImbedded]="true" *ngIf="feature.feature_type !=='velo'"></app-tile-usage>
         <app-velo-tile-usage [isImbedded]="true" *ngIf="feature.feature_type === 'velo'"></app-velo-tile-usage>
       </div>
