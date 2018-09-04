@@ -1006,6 +1006,9 @@ export class Feature {
       case 'clario':
         tiles = this.clarioTiles();
         break;
+      case 'hushSwoon':
+        tiles = this.hushSwoonTiles();
+        break;
       default:
         tiles = this.gridData;
         break;
