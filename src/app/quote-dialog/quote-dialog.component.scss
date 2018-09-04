@@ -3,7 +3,7 @@
 
   .info-section {
     border-bottom: 1px solid #bbb;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
     margin-bottom: 15px;
 
     .info-line {
@@ -34,9 +34,10 @@
   margin-bottom: 0px;
 }
 
-#tile-usage {
+#tile-usage-container {
   margin-top: 15px;
   border-top: 4px solid black;
+  padding-top: 30px;
 }
 
 // form {

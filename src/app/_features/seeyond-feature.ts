@@ -895,14 +895,14 @@ export class SeeyondFeature extends Feature {
       convertedCeilingLength = this.convertCMtoIN(convertedCeilingLength);
       convertedRadius = this.convertCMtoIN(convertedRadius);
     }
-    return {
+    const userInputs = {
       UserInputs: {
         // 0 = straight partition, 1 = arc partition, 2 = facing, 3 = transition, 4 = ceiling, 5 = bent partition
         Type: this.seeyond_feature_index,
         // 0 = court, 1 = cusp, 2 = kink, 3 = tilt, 4 = billow
         Tessellation: this.tessellation,
         // valid values = .1 - 1.0 (we send whole numbers 1-10 and the tessellation divides by 10)
-        PatternStrength: this.pattern_strength,
+        PatternStrength: Number(this.pattern_strength),
         // relative path to rendering material image
         Material: this.getMaterialImage(this.material),
         // in inches
@@ -921,6 +921,8 @@ export class SeeyondFeature extends Feature {
         BackRelief: this.back_relief
       }
     };
+    this.debug.log('seeyond-json', userInputs);
+    return userInputs;
   }
 
   getXML() {
