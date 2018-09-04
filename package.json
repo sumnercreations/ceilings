@@ -34,8 +34,8 @@
     "point-in-polygon": "^1.0.1",
     "rxjs": "^6.2.1",
     "syd-tessellation": "0.0.69",
-    "syd-tiling": "0.0.15",
-    "syd-visualization": "0.0.88",
+    "syd-tiling": "0.0.16",
+    "syd-visualization": "0.0.93",
     "zone.js": "^0.8.4",
     "xml-writer": "1.7.0"
   },
