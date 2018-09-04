@@ -14,6 +14,7 @@ export class Feature {
   onApplyAll = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
+  onDesignLoaded = new EventEmitter();
   onToggleSideNav = new EventEmitter();
 
   // attributes saved in DB

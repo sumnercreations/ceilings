@@ -87,6 +87,9 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
         this.showQuantityBtn = true;
         break;
     }
+    this.feature.onDesignLoaded.subscribe(result => {
+      this.dialogRef.close('cancel');
+    });
   }
 
   ngAfterContentInit() {
@@ -112,9 +115,6 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
     }
     this.dialogRef.close('cancel');
     this.feature.navToLanding();
-    // this.dialogRef.afterClosed().subscribe(result => {
-    //   this.router.navigate(['/']);
-    // });
   }
 
   public updateGridUnits(units: string) {
