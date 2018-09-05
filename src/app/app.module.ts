@@ -98,6 +98,7 @@ import { DesignModifyComponent } from './design/right-components/design-modify/d
 import { DesignSeeyondComponent } from './design/right-components/design-seeyond/design-seeyond.component';
 import { DesignDimensionsComponent } from './design/right-components/design-dimensions/design-dimensions.component';
 import { DesignClarioDimensionsComponent } from './design/right-components/design-clario-dimensions/design-clario-dimensions.component';
+import { DesignGridViewComponent } from './design/right-components/design-grid-view/design-grid-view.component';
 
 @NgModule({
   declarations: [
@@ -152,7 +153,8 @@ import { DesignClarioDimensionsComponent } from './design/right-components/desig
     DesignModifyComponent,
     DesignSeeyondComponent,
     DesignDimensionsComponent,
-    DesignClarioDimensionsComponent
+    DesignClarioDimensionsComponent,
+    DesignGridViewComponent
   ],
   imports: [
     BrowserModule,

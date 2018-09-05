@@ -8,8 +8,8 @@ import * as pip from 'point-in-polygon';
   styleUrls: ['../canvas-grids.component.scss', './swoon-grid.component.scss']
 })
 export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
-  rows = 10;
-  columns = 15;
+  rows = 30;
+  columns = 45;
   adjustmentX = 53;
   adjustmentY = 46;
 
@@ -27,8 +27,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   renderSwoonGrid() {
     this.debug.log('swoon-grid-component', 'rendering the swoon grid');
     const canvas = this.canvas.nativeElement;
-    canvas.width = this.canvasWidth;
-    canvas.height = this.canvasHeight;
+    canvas.width = this.swoonCanvasWidth * this.feature.canvasGridScale;
+    canvas.height = this.swoonCanvasHeight * this.feature.canvasGridScale;
 
     const ctx = canvas.getContext('2d');
     ctx.lineWidth = 1;
@@ -43,7 +43,14 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
 
     for (let r = 0; r < this.rows; ++r) {
       for (let c = 0; c < this.columns; ++c) {
-        this.createSwoonSection(ctx, c * this.adjustmentX, r * this.adjustmentY, this.isOdd(r), r, c);
+        this.createSwoonSection(
+          ctx,
+          c * this.adjustmentX * this.feature.canvasGridScale,
+          r * this.adjustmentY * this.feature.canvasGridScale,
+          this.isOdd(r),
+          r,
+          c
+        );
       }
     }
   }
@@ -110,16 +117,51 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   }
 
   private createSwoonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
-    // this.debug.log('swoon-section', `${ctx}, ${adjustmentX}, ${adjustmentY}, ${isOdd}, ${row}, ${column}`);
+    // this.debug.log(
+    //   'swoon-section',
+    //   `ctx: ${ctx}, adjustmentX: ${adjustmentX}, adjustmentY: ${adjustmentY}, isOdd: ${isOdd}, row: ${row}, column: ${column}`
+    // );
     const index = (row * this.columns + column) * 3; // 3 is the number of diamonds needed to make a section
     if (isOdd) {
-      this.drawDiamond(ctx, 56 + adjustmentX, 18 + adjustmentY, 0, row, column, index);
-      this.drawDiamond(ctx, 70 + adjustmentX, 41 + adjustmentY, -Math.PI / 3, row, column, index + 1);
-      this.drawDiamond(ctx, 43 + adjustmentX, 41 + adjustmentY, Math.PI / 3, row, column, index + 2);
+      this.drawDiamond(ctx, 56 * this.feature.canvasGridScale + adjustmentX, 18 * this.feature.canvasGridScale + adjustmentY, 0, row, column, index);
+      this.drawDiamond(
+        ctx,
+        70 * this.feature.canvasGridScale + adjustmentX,
+        41 * this.feature.canvasGridScale + adjustmentY,
+        -Math.PI / 3,
+        row,
+        column,
+        index + 1
+      );
+      this.drawDiamond(
+        ctx,
+        43 * this.feature.canvasGridScale + adjustmentX,
+        41 * this.feature.canvasGridScale + adjustmentY,
+        Math.PI / 3,
+        row,
+        column,
+        index + 2
+      );
     } else {
-      this.drawDiamond(ctx, 29 + adjustmentX, 18 + adjustmentY, 0, row, column, index);
-      this.drawDiamond(ctx, 43 + adjustmentX, 41 + adjustmentY, -Math.PI / 3, row, column, index + 1);
-      this.drawDiamond(ctx, 16 + adjustmentX, 41 + adjustmentY, Math.PI / 3, row, column, index + 2);
+      this.drawDiamond(ctx, 29 * this.feature.canvasGridScale + adjustmentX, 18 * this.feature.canvasGridScale + adjustmentY, 0, row, column, index);
+      this.drawDiamond(
+        ctx,
+        43 * this.feature.canvasGridScale + adjustmentX,
+        41 * this.feature.canvasGridScale + adjustmentY,
+        -Math.PI / 3,
+        row,
+        column,
+        index + 1
+      );
+      this.drawDiamond(
+        ctx,
+        16 * this.feature.canvasGridScale + adjustmentX,
+        41 * this.feature.canvasGridScale + adjustmentY,
+        Math.PI / 3,
+        row,
+        column,
+        index + 2
+      );
     }
   }
 
@@ -131,8 +173,11 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     // this.debug.log('draw-diamond', column);
 
     // points to create a diamond
-    const xcoords = [0, -27, 0, 27];
-    const ycoords = [16, 0, -16, 0];
+    let xcoords = [0, -27, 0, 27];
+    let ycoords = [16, 0, -16, 0];
+
+    xcoords = xcoords.map(xpoint => xpoint * this.feature.canvasGridScale);
+    ycoords = ycoords.map(ypoint => ypoint * this.feature.canvasGridScale);
 
     // create the swoon section
     // add x,y to all the points on the diamond
@@ -165,6 +210,9 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     ctx.beginPath();
     // move to the new x,y coordinates (setting a new 0,0 at x,y)
     ctx.translate(x, y);
+    // set the scale of the grid for zooming purposes
+    // ctx.scale(this.feature.canvasGridScale, this.feature.canvasGridScale);
+
     // rotate to fit the tesselation
     ctx.rotate(rotateAngle);
     // move to the start of the pentagon and then draw the lines

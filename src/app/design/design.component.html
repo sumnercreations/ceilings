@@ -51,6 +51,7 @@
   <div class="right-side">
     <div class="expansion-panels">
       <app-design-dimensions *ngIf="showDimensions"></app-design-dimensions>
+      <app-design-grid-view *ngIf="showCanvasGridControls"></app-design-grid-view>
       <app-design-clario-dimensions *ngIf="showClarioDimensions"></app-design-clario-dimensions>
       <app-design-design *ngIf="showDesign"></app-design-design>
       <app-design-modify *ngIf="showModify"></app-design-modify>
@@ -60,8 +61,10 @@
       <div class="totals">
         <span class="est-total">
           <span class="sub-header">Est. Total:&nbsp;&nbsp;</span>
-          <span *ngIf="feature.feature_type !== 'seeyond'" class="total">{{feature.estimated_amount | currency:'USD'}} USD</span>
-          <span *ngIf="feature.feature_type === 'seeyond'" class="total">{{seeyond.estimated_amount | currency:'USD'}} USD</span>
+          <span *ngIf="feature.feature_type !== 'seeyond'" class="total">{{feature.estimated_amount | currency:'USD'}}
+            USD</span>
+          <span *ngIf="feature.feature_type === 'seeyond'" class="total">{{seeyond.estimated_amount | currency:'USD'}}
+            USD</span>
         </span>
         <span class="details-btn">
           <span appStyledButton='secondary-left' *ngIf="feature.quoted">

@@ -44,6 +44,7 @@ export class Feature {
   public qtyTilesUsed = 0;
   public qtyTilesReceiving = 0;
   public grid_type: string = undefined;
+  public canvasGridScale = 0.5;
 
   // attributes for the tool
   public tile_type = 'tile';

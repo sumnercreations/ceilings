@@ -61,6 +61,7 @@ export class DesignComponent implements OnInit, OnDestroy {
   showModify = false;
   showClarioDimensions = false;
   showDimensions = false;
+  showCanvasGridControls = false;
 
   quantitiesString = '';
   gridRequirementsString = '';
@@ -300,6 +301,7 @@ export class DesignComponent implements OnInit, OnDestroy {
       case 'hushSwoon':
         this.showDesign = true;
         this.showModify = true;
+        this.showCanvasGridControls = true;
         this.showGuidesCheckbox = false;
         break;
     }
@@ -494,6 +496,15 @@ export class DesignComponent implements OnInit, OnDestroy {
         break;
       default:
         break;
+    }
+    this.feature.buildGrid();
+  }
+
+  zoomCanvasGrid(direction) {
+    if (direction === 'in') {
+      this.feature.canvasGridScale = this.feature.canvasGridScale + 0.1;
+    } else if (direction === 'out') {
+      this.feature.canvasGridScale = this.feature.canvasGridScale - 0.1;
     }
     this.feature.buildGrid();
   }

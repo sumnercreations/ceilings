@@ -19,6 +19,9 @@ export class CanvasGridsComponent implements OnInit {
   fillStyle = '#ffffff';
   canvasWidth = 826;
   canvasHeight = 500;
+  swoonCanvasWidth = 2420;
+  swoonCanvasHeight = 1400;
+  scale = 1;
   newDesign = true;
   guide: any = {
     top: this.sanitizer.bypassSecurityTrustStyle('10'),
