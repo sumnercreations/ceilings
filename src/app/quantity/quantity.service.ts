@@ -38,7 +38,7 @@ export class QuantityService {
     newRow.tileSqArea = this.getTileSqArea(newRow.tile);
     newRow.id = this.rowIndexNum++;
     newRow.material_size = typeof newRow.tile === 'string' ? newRow.tile : newRow.tile.tile;
-    newRow.material_type = this.feature.selectedTile === 'string' ? this.feature.selectedTile : this.feature.selectedTile.name;
+    newRow.material_type = typeof this.feature.selectedTile === 'string' ? this.feature.selectedTile : this.feature.selectedTile.name;
     return newRow;
   }
 
