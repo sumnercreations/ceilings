@@ -16,6 +16,7 @@ export class Feature {
   onLoadDesigns = new EventEmitter();
   onDesignLoaded = new EventEmitter();
   onToggleSideNav = new EventEmitter();
+  showMainNavbar = new EventEmitter();
 
   // attributes saved in DB
   public id: number;

@@ -36,6 +36,7 @@ export class DetailsComponent implements OnInit, AfterContentInit {
   ) {}
 
   ngOnInit() {
+    this.feature.showMainNavbar.emit(false);
     this.route.params.subscribe(params => {
       if (params['type'] === 'hush') {
         this.location.go(this.router.url.replace(/hush\/design/g, 'hush-blocks/design'));

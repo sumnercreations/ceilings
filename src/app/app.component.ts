@@ -1,5 +1,5 @@
 import { Feature } from 'app/_features/feature';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 import { User } from './_models/user';
 import { environment } from '../environments/environment';
 import { ActivatedRoute } from '@angular/router';
@@ -11,17 +11,20 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   opened: boolean;
-  showMainNavbar = true;
+  showMainNavbar: boolean;
 
   constructor(public user: User, public feature: Feature, public route: ActivatedRoute) {
     window['environment'] = () => {
       return environment;
     };
+
+    this.feature.showMainNavbar.subscribe(value => {
+      this.showMainNavbar = value;
+    });
   }
 
   ngOnInit() {
     this.checkForUser();
-    this.setTemplateValues();
 
     this.feature.onToggleSideNav.subscribe(event => {
       this.opened = !this.opened;
@@ -41,12 +44,6 @@ export class AppComponent implements OnInit {
     } else {
       // create a new empty user
       this.user = new User();
-    }
-  }
-
-  setTemplateValues() {
-    if (window.location.href.includes('details')) {
-      this.showMainNavbar = false;
     }
   }
 }

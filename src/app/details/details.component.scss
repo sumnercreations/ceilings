@@ -88,6 +88,27 @@
   font-weight: 500;
 }
 
+/*
+ For Printing
+ */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+  }
+
+  .orange {
+    color: #ff9e1b !important;
+  }
+
+  .orange-bold {
+    color: #ff9e1b !important;
+  }
+
+  #print-icon {
+    display: none;
+  }
+}
+
 // hr {
 //   margin-top: 10px;
 //   margin-bottom: 10px;
@@ -173,29 +194,11 @@
 //   margin: 0;
 //   /* <-- Apparently some margin are still there even though it's hidden */
 // }
-// /*
-//  For Printing
-//  */
-@media print {
-  * {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  //   .tile-info div.tile {
-  //     width: 45px;
-  //     height: 45px;
-  //     background-color: red !important;
-  //   }
-  .orange {
-    color: #ff9e1b !important;
-  }
-
-  .orange-bold {
-    color: #ff9e1b !important;
-  }
-}
-
+//   .tile-info div.tile {
+//     width: 45px;
+//     height: 45px;
+//     background-color: red !important;
+//   }
 //   .col-sm-1,
 //   .col-sm-2,
 //   .col-sm-3,

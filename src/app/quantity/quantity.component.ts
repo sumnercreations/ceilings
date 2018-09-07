@@ -144,6 +144,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
     if (qtyOrder.feature_type !== this.feature.feature_type) {
       this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
     }
+    this.feature.showMainNavbar.emit(true);
     this.qtySrv.order.data = [];
     this.feature.id = qtyOrder.id;
     this.feature.uid = qtyOrder.uid;

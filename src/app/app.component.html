@@ -4,7 +4,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <app-main-navbar *ngIf="showMainNavbar"></app-main-navbar>
+    <app-main-navbar [style.display]="showMainNavbar ? 'inline' : 'none'"></app-main-navbar>
     <div class="container">
       <div class="app-container">
         <router-outlet></router-outlet>

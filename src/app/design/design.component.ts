@@ -89,6 +89,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
+    this.feature.showMainNavbar.emit(true);
     this.route.params.subscribe(params => {
       // default the feature type
       let featureType;
