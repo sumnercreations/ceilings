@@ -176,7 +176,9 @@ export class QuantityService {
 
   getTileSqArea(tile?) {
     if (this.feature.feature_type === 'hushSwoon' || this.feature.feature_type === 'profileSwoon') {
-      return 0.1566;
+      // hushSwoon has two triangles whose sides are 5" x 5" x 5.21"
+      // based off this, the total square area is 22.2352 sq inches, or 0.1544 sq ft.
+      return 0.1544;
     }
     switch (tile) {
       case '24':

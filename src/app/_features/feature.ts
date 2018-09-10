@@ -17,6 +17,7 @@ export class Feature {
   onDesignLoaded = new EventEmitter();
   onToggleSideNav = new EventEmitter();
   showMainNavbar = new EventEmitter();
+  resetAllValues = new EventEmitter();
 
   // attributes saved in DB
   public id: number;
@@ -129,6 +130,7 @@ export class Feature {
     this.archived = false; // boolean
     this.updated_at = undefined;
     this.quantity = 1;
+    this.resetAllValues.emit();
   }
 
   updateEstimatedAmount() {

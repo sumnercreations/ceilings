@@ -48,14 +48,14 @@
           <div class="left">
             <div class="details-header">Feature</div>
             <div>{{featureHumanName}}</div>
-            <div>TODO tile types</div>
-            <div class="description-text">TODO sold in qty</div>
+            <div>24" x 24" tiles</div> <!-- TODO make this dynamic -->
+            <div class="description-text">{{tilesSoldString}}</div>
           </div>
           <div class="right">
             <div class="details-header">Quantity</div>
-            <div>Tiles - {{tileArraySize}}</div> <!-- TODO baffles included -->
+            <div>Tiles - {{totalReceiving}}</div> <!-- TODO baffles included -->
             <div>Designs - {{feature.quantity || 1}}</div>
-            <div>Total - {{tileArraySize * (feature.quantity || 1)}}</div>
+            <div>Total - {{totalReceiving * (feature.quantity || 1)}}</div>
           </div>
         </div>
         <div class="bottom-row">

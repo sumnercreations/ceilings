@@ -22,6 +22,10 @@ export class DetailsComponent implements OnInit, AfterContentInit {
   public tessellationStr: string;
   public featureHumanName: string;
   public dimensionStr: string;
+  public totalUsed: number;
+  public totalReceiving: number;
+  public totalUnused: number;
+  public tilesSoldString: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -93,6 +97,8 @@ export class DetailsComponent implements OnInit, AfterContentInit {
   setTemplateValues() {
     this.featureHumanName = this.feature.getFeatureHumanName();
     this.dimensionStr = this.setDimensionStr();
+    this.tilesSoldString = this.feature.packageInformation();
+    this.getTotals();
   }
 
   setDimensionStr() {
@@ -115,5 +121,30 @@ export class DetailsComponent implements OnInit, AfterContentInit {
   backToDesign() {
     const newUrl = window.location.pathname.replace(/details/, '');
     this.router.navigate([newUrl]);
+  }
+
+  getTotals() {
+    // similar to tile-usage-component
+    let totalReceiving = 0;
+    let totalUsed = 0;
+    let totalUnused = 0;
+    let incrementReceiving;
+    let incrementUsed;
+    let incrementUnused;
+    const purchased = this.feature.getTilesPurchasedObj();
+    this.debug.log('details-component', purchased);
+    for (const tileType in purchased) {
+      if (purchased.hasOwnProperty(tileType)) {
+        incrementReceiving = purchased[tileType].purchased;
+        totalReceiving += incrementReceiving;
+        incrementUsed = purchased[tileType].used;
+        totalUsed += incrementUsed;
+        incrementUnused = purchased[tileType].purchased - purchased[tileType].used;
+        totalUnused += incrementUnused;
+      }
+    }
+    this.totalUsed = totalUsed;
+    this.totalReceiving = totalReceiving;
+    this.totalUnused = totalUnused;
   }
 }

@@ -48,6 +48,7 @@ export class TileUsageComponent implements OnInit {
   }
 
   getTotals() {
+    // similiar to details-component
     let totalReceiving = 0;
     let totalUsed = 0;
     let totalUnused = 0;

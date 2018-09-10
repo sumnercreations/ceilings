@@ -2,7 +2,7 @@
   <div class="left-side">
     <div class="grid-header">
       <div class="top">
-        <span class="project-name">{{feature.design_name}}</span>
+        <span class="project-name">{{feature.design_name || seeyond.design_name}}</span>
         <span class="save-load save-load-btn-fmt">
           <img src="/assets/icons/tools/load.png" alt="load icon">
           <a title="save design" (click)="saveDesign()">
@@ -21,7 +21,7 @@
             <span class="guides-text sub-header">Guides</span>
           </span>
           <span *ngIf="feature.feature_type !== 'seeyond'" class="three-d" appStyledButton='secondary-left'>
-            <button (click)="feature.view3d()">3D View</button>
+            <button (click)="feature.view3d()" [disabled]="(!feature.tiles)">3D View</button>
           </span>
           <span *ngIf="feature.feature_type === 'seeyond'" class="download-img" appStyledButton='secondary-left-rotate90'>
             <button (click)="feature.view3d()">Download Image</button>
@@ -60,8 +60,10 @@
       <div class="totals">
         <span class="est-total">
           <span class="sub-header">Est. Total:&nbsp;&nbsp;</span>
-          <span *ngIf="feature.feature_type !== 'seeyond'" class="total">{{feature.estimated_amount | currency:'USD'}} USD</span>
-          <span *ngIf="feature.feature_type === 'seeyond'" class="total">{{seeyond.estimated_amount | currency:'USD'}} USD</span>
+          <span *ngIf="feature.feature_type !== 'seeyond'" class="total">{{feature.estimated_amount | currency:'USD'}}
+            USD</span>
+          <span *ngIf="feature.feature_type === 'seeyond'" class="total">{{seeyond.estimated_amount | currency:'USD'}}
+            USD</span>
         </span>
         <span class="details-btn">
           <span appStyledButton='secondary-left' *ngIf="feature.quoted">
@@ -77,7 +79,6 @@
     </div>
   </div>
 </div>
-
 
 
 
