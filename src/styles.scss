@@ -91,7 +91,7 @@ body {
   font-family: 'Graphik Web';
   background-color: #fff;
   color: #1f1f1f;
-  font-size: 14px; // em sizing should be relative to this
+  font-size: 14px; // all em sizing should be relative to this
 }
 
 input:focus {
@@ -107,7 +107,7 @@ select:focus {
 }
 
 button:focus {
-  border: 2px solid $primary-orange;
+  border: 2px solid $primary-orange !important;
 }
 
 button:focus {
@@ -158,7 +158,6 @@ input {
 
 .sub-header {
   font-weight: 500;
-  // font-size: 0.9em;
   padding: 5px 0px;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -263,39 +262,40 @@ button[disabled] {
         }
       }
     }
+  }
+}
 
-    .modals-action-btns {
-      margin-top: 15px;
+.modals-action-btns {
+  margin-top: 15px;
 
-      .action-btns {
+  .action-btns {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      width: 45%;
+      white-space: nowrap;
+
+      button.cancel-modal-btn {
+        height: 100%;
         width: 100%;
+        border: none;
+        margin: 0px;
         display: flex;
-        justify-content: space-between;
-
-        span {
-          width: 45%;
-
-          button.cancel-modal-btn {
-            height: 100%;
-            width: 100%;
-            border: none;
-            margin: 0px;
-            display: flex;
-            -webkit-appearance: none;
-            border-radius: 0px;
-            line-height: 3.75;
-            font-weight: 500;
-            text-indent: 8px;
-            background-color: #ddd;
-          }
-        }
+        -webkit-appearance: none;
+        border-radius: 0px;
+        line-height: 3.75;
+        font-weight: 500;
+        text-indent: 8px;
+        background-color: #ddd;
       }
     }
-
-    .modals-action-btns>div {
-      margin-bottom: 10px;
-    }
   }
+}
+
+.modals-action-btns>div {
+  margin-bottom: 10px;
 }
 
 // .action-btns {
@@ -388,6 +388,14 @@ mat-tab-header {
 
 .add-margin-left {
   margin-left: 20px;
+}
+
+.nav-sub-menu+* .cdk-overlay-pane {
+  margin-top: 54px;
+}
+
+.nav-sub-menu+* .nav-menu-item {
+  width: 225px;
 }
 
 /* span.orange {

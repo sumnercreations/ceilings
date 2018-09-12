@@ -162,6 +162,8 @@ export class DesignComponent implements OnInit, OnDestroy {
                 } else if (this.feature.feature_type === 'hush') {
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.hush[0]);
                   this.feature.toolsArray = ['remove'];
+                } else if (this.feature.feature_type === 'tetria') {
+                  this.feature.updateSelectedTile(this.materialsService.tilesArray.tetria[0]);
                 } else if (this.feature.feature_type === 'hushSwoon') {
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.hushSwoon[0]);
                   this.feature.toolsArray = ['remove'];

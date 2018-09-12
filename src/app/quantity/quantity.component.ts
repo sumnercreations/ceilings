@@ -50,6 +50,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
   featureTitle = '';
   dimensionsText = '';
   dimensionsImgUrl = '';
+  packageQtyInfo = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -118,6 +119,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
     this.dataSource = new TableDataSource(this.dataSubject);
     this.dataSource.connect();
     this.feature.is_quantity_order = true;
+    this.feature.showMainNavbar.emit(true);
 
     this.api.onUserLoggedIn.subscribe(apiUser => {
       this.user.uid = apiUser.uid;
@@ -129,6 +131,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
 
   ngAfterContentInit() {
     this.featureTitle = `${this.feature.getFeatureHumanName()} Quantity Order`;
+    this.packageQtyInfo = this.feature.packageInformation();
   }
 
   ngOnDestroy() {
@@ -144,7 +147,7 @@ export class QuantityComponent implements OnInit, AfterContentInit, OnDestroy {
     if (qtyOrder.feature_type !== this.feature.feature_type) {
       this.location.go(`${qtyOrder.feature_type}/quantity/${qtyOrder.id}`);
     }
-    this.feature.showMainNavbar.emit(true);
+    // this.feature.showMainNavbar.emit(true);
     this.qtySrv.order.data = [];
     this.feature.id = qtyOrder.id;
     this.feature.uid = qtyOrder.uid;

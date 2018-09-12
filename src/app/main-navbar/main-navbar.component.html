@@ -29,8 +29,8 @@
           <img src="/assets/icons/tools/left-arrow.png" alt="Open Sidenav">
         </span>
       </span>
-      <mat-menu #menu="matMenu">
-        <button class="sub-header" (click)="goToFeature('seeyond/design')" mat-menu-item>Seeyond</button>
+      <mat-menu #menu="matMenu" backdropClass="nav-sub-menu">
+        <button class="sub-header nav-menu-item" (click)="goToFeature('seeyond/design')" mat-menu-item>Seeyond</button>
         <button class="sub-header" (click)="goToFeature('velo/design')" mat-menu-item>Velo</button>
         <button class="sub-header" [matMenuTriggerFor]="tetria" mat-menu-item>Tetria</button>
         <button class="sub-header" [matMenuTriggerFor]="clario" mat-menu-item>Clario</button>
