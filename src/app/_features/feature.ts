@@ -16,6 +16,8 @@ export class Feature {
   onLoadDesigns = new EventEmitter();
   onDesignLoaded = new EventEmitter();
   onToggleSideNav = new EventEmitter();
+  showMainNavbar = new EventEmitter();
+  resetAllValues = new EventEmitter();
 
   // attributes saved in DB
   public id: number;
@@ -129,6 +131,7 @@ export class Feature {
     this.archived = false; // boolean
     this.updated_at = undefined;
     this.quantity = 1;
+    this.resetAllValues.emit();
   }
 
   updateEstimatedAmount() {
@@ -1261,24 +1264,22 @@ export class Feature {
   }
 
   public packageInformation() {
-    let info = '';
-    if (this.feature_type === 'tetria') {
-      info = 'Tiles are sold in quanties of 4.';
+    switch (this.feature_type) {
+      case 'tetria':
+        return 'Tiles are sold in quantities of 4.';
+      case 'clario':
+        return this.tile_image_type === 48
+          ? '24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.'
+          : 'Baffles are sold in quantities of 4.';
+      case 'velo':
+        return 'Velo tiles are sold in quantities of 8.';
+      case 'hush':
+        return `Hush Blocks are sold in quantities of 1.`;
+      case 'hushSwoon':
+        return `Hush Swoon tiles are sold in quantities of 1.`;
+      default:
+        return `${this.feature_type} is sold in quantities of 4.`;
     }
-
-    if (this.feature_type === 'clario' && this.tile_image_type === 24) {
-      info = 'Baffles are sold in quantities of 4.';
-    }
-
-    if (this.feature_type === 'clario' && this.tile_image_type === 48) {
-      info = '24x24 baffles are sold in qty of 4, and 24x48 baffles are sold in qty of 2.';
-    }
-
-    if (this.feature_type === 'velo') {
-      info = 'Velo tiles are sold in quanties of 8.';
-    }
-
-    return info;
   }
 
   public updateGridUnits(units: string) {

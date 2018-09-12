@@ -125,8 +125,10 @@ export class QuoteDialogComponent implements OnInit, AfterContentChecked {
         this.alert.success('Your quote request has been sent.');
       });
     } else {
-      // set the design name to something simple
-      this.feature.design_name = this.feature.feature_type + ' - ' + this.getToday();
+      if (!this.feature.design_name) {
+        // set the design name to something simple
+        this.feature.design_name = this.feature.feature_type + ' - ' + this.getToday();
+      }
       this.feature.quoted = true;
       this.api.saveDesign().subscribe(feature => {
         // send ceilings design email after we have saved.

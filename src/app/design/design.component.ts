@@ -90,6 +90,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.debug.log('design-component', 'init');
+    this.feature.showMainNavbar.emit(true);
     this.route.params.subscribe(params => {
       // default the feature type
       let featureType;
@@ -162,6 +163,8 @@ export class DesignComponent implements OnInit, OnDestroy {
                 } else if (this.feature.feature_type === 'hush') {
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.hush[0]);
                   this.feature.toolsArray = ['remove'];
+                } else if (this.feature.feature_type === 'tetria') {
+                  this.feature.updateSelectedTile(this.materialsService.tilesArray.tetria[0]);
                 } else if (this.feature.feature_type === 'hushSwoon') {
                   this.feature.updateSelectedTile(this.materialsService.tilesArray.hushSwoon[0]);
                   this.feature.toolsArray = ['remove'];

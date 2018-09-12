@@ -21,7 +21,7 @@
         <input type="text" placeholder="Name" [(ngModel)]="feature.design_name">
       </div>
     </div>
-    <div class="modals-action-btns" *ngIf="!saving">
+    <!-- <div class="modals-action-btns" *ngIf="!saving">
       <div class="save-btn">
         <span appStyledButton='primary-right-large' *ngIf="newDesign">
           <button (click)="saveInvoked()" [disabled]="!feature.design_name && !saving">
@@ -39,9 +39,34 @@
           </button>
         </span>
       </div>
+    </div> -->
+
+
+    <div class="modals-action-btns">
+      <div class="action-btns" *ngIf="newDesign">
+        <span appStyledButton='primary-right-large'>
+          <button (click)="saveInvoked()" [disabled]="!feature.design_name && !saving">
+            <span>Save</span>
+          </button>
+        </span>
+      </div>
+      <div class="action-btns" *ngIf="!newDesign">
+        <span appStyledButton='primary-right-large'>
+          <button (click)="saveInvoked()" [disabled]="!feature.design_name && !saving">
+            <span>Save New</span>
+          </button>
+        </span>
+        <span>
+          <button class="cancel-modal-btn" (click)="newButtonClick()" [disabled]="!feature.design_name && !saving">
+            <span>Overwrite</span>
+          </button>
+        </span>
+      </div>
     </div>
   </div>
 </div>
+
+
 
 
 <!-- <div class="center-div" *ngIf="!user.uid">

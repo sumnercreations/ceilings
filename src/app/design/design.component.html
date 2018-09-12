@@ -2,7 +2,7 @@
   <div class="left-side">
     <div class="grid-header">
       <div class="top">
-        <span class="project-name">{{feature.design_name}}</span>
+        <span class="project-name">{{feature.design_name || seeyond.design_name}}</span>
         <span class="save-load save-load-btn-fmt">
           <img src="/assets/icons/tools/load.png" alt="load icon">
           <a title="save design" (click)="saveDesign()">
@@ -21,7 +21,7 @@
             <span class="guides-text sub-header">Guides</span>
           </span>
           <span *ngIf="feature.feature_type !== 'seeyond'" class="three-d" appStyledButton='secondary-left'>
-            <button (click)="feature.view3d()">3D View</button>
+            <button (click)="feature.view3d()" [disabled]="(!feature.tiles)">3D View</button>
           </span>
           <span *ngIf="feature.feature_type === 'seeyond'" class="download-img" appStyledButton='secondary-left-rotate90'>
             <button (click)="feature.view3d()">Download Image</button>
@@ -80,7 +80,6 @@
     </div>
   </div>
 </div>
-
 
 
 
