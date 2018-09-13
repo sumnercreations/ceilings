@@ -46,7 +46,7 @@ export class Feature {
   public qtyTilesUsed = 0;
   public qtyTilesReceiving = 0;
   public grid_type: string = undefined;
-  public canvasGridScale = 0.5;
+  public canvasGridScale = 1.0;
 
   // attributes for the tool
   public tile_type = 'tile';
@@ -601,9 +601,6 @@ export class Feature {
       this.onBuildVeloGrid.emit();
     } else if (this.feature_type === 'hushSwoon') {
       this.debug.log('feature', 'emitting event buildSwoonGrid');
-      this.$buildSwoonGrid.emit();
-    } else if (this.feature_type === 'profile') {
-      this.debug.log('feature', 'emitting event buildSwoonGrid for profile');
       this.$buildSwoonGrid.emit();
     } else {
       // emit an event to build a new grid
