@@ -4,7 +4,7 @@
   background-color: #ffffff;
   background-image: linear-gradient(90deg, rgba(73, 73, 73, 0.5) 0, rgba(73, 73, 73, 0.5) 2%, transparent 2%), linear-gradient(180deg, #ffffff 50%, transparent 50%), linear-gradient(90deg, transparent 50%, rgba(73, 73, 73, 0.5) 50%, rgba(73, 73, 73, 0.5) 52%, transparent 52%), linear-gradient(180deg, #ffffff 70%, transparent 70%), linear-gradient(90deg, transparent 10%, rgba(73, 73, 73, 0.4) 10%, rgba(73, 73, 73, 0.4) 12%, transparent 12%, transparent 20%, rgba(73, 73, 73, 0.4) 20%, rgba(73, 73, 73, 0.4) 22%, transparent 22%, transparent 30%, rgba(73, 73, 73, 0.4) 30%, rgba(73, 73, 73, 0.4) 32%, transparent 32%, transparent 40%, rgba(73, 73, 73, 0.4) 40%, rgba(73, 73, 73, 0.4) 42%, transparent 42%, transparent 60%, rgba(73, 73, 73, 0.4) 60%, rgba(73, 73, 73, 0.4) 62%, transparent 62%, transparent 70%, rgba(73, 73, 73, 0.4) 70%, rgba(73, 73, 73, 0.4) 72%, transparent 72%, transparent 80%, rgba(73, 73, 73, 0.4) 80%, rgba(73, 73, 73, 0.4) 82%, transparent 82%, transparent 90%, rgba(73, 73, 73, 0.4) 90%, rgba(73, 73, 73, 0.4) 92%, transparent 92%);
   // background-size px adjust for scaling
-  background-size: 50px 15px;
+  // background-size: 50px 15px;
   background-repeat: repeat-x;
   min-height: 15px;
   /* only needed for labels */
@@ -39,7 +39,7 @@ label {
   display: inline-block;
   // background-size px adjust for scaling
   // 146px @ 1.0 scale
-  width: 50px;
+  // width: 50px;
   text-indent: 3px;
 }
 

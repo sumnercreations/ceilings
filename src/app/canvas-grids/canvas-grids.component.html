@@ -1,29 +1,14 @@
-<ng-container *ngIf="feature.units == 'inches' && !!hRulerLabels && !!vRulerLabels">
-  <div class="ruler horizontal">
-    <label *ngFor="let label of hRulerLabels">{{label}}</label>
+<ng-container *ngIf="!!hRulerLabels && !!vRulerLabels">
+  <div class="ruler horizontal" [style.background-size]="rulerBackgroundSize">
+    <label *ngFor="let label of hRulerLabels" [ngStyle]="{'width': labelWidth}">{{label}}</label>
   </div>
-  <div class="ruler vertical">
-    <label *ngFor="let label of vRulerLabels">{{label}}</label>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="feature.units == 'centimeters' && !!hRulerLabels && !!vRulerLabels">
-  <div class="ruler horizontal">
-    <label *ngFor="let label of hRulerLabels">{{label}}</label>
-  </div>
-  <div class="ruler vertical">
-    <label *ngFor="let label of vRulerLabels">{{label}}</label>
+  <div class="ruler vertical" [style.background-size]="rulerBackgroundSize" *ngIf="!!labelWidth">
+    <label *ngFor="let label of vRulerLabels" [ngStyle]="{'width': labelWidth}">{{label}}</label>
   </div>
 </ng-container>
 
-<!-- <div class="guide horizontal" [ngStyle]="{'top.px': guideTop}"></div>
-<div class="guide vertical" [ngStyle]="{'left.px': guideLeft}"></div> -->
 <div class="guide horizontal" [style.top.px]="guideTop"></div>
 <div class="guide vertical" [style.left.px]="guideLeft"></div>
 
-
-
-<app-velo-grid *ngIf="gridType === 'velo'"></app-velo-grid>
-<app-swoon-grid *ngIf="gridType === 'hushSwoon'"></app-swoon-grid>
-
-<!-- <div>{{guideTop}} {{guideLeft}}</div> -->
+<app-velo-grid *ngIf="gridType === 'velo'" (mousemove)="moveGuide($event)"></app-velo-grid>
+<app-swoon-grid *ngIf="gridType === 'hushSwoon'" (mousemove)="moveGuide($event)"></app-swoon-grid>

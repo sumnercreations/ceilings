@@ -24,16 +24,18 @@ export class CanvasGridsComponent implements OnInit {
   scale = 1;
 
   newDesign = true;
-  // guideTop: any = this.sanitizer.bypassSecurityTrustStyle('10');
-  // guideLeft: any = this.sanitizer.bypassSecurityTrustStyle('10');
-  guideTop = 100;
-  guideLeft = 100;
   gridType: string;
   rulerMultiplier = 24;
   hRulerSections = 17;
   hRulerLabels = [];
   vRulerSections = 10;
   vRulerLabels = [];
+
+  // css bindings
+  guideTop = 10;
+  guideLeft = 10;
+  rulerBackgroundSize = '50px 15px';
+  labelWidth = '50px';
 
   constructor(
     public debug: DebugService,
@@ -55,25 +57,30 @@ export class CanvasGridsComponent implements OnInit {
           this.gridType = 'hushSwoon';
         }
       }
-      this.setRulerLabels();
+      this.setRulerValues();
     });
     this.debug.log('canvas-grids:', this.gridType);
   }
 
-  public setRulerLabels() {
+  public setRulerValues() {
+    let backgroundWidth = 50;
     // set multiplier
     switch (this.gridType) {
       case 'velo':
         this.rulerMultiplier = this.feature.units === 'inches' ? 24 : 61;
+        backgroundWidth = 50;
         break;
       case 'hushSwoon':
         this.rulerMultiplier = this.feature.units === 'inches' ? 12 : 31;
+        backgroundWidth = 75;
         break;
       default:
         this.rulerMultiplier = this.feature.units === 'inches' ? 24 : 61;
+        backgroundWidth = 50;
         break;
     }
-
+    this.rulerBackgroundSize = `${backgroundWidth}px 15px`;
+    this.labelWidth = `${backgroundWidth}px`;
     // horizontal labels
     for (let ii = 0; ii < this.hRulerSections; ii++) {
       this.hRulerLabels.push(ii * this.rulerMultiplier);
@@ -90,11 +97,6 @@ export class CanvasGridsComponent implements OnInit {
 
     this.guideTop = y + 10;
     this.guideLeft = x + 10;
-
-    // this.guideTop = this.sanitizer.bypassSecurityTrustStyle(y + 10);
-    // this.guideLeft = this.sanitizer.bypassSecurityTrustStyle(x + 10);
-
-    console.log(this.guideTop, this.guideLeft);
   }
 
   public toRadians(angle) {
