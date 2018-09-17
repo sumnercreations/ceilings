@@ -174,8 +174,6 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
       }
     }
     this.profile.updateProfileFeature(feature);
-
-    // this.seeyond.updateSeeyondFeature(feature);zz
   }
 
   startDesigning() {

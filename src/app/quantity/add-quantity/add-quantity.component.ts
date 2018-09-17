@@ -157,7 +157,6 @@ export class AddQuantityComponent implements OnInit, AfterContentInit {
   }
 
   updateSelectedTile(tile) {
-    console.log('updateSelectedTile:', tile);
     this.feature.selectedTile = tile;
     if (this.feature.feature_type === 'profile') {
       this.profileFeature.feature_type_tile = tile.tile;

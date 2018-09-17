@@ -54,8 +54,10 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
       return;
     }
     this.debug.log('velo-grid', event);
-    const x = event.offsetX;
-    const y = event.offsetY;
+    let x = event.offsetX;
+    let y = event.offsetY;
+    x = Math.round(x / this.feature.canvasGridScale);
+    y = Math.round(y / this.feature.canvasGridScale);
     let foundTile = false;
     this.debug.log('velo-grid', 'you clicked on x: ' + x + ' and y: ' + y);
     for (const el in this.feature.gridData) {
@@ -112,7 +114,6 @@ export class VeloGridComponent extends CanvasGridsComponent implements OnInit {
         this.feature.updateEstimatedAmount();
       }
     }
-    console.log('gridData:', this.feature.gridData);
   }
 
   private createPentagonSection(ctx, adjustmentX, adjustmentY, isOdd, row, column) {
