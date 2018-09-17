@@ -18,6 +18,7 @@ export class Feature {
   onToggleSideNav = new EventEmitter();
   showMainNavbar = new EventEmitter();
   resetAllValues = new EventEmitter();
+  onZoomGrid = new EventEmitter();
 
   // attributes saved in DB
   public id: number;

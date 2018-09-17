@@ -61,8 +61,12 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
       return;
     }
     this.debug.log('swoon-grid-component', event);
-    const x = event.offsetX;
-    const y = event.offsetY;
+    let x = event.offsetX;
+    let y = event.offsetY;
+    console.log('initial x/y', x, y);
+    x = Math.round(x / this.feature.canvasGridScale);
+    y = Math.round(y / this.feature.canvasGridScale);
+    console.log('scaled x/y', x, y);
     let foundTile = false;
     this.debug.log('swoon-grid', 'you clicked on x: ' + x + ' and y: ' + y);
     for (const el in this.feature.gridData) {

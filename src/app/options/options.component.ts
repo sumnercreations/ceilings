@@ -168,7 +168,6 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   updateSelectedProfileFeature(feature) {
-    console.log('updateSelectedFeature:', feature);
     if (this.profile.tilesFeatures.includes(feature)) {
       if (this.router.url.indexOf('tiles') < 0) {
         this.location.go(`${this.router.url}/tiles/${feature}`);
@@ -180,8 +179,6 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   startDesigning() {
-    // TODO: make this dynamic for all features
-    console.log('startDesigning');
     this.profile.buildFeatureGrid();
     this.dialogRef.close();
   }

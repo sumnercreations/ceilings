@@ -509,6 +509,7 @@ export class DesignComponent implements OnInit, OnDestroy {
     } else if (direction === 'out') {
       this.feature.canvasGridScale = Number((this.feature.canvasGridScale - 0.1).toFixed(1));
     }
+    this.feature.onZoomGrid.emit();
     this.feature.buildGrid();
   }
 

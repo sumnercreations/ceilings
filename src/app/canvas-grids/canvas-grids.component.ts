@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -6,6 +6,8 @@ import { DebugService } from '../_services/debug.service';
 import { ProfileFeature } from './../_features/profile-feature';
 import { Feature } from '../_features/feature';
 import { AlertService } from '../_services/alert.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import * as pip from 'point-in-polygon';
 
 @Component({
@@ -13,8 +15,9 @@ import * as pip from 'point-in-polygon';
   templateUrl: './canvas-grids.component.html',
   styleUrls: ['./canvas-grids.component.scss']
 })
-export class CanvasGridsComponent implements OnInit {
+export class CanvasGridsComponent implements OnInit, OnDestroy {
   context: CanvasRenderingContext2D;
+  ngUnsubscribe: Subject<any> = new Subject();
   strokeStyle = '#cdcdcd';
   fillStyle = '#ffffff';
   canvasWidth = 826;
@@ -60,6 +63,14 @@ export class CanvasGridsComponent implements OnInit {
       this.setRulerValues();
     });
     this.debug.log('canvas-grids:', this.gridType);
+    this.feature.onZoomGrid.pipe(takeUntil(this.ngUnsubscribe)).subscribe(data => {
+      this.setRulerValues();
+    });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   public setRulerValues() {
@@ -79,6 +90,7 @@ export class CanvasGridsComponent implements OnInit {
         backgroundWidth = 50;
         break;
     }
+    backgroundWidth = Math.round(backgroundWidth * this.feature.canvasGridScale);
     this.rulerBackgroundSize = `${backgroundWidth}px 15px`;
     this.labelWidth = `${backgroundWidth}px`;
     // horizontal labels
