@@ -10,7 +10,7 @@ import { GridSection } from '../_models/grid-section';
 export class Feature {
   onBuildGrid = new EventEmitter();
   onBuildVeloGrid = new EventEmitter();
-  $buildSwoonGrid = new EventEmitter();
+  onBuildSwoonGrid = new EventEmitter();
   onApplyAll = new EventEmitter();
   onView3d = new EventEmitter();
   onLoadDesigns = new EventEmitter();
@@ -412,7 +412,7 @@ export class Feature {
     let hardware_amount: number;
     let hardwareCost = 0.0;
     let cableCount: number;
-    let cableCost = 0.0;
+    const cableCost = 0.0;
     const cableKitCost = 12.46;
     const variaConnectionKitCost = 6.85;
     const feltConnectionKitCost = 0.46;
@@ -602,7 +602,7 @@ export class Feature {
       this.onBuildVeloGrid.emit();
     } else if (this.feature_type === 'hushSwoon') {
       this.debug.log('feature', 'emitting event buildSwoonGrid');
-      this.$buildSwoonGrid.emit();
+      this.onBuildSwoonGrid.emit();
     } else {
       // emit an event to build a new grid
       this.onBuildGrid.emit();
@@ -628,7 +628,7 @@ export class Feature {
     }
 
     if (this.feature_type === 'hushSwoon') {
-      this.$buildSwoonGrid.emit();
+      this.onBuildSwoonGrid.emit();
     }
   }
 

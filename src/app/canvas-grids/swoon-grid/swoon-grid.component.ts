@@ -18,7 +18,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
 
   ngOnInit() {
     this.debug.log('swoon-grid', 'setting swoonGrid Subscription');
-    this.feature.$buildSwoonGrid.subscribe(result => {
+    this.feature.onBuildSwoonGrid.subscribe(result => {
       this.debug.log('swoon-grid-component', 'building the swoon grid');
       this.renderSwoonGrid();
     });
@@ -27,8 +27,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
   renderSwoonGrid() {
     this.debug.log('swoon-grid-component', 'rendering the swoon grid');
     const canvas = this.canvas.nativeElement;
-    canvas.width = this.swoonCanvasWidth * this.feature.canvasGridScale;
-    canvas.height = this.swoonCanvasHeight * this.feature.canvasGridScale;
+    canvas.width = (53.5 * this.columns + 27) * this.feature.canvasGridScale;
+    canvas.height = (46 * this.rows + 24) * this.feature.canvasGridScale;
 
     const ctx = canvas.getContext('2d');
     ctx.lineWidth = 1;
