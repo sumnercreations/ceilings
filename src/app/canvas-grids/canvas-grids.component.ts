@@ -22,8 +22,6 @@ export class CanvasGridsComponent implements OnInit, OnDestroy {
   fillStyle = '#ffffff';
   canvasWidth = 826;
   canvasHeight = 500;
-  swoonCanvasWidth = 826;
-  swoonCanvasHeight = 500;
 
   newDesign = true;
   gridType: string;

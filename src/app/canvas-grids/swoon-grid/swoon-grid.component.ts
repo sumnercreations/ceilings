@@ -212,8 +212,6 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     ctx.beginPath();
     // move to the new x,y coordinates (setting a new 0,0 at x,y)
     ctx.translate(x, y);
-    // set the scale of the grid for zooming purposes
-    // ctx.scale(this.feature.canvasGridScale, this.feature.canvasGridScale);
 
     // rotate to fit the tesselation
     ctx.rotate(rotateAngle);

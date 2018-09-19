@@ -599,6 +599,7 @@ export class Feature {
     this.debug.log('feature', this.feature_type);
     // If the feature type is velo build that grid
     if (this.feature_type === 'velo') {
+      this.debug.log('feature', 'emitting event buildVeloGrid');
       this.onBuildVeloGrid.emit();
     } else if (this.feature_type === 'hushSwoon') {
       this.debug.log('feature', 'emitting event buildSwoonGrid');

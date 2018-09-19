@@ -11,4 +11,4 @@
 <div class="guide vertical" [style.left.px]="guideLeft"></div>
 
 <app-velo-grid *ngIf="gridType === 'velo'" (mousemove)="moveGuide($event)"></app-velo-grid>
-<app-swoon-grid *ngIf="gridType === 'hushSwoon' && !!swoonCanvasHeight" (mousemove)="moveGuide($event)"></app-swoon-grid>
+<app-swoon-grid *ngIf="gridType === 'hushSwoon'" (mousemove)="moveGuide($event)"></app-swoon-grid>
