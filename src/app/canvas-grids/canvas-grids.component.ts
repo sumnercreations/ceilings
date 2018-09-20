@@ -36,6 +36,8 @@ export class CanvasGridsComponent implements OnInit, OnDestroy {
   guideLeft = 10;
   rulerBackgroundSize = '50px 15px';
   labelWidth = '50px';
+  rulerHeight = '';
+  rulerWidth = '';
 
   constructor(
     public debug: DebugService,
@@ -94,6 +96,8 @@ export class CanvasGridsComponent implements OnInit, OnDestroy {
     }
     backgroundWidth = Math.round(backgroundWidth * this.feature.canvasGridScale);
     this.rulerBackgroundSize = `${backgroundWidth}px 15px`;
+    this.rulerHeight = `${backgroundWidth * this.vRulerSections - (backgroundWidth - 5)}px`;
+    this.rulerWidth = `${backgroundWidth * this.hRulerSections - (backgroundWidth - 5)}px`;
     this.labelWidth = `${backgroundWidth}px`;
     // horizontal labels
     this.hRulerLabels = [];

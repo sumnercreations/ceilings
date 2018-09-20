@@ -610,7 +610,7 @@ export class Feature {
     }
   }
 
-  clearAll() {
+  clearGridData() {
     this.gridData = undefined;
     this.estimated_amount = 0.0;
     this.buildGrid();
@@ -618,7 +618,7 @@ export class Feature {
 
   applyAll() {
     this.updateEstimatedAmount();
-    this.clearAll();
+    this.clearGridData();
     this.onApplyAll.emit();
   }
 

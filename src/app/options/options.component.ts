@@ -183,14 +183,14 @@ export class OptionsComponent implements OnInit, AfterContentInit, OnDestroy {
 
   clarioGridSizeChanged(selection) {
     if (!!this.feature.gridData) {
-      this.feature.clearAll();
+      this.feature.clearGridData();
     }
     this.clarioGrids.gridSizeSelected(selection);
   }
 
   clarioTileSizeChanged(selection) {
     if (!!this.feature.gridData) {
-      this.feature.clearAll();
+      this.feature.clearGridData();
     }
     this.clarioGrids.tileSizeSelected(selection);
   }

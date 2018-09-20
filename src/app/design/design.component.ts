@@ -667,7 +667,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   clarioGridSizeChanged(selection) {
     if (!!this.feature.gridData) {
-      this.feature.clearAll();
+      this.feature.clearGridData();
     }
     this.clarioGrids.gridSizeSelected(selection);
     this.updateGrid();
@@ -675,7 +675,7 @@ export class DesignComponent implements OnInit, OnDestroy {
 
   clarioTileSizeChanged(selection) {
     if (!!this.feature.gridData) {
-      this.feature.clearAll();
+      this.feature.clearGridData();
     }
     this.clarioGrids.tileSizeSelected(selection);
     this.updateGrid();
