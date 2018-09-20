@@ -61,6 +61,7 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
       return;
     }
     this.debug.log('swoon-grid-component', event);
+    this.debug.log('swoon-grid-component', `grid scale: ${this.feature.canvasGridScale}`);
     let x = event.offsetX;
     let y = event.offsetY;
     x = Math.round(x / this.feature.canvasGridScale);
@@ -69,6 +70,8 @@ export class SwoonGridComponent extends CanvasGridsComponent implements OnInit {
     this.debug.log('swoon-grid', 'you clicked on x: ' + x + ' and y: ' + y);
     for (const el in this.feature.gridData) {
       if (!foundTile && pip([x, y], this.feature.gridData[el].diamond)) {
+        this.debug.log('swoon-grid-component', this.feature.gridData[el].diamond);
+        this.debug.log('swoon-grid-component', pip([x, y], this.feature.gridData[el].diamond));
         // removing a tile
         if (this.feature.selectedTool === 'remove') {
           this.debug.log('swoon-grid', 'removing tile');
