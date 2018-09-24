@@ -120,11 +120,11 @@ export class CanvasGridsComponent implements OnInit, OnDestroy {
   }
 
   public toRadians(angle) {
-    return angle * (Math.PI / 180);
+    return angle * Math.PI / 180;
   }
 
   public toDegrees(radians) {
-    return radians * (180 / Math.PI);
+    return radians * 180 / Math.PI;
   }
 
   public isOdd(column: number) {
