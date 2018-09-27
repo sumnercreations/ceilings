@@ -1,9 +1,9 @@
 import { MatDialogRef } from '@angular/material';
 import { Location } from '@angular/common';
-import { SeeyondFeature } from './../seeyond-feature';
+import { SeeyondFeature } from './../_features/seeyond-feature';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { User } from '../_models/user';
 import { AlertService } from '../_services/alert.service';
 import { ApiService } from '../_services/api.service';
@@ -12,12 +12,13 @@ import { SeeyondService } from '../_services/seeyond.service';
 @Component({
   selector: 'app-save-design',
   templateUrl: './save-design.component.html',
-  styleUrls: ['./save-design.component.css']
+  styleUrls: ['./save-design.component.scss']
 })
 export class SaveDesignComponent implements OnInit {
   public newDesign: boolean;
   public newButton = false;
   private uiType = this.feature.is_quantity_order ? '/quantity' : '/design';
+  saving = false;
 
   constructor(
     private router: Router,
@@ -28,7 +29,7 @@ export class SaveDesignComponent implements OnInit {
     public seeyond: SeeyondFeature,
     public user: User,
     private location: Location,
-    private dialogRef: MatDialogRef<SaveDesignComponent>
+    public dialogRef: MatDialogRef<SaveDesignComponent>
   ) {}
 
   ngOnInit() {
@@ -56,15 +57,17 @@ export class SaveDesignComponent implements OnInit {
     if (this.newDesign || this.newButton) {
       this.saveNew();
     } else {
+      this.saving = true;
       this.api.updateDesign().subscribe(feature => {
+        this.saving = false;
         // notify the user that we have saved their design
         this.alert.success('Successfully saved your design');
         // set the feature to what was returned from the API.
         this.feature = feature.ceiling;
         // navigate if the current path isn't already right
-        const url = this.router
-          .createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id])
-          .toString();
+        let url = this.router.createUrlTree([`${this.feature.feature_type}${this.uiType}`, this.feature.id]).toString();
+        url = url.includes('hushSwoon') ? url.replace(/hushSwoon/g, 'hush-swoon') : url;
+        url = url.includes('/hush/') ? url.replace(/hush/g, 'hush-blocks') : url;
         if (url !== this.router.url) {
           this.router.navigate([`${this.feature.feature_type}${this.uiType}`, this.feature.id]);
         }
@@ -73,9 +76,11 @@ export class SaveDesignComponent implements OnInit {
   }
 
   saveNew() {
+    this.saving = true;
     // reset some values for the new quote
     this.feature.quoted = false;
     this.api.saveDesign().subscribe(feature => {
+      this.saving = false;
       // notify the user that we have saved their design
       this.alert.success('Successfully saved your design');
       // set the feature to what was returned from the API.
@@ -89,7 +94,9 @@ export class SaveDesignComponent implements OnInit {
     if (this.newDesign || this.newButton) {
       this.saveNewSeeyond();
     } else {
+      this.saving = true;
       this.seeyondApi.updateFeature().subscribe(feature => {
+        this.saving = false;
         // notify the user that we saved their design
         this.alert.success('Successfully saved your design');
         // redirect to the new design
@@ -103,7 +110,9 @@ export class SaveDesignComponent implements OnInit {
     this.seeyond.quoted = false;
     this.seeyond.project_name = null;
     this.seeyond.specifier = null;
+    this.saving = true;
     this.seeyondApi.saveFeature().subscribe(feature => {
+      this.saving = false;
       // notify the user that we saved their design
       this.alert.success('Successfully saved your design');
       // redirect to the new design

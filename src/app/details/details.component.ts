@@ -1,17 +1,17 @@
-import { SeeyondFeature } from 'app/seeyond-feature';
+import { SeeyondFeature } from 'app/_features/seeyond-feature';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, Location } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { DebugService } from './../_services/debug.service';
 import { ApiService } from './../_services/api.service';
-import { Feature } from '../feature';
+import { Feature } from '../_features/feature';
 import { SeeyondService } from '../_services/seeyond.service';
 import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.css']
+  styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
   public rep: any;

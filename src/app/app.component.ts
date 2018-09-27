@@ -1,3 +1,4 @@
+import { Feature } from 'app/_features/feature';
 import { Component, OnInit } from '@angular/core';
 import { User } from './_models/user';
 import { environment } from '../environments/environment';
@@ -5,10 +6,12 @@ import { environment } from '../environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(public user: User) {
+  opened: boolean;
+
+  constructor(public user: User, public feature: Feature) {
     window['environment'] = () => {
       return environment;
     };
@@ -28,5 +31,9 @@ export class AppComponent implements OnInit {
       // create a new empty user
       this.user = new User();
     }
+
+    this.feature.onToggleSideNav.subscribe(event => {
+      this.opened = !this.opened;
+    });
   }
 }

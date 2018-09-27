@@ -5,7 +5,7 @@ import { OptionsComponent } from 'app/options/options.component';
 @Component({
   selector: 'app-clario-options',
   templateUrl: './clario-options.component.html',
-  styleUrls: ['../../options/options.component.css', './clario-options.component.css']
+  styleUrls: ['../../options/options.component.scss', './clario-options.component.scss']
 })
 export class ClarioOptionsComponent extends OptionsComponent implements OnInit {
   ngOnInit() {

@@ -1,4 +1,15 @@
-<div class="container bg-white">
-  <router-outlet></router-outlet>
-</div>
-<app-alert></app-alert>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="over" position="end" [(opened)]="opened">
+    Sidenav content
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-main-navbar></app-main-navbar>
+    <div class="container">
+      <div class="app-container">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <!-- <app-main-footer></app-main-footer> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
